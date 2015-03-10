@@ -37,6 +37,15 @@
       <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\start.xnb</Output>
       <Time>2015-03-09T19:36:01.5790443+01:00</Time>
     </Item>
+    <Item>
+      <Source>Assets\2D\startAnimation.png</Source>
+      <Name>Assets\2D\startAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimation.xnb</Output>
+      <Time>2015-03-10T23:05:08.6914675+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID Null="true" />

@@ -11,28 +11,21 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cyber2O
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         private int maxWidth = 1336;
         private int maxHeight = 668;
+        private SpriteAnimation sa;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         
-        //Elementy menu
-        //private Sprite menuBackground;
-        //private Sprite menuStart;
-        //private Sprite menuSettings;
-        //private Sprite menuQuit;
-
         private MenuModel menu;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
+            IsMouseVisible = true;
             graphics.PreferredBackBufferWidth = maxWidth;
             graphics.PreferredBackBufferHeight = maxHeight;
             Content.RootDirectory = "Content";
@@ -40,59 +33,41 @@ namespace Cyber2O
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            //menu = new MenuModel();
-
             menu = new MenuModel();
             menu.menuInitialize();
-
-            //menuBackground = new Sprite();
-            //menuStart = new Sprite();
-            //menuSettings = new Sprite();
-            //menuQuit = new Sprite();
+            
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //za³adowanie tekstury do zmiennej, która potem bêdzie renderowana
-            //String path = "Assets/2D/";
-            //menuBackground.LoadContent(this.Content, path+"test");
-            //menuStart.LoadContent(this.Content, path+"start");
-            //menuSettings.LoadContent(this.Content, path+"settings");
-            //menuQuit.LoadContent(this.Content, path+"quit");
-
-            //menuBackground.Position = new Vector2(0,0);
-            //menuStart.Position = new Vector2(136,36);
-            //menuSettings.Position = new Vector2(136,72);
-            //menuQuit.Position = new Vector2(136, 108);
-
-            menu.LoadContent(this.Content);
+            //menu.LoadContent(this.Content);
+            Texture2D saTexture = Content.Load<Texture2D>("Assets/2D/startAnimation");
+            sa = new SpriteAnimation(saTexture, 2, 1);
         }
 
         protected override void UnloadContent()
         {
+            this.Content.Unload();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            //    this.Exit();
+            sa.Update();
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteBatch.Begin();
-            //menuBackground.Draw(this.spriteBatch);
-            //menuStart.Draw(this.spriteBatch);
-            //menuSettings.Draw(this.spriteBatch);
-            //menuQuit.Draw(this.spriteBatch);
-            menu.Draw(this.spriteBatch);
-            spriteBatch.End();
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
+            //spriteBatch.Begin();
+            //menu.Draw(this.spriteBatch);
+            //spriteBatch.End();
+            sa.Draw(spriteBatch, new Vector2(200, 200));
             
             base.Draw(gameTime);
         }
