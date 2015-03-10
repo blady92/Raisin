@@ -10,6 +10,33 @@
       <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\test.xnb</Output>
       <Time>2015-03-08T22:22:01.0403993+01:00</Time>
     </Item>
+    <Item>
+      <Source>Assets\2D\quit.png</Source>
+      <Name>Assets\2D\quit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\quit.xnb</Output>
+      <Time>2015-03-09T19:36:19.6588575+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settings.png</Source>
+      <Name>Assets\2D\settings</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settings.xnb</Output>
+      <Time>2015-03-09T19:36:09.2232469+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\start.png</Source>
+      <Name>Assets\2D\start</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\start.xnb</Output>
+      <Time>2015-03-09T19:36:01.5790443+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID Null="true" />

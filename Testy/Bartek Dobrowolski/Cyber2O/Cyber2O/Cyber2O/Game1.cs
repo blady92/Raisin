@@ -18,9 +18,17 @@ namespace Cyber2O
     {
         private int maxWidth = 1336;
         private int maxHeight = 668;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D image;
+        
+        //Elementy menu
+        //private Sprite menuBackground;
+        //private Sprite menuStart;
+        //private Sprite menuSettings;
+        //private Sprite menuQuit;
+
+        private MenuModel menu;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -30,68 +38,62 @@ namespace Cyber2O
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //menu = new MenuModel();
 
+            menu = new MenuModel();
+            menu.menuInitialize();
+
+            //menuBackground = new Sprite();
+            //menuStart = new Sprite();
+            //menuSettings = new Sprite();
+            //menuQuit = new Sprite();
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            image = Content.Load<Texture2D>("Assets/2D/test");
-            // TODO: use this.Content to load your game content here
+            //za³adowanie tekstury do zmiennej, która potem bêdzie renderowana
+            //String path = "Assets/2D/";
+            //menuBackground.LoadContent(this.Content, path+"test");
+            //menuStart.LoadContent(this.Content, path+"start");
+            //menuSettings.LoadContent(this.Content, path+"settings");
+            //menuQuit.LoadContent(this.Content, path+"quit");
+
+            //menuBackground.Position = new Vector2(0,0);
+            //menuStart.Position = new Vector2(136,36);
+            //menuSettings.Position = new Vector2(136,72);
+            //menuQuit.Position = new Vector2(136, 108);
+
+            menu.LoadContent(this.Content);
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            // TODO: Add your drawing code here
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteBatch.Begin();
-            spriteBatch.Draw(image, new Rectangle(0,0, maxWidth, maxHeight), Color.White);
+            //menuBackground.Draw(this.spriteBatch);
+            //menuStart.Draw(this.spriteBatch);
+            //menuSettings.Draw(this.spriteBatch);
+            //menuQuit.Draw(this.spriteBatch);
+            menu.Draw(this.spriteBatch);
             spriteBatch.End();
+            
             base.Draw(gameTime);
         }
     }

@@ -1,1 +1,4 @@
 Content\Assets\2D\test.xnb
+Content\Assets\2D\quit.xnb
+Content\Assets\2D\settings.xnb
+Content\Assets\2D\start.xnb
