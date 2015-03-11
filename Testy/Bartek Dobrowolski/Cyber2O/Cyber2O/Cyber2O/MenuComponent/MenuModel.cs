@@ -19,7 +19,7 @@ namespace Cyber2O
         private Sprite menuSettings;
         private Sprite menuQuit;
 
-        private SpriteAnimation menuTest;
+        private SpriteAnimationDynamic menuTest;
         public void menuInitialize()
         {
             //menuBackground = new Sprite();
@@ -41,12 +41,12 @@ namespace Cyber2O
             //menuQuit.Position = new Vector2(136, 108);
 
             Texture2D menuTestButton = Content.Load<Texture2D>("Assets/2D/startAnimation");
-            menuTest = new SpriteAnimation(menuTestButton, 2, 1);
+            menuTest = new SpriteAnimationDynamic(menuTestButton, 2, 1);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
+            menuTest.Draw(spriteBatch, new Vector2(100, 100));
         }
 
         public void Update()
@@ -54,7 +54,10 @@ namespace Cyber2O
             MouseState mouseState;
             mouseState = Mouse.GetState();
             System.Diagnostics.Debug.WriteLine("Mouse points are: ("+mouseState.X+", "+mouseState.Y+")");
-            
+            if (new Rectangle(mouseState.X, mouseState.Y, 40, 40).Intersects(menuTest.GetRectangle()))
+            {
+                System.Diagnostics.Debug.WriteLine("Intersected");
+            }
         }
     }
 }

@@ -13,14 +13,17 @@ namespace Cyber2O
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        //For game size
         private int maxWidth = 1336;
-        private int maxHeight = 668;
-        private SpriteAnimation sa;
+        private int maxHeight = 468;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         
-        private MenuModel menu;
+        //test Animation sprite
+        private SpriteAnimationDynamic sa;
+
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,18 +36,14 @@ namespace Cyber2O
 
         protected override void Initialize()
         {
-            menu = new MenuModel();
-            menu.menuInitialize();
-            
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //menu.LoadContent(this.Content);
             Texture2D saTexture = Content.Load<Texture2D>("Assets/2D/startAnimation");
-            sa = new SpriteAnimation(saTexture, 2, 1);
+            sa = new SpriteAnimationDynamic(saTexture, 2, 1, new Vector2(200,200));
         }
 
         protected override void UnloadContent()
@@ -54,21 +53,20 @@ namespace Cyber2O
 
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-            //    this.Exit();
-            sa.Update();
-            base.Update(gameTime);
+            MouseState mouseState;
+            mouseState = Mouse.GetState();
+            System.Diagnostics.Debug.WriteLine("Mouse points are: (" + mouseState.X + ", " + mouseState.Y + ")");
+            if (new Rectangle(mouseState.X, mouseState.Y, 40, 40).Intersects(sa.GetRectangle()))
+            {
+                System.Diagnostics.Debug.WriteLine("Intersected");
+                sa.Update();
+            }
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
-            //spriteBatch.Begin();
-            //menu.Draw(this.spriteBatch);
-            //spriteBatch.End();
-            sa.Draw(spriteBatch, new Vector2(200, 200));
-            
+            sa.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }
