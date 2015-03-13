@@ -22,7 +22,7 @@ namespace Cyber2O
         
         //test Animation sprite
         private SpriteAnimationDynamic sa;
-
+        private User user;
         
         public Game1()
         {
@@ -36,6 +36,7 @@ namespace Cyber2O
 
         protected override void Initialize()
         {
+            user = new User();
             base.Initialize();
         }
 
@@ -53,14 +54,15 @@ namespace Cyber2O
 
         protected override void Update(GameTime gameTime)
         {
-            MouseState mouseState;
-            mouseState = Mouse.GetState();
-            System.Diagnostics.Debug.WriteLine("Mouse points are: (" + mouseState.X + ", " + mouseState.Y + ")");
-            if (new Rectangle(mouseState.X, mouseState.Y, 40, 40).Intersects(sa.GetRectangle()))
-            {
-                System.Diagnostics.Debug.WriteLine("Intersected");
-                sa.Update();
-            }
+            user.Upadte();
+            //MouseState mouseState;
+            //mouseState = Mouse.GetState();
+            //System.Diagnostics.Debug.WriteLine("Mouse points are: (" + mouseState.X + ", " + mouseState.Y + ")");
+            //if (new Rectangle(mouseState.X, mouseState.Y, 40, 40).Intersects(sa.GetRectangle()))
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Intersected");
+            //    sa.Update();
+            //}
         }
 
         protected override void Draw(GameTime gameTime)
