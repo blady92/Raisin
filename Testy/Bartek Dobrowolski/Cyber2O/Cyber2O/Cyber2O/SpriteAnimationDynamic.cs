@@ -76,6 +76,17 @@ namespace Cyber2O
             spriteBatch.End();
         }
 
+        //Jeżeli się przetnie, to ma dać tutaj true i wtedy zmaluje tylko raz
+        //Jeżeli nie przetnie - wraca do pierwotnego stanu
+        public void UpdateOnce(bool intersected)
+        {
+            currentFrame = 2;
+            if (currentFrame == totalFrames)
+            {
+                currentFrame = 0;
+            }
+        }
+
         public void Update()
         {
             currentFrame++;

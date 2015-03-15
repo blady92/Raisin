@@ -17,7 +17,7 @@ namespace Cyber2O
         
         public void Upadte()
         {
-            KeyboardState newState = Keyboard.GetState();  
+            //newState = Keyboard.GetState();  
             //if (newState.IsKeyDown(Keys.Space) && oldState.IsKeyUp(Keys.Space))
             //{
             //    System.Diagnostics.Debug.WriteLine("wciśnięte");
@@ -26,37 +26,78 @@ namespace Cyber2O
             //{
             //    System.Diagnostics.Debug.WriteLine("puszczone");
             //}
-            if (newState.IsKeyDown(Keys.Space))
+            //if (newState.IsKeyDown(Keys.Space))
+            //{
+            //    i++;
+            //    System.Diagnostics.Debug.WriteLine(i);
+            //}
+            //if (newState.IsKeyUp(Keys.Space))
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Puszczone");
+            //}
+            //oldState = newState; 
+            //LongPress(Keys.W, "W");
+            //LongPress(Keys.S, "S");
+            //LongPress(Keys.A, "A");
+            //LongPress(Keys.D, "D");
+            JustPress();
+            LongPress(Keys.W, "W");
+            LongPress(Keys.S, "S");
+            LongPress(Keys.A, "A");
+            LongPress(Keys.D, "D");
+        }
+
+        public void JustPress()
+        {
+            KeyboardState newState = Keyboard.GetState();
+
+            //Klawisz E do np uruchamiania konsoli
+            if (newState.IsKeyDown(Keys.E) && oldState.IsKeyUp(Keys.E))
             {
                 i++;
-                System.Diagnostics.Debug.WriteLine(i);
+                System.Diagnostics.Debug.WriteLine(i+". wciśnięte E");
             }
-            if (newState.IsKeyUp(Keys.Space))
+            if (newState.IsKeyUp(Keys.E) && oldState.IsKeyDown(Keys.E))
             {
-                System.Diagnostics.Debug.WriteLine("Puszczone");
+                System.Diagnostics.Debug.WriteLine(i+". puszczone E");
             }
-            oldState = newState; 
-        }
 
-        public bool PressW()
+            //Klawisz Escape
+            if (newState.IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape))
+            {
+                i++;
+                System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Esc");
+            }
+            if (newState.IsKeyUp(Keys.Escape) && oldState.IsKeyDown(Keys.Escape))
+            {
+                System.Diagnostics.Debug.WriteLine(i + ". puszczone Esc");
+            }
+
+            //Klawisz Enter
+            if (newState.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+            {
+                i++;
+                System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Enter");
+            }
+            if (newState.IsKeyUp(Keys.Enter) && oldState.IsKeyDown(Keys.Enter))
+            {
+                System.Diagnostics.Debug.WriteLine(i + ". puszczone Enter");
+            }
+            oldState = newState;            
+        }
+        public void LongPress(Keys key, string letter)
         {
-            return oldState.IsKeyDown(Keys.W);
+            KeyboardState newState = Keyboard.GetState();  
+            if (newState.IsKeyDown(key))
+            {
+                i++;
+                System.Diagnostics.Debug.WriteLine(i+". wciśnięte " + letter);
+            }
+            if (newState.IsKeyUp(key))
+            {
+                //System.Diagnostics.Debug.WriteLine("puszczone " + letter);
+            }
+            oldState = newState;
         }
-
-        public bool PressS()
-        {
-            return oldState.IsKeyDown(Keys.S);
-        }
-
-        public bool PressA()
-        {
-            return oldState.IsKeyDown(Keys.A);
-        }
-
-        public bool PressD()
-        {
-            return oldState.IsKeyDown(Keys.D);
-        }
-
     }
 }
