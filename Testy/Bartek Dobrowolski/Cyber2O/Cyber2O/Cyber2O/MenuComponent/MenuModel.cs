@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -15,48 +17,48 @@ namespace Cyber2O
     class MenuModel : Game1
     {
         private Sprite menuBackground;
-        private Sprite menuStart;
-        private Sprite menuSettings;
-        private Sprite menuQuit;
+        
+        private SpriteAnimationDynamic menuStart;
+        private SpriteAnimationDynamic menuSettings;
+        private SpriteAnimationDynamic menuQuit;
 
-        private SpriteAnimationDynamic menuTest;
-        public void menuInitialize()
-        {
-            //menuBackground = new Sprite();
-            //menuStart = new Sprite();
-            //menuSettings = new Sprite();
-            //menuQuit = new Sprite();
-        }
+        private SpriteAnimationDynamic[] spriteAnimationList;
+        private MouseState mouseState;
+        
+        
         public void LoadContent(ContentManager theContentManager)
         {
-            //string path = "Assets/2D/";
-            //menuBackground.LoadContent(theContentManager, path + "test");
-            //menuStart.LoadContent(theContentManager, path + "start", path+"startHover");
-            //menuSettings.LoadContent(theContentManager, path + "settings");
-            //menuQuit.LoadContent(theContentManager, path + "quit");
+            string path = "Assets/2D/";
 
-            //menuBackground.Position = new Vector2(0, 0);
-            //menuStart.Position = new Vector2(136, 36);
-            //menuSettings.Position = new Vector2(136, 72);
-            //menuQuit.Position = new Vector2(136, 108);
+            //Loading static elements
+            //menuBackground = new Sprite();
+            //menuBackground.LoadContent(theContentManager, path + "menuBackground");
 
-            Texture2D menuTestButton = Content.Load<Texture2D>("Assets/2D/startAnimation");
-            menuTest = new SpriteAnimationDynamic(menuTestButton, 2, 1);
+            //Loading Buttons
+            Texture2D texture = theContentManager.Load<Texture2D>(path + "startAnimation");
+            menuStart = new SpriteAnimationDynamic(texture, 5, 1, new Vector2(200, 100));
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            menuTest.Draw(spriteBatch, new Vector2(100, 100));
+            //menuBackground.Draw(spriteBatch);
+            menuStart.Draw(spriteBatch);
         }
 
         public void Update()
         {
-            MouseState mouseState;
             mouseState = Mouse.GetState();
-            System.Diagnostics.Debug.WriteLine("Mouse points are: ("+mouseState.X+", "+mouseState.Y+")");
-            if (new Rectangle(mouseState.X, mouseState.Y, 40, 40).Intersects(menuTest.GetRectangle()))
+            if (new Rectangle(mouseState.X, mouseState.Y, 20, 20).Intersects(menuStart.GetRectangle()))
             {
-                System.Diagnostics.Debug.WriteLine("Intersected");
+                System.Diagnostics.Debug.WriteLine("Intersected: " + menuStart.GetRectangle() + " " + mouseState.ToString());
+                menuStart.Update();
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Układ buttonu" + menuStart.GetRectangle().ToString());
+                System.Diagnostics.Debug.WriteLine("Układ myszki X:"+mouseState.X+" Y:"+mouseState.Y+" Width: "+(mouseState.X+(int)20)+" Height:"+(mouseState.Y+(int)20));
+                menuStart.ResetFrame();
             }
         }
     }

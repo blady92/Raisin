@@ -14,7 +14,6 @@ namespace Cyber2O
     {
         public Vector2 Position = new Vector2(0,0);
         private Texture2D sprite;
-        private Texture2D spriteHover;
 
         public Vector2 PositionAccessor
         {
@@ -28,26 +27,17 @@ namespace Cyber2O
             set { sprite = value; }
         }
 
-        public Texture2D SpriteHoverAccessor
-        {
-            get { return spriteHover; }
-            set { spriteHover = value; }
-        }
 
         public void LoadContent(ContentManager theContentManager, string theAssetName)
         {
             sprite = theContentManager.Load<Texture2D>(theAssetName);
         }
 
-        public void LoadContent(ContentManager theContentManager, string theAssetName, string theAssetHover)
-        {
-            sprite = theContentManager.Load<Texture2D>(theAssetName);
-            spriteHover = theContentManager.Load<Texture2D>(theAssetHover);
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
             spriteBatch.Draw(sprite, Position, Color.White);
+            spriteBatch.End();
         }
     }
 }

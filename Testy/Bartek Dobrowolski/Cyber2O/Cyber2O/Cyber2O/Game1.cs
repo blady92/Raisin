@@ -14,8 +14,8 @@ namespace Cyber2O
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         //For game size
-        private int maxWidth = 1336;
-        private int maxHeight = 468;
+        private int maxWidth = 1366;
+        private int maxHeight = 768;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -23,6 +23,7 @@ namespace Cyber2O
         //test Animation sprite
         private SpriteAnimationDynamic sa;
         private User user;
+        private MenuModel menu;
         
         public Game1()
         {
@@ -37,14 +38,14 @@ namespace Cyber2O
         protected override void Initialize()
         {
             user = new User();
+            menu = new MenuModel();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Texture2D saTexture = Content.Load<Texture2D>("Assets/2D/startAnimation");
-            sa = new SpriteAnimationDynamic(saTexture, 2, 1, new Vector2(200,200));
+            menu.LoadContent(this.Content);
         }
 
         protected override void UnloadContent()
@@ -55,20 +56,13 @@ namespace Cyber2O
         protected override void Update(GameTime gameTime)
         {
             user.Upadte();
-            //MouseState mouseState;
-            //mouseState = Mouse.GetState();
-            //System.Diagnostics.Debug.WriteLine("Mouse points are: (" + mouseState.X + ", " + mouseState.Y + ")");
-            //if (new Rectangle(mouseState.X, mouseState.Y, 40, 40).Intersects(sa.GetRectangle()))
-            //{
-            //    System.Diagnostics.Debug.WriteLine("Intersected");
-            //    sa.Update();
-            //}
+            menu.Update();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            sa.Draw(spriteBatch);
+            menu.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }

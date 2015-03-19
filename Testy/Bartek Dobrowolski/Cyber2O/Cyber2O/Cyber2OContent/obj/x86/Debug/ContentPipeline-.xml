@@ -44,7 +44,34 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimation.xnb</Output>
-      <Time>2015-03-10T23:05:08.6914675+01:00</Time>
+      <Time>2015-03-19T10:12:12.006716+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\quitAnimation.png</Source>
+      <Name>Assets\2D\quitAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\quitAnimation.xnb</Output>
+      <Time>2015-03-19T10:37:59.0289511+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimation.png</Source>
+      <Name>Assets\2D\settingsAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimation.xnb</Output>
+      <Time>2015-03-19T10:37:36.9152798+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\menuBackground.png</Source>
+      <Name>Assets\2D\menuBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\menuBackground.xnb</Output>
+      <Time>2015-03-19T16:45:55.4011449+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
