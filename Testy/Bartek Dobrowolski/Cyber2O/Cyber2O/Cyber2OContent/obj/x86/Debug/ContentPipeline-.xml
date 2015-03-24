@@ -2,76 +2,526 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Assets\2D\test.jpg</Source>
-      <Name>Assets\2D\test</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\test.xnb</Output>
-      <Time>2015-03-08T22:22:01.0403993+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Assets\2D\quit.png</Source>
-      <Name>Assets\2D\quit</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\quit.xnb</Output>
-      <Time>2015-03-09T19:36:19.6588575+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Assets\2D\settings.png</Source>
-      <Name>Assets\2D\settings</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settings.xnb</Output>
-      <Time>2015-03-09T19:36:09.2232469+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Assets\2D\start.png</Source>
-      <Name>Assets\2D\start</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\start.xnb</Output>
-      <Time>2015-03-09T19:36:01.5790443+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Assets\2D\startAnimation.png</Source>
-      <Name>Assets\2D\startAnimation</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimation.xnb</Output>
-      <Time>2015-03-19T10:12:12.006716+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Assets\2D\quitAnimation.png</Source>
-      <Name>Assets\2D\quitAnimation</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\quitAnimation.xnb</Output>
-      <Time>2015-03-19T10:37:59.0289511+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Assets\2D\settingsAnimation.png</Source>
-      <Name>Assets\2D\settingsAnimation</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimation.xnb</Output>
-      <Time>2015-03-19T10:37:36.9152798+01:00</Time>
-    </Item>
-    <Item>
       <Source>Assets\2D\menuBackground.png</Source>
       <Name>Assets\2D\menuBackground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\menuBackground.xnb</Output>
-      <Time>2015-03-19T16:45:55.4011449+01:00</Time>
+      <Time>2015-03-21T02:39:55.2179709+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\mousePointer.png</Source>
+      <Name>Assets\2D\mousePointer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\mousePointer.xnb</Output>
+      <Time>2015-03-19T21:46:52.4328251+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00000.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00000.xnb</Output>
+      <Time>2015-03-22T10:47:05.5174499+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00001.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00001.xnb</Output>
+      <Time>2015-03-22T10:47:05.5864959+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00002.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00002.xnb</Output>
+      <Time>2015-03-22T10:47:05.6435347+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00003.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00003.xnb</Output>
+      <Time>2015-03-22T10:47:05.6945692+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00004.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00004.xnb</Output>
+      <Time>2015-03-22T10:47:05.7456029+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00005.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00005.xnb</Output>
+      <Time>2015-03-22T10:47:05.7996367+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\loadButton00006.png</Source>
+      <Name>Assets\2D\loadAnimationButton\loadButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\loadButton00006.xnb</Output>
+      <Time>2015-03-22T10:47:05.8536746+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00000.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00000.xnb</Output>
+      <Time>2015-03-22T10:58:23.5926957+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00001.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00001.xnb</Output>
+      <Time>2015-03-22T10:58:23.6907611+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00002.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00002.xnb</Output>
+      <Time>2015-03-22T10:58:23.7558037+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00003.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00003.xnb</Output>
+      <Time>2015-03-22T10:58:23.8178452+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00004.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00004.xnb</Output>
+      <Time>2015-03-22T10:58:23.8868929+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00005.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00005.xnb</Output>
+      <Time>2015-03-22T10:58:23.9509362+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\startButton00006.png</Source>
+      <Name>Assets\2D\startAnimationButton\startButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\startButton00006.xnb</Output>
+      <Time>2015-03-22T10:58:24.0179796+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00000.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00000.xnb</Output>
+      <Time>2015-03-22T10:57:31.3690515+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00001.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00001.xnb</Output>
+      <Time>2015-03-22T10:57:31.4380979+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00002.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00002.xnb</Output>
+      <Time>2015-03-22T10:57:31.4941359+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00003.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00003.xnb</Output>
+      <Time>2015-03-22T10:57:31.548171+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00004.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00004.xnb</Output>
+      <Time>2015-03-22T10:57:31.6032093+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00005.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00005.xnb</Output>
+      <Time>2015-03-22T10:57:31.6542421+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\exitButton00006.png</Source>
+      <Name>Assets\2D\exitAnimationButton\exitButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\exitButton00006.xnb</Output>
+      <Time>2015-03-22T10:57:31.7062762+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00000.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00000.xnb</Output>
+      <Time>2015-03-22T12:20:44.080141+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00001.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00001.xnb</Output>
+      <Time>2015-03-22T12:20:44.1511871+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00002.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00002.xnb</Output>
+      <Time>2015-03-22T12:20:44.2202327+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00003.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00003.xnb</Output>
+      <Time>2015-03-22T12:20:44.2872782+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00004.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00004.xnb</Output>
+      <Time>2015-03-22T12:20:44.3713339+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00005.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00005.xnb</Output>
+      <Time>2015-03-22T12:20:44.4373761+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\settingsButton00006.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\settingsButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\settingsButton00006.xnb</Output>
+      <Time>2015-03-22T12:20:44.5034199+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00000.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00000.xnb</Output>
+      <Time>2015-03-24T11:35:29.8896525+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00001.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00001.xnb</Output>
+      <Time>2015-03-24T11:35:29.941685+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00002.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00002.xnb</Output>
+      <Time>2015-03-24T11:35:29.9877155+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00003.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00003.xnb</Output>
+      <Time>2015-03-24T11:35:30.0297438+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00004.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00004.xnb</Output>
+      <Time>2015-03-24T11:35:30.0707716+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00005.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00005.xnb</Output>
+      <Time>2015-03-24T11:35:30.1057934+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\startAnimationButton\clickFrames\startButton00006.png</Source>
+      <Name>Assets\2D\startAnimationButton\clickFrames\startButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\startAnimationButton\clickFrames\startButton00006.xnb</Output>
+      <Time>2015-03-24T11:35:30.1468213+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00000.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00000.xnb</Output>
+      <Time>2015-03-24T11:53:16.3218169+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00001.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00001.xnb</Output>
+      <Time>2015-03-24T11:53:16.3688516+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00002.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00002.xnb</Output>
+      <Time>2015-03-24T11:53:16.411875+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00003.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00003.xnb</Output>
+      <Time>2015-03-24T11:53:16.4519016+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00004.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00004.xnb</Output>
+      <Time>2015-03-24T11:53:16.4929302+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00005.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00005.xnb</Output>
+      <Time>2015-03-24T11:53:16.5299542+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00006.png</Source>
+      <Name>Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\settingsAnimationButton\clickFrames\settingsButtonClick00006.xnb</Output>
+      <Time>2015-03-24T11:53:16.5629755+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00000.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00000.xnb</Output>
+      <Time>2015-03-24T11:53:39.4551624+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00001.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00001.xnb</Output>
+      <Time>2015-03-24T11:53:39.5222063+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00002.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00002.xnb</Output>
+      <Time>2015-03-24T11:53:39.5972562+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00003.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00003.xnb</Output>
+      <Time>2015-03-24T11:53:39.6572961+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00004.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00004.xnb</Output>
+      <Time>2015-03-24T11:53:39.7113319+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00005.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00005.xnb</Output>
+      <Time>2015-03-24T11:53:39.7673711+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00006.png</Source>
+      <Name>Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\loadAnimationButton\clickFrames\loadButtonClick00006.xnb</Output>
+      <Time>2015-03-24T11:53:39.8254092+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00000.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00000.xnb</Output>
+      <Time>2015-03-24T11:56:54.924834+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00001.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00001.xnb</Output>
+      <Time>2015-03-24T11:56:55.1149605+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00002.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00002.xnb</Output>
+      <Time>2015-03-24T11:56:55.2830712+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00003.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00003.xnb</Output>
+      <Time>2015-03-24T11:56:55.4601881+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00004.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00004.xnb</Output>
+      <Time>2015-03-24T11:56:55.6353053+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00005.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00005.xnb</Output>
+      <Time>2015-03-24T11:56:55.8154244+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00006.png</Source>
+      <Name>Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\exitAnimationButton\clickFrames\exitButtonClick00006.xnb</Output>
+      <Time>2015-03-24T11:56:56.0255642+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
