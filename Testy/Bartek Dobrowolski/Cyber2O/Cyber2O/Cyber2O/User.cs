@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
+using Cyber2O.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,6 +17,8 @@ namespace Cyber2O
         private KeyboardState oldState;
         private KeyboardState newState;
         private int i = 0;
+        public string StateGame { get; set; }
+
 
         public void Upadte(Game1 game)
         {
@@ -40,7 +44,7 @@ namespace Cyber2O
         public void JustPress(Game1 game)
         {
             KeyboardState newState = Keyboard.GetState();
-
+            Keys returnKeys = new Keys();
             //Klawisz E do np uruchamiania konsoli
             if (newState.IsKeyDown(Keys.E) && oldState.IsKeyUp(Keys.E))
             {
@@ -57,11 +61,14 @@ namespace Cyber2O
             {
                 i++;
                 System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Esc");
+                this.StateGame = "pauseMenu";
+                Debug.WriteLine("pauseMenu set");
             }
             if (newState.IsKeyUp(Keys.Escape) && oldState.IsKeyDown(Keys.Escape))
             {
                 System.Diagnostics.Debug.WriteLine(i + ". puszczone Esc");
-                game.Quit();
+                this.StateGame = "pauseMenu";
+                Debug.WriteLine("pauseMenu set");
             }
 
             //Klawisz Enter
@@ -73,8 +80,9 @@ namespace Cyber2O
             if (newState.IsKeyUp(Keys.Enter) && oldState.IsKeyDown(Keys.Enter))
             {
                 System.Diagnostics.Debug.WriteLine(i + ". puszczone Enter");
+                StateGame = "enter";
             }
-            oldState = newState;            
+            oldState = newState;         
         }
 
         public void LongPress(Keys key, string letter)

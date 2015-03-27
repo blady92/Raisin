@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyber2O", "Cyber2O\Cyber2O\Cyber2O.csproj", "{38B76F47-1A43-4C7C-9695-27C6922EE902}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Cyber2OContent", "Cyber2O\Cyber2OContent\Cyber2OContent.contentproj", "{B5C6F768-510A-4876-8A9A-C91EE8CF4F98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyber2OContent", "Cyber2O\Cyber2OContent\Cyber2OContent.contentproj", "{B5C6F768-510A-4876-8A9A-C91EE8CF4F98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

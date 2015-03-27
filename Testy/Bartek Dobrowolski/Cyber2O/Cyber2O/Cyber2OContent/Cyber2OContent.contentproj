@@ -341,6 +341,148 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00000.png">
+      <Name>resumeClickButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00001.png">
+      <Name>resumeClickButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00002.png">
+      <Name>resumeClickButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00003.png">
+      <Name>resumeClickButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00004.png">
+      <Name>resumeClickButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00005.png">
+      <Name>resumeClickButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\clickFrames\resumeClickButton00006.png">
+      <Name>resumeClickButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00000.png">
+      <Name>resumeClickButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00001.png">
+      <Name>resumeClickButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00002.png">
+      <Name>resumeClickButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00003.png">
+      <Name>resumeClickButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00004.png">
+      <Name>resumeClickButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00005.png">
+      <Name>resumeClickButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\resumeAnimationButton\resumeClickButton00006.png">
+      <Name>resumeClickButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00000.png">
+      <Name>saveButtonClick00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00001.png">
+      <Name>saveButtonClick00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00002.png">
+      <Name>saveButtonClick00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00003.png">
+      <Name>saveButtonClick00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00004.png">
+      <Name>saveButtonClick00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00005.png">
+      <Name>saveButtonClick00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\clickFrames\saveButtonClick00006.png">
+      <Name>saveButtonClick00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00000.png">
+      <Name>loadButton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00001.png">
+      <Name>loadButton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00002.png">
+      <Name>loadButton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00003.png">
+      <Name>loadButton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00004.png">
+      <Name>loadButton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00005.png">
+      <Name>loadButton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\saveAnimationButton\loadButton00006.png">
+      <Name>loadButton00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

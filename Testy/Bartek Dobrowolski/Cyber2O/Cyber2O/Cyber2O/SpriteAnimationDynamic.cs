@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Cyber2O
 {
@@ -25,7 +19,7 @@ namespace Cyber2O
         //Obecna klatka animacji po kliknięciu
         private int clickCurrentFrame;
         //Łączna ilość klatek animacji po kliknięciu
-        private int clickTotalFrames;
+        public int clickTotalFrames { get; set; }
 
         //Ścieżka do folderu z paczką do animacji na hover
         private string pathToDirectory;
@@ -39,10 +33,10 @@ namespace Cyber2O
 
         public Texture2D[] TextureList { get; set; }
         public Texture2D[] ClickTextureList { get; set; }
-        public int CurrentFrameAccessor
+        public int ClickCurrentFrameAccessor
         {
-            set { this.currentFrame = value;  }
-            get { return this.currentFrame;  }
+            set { this.clickCurrentFrame = value; }
+            get { return this.clickCurrentFrame; }
         }
         public Vector2 SpritePosition
         {
@@ -55,7 +49,8 @@ namespace Cyber2O
             get { return clicked;  }
             set { clicked = value; }
         }
-        
+
+        public string SpriteName { get; set;  }
         public SpriteAnimationDynamic(string pathToDirectory, bool click)
         {
             this.pathToDirectory = pathToDirectory; //.Replace(@"\", "/");
@@ -89,9 +84,13 @@ namespace Cyber2O
             this.TextureList = new Texture2D[frames];
         }
 
-        //
+        //Metoda pozwalająca ładować klatki dla tego modelu
         public void LoadAnimation(ContentManager theContentManager, int frames, Texture2D[] list, string path)
         {
+            //Ty kurwa, próbuję załadować plik, który nie istnieje TUTAJ, ale jest w folderze na dysku...
+            //SPAAAAAććććć ;____;
+            //Chcę do fajnego cycka się przytulić ;_;
+            /// ....
             string[] sequences = Directory.GetFiles(@"..//..//..//..//Cyber2OContent/" + path);
             for (int i = 0; i < sequences.Length; i++)
             {
@@ -102,7 +101,6 @@ namespace Cyber2O
             }
             for (int i = 0; i < list.Length; i++)
             {
-                System.Diagnostics.Debug.WriteLine(i+". load");
                 list[i] = theContentManager.Load<Texture2D>(""+sequences[i]);
             }
         }
@@ -145,12 +143,10 @@ namespace Cyber2O
             //PAMIĘTAJ O DODANIU KLATEK DO ODPOWIEDNICH FOLDERÓW!
             if (clicked && setToClick)
             {
-                System.Diagnostics.Debug.WriteLine("Klasa Sprite: kliknięte i wciśniete");
                 spriteBatch.Draw(ClickTextureList[clickCurrentFrame], sourceRectangle, Color.White);
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Klasa Sprite: Nie kliknięte i nie wciśnięte");
                 spriteBatch.Draw(TextureList[currentFrame], sourceRectangle, Color.White);
             }
             spriteBatch.End();
@@ -201,7 +197,6 @@ namespace Cyber2O
         {
             if (clickCurrentFrame < clickTotalFrames - 1)
             {
-                System.Diagnostics.Debug.WriteLine("Click frame: "+clickCurrentFrame);
                 clickCurrentFrame++;
             }
         }

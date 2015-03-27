@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using Cyber2O.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -19,6 +22,7 @@ namespace Cyber2O
         private bool fullscreen = false;
         private bool mouseVisibility = true;
         private int cx, cy, x, y;
+        private string gameS, userS;
 
         private MouseState mouseState;
         GraphicsDeviceManager graphics;
@@ -29,7 +33,9 @@ namespace Cyber2O
         private SpriteAnimationDynamic sa;
 
         private User user;
-        private MenuModel menu;
+        private MenuState menu;
+        private PauseState pause;
+        private GameState gameState;
         
         public Game1()
         {
@@ -44,7 +50,11 @@ namespace Cyber2O
         {
             //Inicjalizacja klawiszy
             user = new User();
-            menu = new MenuModel();
+            gameState = new MenuState();
+            menu = new MenuState();
+            pause = new PauseState();
+            gameState = menu;
+            gameState.StateGame = "mainMenu";
             base.Initialize();
         }
 
@@ -52,6 +62,7 @@ namespace Cyber2O
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             menu.LoadContent(this.Content);
+            pause.LoadContent(this.Content);
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
         }
@@ -65,13 +76,40 @@ namespace Cyber2O
         {
             user.Upadte(this);
             mouseState = Mouse.GetState();
-            menu.Update(mouseState);
+            gameState.Update(mouseState);
+            if (gameState.StateGame == "mainMenu")
+            {
+                gameState = menu;
+                gameS = gameState.StateGame;
+                userS = user.StateGame;
+                gameState.StateGame = "";
+            }
+            if (user.StateGame == "pauseMenu")
+            {
+                gameState = pause;
+                gameS = gameState.StateGame;
+                userS = user.StateGame;
+                user.StateGame = "";
+                gameState.StateGame = "";
+            }
+            if (gameState.StateGame == "exitToMenu")
+            {
+                gameState.StateGame = "mainMenu";
+                Debug.WriteLine("game: " + gameState.StateGame);
+                Debug.WriteLine("user: " + user.StateGame);
+                userS = user.StateGame;
+            }
+            if (gameState.StateGame == "exit")
+            {
+                Thread.Sleep(500);
+                Quit();
+            }
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            menu.Draw(spriteBatch);
+            gameState.Draw(spriteBatch);
             mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             base.Draw(gameTime);
         }
