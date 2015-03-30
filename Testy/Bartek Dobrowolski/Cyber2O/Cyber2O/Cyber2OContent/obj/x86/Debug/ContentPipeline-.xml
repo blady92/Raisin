@@ -775,6 +775,15 @@
       <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\saveAnimationButton\loadButton00006.xnb</Output>
       <Time>2015-03-26T09:44:56.406055+01:00</Time>
     </Item>
+    <Item>
+      <Source>Assets\2D\gameBackground.png</Source>
+      <Name>Assets\2D\gameBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\gameBackground.xnb</Output>
+      <Time>2015-03-21T18:59:33.1129057+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID Null="true" />

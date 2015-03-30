@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyber2O", "Cyber2O\Cyber2O\Cyber2O.csproj", "{939FAD55-B4AF-49B6-A4F3-4D744A81F88F}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Cyber2OContent", "Cyber2O\Cyber2OContent\Cyber2OContent.contentproj", "{FF037F7C-538C-4989-A1FB-36DEBCDF5CE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{939FAD55-B4AF-49B6-A4F3-4D744A81F88F}.Debug|x86.ActiveCfg = Debug|x86
+		{939FAD55-B4AF-49B6-A4F3-4D744A81F88F}.Debug|x86.Build.0 = Debug|x86
+		{939FAD55-B4AF-49B6-A4F3-4D744A81F88F}.Release|x86.ActiveCfg = Release|x86
+		{939FAD55-B4AF-49B6-A4F3-4D744A81F88F}.Release|x86.Build.0 = Release|x86
+		{FF037F7C-538C-4989-A1FB-36DEBCDF5CE1}.Debug|x86.ActiveCfg = Debug|x86
+		{FF037F7C-538C-4989-A1FB-36DEBCDF5CE1}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

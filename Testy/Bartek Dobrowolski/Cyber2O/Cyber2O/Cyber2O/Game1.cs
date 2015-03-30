@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,8 +21,6 @@ namespace Cyber2O
         private int maxHeight = 768;
         private bool fullscreen = false;
         private bool mouseVisibility = true;
-        private int cx, cy, x, y;
-        private string gameS, userS;
 
         private MouseState mouseState;
         GraphicsDeviceManager graphics;
@@ -35,6 +33,7 @@ namespace Cyber2O
         private User user;
         private MenuState menu;
         private PauseState pause;
+        private MainGame game;
         private GameState gameState;
         
         public Game1()
@@ -53,16 +52,19 @@ namespace Cyber2O
             gameState = new MenuState();
             menu = new MenuState();
             pause = new PauseState();
+            game = new MainGame();
             gameState = menu;
             gameState.StateGame = "mainMenu";
             base.Initialize();
         }
 
+        //Oh hell... ಠ_ಠ
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             menu.LoadContent(this.Content);
             pause.LoadContent(this.Content);
+            game.LoadContent(this.Content);
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
         }
@@ -77,35 +79,20 @@ namespace Cyber2O
             user.Upadte(this);
             mouseState = Mouse.GetState();
             gameState.Update(mouseState);
-            if (gameState.StateGame == "mainMenu")
-            {
-                gameState = menu;
-                gameS = gameState.StateGame;
-                userS = user.StateGame;
-                gameState.StateGame = "";
-            }
-            if (user.StateGame == "pauseMenu")
-            {
-                gameState = pause;
-                gameS = gameState.StateGame;
-                userS = user.StateGame;
-                user.StateGame = "";
-                gameState.StateGame = "";
-            }
-            if (gameState.StateGame == "exitToMenu")
-            {
+            if (gameState.StateGame == "mainMenu")      gameState = menu;
+            if (user.StateGame == "pauseMenu")          gameState = pause;
+            if (gameState.StateGame == "start" || 
+                gameState.StateGame == "resume")        gameState = game;
+            if (gameState.StateGame == "exitToMenu")    
                 gameState.StateGame = "mainMenu";
-                Debug.WriteLine("game: " + gameState.StateGame);
-                Debug.WriteLine("user: " + user.StateGame);
-                userS = user.StateGame;
-            }
             if (gameState.StateGame == "exit")
             {
                 Thread.Sleep(500);
                 Quit();
-            }
+            } 
+            gameState.StateGame = "";
+            user.StateGame = "";
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

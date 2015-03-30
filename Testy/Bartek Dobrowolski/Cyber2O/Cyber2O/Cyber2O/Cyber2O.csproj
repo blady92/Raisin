@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\IGameState.cs" />
+    <Compile Include="GameStates\MainGame.cs" />
     <Compile Include="GameStates\MenuState.cs" />
     <Compile Include="GameStates\PauseState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,7 +95,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="SpriteAnimationDynamic.cs" />
-    <Compile Include="OrginalAnimationClass.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
