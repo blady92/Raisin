@@ -1,25 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{38B76F47-1A43-4C7C-9695-27C6922EE902}</ProjectGuid>
+    <ProjectGuid>{185BAF5E-5F21-4824-8A8B-47C81C4BA34C}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cyber2O</RootNamespace>
-    <AssemblyName>Cyber2O</AssemblyName>
+    <RootNamespace>BoundingBox</RootNamespace>
+    <AssemblyName>BoundingBox</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
-    <XnaCrossPlatformGroupID>38c86eb7-8fd9-4318-8bd4-8a4de0287d3e</XnaCrossPlatformGroupID>
+    <XnaCrossPlatformGroupID>345fe1d9-8118-4f82-91ad-7d536aa68b27</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\Bartłomiej\Desktop\Cyber2O\</PublishUrl>
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -29,10 +28,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -60,18 +59,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>E4A07C99AA503AD8F2493DD248A46EE4129D81AA</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>Cyber2O_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -85,23 +72,15 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cage.cs" />
-    <Compile Include="Game1.cs" />
-    <Compile Include="GameModel.cs" />
-    <Compile Include="GameStates\GameState.cs" />
-    <Compile Include="GameStates\IGameState.cs" />
-    <Compile Include="GameStates\MainGame.cs" />
-    <Compile Include="GameStates\MenuState.cs" />
-    <Compile Include="GameStates\PauseState.cs" />
-    <Compile Include="ModelExtractor.cs" />
-    <Compile Include="ModelTest.cs" />
-    <Compile Include="ModelTest2.cs" />
+    <Compile Include="BoundingBoxBufferComp.cs" />
+    <Compile Include="BoundingBoxComp.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="ICamera.cs" />
+    <Compile Include="ModelComp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Game2.cs" />
-    <Compile Include="Sprite.cs" />
-    <Compile Include="SpriteAnimationDynamic.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Game1.cs" />
+    <Compile Include="VerticesModelExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -110,8 +89,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cyber2OContent\Cyber2OContent.contentproj">
-      <Name>Cyber2OContent</Name>
+    <ProjectReference Include="..\BoundingBoxContent\BoundingBoxContent.contentproj">
+      <Name>BoundingBoxContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
@@ -136,14 +115,6 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Cyber2O_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SpriteController\" />
-    <Folder Include="SpriteModel\" />
-    <Folder Include="SpriteView\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

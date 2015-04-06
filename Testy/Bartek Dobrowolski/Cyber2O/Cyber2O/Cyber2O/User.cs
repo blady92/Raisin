@@ -20,7 +20,7 @@ namespace Cyber2O
         public string StateGame { get; set; }
 
 
-        public void Upadte(Game1 game)
+        public void Upadte(Game2 game)
         {
             JustPress(game);
             LongPress(Keys.W, "W");
@@ -41,7 +41,7 @@ namespace Cyber2O
             return false;
         }
 
-        public void JustPress(Game1 game)
+        public void JustPress(Game2 game)
         {
             KeyboardState newState = Keyboard.GetState();
             Keys returnKeys = new Keys();

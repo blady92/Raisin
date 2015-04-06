@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline" xmlns:Framework="Microsoft.Xna.Framework" xmlns:Processors="Microsoft.Xna.Framework.Content.Pipeline.Processors">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
       <Source>Assets\2D\menuBackground.png</Source>
@@ -783,6 +783,212 @@
       <Options>None</Options>
       <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\gameBackground.xnb</Output>
       <Time>2015-03-21T18:59:33.1129057+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\box.fbx</Source>
+      <Name>Assets\3D\box</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\box.xnb</Output>
+      <Time>2015-03-30T21:47:46.3144996+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\box_0.xml</Key>
+        <Value>2015-03-30T22:20:22.5564359+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\box2.fbx</Source>
+      <Name>Assets\3D\box2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\box2.xnb</Output>
+      <Time>2015-04-02T02:29:08.0813412+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\box2_0.xml</Key>
+        <Value>2015-04-02T02:29:11.1333646+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\box.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\box_0.xml</Output>
+      <Time>2015-03-30T21:47:46.3144996+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\box2.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\box2_0.xml</Output>
+      <Time>2015-04-02T02:29:08.0813412+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\metal.jpg</Source>
+      <Name>Assets\3D\metal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\metal.xnb</Output>
+      <Time>2015-03-30T22:56:57.3825499+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\ship.x</Source>
+      <Name>Assets\3D\ship</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\ship.xnb</Output>
+      <Time>2015-03-30T22:55:13.4996807+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\ship_0.xml</Key>
+        <Value>2015-03-30T22:57:02.4759275+02:00</Value>
+      </Dependency>
+      <Request>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\metal_0.xnb</Request>
+    </Item>
+    <Item>
+      <Source>Assets\3D\ship.x</Source>
+      <Importer>XImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\ship_0.xml</Output>
+      <Time>2015-03-30T22:55:13.4996807+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\metal.jpg</Source>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="ColorKeyColor" Type="Framework:Color">FFFF00FF</Data>
+        <Data Key="ColorKeyEnabled" Type="bool">true</Data>
+        <Data Key="TextureFormat" Type="Processors:TextureProcessorOutputFormat">DxtCompressed</Data>
+        <Data Key="GenerateMipmaps" Type="bool">true</Data>
+        <Data Key="ResizeToPowerOfTwo" Type="bool">false</Data>
+        <Data Key="PremultiplyAlpha" Type="bool">true</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\metal_0.xnb</Output>
+      <Time>2015-03-30T22:56:57.3825499+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\test.fbx</Source>
+      <Name>Assets\3D\test</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\test.xnb</Output>
+      <Time>2015-03-31T17:04:05.5544594+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\test_0.xml</Key>
+        <Value>2015-03-31T17:04:08.092141+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\test.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\test_0.xml</Output>
+      <Time>2015-03-31T17:04:05.5544594+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\shipFBX.fbx</Source>
+      <Name>Assets\3D\shipFBX</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipFBX.xnb</Output>
+      <Time>2015-04-05T21:09:11.2160982+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\shipFBX_0.xml</Key>
+        <Value>2015-04-05T21:09:16.1073615+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\shipFBX.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\shipFBX_0.xml</Output>
+      <Time>2015-04-05T21:09:11.2160982+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\shipFBX2.fbx</Source>
+      <Name>Assets\3D\shipFBX2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipFBX2.xnb</Output>
+      <Time>2015-04-03T01:00:43.9258802+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\shipFBX2_0.xml</Key>
+        <Value>2015-04-03T01:01:18.6670548+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\shipFBX2.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\shipFBX2_0.xml</Output>
+      <Time>2015-04-03T01:00:43.9258802+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\shipX.x</Source>
+      <Name>Assets\3D\shipX</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipX.xnb</Output>
+      <Time>2015-04-05T21:11:06.8222166+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\shipX_0.xml</Key>
+        <Value>2015-04-05T21:11:25.9779948+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\shipX.x</Source>
+      <Importer>XImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\shipX_0.xml</Output>
+      <Time>2015-04-05T21:11:06.8222166+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\wall.fbx</Source>
+      <Name>Assets\3D\wall</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\wall.xnb</Output>
+      <Time>2015-04-05T21:04:59.4261333+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\wall_0.xml</Key>
+        <Value>2015-04-05T21:07:23.0589477+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\wall.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\wall_0.xml</Output>
+      <Time>2015-04-05T21:04:59.4261333+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Assets\3D\wallX.x</Source>
+      <Name>Assets\3D\wallX</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\wallX.xnb</Output>
+      <Time>2015-04-05T21:22:56.7638006+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Assets\3D\wallX_0.xml</Key>
+        <Value>2015-04-05T21:22:59.7157714+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Assets\3D\wallX.x</Source>
+      <Importer>XImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Assets\3D\wallX_0.xml</Output>
+      <Time>2015-04-05T21:22:56.7638006+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -2,109 +2,209 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using Cyber2O.GameStates;
+using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace Cyber2O
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        //For game size and screens
-        private int maxWidth = 1366;
-        private int maxHeight = 768;
-        private bool fullscreen = false;
-        private bool mouseVisibility = true;
-
-        private MouseState mouseState;
+        private int i=0;
+        private int angle=0;
+        private float value = 0;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
-        //test Animation sprite
-        private Sprite mousePointer;
-        private SpriteAnimationDynamic sa;
 
-        private User user;
-        private MenuState menu;
-        private PauseState pause;
-        private MainGame game;
-        private GameState gameState;
-        
+        //Ustawienia widoku
+        //Matrix view = Matrix.CreateLookAt(new Vector3(20, 10, 30), new Vector3(10, 10, 0), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(30, 30, 30), new Vector3(10, 10, 0), Vector3.UnitZ);
+        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
+
+        private ModelTest2 model;
+        private Cage modelCage, wallCage;
+        private List<ModelTest2> WallList;
+        private List<Cage> wallListCage;
+
+        private bool floorCollide, wallCollide;
+        private KeyboardState oldState;
+        private KeyboardState newState;
+        private bool upDir, downDir, leftDir, rightDir;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = fullscreen;
-            graphics.PreferredBackBufferWidth = maxWidth;
-            graphics.PreferredBackBufferHeight = maxHeight;
             Content.RootDirectory = "Content";
         }
-
-        protected override void Initialize()
-        {
-            //Inicjalizacja klawiszy
-            user = new User();
-            gameState = new MenuState();
-            menu = new MenuState();
-            pause = new PauseState();
-            game = new MainGame();
-            gameState = menu;
-            gameState.StateGame = "mainMenu";
-            base.Initialize();
-        }
-
-        //Oh hell... ಠ_ಠ
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            menu.LoadContent(this.Content);
-            pause.LoadContent(this.Content);
-            game.LoadContent(this.Content);
-            mousePointer = new Sprite(40, 40);
-            mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
+
+            WallList = new List<ModelTest2>();
+            wallListCage = new List<Cage>();
+            //Setup models and its cages here
+            model = new ModelTest2("Assets/3D/shipX");
+            model.LoadContent(this.Content);
+            modelCage = new Cage();
+            modelCage.SetBoudings(model.Model);
+            modelCage.CreateCage();
+            modelCage.BoudingBoxResizeOnce(0.5f, 0.5f, 1);
+            modelCage.MoveBoundingBox(new Vector3(0, 0, 1.0f));
+
+            for (int i = 0; i < 3; i++)
+            {
+                WallList.Add(new ModelTest2("Assets/3D/wallX"));
+            }
+
+            for(int i = 0; i<WallList.Count; i++)
+            {
+                WallList[i].LoadContent(this.Content);
+                wallListCage.Add(new Cage());
+                wallListCage[i].SetBoudings(WallList[i].Model);
+                wallListCage[i].CreateCage();
+                wallListCage[i].RecreateCage(new Vector3(0, 0, 2.0f));
+            }
+            
+            //Setup them position on the world at the start, then recreate cage. Order is necessary!
+            //Ship setups
+            Vector3 shipVec = new Vector3(0, -10, 0);
+            model.Position += shipVec;
+            modelCage.RecreateCage(shipVec);
+
+            //Walls setups
+            for(int i=0; i<WallList.Count; i++)
+            {
+                Vector3 move = new Vector3(0.0f, i * 7f, 0.0f);
+                wallListCage[i].RecreateCage(move);
+                WallList[i].Position = move;
+            }
+
+            upDir = downDir = leftDir = rightDir = true;
         }
 
-        protected override void UnloadContent()
-        {
-            this.Content.Unload();
-        }
+        protected override void UnloadContent(){}
 
         protected override void Update(GameTime gameTime)
         {
-            user.Upadte(this);
-            mouseState = Mouse.GetState();
-            gameState.Update(mouseState);
-            if (gameState.StateGame == "mainMenu")      gameState = menu;
-            if (user.StateGame == "pauseMenu")          gameState = pause;
-            if (gameState.StateGame == "start" || 
-                gameState.StateGame == "resume")        gameState = game;
-            if (gameState.StateGame == "exitToMenu")    
-                gameState.StateGame = "mainMenu";
-            if (gameState.StateGame == "exit")
+            //Zmiana pozycji modela do narysowania
+
+            KeyboardState newState = Keyboard.GetState();
+            if (newState.IsKeyDown(Keys.W))
             {
-                Thread.Sleep(500);
-                Quit();
-            } 
-            gameState.StateGame = "";
-            user.StateGame = "";
+                i++;
+                Vector3 move = new Vector3(0, -0.05f, 0);
+                modelCage.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    model.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(0, 0.05f, 0);
+                    modelCage.RecreateCage(move);
+                }
+            }
+            if (newState.IsKeyDown(Keys.S))
+            {
+                i++;
+                Vector3 move = new Vector3(0, 0.05f, 0);
+                modelCage.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    model.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(0, -0.05f, 0);
+                    modelCage.RecreateCage(move);
+                }
+            }
+            if (newState.IsKeyDown(Keys.A))
+            {
+                i++;
+                Vector3 move = new Vector3(0.05f, 0, 0);
+                modelCage.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    model.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(-0.05f, 0, 0);
+                    modelCage.RecreateCage(move);
+                }
+            }
+            if (newState.IsKeyDown(Keys.D))
+            {
+                i++;
+                Vector3 move = new Vector3(-0.05f, 0, 0);
+                modelCage.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    model.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(0.05f, 0, 0);
+                    modelCage.RecreateCage(move);
+                }
+            }
+            oldState = newState;
+            //if (modelCage.AABB.Intersects(wallCage.AABB))
+            //{
+            //    Debug.WriteLine("Intersected wall");
+            //}
+            //else
+            //{
+            //    Debug.WriteLine("Not Intersected");
+            //}
+
+            //if (angle <= 90)
+            //{
+            //    angle = 45;
+            //    float resizeValue = ((float) angle/180);
+            //    Debug.WriteLine("Kąt: " + angle + " \t\t resize X: " + resizeValue);
+            //    //Rotacja X/Z
+            //    //modelCage.BoudingBoxResize(1, 1.5f+resizeValue, 1-resizeValue);
+            //    //Rotacja Y/Z
+            //    //modelCage.BoudingBoxResize(1.5f + resizeValue, 1, 1 - resizeValue);
+            //    //Rotacja X/Y
+            //    modelCage.BoudingBoxResize(1 + resizeValue, 1 + resizeValue, 1);
+            //}
+            base.Update(gameTime);
         }
+
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            gameState.Draw(spriteBatch);
-            mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
+            //Dla testowoania położenia
+            //i++;
+            //Vector3[] cagePosition = modelCage.AABB.GetCorners();
+            //Debug.WriteLine(i + " Cage  Y: " + cagePosition[0].Y);
+            //Debug.WriteLine(i + " Model Y: " + model.Position.Y);
+            //Ustawienie do rysowania
+            //zasada ISROT - Identity, Scale, Rotation, Orbit, Translation
+            Matrix modelView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(model.Position);
+            Matrix cageView = Matrix.CreateTranslation(modelCage.Position);
+            model.DrawModel(modelView, view, projection);
+            modelCage.DrawBouding(this.GraphicsDevice, cageView, view, projection);
+
+            for(int i = 0; i<WallList.Count; i++)
+            {
+                Matrix model2View = Matrix.CreateTranslation(WallList[i].Position);
+                Matrix cageView2 = Matrix.CreateTranslation(wallListCage[i].Position);
+                WallList[i].DrawModel(model2View, view, projection);
+                wallListCage[i].DrawBouding(this.GraphicsDevice, cageView2, view, projection);
+            }
             base.Draw(gameTime);
         }
 
-        //Rest of functions
-        public void Quit()
+        public bool IsCollided()
         {
-            this.Exit();
+            foreach (Cage wallCage in wallListCage)
+                if (modelCage.AABB.Intersects(wallCage.AABB))
+                    return true;
+            return false;
         }
     }
 }

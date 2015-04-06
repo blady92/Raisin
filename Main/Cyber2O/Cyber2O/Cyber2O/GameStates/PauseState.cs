@@ -15,12 +15,10 @@ namespace Cyber2O.GameStates
     {
         private SpriteAnimationDynamic[] spriteAnimationList;
         private Sprite menuBackground;
-        public string StateGame { get; set; }
 
         public override void LoadContent(ContentManager theContentManager)
         {
             string path = "Assets/2D/";
-            menuBackground = new Sprite(0, 0);
             menuBackground.LoadContent(theContentManager, path + "menuBackground");
             
             //Load buttons

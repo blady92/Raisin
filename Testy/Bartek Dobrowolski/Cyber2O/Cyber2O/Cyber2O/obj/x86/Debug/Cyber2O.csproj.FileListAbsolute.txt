@@ -96,3 +96,14 @@ D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2
 D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\saveAnimationButton\loadButton00005.xnb
 D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\saveAnimationButton\loadButton00006.xnb
 D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\gameBackground.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\box.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\box2.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\metal.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\ship.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\metal_0.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\test.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipFBX.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipFBX2.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipX.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\wall.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\wallX.xnb
