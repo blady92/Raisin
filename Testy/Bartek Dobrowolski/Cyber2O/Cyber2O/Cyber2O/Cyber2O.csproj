@@ -85,8 +85,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio.cs" />
+    <Compile Include="AudioTest.cs" />
     <Compile Include="Cage.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="CageTest.cs" />
     <Compile Include="GameModel.cs" />
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\IGameState.cs" />
@@ -140,11 +142,7 @@
   <ItemGroup>
     <None Include="Cyber2O_TemporaryKey.pfx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SpriteController\" />
-    <Folder Include="SpriteModel\" />
-    <Folder Include="SpriteView\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

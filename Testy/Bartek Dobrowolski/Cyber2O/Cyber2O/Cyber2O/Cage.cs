@@ -19,12 +19,6 @@ namespace Cyber2O
 
         //kalkulacja bouding boxa dla całego obieku łącznie z meshami częściowymi w modelu
         private Vector3 meshMin, meshMax, modelMin, modelMax;
-        //to przeuswania całego bouding boxa
-        private float offsetX, offsetY, offsetZ;
-        private float resizeX, resizeY, resizeZ;
-        //Do późniejszego wykorzsytania przy skalowaniu bouding boxa z palca
-        float minX, minY, minZ;
-        float maxX, maxY, maxZ;
         //Na potrzeby kolejności rysowania bouding boxa
         short[] bBoxIndices = {
                 0, 1, 1, 2, 2, 3, 3, 0, // Front edges
@@ -80,12 +74,6 @@ namespace Cyber2O
                 modelMin = Vector3.Min(modelMin, meshMin);
                 modelMax = Vector3.Max(modelMax, meshMax);
             }
-            minX = modelMin.X;
-            minY = modelMin.Y;
-            minZ = modelMin.Z;
-            maxX = modelMax.X;
-            maxY = modelMax.Y;
-            maxZ = modelMax.Z;
         }
 
         public void CreateCage()
@@ -125,10 +113,6 @@ namespace Cyber2O
             aabb = new BoundingBox(newModelMin, newModelMax);
         }
 
-        public void BoudingBoxResize(Vector3 vec)
-        {
-            Vector3 newModelMin = new Vector3();
-        }
         //Skalowanie boxa w górę i od góry w dół
         public void BouidingScaleZ(float factor)
         {
@@ -138,7 +122,18 @@ namespace Cyber2O
         //Rekonstrukcja BoudingBoxa w zależności od obrotu modelu.
         public void BoudingRotate(float angle)
         {
-            
+            //if (angle <= 90)
+            //{
+            //    angle = 45;
+            //    float resizeValue = ((float) angle/180);
+            //    Debug.WriteLine("Kąt: " + angle + " \t\t resize X: " + resizeValue);
+            //    //Rotacja X/Z
+            //    //modelCage.BoudingBoxResize(1, 1.5f+resizeValue, 1-resizeValue);
+            //    //Rotacja Y/Z
+            //    //modelCage.BoudingBoxResize(1.5f + resizeValue, 1, 1 - resizeValue);
+            //    //Rotacja X/Y
+            //    modelCage.BoudingBoxResize(1 + resizeValue, 1 + resizeValue, 1);
+            //}
         }
 
         //Narysowanie obramowania BoudingBoxa

@@ -107,3 +107,5 @@ D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2
 D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\shipX.xnb
 D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\wall.xnb
 D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\3D\wallX.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\Music\kawalek.xnb
+D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\Music\kawalek.wma

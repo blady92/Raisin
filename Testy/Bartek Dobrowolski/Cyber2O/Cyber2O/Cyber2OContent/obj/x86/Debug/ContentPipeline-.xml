@@ -990,6 +990,16 @@
       <Output>obj\x86\Debug\Assets\3D\wallX_0.xml</Output>
       <Time>2015-04-05T21:22:56.7638006+02:00</Time>
     </Item>
+    <Item>
+      <Source>Assets\Music\kawalek.mp3</Source>
+      <Name>Assets\Music\kawalek</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\Music\kawalek.xnb</Output>
+      <Extra>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\Music\kawalek.wma</Extra>
+      <Time>2015-04-07T19:47:24.5687977+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID Null="true" />
