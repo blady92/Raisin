@@ -19,7 +19,7 @@ namespace Cyber2OTests
             clock.RemainingSeconds = 60;
             //when
             sema.WaitOne();
-            clock.AddEvent(0, TickEventHandler);
+            clock.AddEvent(Clock.AFTERSTART,0, TickEventHandler);
             sema.WaitOne();
             //then
             Assert.AreEqual<int>(1, checkCondition, "Tick event not called!");
@@ -72,7 +72,7 @@ namespace Cyber2OTests
             Thread.Sleep(5000);
             clock.Resume();
             Thread.Sleep(2000);
-            Assert.AreEqual(58, clock.RemainingSeconds, 0);
+            Assert.AreEqual(58, clock.RemainingSeconds, 1);
         }
     }
 }

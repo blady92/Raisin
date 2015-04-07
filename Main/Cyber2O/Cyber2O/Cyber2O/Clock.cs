@@ -13,6 +13,12 @@ namespace Cyber2O
         private DateTime gameOverTime;
         private TimeSpan pausedState = new TimeSpan(0);
 
+        private const int length = 48;
+
+        public const int AFTERSTART = 0;
+        public const int BEFOREOVER = 1;
+        public const int FROMNOW = 2;
+
         private static volatile Clock instance;
         private static object syncRoot = new Object();
 
@@ -20,14 +26,13 @@ namespace Cyber2O
 
         public delegate void TickEventHandler(object sender, int time);
 
-        //TODO: clock manipulation routines
         //TODO: test serialization
 
         private Clock() 
         {
             //set game startup time and time the game will end
             startTime = DateTime.Now;
-            TimeSpan gameLength = new TimeSpan(48, 0, 0);
+            TimeSpan gameLength = new TimeSpan(length, 0, 0);
             gameOverTime = startTime + gameLength;
 
             //initialize infinite loop in new thread
@@ -54,11 +59,30 @@ namespace Cyber2O
         /// <summary>
         /// Adds user's event handler to queue
         /// </summary>
+        /// <param name="whence">Start counting from now/game start/game over</param>
         /// <param name="time">Time in seconds counting from game start</param>
         /// <param name="toDo">The event that will be executed on TIME</param>
-        public void AddEvent(int time, TickEventHandler toDo)
+        public void AddEvent(int whence, int time, TickEventHandler toDo)
         {
-            eventQueue.Add(time,toDo);
+            switch(whence)
+            { 
+                case AFTERSTART:
+                    eventQueue.Add(time,toDo);
+                    break;
+                case BEFOREOVER:
+                    //TODO: unit tests
+                    //FIXME: co stanie się ze zdarzeniami zależącymi od końca gry gdy przesuniemy czas ??
+                    TimeSpan bef = new TimeSpan(length, 0, 0);
+                    eventQueue.Add((int)bef.TotalSeconds-time, toDo);
+                    break;
+                case FROMNOW:
+                    //TODO: unit tests
+                    TimeSpan tonow = DateTime.Now - startTime;
+                    eventQueue.Add((int)tonow.TotalSeconds + time, toDo);
+                    throw new NotImplementedException();
+                default:
+                    throw new InvalidOperationException("Invalid time base for event addition");
+            }
         }
 
         public Int64 RemainingSeconds
