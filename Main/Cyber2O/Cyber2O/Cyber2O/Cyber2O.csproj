@@ -72,6 +72,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CannotResumeException.cs" />
+    <Compile Include="Clock.cs" />
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainGame.cs" />
