@@ -51,7 +51,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest.cs" />
+    <Compile Include="TerminalTests.cs" />
+    <Compile Include="StageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cyber2O\Cyber2O\Cyber2O.csproj">
