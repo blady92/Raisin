@@ -17,7 +17,7 @@ namespace Cyber2O.GameStates
         private int angle = 0;
         private float value = 0;
 
-        Matrix view = Matrix.CreateLookAt(new Vector3(50, 50, 20), new Vector3(10, 10, 0), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(40, 20, 50), new Vector3(10, 10, 0), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
 
         private ModelTest2 model;
