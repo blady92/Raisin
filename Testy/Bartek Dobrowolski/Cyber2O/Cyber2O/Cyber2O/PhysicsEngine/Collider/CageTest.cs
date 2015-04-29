@@ -88,7 +88,6 @@ namespace Cyber2O
         protected override void Update(GameTime gameTime)
         {
             //Zmiana pozycji modela do narysowania
-
             KeyboardState newState = Keyboard.GetState();
             if (newState.IsKeyDown(Keys.W))
             {

@@ -14,7 +14,6 @@ namespace Cyber2O
 {
     class AudioTest : Game
     {
-        GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         private AudioModel audio;
@@ -23,7 +22,6 @@ namespace Cyber2O
 
         public AudioTest()
         {
-            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -52,11 +50,6 @@ namespace Cyber2O
                 audio.SoundBank.GetCue("pierwaja").Play();
             }
             oldState = newState;
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
         }
     }
 }

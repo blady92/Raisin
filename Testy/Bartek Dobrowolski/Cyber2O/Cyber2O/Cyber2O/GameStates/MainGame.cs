@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +17,7 @@ namespace Cyber2O.GameStates
         private int angle = 0;
         private float value = 0;
 
-        Matrix view = Matrix.CreateLookAt(new Vector3(50, 50, 50), new Vector3(10, 10, 0), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(50, 50, 20), new Vector3(10, 10, 0), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
 
         private ModelTest2 model;
@@ -74,7 +75,7 @@ namespace Cyber2O.GameStates
             //Walls setups
             for (int i = 0; i < WallList.Count; i++)
             {
-                Vector3 move = new Vector3(0.0f, i * 7f, 0.0f);
+                Vector3 move = new Vector3(0.0f, i * 2f, 0.0f);
                 wallListCage[i].RecreateCage(move);
                 WallList[i].Position = move;
             }
@@ -170,7 +171,10 @@ namespace Cyber2O.GameStates
         {
             foreach (Cage wallCage in wallListCage)
                 if (modelCage.AABB.Intersects(wallCage.AABB))
+                {
+                    Debug.WriteLine("Collided!");
                     return true;
+                }
             return false;
         }
     }

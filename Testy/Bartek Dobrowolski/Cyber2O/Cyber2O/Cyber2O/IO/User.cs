@@ -34,7 +34,7 @@ namespace Cyber2O
             if(newState.IsKeyDown(key) && oldState.IsKeyUp(key))
             {
                 i++;
-                System.Diagnostics.Debug.WriteLine(i + ". wciśnięte E");
+                //System.Diagnostics.Debug.WriteLine(i + ". wciśnięte E");
                 return true;
             }
             oldState = newState;
@@ -49,37 +49,37 @@ namespace Cyber2O
             if (newState.IsKeyDown(Keys.E) && oldState.IsKeyUp(Keys.E))
             {
                 i++;
-                System.Diagnostics.Debug.WriteLine(i + ". wciśnięte E");
+                //System.Diagnostics.Debug.WriteLine(i + ". wciśnięte E");
             }
             if (newState.IsKeyUp(Keys.E) && oldState.IsKeyDown(Keys.E))
             {
-                System.Diagnostics.Debug.WriteLine(i+". puszczone E");
+                //System.Diagnostics.Debug.WriteLine(i+". puszczone E");
             }
 
             //Klawisz Escape
             if (newState.IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape))
             {
                 i++;
-                System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Esc");
+                //System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Esc");
                 this.StateGame = "pauseMenu";
-                Debug.WriteLine("pauseMenu set");
+                //Debug.WriteLine("pauseMenu set");
             }
             if (newState.IsKeyUp(Keys.Escape) && oldState.IsKeyDown(Keys.Escape))
             {
-                System.Diagnostics.Debug.WriteLine(i + ". puszczone Esc");
+                //System.Diagnostics.Debug.WriteLine(i + ". puszczone Esc");
                 this.StateGame = "pauseMenu";
-                Debug.WriteLine("pauseMenu set");
+                //Debug.WriteLine("pauseMenu set");
             }
 
             //Klawisz Enter
             if (newState.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
             {
                 i++;
-                System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Enter");
+                //System.Diagnostics.Debug.WriteLine(i + ". wciśnięte Enter");
             }
             if (newState.IsKeyUp(Keys.Enter) && oldState.IsKeyDown(Keys.Enter))
             {
-                System.Diagnostics.Debug.WriteLine(i + ". puszczone Enter");
+                //System.Diagnostics.Debug.WriteLine(i + ". puszczone Enter");
                 StateGame = "enter";
             }
             oldState = newState;         
@@ -91,7 +91,7 @@ namespace Cyber2O
             if (newState.IsKeyDown(key))
             {
                 i++;
-                System.Diagnostics.Debug.WriteLine(i+". wciśnięte " + letter);
+                //System.Diagnostics.Debug.WriteLine(i+". wciśnięte " + letter);
             }
             if (newState.IsKeyUp(key))
             {

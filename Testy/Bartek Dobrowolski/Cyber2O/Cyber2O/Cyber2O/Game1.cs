@@ -76,40 +76,42 @@ namespace Cyber2O
 
         protected override void Update(GameTime gameTime)
         {
-
             user.Upadte(this);
             mouseState = Mouse.GetState();
             gameState.Update(mouseState);
-            if (gameState.StateGame == "mainMenu")
+            if (gameState.StateGame != "game")
             {
-                gameState = menu;
-                gameState.StateGame = "";
-            }
-            if (gameState.StateGame == "start")
-            {
-                gameState = game;
-                gameState.StateGame = "";
-            }
-            if (gameState.StateGame == "exit")
-            {
-                Thread.Sleep(500);
-                Quit();
-            }
-            if (user.StateGame == "pauseMenu")
-            {
-                gameState = pause;
-                gameState.StateGame = "";
-                user.StateGame = "";
-            }
-            if (gameState.StateGame == "resume")
-            {
-                gameState = game;
-                gameState.StateGame = "";
-                user.StateGame = "";
-            }
-            if (gameState.StateGame == "exitToMenu")
-            {
-                gameState.StateGame = "mainMenu";
+                if (gameState.StateGame == "mainMenu")
+                {
+                    gameState = menu;
+                    gameState.StateGame = "";
+                }
+                if (gameState.StateGame == "start")
+                {
+                    gameState = game;
+                    gameState.StateGame = "";
+                }
+                if (gameState.StateGame == "exit")
+                {
+                    Thread.Sleep(500);
+                    Quit();
+                }
+                if (user.StateGame == "pauseMenu")
+                {
+                    gameState = pause;
+                    gameState.StateGame = "";
+                    user.StateGame = "";
+                }
+                if (gameState.StateGame == "resume")
+                {
+                    gameState = game;
+                    gameState.StateGame = "";
+                    user.StateGame = "";
+                }
+                if (gameState.StateGame == "exitToMenu")
+                {
+                    gameState.StateGame = "mainMenu";
+                }
             }
         }
         protected override void Draw(GameTime gameTime)
