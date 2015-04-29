@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber2O.GameStates
 {
-    class GameState
+    public class GameState
     {
         // Gra może przyjmować kilka stanów
         // 1. Menu główne

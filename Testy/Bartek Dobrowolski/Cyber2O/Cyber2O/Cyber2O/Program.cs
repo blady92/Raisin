@@ -10,7 +10,7 @@ namespace Cyber2O
         /// </summary>
         static void Main(string[] args)
         {
-            using (AudioTest game = new AudioTest())
+            using (Game1 game = new Game1())
             {
                 game.Run();
             }

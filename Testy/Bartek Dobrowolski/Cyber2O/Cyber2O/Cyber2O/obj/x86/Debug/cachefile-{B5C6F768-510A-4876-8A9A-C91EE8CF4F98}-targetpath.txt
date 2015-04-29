@@ -98,4 +98,5 @@ Content\Assets\3D\wall.xnb
 Content\Assets\3D\wallX.xnb
 Content\Assets\Music\kawalek.xnb
 Content\Assets\Music\kawalek.wma
+Content\Assets\2D\electricity.xnb
 Content\Assets\2D\mousePointer.png
