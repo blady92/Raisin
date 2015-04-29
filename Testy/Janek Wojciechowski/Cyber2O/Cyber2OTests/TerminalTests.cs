@@ -10,11 +10,11 @@ namespace Cyber2OTests
     /// Summary description for UnitTest
     /// </summary>
     [TestClass]
-    public class UnitTest
+    public class TerminalTests
     {
         Terminal terminal;
         ResponsableMock responser;
-        public UnitTest()
+        public TerminalTests()
         {
             terminal = new Terminal();
             responser = new ResponsableMock();
