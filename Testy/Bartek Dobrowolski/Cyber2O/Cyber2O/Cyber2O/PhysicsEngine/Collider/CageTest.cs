@@ -18,7 +18,6 @@ namespace Cyber2O
         SpriteBatch spriteBatch;
 
         //Ustawienia widoku
-        //Matrix view = Matrix.CreateLookAt(new Vector3(20, 10, 30), new Vector3(10, 10, 0), Vector3.UnitZ);
         Matrix view = Matrix.CreateLookAt(new Vector3(50, 50, 50), new Vector3(10, 10, 0), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
 

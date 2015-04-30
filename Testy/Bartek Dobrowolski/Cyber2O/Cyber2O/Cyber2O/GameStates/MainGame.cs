@@ -9,16 +9,13 @@ namespace Cyber2O.GameStates
 {
     class MainGame : GameState
     {
-        GraphicsDeviceManager graphics;
-        GraphicsDevice device;
-
         private Sprite gameBackground;
         private int i = 0;
         private int angle = 0;
         private float value = 0;
 
-        Matrix view = Matrix.CreateLookAt(new Vector3(40, 20, 50), new Vector3(10, 10, 0), Vector3.UnitZ);
-        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
+        Matrix view = Matrix.CreateLookAt(new Vector3(50, 50, 50), new Vector3(10, 10, 0), Vector3.UnitZ);
+        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 500f);
 
         private ModelTest2 model;
         private Cage modelCage, wallCage;
@@ -28,17 +25,12 @@ namespace Cyber2O.GameStates
         private bool floorCollide, wallCollide;
         private KeyboardState oldState;
         private KeyboardState newState;
-        private bool upDir, downDir, leftDir, rightDir;
 
-        public MainGame(GraphicsDevice device)
-        {
-            this.device = device;
-        }
         //No to lecim z tematem, będzie zajebiście (I hope so!)
         //Bo jak nie, to wszystko pójdzie w diabły (╯°□°)╯︵ ┻━┻
         //a tego nie chcemy 
         //┬─┬﻿ ノ( ゜-゜ノ)
-        public override void LoadContent(ContentManager theContentManager)
+        public void LoadContent(ContentManager theContentManager)
         {
             //Load whole 3D/Music Stuffs   
             WallList = new List<ModelTest2>();
@@ -55,6 +47,7 @@ namespace Cyber2O.GameStates
             for (int i = 0; i < 3; i++)
             {
                 WallList.Add(new ModelTest2("Assets/3D/wallX"));
+                Debug.WriteLine("Dodano do kolekcji");
             }
 
             for (int i = 0; i < WallList.Count; i++)
@@ -63,6 +56,7 @@ namespace Cyber2O.GameStates
                 wallListCage.Add(new Cage());
                 wallListCage[i].SetBoudings(WallList[i].Model);
                 wallListCage[i].CreateCage();
+                wallListCage[i].BoudingBoxResizeOnce(1.0f, 1.0f, 1.0f);
                 wallListCage[i].RecreateCage(new Vector3(0, 0, 2.0f));
             }
 
@@ -75,12 +69,11 @@ namespace Cyber2O.GameStates
             //Walls setups
             for (int i = 0; i < WallList.Count; i++)
             {
-                Vector3 move = new Vector3(0.0f, i * 2f, 0.0f);
+                Vector3 move = new Vector3(0.0f, i * 8f, 0.0f);
                 wallListCage[i].RecreateCage(move);
                 WallList[i].Position = move;
             }
-
-            upDir = downDir = leftDir = rightDir = true;
+            Debug.WriteLine("Dodano do kolekcji");
         }
 
         public override void Update(MouseState mouseState)
@@ -148,23 +141,24 @@ namespace Cyber2O.GameStates
                 }
             }
             oldState = newState;
+            Debug.WriteLine(model.Position);
         }
 
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(GraphicsDevice deviceHere)
         {
+            Debug.WriteLine("Drawn");
             Matrix modelView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(model.Position);
             Matrix cageView = Matrix.CreateTranslation(modelCage.Position);
-            model.DrawModel(modelView, view, projection);
-            modelCage.DrawBouding(device, cageView, view, projection);
-
+            modelCage.DrawBouding(deviceHere, cageView, view, projection);
             for (int i = 0; i < WallList.Count; i++)
             {
                 Matrix model2View = Matrix.CreateTranslation(WallList[i].Position);
                 Matrix cageView2 = Matrix.CreateTranslation(wallListCage[i].Position);
                 WallList[i].DrawModel(model2View, view, projection);
-                wallListCage[i].DrawBouding(device, cageView2, view, projection);
+                wallListCage[i].DrawBouding(deviceHere, cageView2, view, projection);
             }
+            model.DrawModel(modelView, view, projection);
         }
 
         public bool IsCollided()
@@ -175,6 +169,7 @@ namespace Cyber2O.GameStates
                     Debug.WriteLine("Collided!");
                     return true;
                 }
+            Debug.WriteLine("Not collided!");
             return false;
         }
     }
