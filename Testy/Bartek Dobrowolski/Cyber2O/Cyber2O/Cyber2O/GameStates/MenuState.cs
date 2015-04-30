@@ -89,6 +89,7 @@ namespace Cyber2O
             {
                 s.DrawAnimation(spriteBatch);
             }
+            base.Draw(spriteBatch);
         }
     }
 }

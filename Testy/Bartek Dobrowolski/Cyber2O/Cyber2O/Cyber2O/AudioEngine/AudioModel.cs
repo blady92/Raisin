@@ -13,10 +13,6 @@ namespace Cyber2O.Audio
         private SoundBank soundBank;
         private string setName;
 
-        public AudioModel(string setName)
-        {
-            this.setName = setName;
-        }
 
         public string AudioEngineName
         {

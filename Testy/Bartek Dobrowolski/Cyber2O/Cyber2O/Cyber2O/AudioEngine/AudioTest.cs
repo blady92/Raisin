@@ -27,7 +27,8 @@ namespace Cyber2O
 
         protected override void Initialize()
         {
-            audio = new AudioModel("standard");
+            audio = new AudioModel();
+            audio.AudioEngineName = "standard";
             base.Initialize();
         }
         protected override void LoadContent()

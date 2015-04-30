@@ -112,7 +112,6 @@ namespace Cyber2O
             {
                 gameState.StateGame = "mainMenu";
             }
-            
         }
         protected override void Draw(GameTime gameTime)
         {

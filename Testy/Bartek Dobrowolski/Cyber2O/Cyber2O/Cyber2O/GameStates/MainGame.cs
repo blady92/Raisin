@@ -150,6 +150,7 @@ namespace Cyber2O.GameStates
             Debug.WriteLine("Drawn");
             Matrix modelView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(model.Position);
             Matrix cageView = Matrix.CreateTranslation(modelCage.Position);
+            model.DrawModel(modelView, view, projection);
             modelCage.DrawBouding(deviceHere, cageView, view, projection);
             for (int i = 0; i < WallList.Count; i++)
             {
@@ -158,7 +159,6 @@ namespace Cyber2O.GameStates
                 WallList[i].DrawModel(model2View, view, projection);
                 wallListCage[i].DrawBouding(deviceHere, cageView2, view, projection);
             }
-            model.DrawModel(modelView, view, projection);
         }
 
         public bool IsCollided()

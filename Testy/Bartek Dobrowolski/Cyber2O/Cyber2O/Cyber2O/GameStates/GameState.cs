@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber2O.GameStates
 {
-    public class GameState
+    public class GameState  : Game
     {
         // Gra może przyjmować kilka stanów
         // 1. Menu główne
@@ -31,7 +31,7 @@ namespace Cyber2O.GameStates
         public virtual void Draw(GraphicsDevice deviceHere) { }
         //public virtual void Draw(GameTime gameTime) { }
 
-        //public virtual void Draw(GameTime gameTime, GraphicsDevice device) { }
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device) { }
         public virtual void Update(MouseState mouseState) { }
         public virtual void LoadContent(ContentManager theContentManager) { }
     }

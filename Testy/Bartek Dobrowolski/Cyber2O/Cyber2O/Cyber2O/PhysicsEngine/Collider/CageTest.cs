@@ -78,8 +78,6 @@ namespace Cyber2O
                 wallListCage[i].RecreateCage(move);
                 WallList[i].Position = move;
             }
-
-            upDir = downDir = leftDir = rightDir = true;
         }
 
         protected override void UnloadContent(){}
