@@ -68,7 +68,7 @@ namespace Cyber.CGameStateEngine
         
         #region DRAW
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             menuBackground.DrawByRectangle(spriteBatch);
             foreach (SpriteAnimationDynamic s in spriteAnimationList)
@@ -76,7 +76,6 @@ namespace Cyber.CGameStateEngine
                 s.DrawAnimation(spriteBatch);
             }
         }
-       
         #endregion DRAW
 
     }

@@ -87,9 +87,20 @@ namespace Cyber
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            mainMenu.Draw(spriteBatch);
+            if (menuLogic.GetState() == GameState.States.startMenu) { 
+                mainMenu.Draw(spriteBatch);
+            }
+            else if (menuLogic.GetState() == GameState.States.exit)
+            {
+                Quit();
+            }
             mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             base.Draw(gameTime);
+        }
+
+        public void Quit()
+        {
+            this.Exit();
         }
     }
 }

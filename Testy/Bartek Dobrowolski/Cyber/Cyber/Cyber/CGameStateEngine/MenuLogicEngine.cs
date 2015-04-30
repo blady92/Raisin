@@ -15,6 +15,12 @@ namespace Cyber.CGameStateEngine
         private GameStatePauseMenu gameStateResumeMenu;
         private List<GameState> menus;
 
+        public GameState GameState
+        {
+            get { return gameState; }
+            set { gameState = value; }
+        }
+
         public MenuLogicEngine(List<GameState> menus)
         {
             this.menus = menus;
@@ -22,6 +28,7 @@ namespace Cyber.CGameStateEngine
 
         public void SetUp()
         {
+            gameState = new GameState();
             gameStateMainMenu = (GameStateMainMenu)menus[0];
             gameStateResumeMenu = (GameStatePauseMenu)menus[1];
         }
@@ -43,15 +50,7 @@ namespace Cyber.CGameStateEngine
                             switch (i)
                             {
                                 case 0:
-                                    gameState = gameStateMainMenu;
-                                    if (gameState is GameState)
-                                    {
-                                        Debug.WriteLine("GameState jest nadrzędny");
-                                    }
-                                    if ((GameStateMainGame)gameState is GameStateMainGame)
-                                    {
-                                        Debug.WriteLine("GameStateMainGame");
-                                    }
+                                    gameState.State = GameState.States.startMenu;
                                     break;
                                 //case 1:
                                 //    base.StateGame = "load";
@@ -59,9 +58,9 @@ namespace Cyber.CGameStateEngine
                                 //case 2:
                                 //    base.StateGame = "settings";
                                 //    break;
-                                //case 3:
-                                //    base.StateGame = "exit";
-                                //    break;
+                                case 3:
+                                    gameState.State = GameState.States.exit;
+                                    break;
                             }
                         }
                     }
@@ -81,6 +80,11 @@ namespace Cyber.CGameStateEngine
                     gameStateMainMenu.SpriteAnimationList[i].UpdateClickAnimation(false);
                 }
             }
+        }
+
+        public GameState.States GetState()
+        {
+            return gameState.State;
         }
     }
 }
