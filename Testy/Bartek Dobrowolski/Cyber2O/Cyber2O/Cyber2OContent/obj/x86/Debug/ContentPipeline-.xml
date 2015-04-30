@@ -1000,6 +1000,15 @@
       <Extra>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\Music\kawalek.wma</Extra>
       <Time>2015-04-07T19:47:24.5687977+02:00</Time>
     </Item>
+    <Item>
+      <Source>Assets\2D\electricity.png</Source>
+      <Name>Assets\2D\electricity</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Semestr VI\Programowanie Gier\Cyber2O\Testy\Bartek Dobrowolski\Cyber2O\Cyber2O\Cyber2O\bin\x86\Debug\Content\Assets\2D\electricity.xnb</Output>
+      <Time>2015-04-16T15:27:40.6553563+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID Null="true" />
