@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CGameStateEngine
 {
-    class GameState
+    class GameState : Game
     {
         internal enum States
         {
@@ -26,5 +27,8 @@ namespace Cyber.CGameStateEngine
 
         public virtual void Draw(SpriteBatch spriteBatch)
         { }
+        public virtual void Draw(GraphicsDevice device) { }
+
+        public virtual void Update() { } 
     }
 }

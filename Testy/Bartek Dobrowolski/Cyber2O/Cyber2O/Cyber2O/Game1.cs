@@ -25,11 +25,8 @@ namespace Cyber2O
         private MouseState mouseState;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-<<<<<<< HEAD
-=======
 
         private bool isGame;
->>>>>>> ea713b6a16db9a01e0790a3877ae07efdbc4c09f
         
         ////test Animation sprite
         private Sprite mousePointer;
@@ -54,17 +51,14 @@ namespace Cyber2O
         {
             //Inicjalizacja klawiszy
             user = new User();
-<<<<<<< HEAD
             gameState = new MenuState();
             menu = new MenuState();
             pause = new PauseState();
          //   game = new MainGame(this.GraphicsDevice);
-=======
             gameState = new GameState();
             menu = new MenuState();
             pause = new PauseState();
             game = new MainGame();
->>>>>>> ea713b6a16db9a01e0790a3877ae07efdbc4c09f
             gameState = menu;
             gameState.StateGame = "mainMenu";
             base.Initialize();
@@ -88,8 +82,7 @@ namespace Cyber2O
 
         protected override void Update(GameTime gameTime)
         {
-<<<<<<< HEAD
-            user.Update(this);
+            //user.Update(this);
             mouseState = Mouse.GetState();
             gameState.Update(mouseState);
             if (gameState.StateGame != "game")
@@ -132,7 +125,6 @@ namespace Cyber2O
             gameState.Draw(spriteBatch);
             mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             base.Draw(gameTime);
-=======
             user.Upadte(this);
             mouseState = Mouse.GetState();
             gameState.Update(mouseState);
@@ -167,9 +159,9 @@ namespace Cyber2O
             {
                 gameState.StateGame = "mainMenu";
             }
-        }
-        protected override void Draw(GameTime gameTime)
-        {
+        //}
+        //protected override void Draw(GameTime gameTime)
+        //{
             if (gameState is MainGame){
                 gameState.Draw(this.GraphicsDevice);
                 base.Draw(gameTime);
@@ -180,7 +172,6 @@ namespace Cyber2O
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
                 base.Draw(gameTime);
             }
->>>>>>> ea713b6a16db9a01e0790a3877ae07efdbc4c09f
         }
 
         public void Quit()

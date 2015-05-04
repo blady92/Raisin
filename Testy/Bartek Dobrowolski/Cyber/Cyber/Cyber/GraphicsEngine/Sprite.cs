@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber
 {
-    class Sprite
+    class Sprite : Game
     {
         //Położenie obrazka na podstawie jego wektora, tutaj zawsze od 0,0 aż do wymiarów obrazka
         public Vector2 Position = new Vector2(0,0);
@@ -65,7 +65,7 @@ namespace Cyber
         public void DrawByRectangle(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(sprite, new Rectangle(x, y, sprite.Width, sprite.Height), Color.White);
+            spriteBatch.Draw(sprite, new Rectangle(x + (int)Position.X, y + (int)Position.Y, sprite.Width, sprite.Height), Color.White);
             spriteBatch.End();
         }
 

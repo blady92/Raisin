@@ -79,7 +79,10 @@
     <Compile Include="CGameStateEngine\GameStateMainGame.cs" />
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
     <Compile Include="CGameStateEngine\GameStatePauseMenu.cs" />
-    <Compile Include="CGameStateEngine\MenuLogicEngine.cs" />
+    <Compile Include="CLogicEngine\LogicEngine.cs" />
+    <Compile Include="CCollisionEngine\Collider.cs" />
+    <Compile Include="CCollisionEngine\ColliderController.cs" />
+    <Compile Include="GraphicsEngine\ModelTest.cs" />
     <Compile Include="GraphicsEngine\Sprite.cs" />
     <Compile Include="GraphicsEngine\SpriteAnimationDynamic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,8 +124,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CollisionEngine\" />
-    <Folder Include="LogicEngine\" />
     <Folder Include="ManagerEngine\" />
     <Folder Include="PhysicsEngine\" />
     <Folder Include="UserIOEngine\" />

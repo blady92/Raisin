@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber.CGameStateEngine
 {
-    //Cechy wspólne modelu
     class GameStateMainMenu : GameState
     {
         #region MODELVIEW
