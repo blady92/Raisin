@@ -83,6 +83,7 @@ namespace Cyber
             
             mainMenu.LoadContent(this.Content);
             mainGame.LoadContent(this.Content);
+
             mainGame.SetUpScene();
 
             mousePointer = new Sprite(40, 40);
@@ -102,13 +103,15 @@ namespace Cyber
             {
                 LogicEngine.LogicGame();
             }
-            LogicEngine.LogicMenu();
+            else if (LogicEngine.GetState() == GameState.States.startMenu) { 
+                LogicEngine.LogicMenu();
+            }
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             if (LogicEngine.GetState() == GameState.States.startMenu)
