@@ -39,6 +39,9 @@ namespace Cyber
         private GameStatePauseMenu pauseMenu;
         private List<GameState> menus;
 
+        //Input Readings
+        private KeyboardState oldState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,7 +54,10 @@ namespace Cyber
 
         protected override void Initialize()
         {
-            
+            #region INITIALIZE INPUT READINGS
+            oldState = Keyboard.GetState();
+            #endregion
+
             #region INITIALIZE AUDIO ENGINE
             audioModel = new AudioModel("standard");
             audioController = new AudioController(audioModel);
@@ -96,14 +102,48 @@ namespace Cyber
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
+            UpdateInputs();
+
             audioController.runAudio();
 
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
                 LogicEngine.LogicGame();
             }
-            LogicEngine.LogicMenu();
+            else if (LogicEngine.GetState() == GameState.States.startMenu)
+            {
+                LogicEngine.LogicMenu();
+            }
+
             base.Update(gameTime);
+        }
+
+        private void UpdateInputs()
+        {
+            KeyboardState newState = Keyboard.GetState();
+
+            if (CheckKeyPressed(ref newState, Keys.Escape))
+            {
+                Debug.WriteLine(LogicEngine.GetState());
+                if (LogicEngine.GetState().Equals(GameState.States.mainGame))
+                {
+                    //Debug.WriteLine("Changing to mainMenu");
+                    LogicEngine.GameState.State = GameState.States.startMenu;
+                }
+                else
+                {
+                    //Debug.WriteLine("Changing to mainGame");
+                    LogicEngine.GameState.State = GameState.States.mainGame;
+                }
+            }
+
+            oldState = newState;
+        }
+
+        //Checks, if current key has just been pressed
+        private bool CheckKeyPressed(ref KeyboardState newState, Keys keyToCheck)
+        {
+            return newState.IsKeyDown(keyToCheck) && !oldState.IsKeyDown(keyToCheck);
         }
 
         protected override void Draw(GameTime gameTime)
