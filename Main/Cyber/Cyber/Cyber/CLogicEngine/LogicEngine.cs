@@ -39,7 +39,7 @@ namespace Cyber.CGameStateEngine
         {
             MouseState mouse;
             mouse = Mouse.GetState();
-            Debug.WriteLine(mouse.ToString());
+            //Debug.WriteLine(mouse.ToString());
             MouseState oldMouseState = new MouseState();
             for (int i = 0; i < gameStateMainMenu.SpriteAnimationList.Length; i++)
             {
