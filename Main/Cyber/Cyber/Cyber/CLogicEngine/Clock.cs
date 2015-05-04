@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Cyber2O
+namespace Cyber.CLogicEngine
 {
     [Serializable]
     public class Clock
@@ -14,6 +15,8 @@ namespace Cyber2O
         private TimeSpan pausedState = new TimeSpan(0);
 
         private const int length = 48;
+
+        private TimeSpan gameLength = new TimeSpan(length,0,0);
 
         public const int AFTERSTART = 0;
         public const int BEFOREOVER = 1;
@@ -44,7 +47,7 @@ namespace Cyber2O
 
         private void EventLoop(object obj)
         {
-            while (DateTime.Now < gameOverTime)
+            while (/*DateTime.Now < gameOverTime*/true)
             {
                 int secAfterStart = (int)((DateTime.Now - startTime).TotalSeconds);
                 if (eventQueue.ContainsKey(secAfterStart) && pausedState.Ticks == 0)
@@ -53,6 +56,7 @@ namespace Cyber2O
                     handler(this, secAfterStart);
                     eventQueue.Remove(secAfterStart);
                 }
+                Thread.Sleep(1);
             }
         }
 
@@ -94,7 +98,9 @@ namespace Cyber2O
             set
             {
                 TimeSpan ts = new TimeSpan(0,0,(int)value);
+                gameLength = ts;
                 gameOverTime = DateTime.Now + ts;
+                startTime = gameOverTime - gameLength;
             }
         }
 
@@ -105,6 +111,7 @@ namespace Cyber2O
         public void AddSeconds(int seconds)
         {
             gameOverTime = gameOverTime + new TimeSpan(0, 0, seconds);
+            gameLength += new TimeSpan(0, 0, seconds);
         }
 
         /// <summary>
@@ -113,6 +120,7 @@ namespace Cyber2O
         public void Pause()
         {
             pausedState = gameOverTime - DateTime.Now;
+            Debug.WriteLine(pausedState);
         }
 
         /// <summary>
@@ -124,6 +132,16 @@ namespace Cyber2O
                 throw new CannotResumeException();
             gameOverTime = DateTime.Now + pausedState;
             pausedState = new TimeSpan(0);
+            startTime = gameOverTime - gameLength;
+            //TODO: dokończyć !!! !!! !!! !!! !!!
+        }
+
+        public bool CanResume()
+        {
+            if (pausedState.Ticks == 0)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>

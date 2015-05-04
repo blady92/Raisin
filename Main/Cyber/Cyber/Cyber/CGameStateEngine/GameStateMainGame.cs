@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Cyber.CLogicEngine;
 
 namespace Cyber.CGameStateEngine
 {
@@ -66,7 +67,18 @@ namespace Cyber.CGameStateEngine
                 wallListColliders[i].CreateColliderBoudingBox();
             }
 
+            //Set clock to 4 minutes
+            Clock clock = Clock.Instance;
+            clock.RemainingSeconds = 4*60;
+            clock.AddEvent(Clock.AFTERSTART, 20, TimePassed);
+            clock.Pause();
+
             Debug.WriteLine("End of Loading");
+        }
+
+        private void TimePassed(object sender, int time)
+        {
+            Debug.WriteLine("TIMEOUT");
         }
 
         public void SetUpScene()
@@ -107,10 +119,18 @@ namespace Cyber.CGameStateEngine
 
         }
 
-        //public override void Update()
-        //{
-        //    //Zmiana pozycji modela do narysowania
-        //    KeyboardState newState = Keyboard.GetState();
+        public override void Update()
+        {
+            //Zmiana pozycji modela do narysowania
+            KeyboardState newState = Keyboard.GetState();
+            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.T))
+            {
+                if (Clock.Instance.CanResume())
+                {
+                    Clock.Instance.Resume();
+                    Debug.WriteLine("Starting clock...");
+                }
+            }
         //    if (newState.IsKeyDown(Keys.W))
         //    {
         //        i++;
@@ -172,11 +192,11 @@ namespace Cyber.CGameStateEngine
         //        }
         //    }
         //    oldState = newState;
-        //}
+        }
 
         public void Keys()
         {
-            
+
         }
 
 
