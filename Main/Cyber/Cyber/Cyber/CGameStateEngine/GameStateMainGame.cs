@@ -22,11 +22,12 @@ namespace Cyber.CGameStateEngine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Matrix view = Matrix.CreateLookAt(new Vector3(50, 50, 50), new Vector3(10, 10, 0), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(10, 10, 100), new Vector3(5, 5, 0), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
-        
-        //private KeyboardState oldState;
-        //private KeyboardState newState;
+
+        private KeyboardState oldState;
+        private KeyboardState newState;
+
         //Load Models        
         private ModelTest samanthaModel;
         private ModelTest wallModel;
@@ -35,12 +36,6 @@ namespace Cyber.CGameStateEngine
         private ColliderController colliderController;
         private List<ModelTest> wallList;
         private List<Collider> wallListColliders;
-
-        //public void LoadContent(ContentManager theContentManager)
-        //{
-        //    model = new ModelTest("Assets\\3D\\ship");
-        //    model.LoadContent(theContentManager);
-        //}
 
         public void LoadContent(ContentManager theContentManager)
         {
@@ -54,24 +49,22 @@ namespace Cyber.CGameStateEngine
             samanthaCollider.SetBoudings(samanthaModel.Model);
             samanthaCollider.CreateColliderBoudingBox();
             
-            wallModel = new ModelTest("Assets/3D/wall");
-            wallModel.LoadContent(theContentManager);
-
 
             //Ładowanie przykładowych ścianek
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
-                wallList.Add(wallModel);
+                wallList.Add(new ModelTest("Assets/3D/wall"));
+                wallList[i].LoadContent(theContentManager);
                 wallListColliders.Add(new Collider());
                 wallListColliders[i].SetBoudings(wallList[i].Model);
                 wallListColliders[i].CreateColliderBoudingBox();
             }
 
             //Set clock to 4 minutes
-            Clock clock = Clock.Instance;
-            clock.RemainingSeconds = 4*60;
-            clock.AddEvent(Clock.AFTERSTART, 20, TimePassed);
-            clock.Pause();
+            //Clock clock = Clock.Instance;
+            //clock.RemainingSeconds = 4*60;
+            //clock.AddEvent(Clock.AFTERSTART, 20, TimePassed);
+            //clock.Pause();
 
             Debug.WriteLine("End of Loading");
         }
@@ -85,16 +78,16 @@ namespace Cyber.CGameStateEngine
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             //Samantha setups
-            Vector3 vector = new Vector3(0, -10, 0);
+            Vector3 vector = new Vector3(0, -10, 2.0f);
             samanthaModel.Position += vector;
             samanthaCollider.RecreateCage(vector);
 
             //Walls setups
             for (int i = 0; i < wallListColliders.Count; i++)
             {
-                Vector3 move = new Vector3(0.0f, i * 7f, 0.0f);
+                Vector3 move = new Vector3(0.0f, i * 7.0f, 2.0f);
+                wallList[i].Position = move;
                 wallListColliders[i].RecreateCage(move);
-                wallListColliders[i].Position = move;
             }
         }
 
@@ -106,15 +99,12 @@ namespace Cyber.CGameStateEngine
             samanthaModel.DrawModel(modelView, view, projection);
             samanthaCollider.DrawBouding(device, colliderView, view, projection);
 
-            //wallModel.DrawModel(modelView, view, projection);
-            //wallCollider.DrawBouding(device, collidereView, view, projection);
-
             for (int i = 0; i < wallListColliders.Count; i++)
             {
-                //Matrix wallView = Matrix.CreateTranslation(wallListColliders[i].Position);
-                //Matrix cageView2 = Matrix.CreateTranslation(wallListColliders[i].Position);
-                wallList[i].DrawModel(modelView, view, projection);
-                wallListColliders[i].DrawBouding(device, colliderView, view, projection);
+                Matrix wallView = Matrix.CreateTranslation(wallList[i].Position);
+                Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
+                wallList[i].DrawModel(wallView, view, projection);
+                wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
             }
 
         }
@@ -123,75 +113,75 @@ namespace Cyber.CGameStateEngine
         {
             //Zmiana pozycji modela do narysowania
             KeyboardState newState = Keyboard.GetState();
-            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.T))
+            //if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.T))
+            //{
+            //    if (Clock.Instance.CanResume())
+            //    {
+            //        Clock.Instance.Resume();
+            //        Debug.WriteLine("Starting clock...");
+            //    }
+            //}
+            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
-                if (Clock.Instance.CanResume())
+                i++;
+                Vector3 move = new Vector3(0, -0.05f, 0);
+                samanthaCollider.RecreateCage(move);
+                if (!IsCollided())
                 {
-                    Clock.Instance.Resume();
-                    Debug.WriteLine("Starting clock...");
+                    samanthaModel.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(0, 0.05f, 0);
+                    samanthaCollider.RecreateCage(move);
                 }
             }
-        //    if (newState.IsKeyDown(Keys.W))
-        //    {
-        //        i++;
-        //        Vector3 move = new Vector3(0, -0.05f, 0);
-        //        modelCage.RecreateCage(move);
-        //        if (!IsCollided())
-        //        {
-        //            model.Position += move;
-        //        }
-        //        else
-        //        {
-        //            move = new Vector3(0, 0.05f, 0);
-        //            modelCage.RecreateCage(move);
-        //        }
-        //    }
-        //    if (newState.IsKeyDown(Keys.S))
-        //    {
-        //        i++;
-        //        Vector3 move = new Vector3(0, 0.05f, 0);
-        //        modelCage.RecreateCage(move);
-        //        if (!IsCollided())
-        //        {
-        //            model.Position += move;
-        //        }
-        //        else
-        //        {
-        //            move = new Vector3(0, -0.05f, 0);
-        //            modelCage.RecreateCage(move);
-        //        }
-        //    }
-        //    if (newState.IsKeyDown(Keys.A))
-        //    {
-        //        i++;
-        //        Vector3 move = new Vector3(0.05f, 0, 0);
-        //        modelCage.RecreateCage(move);
-        //        if (!IsCollided())
-        //        {
-        //            model.Position += move;
-        //        }
-        //        else
-        //        {
-        //            move = new Vector3(-0.05f, 0, 0);
-        //            modelCage.RecreateCage(move);
-        //        }
-        //    }
-        //    if (newState.IsKeyDown(Keys.D))
-        //    {
-        //        i++;
-        //        Vector3 move = new Vector3(-0.05f, 0, 0);
-        //        modelCage.RecreateCage(move);
-        //        if (!IsCollided())
-        //        {
-        //            model.Position += move;
-        //        }
-        //        else
-        //        {
-        //            move = new Vector3(0.05f, 0, 0);
-        //            modelCage.RecreateCage(move);
-        //        }
-        //    }
-        //    oldState = newState;
+            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+            {
+                i++;
+                Vector3 move = new Vector3(0, 0.05f, 0);
+                samanthaCollider.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    samanthaModel.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(0, -0.05f, 0);
+                    samanthaCollider.RecreateCage(move);
+                }
+            }
+            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            {
+                i++;
+                Vector3 move = new Vector3(0.05f, 0, 0);
+                samanthaCollider.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    samanthaModel.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(-0.05f, 0, 0);
+                    samanthaCollider.RecreateCage(move);
+                }
+            }
+            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+            {
+                i++;
+                Vector3 move = new Vector3(-0.05f, 0, 0);
+                samanthaCollider.RecreateCage(move);
+                if (!IsCollided())
+                {
+                    samanthaModel.Position += move;
+                }
+                else
+                {
+                    move = new Vector3(0.05f, 0, 0);
+                    samanthaCollider.RecreateCage(move);
+                }
+            }
+            oldState = newState;
         }
 
         public void Keys()
