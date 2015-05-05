@@ -133,16 +133,11 @@ namespace Cyber
 
             if (CheckKeyPressed(ref newState, Keys.Escape))
             {
-                Debug.WriteLine(LogicEngine.GetState());
+                //Debug.WriteLine(LogicEngine.GetState());
                 if (LogicEngine.GetState().Equals(GameState.States.mainGame))
                 {
                     //Debug.WriteLine("Changing to mainMenu");
                     LogicEngine.GameState.State = GameState.States.startMenu;
-                }
-                else
-                {
-                    //Debug.WriteLine("Changing to mainGame");
-                    LogicEngine.GameState.State = GameState.States.mainGame;
                 }
             }
 
