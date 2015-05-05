@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CGameStateEngine
 {
@@ -11,6 +12,18 @@ namespace Cyber.CGameStateEngine
     {
         private SpriteAnimationDynamic[] spriteAnimationList;
         private Sprite menuBackground;
+
+        public Sprite MenuBackground
+        {
+            get { return menuBackground; }
+            set { menuBackground = value; }
+        }
+
+        public SpriteAnimationDynamic[] SpriteAnimationList
+        {
+            get { return spriteAnimationList; }
+            set { spriteAnimationList = value; }
+        }
 
         public void LoadContent(ContentManager theContentManager)
         {
@@ -31,6 +44,15 @@ namespace Cyber.CGameStateEngine
             spriteAnimationList[1].SpritePosition = new Vector2(475, 235 + 40 + 36 * 2);
             spriteAnimationList[2].SpritePosition = new Vector2(475, 235 + 80 + 36 * 3);
             spriteAnimationList[3].SpritePosition = new Vector2(450, 235 + 120 + 36 * 4);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            menuBackground.DrawByRectangle(spriteBatch);
+            foreach (SpriteAnimationDynamic s in spriteAnimationList)
+            {
+                s.DrawAnimation(spriteBatch);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
@@ -16,7 +17,7 @@ namespace Cyber.CGameStateEngine
         private GameState gameState;
         private GameStateMainMenu gameStateMainMenu;
         private GameStateMainGame gameStateMainGame;
-        private GameStatePauseMenu gameStateResumeMenu;
+        private GameStatePauseMenu gameStatePauseMenu;
         private List<GameState> menus;
 
         public GameState GameState
@@ -31,7 +32,7 @@ namespace Cyber.CGameStateEngine
             gameState = new GameState();
             gameStateMainMenu = (GameStateMainMenu)menus[0];
             gameStateMainGame = (GameStateMainGame) menus[1];
-            gameStateResumeMenu = (GameStatePauseMenu)menus[2];
+            gameStatePauseMenu = (GameStatePauseMenu)menus[2];
         }
 
         #region MAIN MENU LOGIC
@@ -86,6 +87,59 @@ namespace Cyber.CGameStateEngine
         }
         #endregion
 
+        #region PAUSE MENU LOGIC
+
+        public void LogicPauseMenu()
+        {
+            MouseState mouse;
+            mouse = Mouse.GetState();
+            //Debug.WriteLine(mouse.ToString());
+            MouseState oldMouseState = new MouseState();
+            for (int i = 0; i < gameStatePauseMenu.SpriteAnimationList.Length; i++)
+            {
+                if (new Rectangle(mouse.X, mouse.Y, 1, 1).Intersects(gameStatePauseMenu.SpriteAnimationList[i].GetFrameRectangle()))
+                {
+                    if (gameStatePauseMenu.SpriteAnimationList[i].Clicked)
+                    {
+                        gameStatePauseMenu.SpriteAnimationList[i].UpdateClickFrame();
+                        if (gameStatePauseMenu.SpriteAnimationList[i].ClickCurrentFrameAccessor == gameStatePauseMenu.SpriteAnimationList[i].ClickTextureList.Length - 1)
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    gameState.State = GameState.States.mainGame;
+                                    break;
+                                case 1:
+                                case 2:
+                                //    base.StateGame = "settings";
+                                //    break;
+                                //gameState.State = GameState.States.startMenu;
+                                //break;                                
+                                case 3:
+                                    Thread.Sleep(300);
+                                    gameState.State = GameState.States.startMenu;
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        gameStatePauseMenu.SpriteAnimationList[i].UpdateAnimation();
+                    }
+                    if (mouse.LeftButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
+                    {
+                        gameStatePauseMenu.SpriteAnimationList[i].UpdateClickAnimation(true);
+                    }
+                }
+                else
+                {
+                    gameStatePauseMenu.SpriteAnimationList[i].UpdateReverse();
+                    gameStatePauseMenu.SpriteAnimationList[i].ResetClickFrame();
+                    gameStatePauseMenu.SpriteAnimationList[i].UpdateClickAnimation(false);
+                }
+            }
+        }
+        #endregion
         #region GAME LOGIC
         /*
          * Tutaj powinny być wszelkie reakcje na przyciski, zakończenie gry etc

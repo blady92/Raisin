@@ -93,6 +93,7 @@ namespace Cyber
             
             mainMenu.LoadContent(this.Content);
             mainGame.LoadContent(this.Content);
+            pauseMenu.LoadContent(this.Content);
             mainGame.SetUpScene();
 
             mousePointer = new Sprite(40, 40);
@@ -130,7 +131,10 @@ namespace Cyber
             {
                 LogicEngine.LogicMenu();
             }
-
+            else if (LogicEngine.GetState() == GameState.States.pauseMenu)
+            {
+                LogicEngine.LogicPauseMenu();
+            }
             base.Update(gameTime);
         }
 
@@ -144,7 +148,7 @@ namespace Cyber
                 if (LogicEngine.GetState().Equals(GameState.States.mainGame))
                 {
                     //Debug.WriteLine("Changing to mainMenu");
-                    LogicEngine.GameState.State = GameState.States.startMenu;
+                    LogicEngine.GameState.State = GameState.States.pauseMenu;
                 }
                 else
                 {
@@ -171,6 +175,10 @@ namespace Cyber
             { 
                 mainMenu.Draw(spriteBatch);
             }
+            else if (LogicEngine.GetState() == GameState.States.pauseMenu)
+            {
+                pauseMenu.Draw(spriteBatch);
+            }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
                 mainGame.Draw(this.GraphicsDevice);
@@ -185,6 +193,7 @@ namespace Cyber
 
         public void Quit()
         {
+            audioController.resetAudio();
             this.Exit();
         }
     }
