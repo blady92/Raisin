@@ -84,7 +84,12 @@
     <Compile Include="CLogicEngine\LogicEngine.cs" />
     <Compile Include="CCollisionEngine\Collider.cs" />
     <Compile Include="CCollisionEngine\ColliderController.cs" />
+    <Compile Include="GraphicsEngine\AnimationClip.cs" />
+    <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
+    <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />
+    <Compile Include="GraphicsEngine\SkinningAnimation.cs" />
+    <Compile Include="GraphicsEngine\SkinningData.cs" />
     <Compile Include="GraphicsEngine\Sprite.cs" />
     <Compile Include="GraphicsEngine\SpriteAnimationDynamic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
