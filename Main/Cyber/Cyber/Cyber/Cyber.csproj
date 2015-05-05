@@ -71,6 +71,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Net" />
+    <Reference Include="XNAGameConsole, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>CAdditionalLibs\XNAGameConsole.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAudioEngine\AudioController.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Game1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CAdditionalLibs\XNAGameConsole.dll" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>

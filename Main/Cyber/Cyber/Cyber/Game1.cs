@@ -8,6 +8,7 @@ using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNAGameConsole;
 
 namespace Cyber
 {
@@ -41,6 +42,9 @@ namespace Cyber
 
         //Input Readings
         private KeyboardState oldState;
+
+        //Game Console
+        private GameConsole console;
 
         public Game1()
         {
@@ -93,6 +97,18 @@ namespace Cyber
 
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
+
+            console = new GameConsole(this, spriteBatch, new GameConsoleOptions
+            {
+                Font = Content.Load<SpriteFont>("Assets/Fonts/GameFont"),
+                FontColor = Color.LawnGreen,
+                Prompt = "[sam@Cyber2O]$ ",
+                PromptColor = Color.Crimson,
+                CursorColor = Color.OrangeRed,
+                BackgroundColor = new Color(0, 0, 0, 150), //Color.BLACK with transparency
+                PastCommandOutputColor = Color.Aqua,
+                BufferColor = Color.Gold
+            });
             
         }
 
