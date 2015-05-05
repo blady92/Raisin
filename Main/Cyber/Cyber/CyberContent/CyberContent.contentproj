@@ -523,6 +523,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </None>
+    <Compile Include="Assets\3D\Interior\Interior_Oxygen_Generator.FBX">
+      <Name>Interior_Oxygen_Generator</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <None Include="Assets\3D\Interior\Interior_Sensor.FBX">
       <Name>Interior_Sensor</Name>
       <Importer>FbxImporter</Importer>
@@ -558,11 +563,6 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </None>
-    <Compile Include="Assets\3D\Interior\oxygen_generator.FBX">
-      <Name>oxygen_generator</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
     <Compile Include="Assets\Fonts\GameFont.spritefont">
       <Name>GameFont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -587,13 +587,6 @@
   <ItemGroup>
     <Compile Include="Assets\3D\Characters\grungie.jpg">
       <Name>grungie</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\3D\Interior\GeneratorUVv2Malowane.png">
-      <Name>GeneratorUVv2Malowane</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

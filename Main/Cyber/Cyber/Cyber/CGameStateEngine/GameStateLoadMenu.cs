@@ -20,7 +20,7 @@ namespace Cyber.CGameStateEngine
       
         public void LoadContent(ContentManager theContentManager)
         {
-            modelLoader.LoadContent_StaticModel(theContentManager, "Assets/3D/Interior/oxygen_generator");
+            modelLoader.LoadContent_StaticModel(theContentManager, "Assets/3D/Interior/Interior_Oxygen_Generator");
         }
         public override void Draw(GraphicsDevice device)
         {
