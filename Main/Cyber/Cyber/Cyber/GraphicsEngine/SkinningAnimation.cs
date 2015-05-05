@@ -15,7 +15,7 @@ namespace Cyber.GraphicsEngine
     class SkinningAnimation
     {
         #region FIELDS
-        
+        GraphicsDeviceManager graphics;
         KeyboardState currentKeyboardState = new KeyboardState();
         GamePadState currentGamePadState = new GamePadState();
 

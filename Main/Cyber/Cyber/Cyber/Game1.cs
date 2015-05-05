@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using Cyber.Audio;
@@ -8,7 +9,7 @@ using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
+using XNAGameConsole;
 
 namespace Cyber
 {
@@ -19,7 +20,6 @@ namespace Cyber
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        ContentManager contentManager;
 
         private int maxWidth = 1366;
         private int maxHeight = 768;
@@ -44,8 +44,8 @@ namespace Cyber
         //Input Readings
         private KeyboardState oldState;
 
-        //Animation & Skinning Data
-        private SkinningAnimation skinningAndAnimationLoader;
+        //Game Console
+        private GameConsole console;
 
         public Game1()
         {
@@ -84,12 +84,6 @@ namespace Cyber
             LogicEngine = new LogicEngine(menus);
             #endregion INITIALIZE LOGIC ENGINE
 
-            #region INITIALIZE ANIMATION & SKINNING DATA
-            skinningAndAnimationLoader = new SkinningAnimation();
-
-          
-            #endregion
-
             base.Initialize();
 
         }
@@ -105,18 +99,11 @@ namespace Cyber
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
-            //test ³adowania modelu statycznego
-            skinningAndAnimationLoader.LoadContent_StaticModel(contentManager, "Assets//3D//Interior//oxygen_generator");
-
-            //test ³adowania modelu skinned z animacj¹ -> II parametr to: model, III parametr to: nazwa animacji do odpalenia
-            skinningAndAnimationLoader.LoadContent_SkinnedModel(contentManager, "Assets//3D//Characters//dude", "Take 001");
-
-            //test ³adowania w³asnego Shadera
-            skinningAndAnimationLoader.LoadContent_ShaderEffect(contentManager, "Assets//ShadersFX//TestEffect");
-
-            //test ³adowania tekstury (2048x2048)
-            skinningAndAnimationLoader.LoadContent_Texture(contentManager, "Assets//3D//Characters//grungie");
-            
+            #region CONSOLE CONTENT
+            console = new GameConsole(this, spriteBatch, CConsoleEngine.ConsoleEngine.GetDefaultGameConsoleOptions(this));
+            console.AddCommand(new CConsoleEngine.SayHelloCommand());
+            console.AddCommand(new CConsoleEngine.SudoCommand());
+            #endregion
         }
 
         protected override void UnloadContent()
@@ -196,3 +183,4 @@ namespace Cyber
         }
     }
 }
+
