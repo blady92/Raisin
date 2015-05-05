@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Cyber.Audio
 {
-    class AudioModel
+    public class AudioModel
     {
         private Microsoft.Xna.Framework.Audio.AudioEngine audioEngine;
         private WaveBank waveBank;

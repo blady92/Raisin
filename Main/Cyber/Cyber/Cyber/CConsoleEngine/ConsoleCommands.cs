@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cyber.AudioEngine;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,5 +51,53 @@ Operation not permitted!";
         }
     }
 
+    public class AudioCommand : IConsoleCommand
+    {
+        private Game game;
+        private AudioController audioController;
+        public AudioCommand(Game game, AudioController audioController)
+        {
+            this.game = game;
+            this.audioController = audioController;
+        }
+        public string Description
+        {
+            get { return "Controls audio flow"; }
+        }
 
+        public string Execute(string[] arguments)
+        {
+            if (arguments != null && arguments.Length > 0)
+            {
+                if (arguments.Length == 1 && arguments[0].Equals("reset"))
+                {
+                    audioController.resetAudio();
+                    return "audio reset";
+                }
+                if (arguments.Length == 2 && arguments[0].Equals("play"))
+                {
+                    try
+                    {
+                        int i = int.Parse(arguments[1]);
+                        if (i >= 0 && i < audioController.Audio.CueList.Count)
+                        {
+                            audioController.Audio.CueList[i].Play();
+                            return "audio : playing track " + i + " : " + audioController.Audio.CueList[i].Name;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return "audio : error playing " + arguments[1];
+                    }
+                }
+            }
+            return "audio : processing error";
+        }
+
+        public string Name
+        {
+            get { return "audio"; }
+        }
+    }
+ 
 }

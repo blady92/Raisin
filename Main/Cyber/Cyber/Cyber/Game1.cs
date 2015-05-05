@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNAGameConsole;
+using Cyber.CConsoleEngine;
 
 namespace Cyber
 {
@@ -99,18 +100,13 @@ namespace Cyber
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
-            console = new GameConsole(this, spriteBatch, new GameConsoleOptions
-            {
-                Font = Content.Load<SpriteFont>("Assets/Fonts/GameFont"),
-                FontColor = Color.LawnGreen,
-                Prompt = "[sam@Cyber2O]$ ",
-                PromptColor = Color.Crimson,
-                CursorColor = Color.OrangeRed,
-                BackgroundColor = new Color(0, 0, 0, 150), //Color.BLACK with transparency
-                PastCommandOutputColor = Color.Aqua,
-                BufferColor = Color.Gold
-            });
-            
+            #region CONSOLE
+            console = new GameConsole(this, spriteBatch, ConsoleEngine.GetDefaultGameConsoleOptions(this));
+            console.AddCommand(new SayHelloCommand());
+            console.AddCommand(new SudoCommand());
+            console.AddCommand(new AudioCommand(this, audioController));
+            #endregion
+
         }
 
         protected override void UnloadContent()
@@ -144,17 +140,19 @@ namespace Cyber
 
             if (CheckKeyPressed(ref newState, Keys.Escape))
             {
-                Debug.WriteLine(LogicEngine.GetState());
+                //Debug.WriteLine(LogicEngine.GetState());
                 if (LogicEngine.GetState().Equals(GameState.States.mainGame))
                 {
                     //Debug.WriteLine("Changing to mainMenu");
                     LogicEngine.GameState.State = GameState.States.pauseMenu;
                 }
-                else
+                    /*
+                else if (LogicEngine.GetState().Equals(GameState.States.pauseMenu))
                 {
                     //Debug.WriteLine("Changing to mainGame");
                     LogicEngine.GameState.State = GameState.States.mainGame;
                 }
+                     * */
             }
 
             oldState = newState;

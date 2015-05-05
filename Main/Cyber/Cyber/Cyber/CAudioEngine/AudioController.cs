@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber.AudioEngine
 {
-    class AudioController
+    public class AudioController
     {
         private AudioModel audio;
         private KeyboardState newState;
