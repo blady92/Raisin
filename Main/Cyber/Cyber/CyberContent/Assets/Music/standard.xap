@@ -16,8 +16,8 @@ Global Settings
     Header File = waveBank.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 3117270429;
-    Last Modified High = 30443297;
+    Last Modified Low = 2231053529;
+    Last Modified High = 30443304;
 
     Category
     {
@@ -225,6 +225,10 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 2231373738;
+    PC Bank Last Modified High = 30443304;
     Bank Last Revised Low = 2157224435;
     Bank Last Revised High = 30443304;
 
@@ -305,6 +309,8 @@ Sound Bank
     Windows File = Win\standard.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Bank Last Modified Low = 2239529184;
+    Bank Last Modified High = 30443304;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
