@@ -98,18 +98,11 @@ namespace Cyber
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
-            console = new GameConsole(this, spriteBatch, new GameConsoleOptions
-            {
-                Font = Content.Load<SpriteFont>("Assets/Fonts/GameFont"),
-                FontColor = Color.LawnGreen,
-                Prompt = "[sam@Cyber2O]$ ",
-                PromptColor = Color.Crimson,
-                CursorColor = Color.OrangeRed,
-                BackgroundColor = new Color(0, 0, 0, 150), //Color.BLACK with transparency
-                PastCommandOutputColor = Color.Aqua,
-                BufferColor = Color.Gold
-            });
-            
+            #region CONSOLE CONTENT
+            console = new GameConsole(this, spriteBatch, CConsoleEngine.ConsoleEngine.GetDefaultGameConsoleOptions(this));
+            console.AddCommand(new CConsoleEngine.SayHelloCommand());
+            console.AddCommand(new CConsoleEngine.SudoCommand());
+            #endregion
         }
 
         protected override void UnloadContent()

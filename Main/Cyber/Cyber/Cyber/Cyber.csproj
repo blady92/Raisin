@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="CAudioEngine\AudioController.cs" />
     <Compile Include="CAudioEngine\AudioModel.cs" />
+    <Compile Include="CConsoleEngine\ConsoleCommands.cs" />
+    <Compile Include="CConsoleEngine\ConsoleEngine.cs" />
     <Compile Include="CGameStateEngine\GameState.cs" />
     <Compile Include="CGameStateEngine\GameStateMainGame.cs" />
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
