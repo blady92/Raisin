@@ -46,17 +46,17 @@ namespace Cyber.AudioEngine
             newState = Keyboard.GetState();
             if (newState.IsKeyDown(Keys.NumPad1) && oldState.IsKeyUp(Keys.NumPad1))
             {
-                Debug.WriteLine("Playing audio 1:" + audio.CueList[0].Name);
+                Debug.WriteLine("Playing audio 1: " + audio.CueList[0].Name);
                 audio.CueList[0].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad2) && oldState.IsKeyUp(Keys.NumPad2))
             {
-                Debug.WriteLine("Playing audio 2:" + audio.CueList[1].Name);
+                Debug.WriteLine("Playing audio 2: " + audio.CueList[1].Name);
                 audio.CueList[1].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
             {
-                Debug.WriteLine("Playing audio 3:" + audio.CueList[2].Name);
+                Debug.WriteLine("Playing audio 3: " + audio.CueList[2].Name);
                 audio.CueList[2].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
@@ -65,6 +65,16 @@ namespace Cyber.AudioEngine
             }
 
             oldState = newState;
+        }
+
+        public void playAudio(int i)
+        {
+            Debug.WriteLine("Playing audio "+i+": " + audio.CueList[1].Name);
+            if (audio.CueList[i].IsPlaying || audio.CueList[i].IsStopped || audio.CueList[i].IsPaused)
+            {
+                resetAudio();
+            }
+            audio.CueList[1].Play();
         }
 
         public void resetAudio()

@@ -28,6 +28,13 @@ namespace Cyber.CGameStateEngine
 
         private KeyboardState oldState;
         private KeyboardState newState;
+        private AudioController audio;
+
+        public AudioController Audio
+        {
+            get { return audio; }
+            set { audio = value; }
+        }
 
         //Load Models        
         private ModelTest samanthaModel;
@@ -153,6 +160,8 @@ namespace Cyber.CGameStateEngine
                     Debug.WriteLine("Stopped clock");
                 }
             }
+
+
             //Zmiana pozycji modela do narysowania
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
@@ -167,6 +176,7 @@ namespace Cyber.CGameStateEngine
                 {
                     move = new Vector3(0, 0.05f, 0);
                     samanthaCollider.RecreateCage(move);
+                    audio.playAudio(1);
                 }
             }
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
@@ -182,6 +192,7 @@ namespace Cyber.CGameStateEngine
                 {
                     move = new Vector3(0, -0.05f, 0);
                     samanthaCollider.RecreateCage(move);
+                    audio.playAudio(1);
                 }
             }
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
@@ -197,6 +208,7 @@ namespace Cyber.CGameStateEngine
                 {
                     move = new Vector3(-0.05f, 0, 0);
                     samanthaCollider.RecreateCage(move);
+                    audio.playAudio(1);
                 }
             }
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
@@ -212,6 +224,7 @@ namespace Cyber.CGameStateEngine
                 {
                     move = new Vector3(0.05f, 0, 0);
                     samanthaCollider.RecreateCage(move);
+                    audio.playAudio(1);
                 }
             }
             oldState = newState;
