@@ -17,6 +17,7 @@ namespace Cyber.CGameStateEngine
         private GameState gameState;
         private GameStateMainMenu gameStateMainMenu;
         private GameStateMainGame gameStateMainGame;
+        private GameStateLoadMenu gameStateLoadMenu;
         private GameStatePauseMenu gameStatePauseMenu;
         private List<GameState> menus;
 
@@ -33,6 +34,7 @@ namespace Cyber.CGameStateEngine
             gameStateMainMenu = (GameStateMainMenu)menus[0];
             gameStateMainGame = (GameStateMainGame) menus[1];
             gameStatePauseMenu = (GameStatePauseMenu)menus[2];
+            gameStateLoadMenu = (GameStateLoadMenu).menus[3];
         }
 
         #region MAIN MENU LOGIC
@@ -138,6 +140,14 @@ namespace Cyber.CGameStateEngine
                     gameStatePauseMenu.SpriteAnimationList[i].UpdateClickAnimation(false);
                 }
             }
+        }
+        #endregion
+
+        #region LOAD MENU LOGIC
+
+        public void LogicLoadMenu()
+        {
+            gameStateLoadMenu.Update();
         }
         #endregion
         #region GAME LOGIC

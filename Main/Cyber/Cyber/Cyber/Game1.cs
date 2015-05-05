@@ -39,6 +39,7 @@ namespace Cyber
         private GameStateMainMenu mainMenu;
         private GameStateMainGame mainGame;
         private GameStatePauseMenu pauseMenu;
+        private GameStateLoadMenu loadMenu;
         private List<GameState> menus;
 
         //Input Readings
@@ -73,11 +74,13 @@ namespace Cyber
             mainMenu = new GameStateMainMenu();
             pauseMenu = new GameStatePauseMenu();
             mainGame  = new GameStateMainGame();
-            
+            loadMenu = new GameStateLoadMenu();
+
             menus = new List<GameState>();
             menus.Add(mainMenu);
             menus.Add(mainGame);
             menus.Add(pauseMenu);
+            menus.Add(loadMenu);
             #endregion INITIALIZE GAMESTATES            
 
             #region INITIALIZE LOGIC ENGINE
@@ -95,6 +98,7 @@ namespace Cyber
             mainMenu.LoadContent(this.Content);
             mainGame.LoadContent(this.Content);
             pauseMenu.LoadContent(this.Content);
+            loadMenu.LoadContent(this.Content);
             mainGame.SetUpScene();
 
             mousePointer = new Sprite(40, 40);
@@ -127,41 +131,15 @@ namespace Cyber
             {
                 LogicEngine.LogicMenu();
             }
+            else if (LogicEngine.GetState() == GameState.States.loadMenu)
+            {
+                LogicEngine.LogicLoadMenu();
+            }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
                 LogicEngine.LogicPauseMenu();
             }
             base.Update(gameTime);
-        }
-
-        private void UpdateInputs()
-        {
-            KeyboardState newState = Keyboard.GetState();
-
-            if (CheckKeyPressed(ref newState, Keys.Escape))
-            {
-                //Debug.WriteLine(LogicEngine.GetState());
-                if (LogicEngine.GetState().Equals(GameState.States.mainGame))
-                {
-                    //Debug.WriteLine("Changing to mainMenu");
-                    LogicEngine.GameState.State = GameState.States.pauseMenu;
-                }
-                    /*
-                else if (LogicEngine.GetState().Equals(GameState.States.pauseMenu))
-                {
-                    //Debug.WriteLine("Changing to mainGame");
-                    LogicEngine.GameState.State = GameState.States.mainGame;
-                }
-                     * */
-            }
-
-            oldState = newState;
-        }
-
-        //Checks, if current key has just been pressed
-        private bool CheckKeyPressed(ref KeyboardState newState, Keys keyToCheck)
-        {
-            return newState.IsKeyDown(keyToCheck) && !oldState.IsKeyDown(keyToCheck);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -181,12 +159,46 @@ namespace Cyber
             {
                 mainGame.Draw(this.GraphicsDevice);
             }
+            else if (LogicEngine.GetState() == GameState.States.loadMenu)
+            {
+                loadMenu.Draw(spriteBatch);
+            }
             else if (LogicEngine.GetState() == GameState.States.exit)
             {
                 Quit();
             }
             mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             base.Draw(gameTime);
+        }
+
+        private void UpdateInputs()
+        {
+            KeyboardState newState = Keyboard.GetState();
+
+            if (CheckKeyPressed(ref newState, Keys.Escape))
+            {
+                //Debug.WriteLine(LogicEngine.GetState());
+                if (LogicEngine.GetState().Equals(GameState.States.mainGame))
+                {
+                    //Debug.WriteLine("Changing to mainMenu");
+                    LogicEngine.GameState.State = GameState.States.pauseMenu;
+                }
+                /*
+            else if (LogicEngine.GetState().Equals(GameState.States.pauseMenu))
+            {
+                //Debug.WriteLine("Changing to mainGame");
+                LogicEngine.GameState.State = GameState.States.mainGame;
+            }
+                 * */
+            }
+
+            oldState = newState;
+        }
+
+        //Checks, if current key has just been pressed
+        private bool CheckKeyPressed(ref KeyboardState newState, Keys keyToCheck)
+        {
+            return newState.IsKeyDown(keyToCheck) && !oldState.IsKeyDown(keyToCheck);
         }
 
         public void Quit()

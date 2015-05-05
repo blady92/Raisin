@@ -14,6 +14,9 @@ namespace Cyber.CGameStateEngine
             startMenu,
             pauseMenu,
             mainGame,
+            loadMenu,
+            saveMenu,
+            settingsMenu,
             exit
         }
 
