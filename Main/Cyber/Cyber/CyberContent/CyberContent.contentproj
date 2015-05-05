@@ -503,77 +503,70 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Chair.FBX">
+    <None Include="Assets\3D\Interior\Interior_Chair.FBX">
       <Name>Interior_Chair</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Collumn.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Collumn.FBX">
       <Name>Interior_Collumn</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Floor.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Floor.FBX">
       <Name>Interior_Floor</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Lamp.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Lamp.FBX">
       <Name>Interior_Lamp</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Sensor.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Sensor.FBX">
       <Name>Interior_Sensor</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Table.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Table.FBX">
       <Name>Interior_Table</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Terminal.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Terminal.FBX">
       <Name>Interior_Terminal</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Wall_Base.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Wall_Base.FBX">
       <Name>Interior_Wall_Base</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Wall_Concave.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Wall_Concave.FBX">
       <Name>Interior_Wall_Concave</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Wall_Convex.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Wall_Convex.FBX">
       <Name>Interior_Wall_Convex</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\Interior_Wall_Lasers.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\Interior_Wall_Lasers.FBX">
       <Name>Interior_Wall_Lasers</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\3D\Interior\oxygen_generator.FBX">
+    </None>
+    <None Include="Assets\3D\Interior\oxygen_generator.FBX">
       <Name>oxygen_generator</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-    <None Include="Assets\Music\standard.xgs">
-      <Name>standard</Name>
-    </None>
-    <None Include="Assets\Music\standard.xsb">
-      <Name>standard</Name>
-    </None>
-    <None Include="Assets\Music\standard.xwb">
-      <Name>standard</Name>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assets\Music\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\ShadersFX\SkinnedModel.fx">
       <Name>SkinnedModel</Name>

@@ -16,8 +16,8 @@ Global Settings
     Header File = waveBank.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1605725827;
-    Last Modified High = 30437844;
+    Last Modified Low = 30437844;
+    Last Modified High = 1605725827;
 
     Category
     {
@@ -288,8 +288,6 @@ Sound Bank
     Windows File = Win\standard.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 1605882091;
-    Bank Last Modified High = 30437844;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -312,7 +310,8 @@ Sound Bank
 
             Play Wave Event
             {
-                Break Loop = 0;
+                Loop Count = 255;
+                Break Loop = 1;
                 Use Speaker Position = 0;
                 Use Center Speaker = 1;
                 New Speaker Position On Loop = 1;
@@ -359,7 +358,8 @@ Sound Bank
 
             Play Wave Event
             {
-                Break Loop = 0;
+                Loop Count = 255;
+                Break Loop = 1;
                 Use Speaker Position = 0;
                 Use Center Speaker = 1;
                 New Speaker Position On Loop = 1;

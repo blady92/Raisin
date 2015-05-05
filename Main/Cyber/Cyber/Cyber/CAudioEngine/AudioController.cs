@@ -33,8 +33,11 @@ namespace Cyber.AudioEngine
             Debug.WriteLine("Inicjalizacja audio. Stan obecny: "+audio.CueList.Count);
             audio.CueList.Clear();
             Debug.WriteLine("Zerowanie audio. Stan obecny: " + audio.CueList.Count);
+
             audio.CueList.Add(audio.SoundBank.GetCue("vrag"));
             audio.CueList.Add(audio.SoundBank.GetCue("pierwaja"));
+            audio.CueList.Add(audio.SoundBank.GetCue("edgeSound"));
+            
             Debug.WriteLine("Audio ustawione. Stan obecny: " + audio.CueList.Count);
         }
 
@@ -53,7 +56,8 @@ namespace Cyber.AudioEngine
             }
             if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
             {
-                Debug.WriteLine("Zatrzymanie muzyki i ustawienie pierwszej");
+                Debug.WriteLine("Playing audio 3:" + audio.CueList[2].Name);
+                audio.CueList[2].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
             {
