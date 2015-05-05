@@ -25,6 +25,8 @@ namespace Cyber.CLogicEngine
         private static volatile Clock instance;
         private static object syncRoot = new Object();
 
+        int secAfterStart;
+
         SortedDictionary<int, TickEventHandler> eventQueue;
 
         public delegate void TickEventHandler(object sender, int time);
@@ -47,9 +49,15 @@ namespace Cyber.CLogicEngine
 
         private void EventLoop(object obj)
         {
-            while (/*DateTime.Now < gameOverTime*/true)
+            while (DateTime.Now < gameOverTime || pausedState.Ticks > 0)
             {
-                int secAfterStart = (int)((DateTime.Now - startTime).TotalSeconds);
+                #if DEBUG
+                if (secAfterStart != (int)((DateTime.Now - startTime).TotalSeconds))
+                {
+                    Debug.WriteLine("From start: "+secAfterStart+"; till end: "+(int)(gameOverTime-DateTime.Now).TotalSeconds);
+                }
+                #endif
+                secAfterStart = (int)((DateTime.Now - startTime).TotalSeconds);
                 if (eventQueue.ContainsKey(secAfterStart) && pausedState.Ticks == 0)
                 {
                     TickEventHandler handler = eventQueue[secAfterStart];
@@ -57,6 +65,7 @@ namespace Cyber.CLogicEngine
                     eventQueue.Remove(secAfterStart);
                 }
                 Thread.Sleep(1);
+                //TODO: kill after main game closed
             }
         }
 
@@ -142,6 +151,11 @@ namespace Cyber.CLogicEngine
                 return false;
             else
                 return true;
+        }
+
+        public bool CanPause()
+        {
+            return !CanResume();
         }
 
         /// <summary>

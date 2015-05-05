@@ -37,6 +37,10 @@ namespace Cyber.CGameStateEngine
         private List<ModelTest> wallList;
         private List<Collider> wallListColliders;
 
+        //Barriers for clock manipulation
+        Boolean addPushed = false;
+        Boolean subPushed = false;
+
         public void LoadContent(ContentManager theContentManager)
         {
             wallList = new List<ModelTest>();
@@ -61,10 +65,10 @@ namespace Cyber.CGameStateEngine
             }
 
             //Set clock to 4 minutes
-            //Clock clock = Clock.Instance;
-            //clock.RemainingSeconds = 4 * 60;
-            //clock.AddEvent(Clock.AFTERSTART, 20, TimePassed);
-            //clock.Pause();
+            Clock clock = Clock.Instance;
+            clock.RemainingSeconds = 4 * 60;
+            clock.AddEvent(Clock.AFTERSTART, 20, TimePassed);
+            clock.Pause();
 
             Debug.WriteLine("End of Loading");
         }
@@ -111,7 +115,6 @@ namespace Cyber.CGameStateEngine
 
         public override void Update()
         {
-            //Zmiana pozycji modela do narysowania
             KeyboardState newState = Keyboard.GetState();
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.T))
             {
@@ -120,7 +123,36 @@ namespace Cyber.CGameStateEngine
                     Clock.Instance.Resume();
                     Debug.WriteLine("Starting clock...");
                 }
+                if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Add))
+                {
+                    addPushed = true;
+                }
+                if (newState.IsKeyUp(Microsoft.Xna.Framework.Input.Keys.Add) && addPushed)
+                {
+                    addPushed = false;
+                    Clock.Instance.AddSeconds(60);
+                    Debug.WriteLine("ADDED +1");
+                }
+                if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Subtract))
+                {
+                    subPushed = true;
+                }
+                if (newState.IsKeyUp(Microsoft.Xna.Framework.Input.Keys.Subtract) && subPushed)
+                {
+                    subPushed = false;
+                    Clock.Instance.AddSeconds(-60);
+                    Debug.WriteLine("ADDED -1");
+                }
             }
+            if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Y))
+            {
+                if (Clock.Instance.CanPause())
+                {
+                    Clock.Instance.Pause();
+                    Debug.WriteLine("Stopped clock");
+                }
+            }
+            //Zmiana pozycji modela do narysowania
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
                 i++;
