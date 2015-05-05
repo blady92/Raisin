@@ -3,13 +3,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Cyber.GraphicsEngine
 {
     class CameraBehavior
     {
-
-        KeyboardState currentKeyboardState = new KeyboardState();
         GamePadState currentGamePadState = new GamePadState();
 
         float cameraArc = 0;
@@ -17,7 +16,7 @@ namespace Cyber.GraphicsEngine
         float cameraDistance = 500;
 
         //Camera Input Handler
-        private void UpdateCamera(GameTime gameTime)
+        public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -26,12 +25,14 @@ namespace Cyber.GraphicsEngine
                 currentKeyboardState.IsKeyDown(Keys.W))
             {
                 cameraArc += time * 0.1f;
+                Debug.WriteLine("UP KEY PRESSED, or W perhaps");
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Down) ||
                 currentKeyboardState.IsKeyDown(Keys.S))
             {
                 cameraArc -= time * 0.1f;
+                Debug.WriteLine("DOWN KEY PRESSED, or W perhaps");
             }
 
             cameraArc += currentGamePadState.ThumbSticks.Right.Y * time * 0.25f;

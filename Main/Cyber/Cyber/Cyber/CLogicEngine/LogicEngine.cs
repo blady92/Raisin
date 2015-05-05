@@ -34,7 +34,7 @@ namespace Cyber.CGameStateEngine
             gameStateMainMenu = (GameStateMainMenu)menus[0];
             gameStateMainGame = (GameStateMainGame) menus[1];
             gameStatePauseMenu = (GameStatePauseMenu)menus[2];
-            gameStateLoadMenu = (GameStateLoadMenu).menus[3];
+            gameStateLoadMenu = (GameStateLoadMenu)menus[3];
         }
 
         #region MAIN MENU LOGIC
@@ -59,6 +59,8 @@ namespace Cyber.CGameStateEngine
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
+                                    gameState.State = GameState.States.loadMenu;
+                                    break;
                                 case 2:
                                 //    base.StateGame = "settings";
                                 //    break;
@@ -145,9 +147,9 @@ namespace Cyber.CGameStateEngine
 
         #region LOAD MENU LOGIC
 
-        public void LogicLoadMenu()
+        public void LogicLoadMenu(GameTime gameTime, KeyboardState currentKeyboardState)
         {
-            gameStateLoadMenu.Update();
+            gameStateLoadMenu.Update(gameTime, currentKeyboardState);
         }
         #endregion
         #region GAME LOGIC

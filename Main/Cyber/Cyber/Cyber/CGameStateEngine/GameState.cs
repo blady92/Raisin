@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CGameStateEngine
@@ -32,6 +33,8 @@ namespace Cyber.CGameStateEngine
         { }
         public virtual void Draw(GraphicsDevice device) { }
 
-        public virtual void Update() { } 
+        public virtual void Update() { }
+
+        public virtual void Update(GameTime gameTime, KeyboardState currentKeyboardState) { }
     }
 }

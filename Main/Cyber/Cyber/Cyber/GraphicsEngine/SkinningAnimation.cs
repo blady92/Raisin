@@ -6,19 +6,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber.GraphicsEngine
 {
-    // UWAGA!!!!!
-    // Nie jest to finalnie skończona klasa, bowiem należy:
-    // 1. Połączyć funkcje Draw, Update oraz LoadContent z główną grą
-    // 2. Ogarnąć logikę wczytywania modeli z wyróżnieniem na modele SkinningData oraz statyczne - obecnie trzeba komentować zbędne linijki...
-    // 3. Przenieść stąd sterowanie kamerą do osobnej klasy
 
     class SkinningAnimation
     {
         #region FIELDS
-        GraphicsDeviceManager graphics;
-        KeyboardState currentKeyboardState = new KeyboardState();
-        GamePadState currentGamePadState = new GamePadState();
-
         Model currentModel;
         Effect myEffect;
         AnimationPlayer animationPlayer;
@@ -80,11 +71,8 @@ namespace Cyber.GraphicsEngine
             Update(gameTime);
         }
 
-        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime)
+        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device)
         {
-            GraphicsDevice device = graphics.GraphicsDevice;
-            device.Clear(Color.CornflowerBlue);
-
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
@@ -121,11 +109,9 @@ namespace Cyber.GraphicsEngine
             }
         }
 
-        public void DrawSkinnedModelWithShader(GameTime gameTime)
+        public void DrawSkinnedModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
-            GraphicsDevice device = graphics.GraphicsDevice;
-            device.Clear(Color.CornflowerBlue);
-
+        
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
@@ -158,11 +144,8 @@ namespace Cyber.GraphicsEngine
             }
         }
 
-         public void DrawStaticModelWithBasicEffect(GameTime gameTime)
+         public void DrawStaticModelWithBasicEffect(GraphicsDevice device)
         {
-            GraphicsDevice device = graphics.GraphicsDevice;
-            device.Clear(Color.CornflowerBlue);
-
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
             currentModel.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -197,10 +180,8 @@ namespace Cyber.GraphicsEngine
             }
         }
 
-         public void DrawStaticModelWithShader(GameTime gameTime)
+         public void DrawStaticModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
-            GraphicsDevice device = graphics.GraphicsDevice;
-            device.Clear(Color.CornflowerBlue);
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
             currentModel.CopyAbsoluteBoneTransformsTo(transforms);

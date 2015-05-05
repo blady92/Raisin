@@ -44,6 +44,7 @@ namespace Cyber
 
         //Input Readings
         private KeyboardState oldState;
+        private KeyboardState currentKeyboardState;
 
         //Game Console
         private GameConsole console;
@@ -75,6 +76,8 @@ namespace Cyber
             pauseMenu = new GameStatePauseMenu();
             mainGame  = new GameStateMainGame();
             loadMenu = new GameStateLoadMenu();
+
+            mainGame.Audio = audioController;
 
             menus = new List<GameState>();
             menus.Add(mainMenu);
@@ -133,7 +136,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
-                LogicEngine.LogicLoadMenu();
+                LogicEngine.LogicLoadMenu(gameTime, currentKeyboardState);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
@@ -161,7 +164,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
-                loadMenu.Draw(spriteBatch);
+                loadMenu.Draw(this.GraphicsDevice);
             }
             else if (LogicEngine.GetState() == GameState.States.exit)
             {

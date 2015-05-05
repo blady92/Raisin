@@ -558,11 +558,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </None>
-    <None Include="Assets\3D\Interior\oxygen_generator.FBX">
+    <Compile Include="Assets\3D\Interior\oxygen_generator.FBX">
       <Name>oxygen_generator</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
+    </Compile>
     <Compile Include="Assets\Fonts\GameFont.spritefont">
       <Name>GameFont</Name>
       <Importer>FontDescriptionImporter</Importer>
