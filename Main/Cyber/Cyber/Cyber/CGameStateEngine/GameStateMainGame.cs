@@ -74,8 +74,8 @@ namespace Cyber.CGameStateEngine
 
             //Set clock to 4 minutes
             Clock clock = Clock.Instance;
-            clock.RemainingSeconds = 4 * 60;
-            clock.AddEvent(Clock.AFTERSTART, 20, TimePassed);
+            clock.RemainingSeconds = /*4 * 60*/20;
+            clock.AddEvent(Clock.BEFOREOVER, 0, TimePassed);
             clock.Pause();
 
             Debug.WriteLine("End of Loading");
