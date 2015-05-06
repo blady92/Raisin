@@ -21,16 +21,17 @@ namespace Cyber.GraphicsEngine
 
         #endregion
 
+        public Model CurrentModel
+        {
+            get { return currentModel; }
+            set { currentModel = value; }
+        }
+
         #region INITIALIZATION
 
         public SkinningAnimation()
-        {
-            
-        }
+        { }
          
-           
-
-
         public void LoadContent_SkinnedModel(ContentManager theContentManager, string pathToModel, string animationClipName)
         {
             this.currentModel = theContentManager.Load<Model>(pathToModel);
@@ -71,7 +72,7 @@ namespace Cyber.GraphicsEngine
             Update(gameTime);
         }
 
-        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device)
+        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device, Matrix view, Matrix projection)
         {
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
@@ -79,14 +80,6 @@ namespace Cyber.GraphicsEngine
             currentModel.CopyAbsoluteBoneTransformsTo(transforms);
 
             Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
-
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                              new Vector3(0, 30, 100), Vector3.Up);
-
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
 
             //Render zeskinowany mesh
             foreach(ModelMesh mesh in currentModel.Meshes)
@@ -109,6 +102,43 @@ namespace Cyber.GraphicsEngine
             }
         }
 
+        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device)
+        {
+            Matrix[] bones = animationPlayer.GetSkinTransforms();
+
+            Matrix[] transforms = new Matrix[currentModel.Bones.Count];
+            currentModel.CopyAbsoluteBoneTransformsTo(transforms);
+
+            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
+
+            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
+                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
+                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
+                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
+                                              new Vector3(0, 30, 100), Vector3.Up);
+
+            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
+
+            //Render zeskinowany mesh
+            foreach (ModelMesh mesh in currentModel.Meshes)
+            {
+                // <-- SKINNED EFFECT DLA SZKIELETOWYCH -->
+                foreach (SkinnedEffect effect in mesh.Effects)
+                {
+                    effect.SetBoneTransforms(bones);
+
+                    effect.View = view;
+                    effect.Projection = projection;
+
+                    // effect.Texture = texture;
+                    effect.EnableDefaultLighting();
+
+                    effect.SpecularColor = new Vector3(0.25f);
+                    effect.SpecularPower = 16;
+                }
+                mesh.Draw();
+            }
+        }
         public void DrawSkinnedModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
         

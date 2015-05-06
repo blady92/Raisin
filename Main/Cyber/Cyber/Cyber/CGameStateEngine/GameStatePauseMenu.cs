@@ -32,7 +32,7 @@ namespace Cyber.CGameStateEngine
             menuBackground.LoadContent(theContentManager, path + "menuBackground");
 
             //Load buttons
-            string[] textureList = new[] { "resumeAnimationButton", "saveAnimationButton", "settingsAnimationButton", "exitAnimationButton" };
+            string[] textureList = new[] { "resumeAnimationButton", "saveAnimationButton", "settingsAnimationButton", "exitToMenuAnimationButton" };
             spriteAnimationList = new SpriteAnimationDynamic[textureList.Length];
             for (int i = 0; i < textureList.Length; i++)
             {

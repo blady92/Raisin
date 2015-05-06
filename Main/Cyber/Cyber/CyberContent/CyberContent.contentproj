@@ -596,6 +596,73 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00000.png">
+      <Name>exitToMenuBtuttonClick00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00001.png">
+      <Name>exitToMenuBtuttonClick00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00002.png">
+      <Name>exitToMenuBtuttonClick00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00003.png">
+      <Name>exitToMenuBtuttonClick00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00004.png">
+      <Name>exitToMenuBtuttonClick00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00005.png">
+      <Name>exitToMenuBtuttonClick00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\clickFrames\exitToMenuBtuttonClick00006.png">
+      <Name>exitToMenuBtuttonClick00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\exitToMenuBtutton00000.png">
+      <Name>exitToMenuBtutton00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\exitToMenuBtutton00001.png">
+      <Name>exitToMenuBtutton00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\exitToMenuBtutton00002.png">
+      <Name>exitToMenuBtutton00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\exitToMenuBtutton00003.png">
+      <Name>exitToMenuBtutton00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\exitToMenuBtutton00004.png">
+      <Name>exitToMenuBtutton00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\exitToMenuAnimationButton\exitToMenuBtutton00005.png">
+      <Name>exitToMenuBtutton00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
