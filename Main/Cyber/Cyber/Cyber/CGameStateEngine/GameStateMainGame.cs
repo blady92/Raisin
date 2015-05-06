@@ -72,13 +72,15 @@ namespace Cyber.CGameStateEngine
                 wallListColliders[i].CreateColliderBoudingBox();
             }
 
-            //Set clock to 4 minutes
+            Debug.WriteLine("End of Loading");
+        }
+
+        public void SetUpClock()
+        {
             Clock clock = Clock.Instance;
             clock.RemainingSeconds = /*4 * 60*/20;
             clock.AddEvent(Clock.BEFOREOVER, 0, TimePassed);
             clock.Pause();
-
-            Debug.WriteLine("End of Loading");
         }
 
         private void TimePassed(object sender, int time)

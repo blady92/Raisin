@@ -33,6 +33,8 @@ namespace Cyber.CLogicEngine
 
         public delegate void TickEventHandler(object sender, int time);
 
+        private Thread t;
+
         //TODO: test serialization
 
         private Clock() 
@@ -47,7 +49,7 @@ namespace Cyber.CLogicEngine
             endQueue = new SortedDictionary<int, TickEventHandler>();
             actualQueue = new SortedDictionary<DateTime, TickEventHandler>();
 
-            Thread t = new Thread(new ParameterizedThreadStart(EventLoop));
+            t = new Thread(new ParameterizedThreadStart(EventLoop));
             t.Start();
             while(!t.IsAlive);
         }
@@ -166,6 +168,17 @@ namespace Cyber.CLogicEngine
         public bool CanPause()
         {
             return !CanResume();
+        }
+
+        /// <summary>
+        /// Enables destroying old clock when current game exits
+        /// </summary>
+        public void Destroy()
+        {
+            //TODO: force calling this method when game closed by X button
+            t.Abort();
+            instance = null;
+            Debug.WriteLine("Destroying clock...");
         }
 
         /// <summary>
