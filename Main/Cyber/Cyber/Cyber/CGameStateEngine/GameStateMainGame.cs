@@ -24,7 +24,7 @@ namespace Cyber.CGameStateEngine
         SpriteBatch spriteBatch;
 
         //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
-        Matrix view = Matrix.CreateLookAt(new Vector3(100, 100, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 100), new Vector3(5, 5, 5), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
 
         private KeyboardState oldState;
@@ -52,10 +52,10 @@ namespace Cyber.CGameStateEngine
 
         public void LoadContent(ContentManager theContentManager)
         {
-            //wallList = new List<ModelTest>();
-            //wallListColliders = new List<Collider>();
+            wallList = new List<ModelTest>();
+            wallListColliders = new List<Collider>();
 
-            samanthaModel = new ModelTest("Assets/3D/Characters/ship");
+            samanthaModel = new ModelTest("Assets/3D/Characters/Ally_Bunker");
             samanthaModel.LoadContent(theContentManager);
 
             samanthaCollider = new Collider();
@@ -63,17 +63,17 @@ namespace Cyber.CGameStateEngine
             samanthaCollider.CreateColliderBoudingBox();
             samanthaCollider.MoveBoundingBox(new Vector3(-15f, -15f, 0f));
 
-            ////Ładowanie przykładowych ścianek
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
-            //    wallList[i].LoadContent(theContentManager);
-            //    wallListColliders.Add(new Collider());
-            //    wallListColliders[i].SetBoudings(wallList[i].Model);
-            //    wallListColliders[i].CreateColliderBoudingBox();
-            //    wallListColliders[i].MoveBoundingBox(new Vector3(-15f, -20f, 5f)); ;
+            //Ładowanie przykładowych ścianek
+            for (int i = 0; i < 4; i++)
+            {
+                wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
+                wallList[i].LoadContent(theContentManager);
+                wallListColliders.Add(new Collider());
+                wallListColliders[i].SetBoudings(wallList[i].Model);
+                wallListColliders[i].CreateColliderBoudingBox();
+                wallListColliders[i].MoveBoundingBox(new Vector3(-15f, -20f, 5f)); ;
 
-            //}
+            }
 
             Debug.WriteLine("End of Loading");
         }
@@ -93,38 +93,41 @@ namespace Cyber.CGameStateEngine
 
         public void SetUpScene()
         {
-            //////Setup them position on the world at the start, then recreate cage. Order is necessary!
-            ////Samantha setups
-            //Vector3 vector = new Vector3(0, -100, 0.0f);
-            //samanthaModel.Position += vector;
-            //samanthaCollider.BoudingBoxResizeOnce(0.5f, 0.5f, 1f);
-            //samanthaCollider.RecreateCage(vector);
-            ////Walls setups
-            //for (int i = 0; i < wallListColliders.Count; i++)
-            //{
-            //    Vector3 move = new Vector3(0.0f, i * 10.0f, 0);
-            //    wallList[i].Position = move;
-            //    wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
-            //    wallListColliders[i].RecreateCage(new Vector3(0, i*10f, 0));
-            //}
+            ////Setup them position on the world at the start, then recreate cage. Order is necessary!
+            //Samantha setups
+            Vector3 vector = new Vector3(0, -100, 0.0f);
+            samanthaModel.Position += vector;
+            samanthaCollider.BoudingBoxResizeOnce(0.5f, 0.5f, 1f);
+            samanthaCollider.RecreateCage(vector);
+            //Walls setups
+            for (int i = 0; i < wallListColliders.Count; i++)
+            {
+                Vector3 move = new Vector3(0.0f, i * 10.0f, 0);
+                wallList[i].Position = move;
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
+                wallListColliders[i].RecreateCage(new Vector3(0, i*10f, 0));
+            }
         }
 
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, GameTime gameTime)
         {
-            //Matrix modelView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(samanthaModel.Position);
-            //Matrix colliderView = Matrix.CreateTranslation(samanthaCollider.Position);
+            device.BlendState = BlendState.Opaque;
+            device.DepthStencilState = DepthStencilState.Default;
+            Matrix modelView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(samanthaModel.Position);
+            Matrix colliderView = Matrix.CreateTranslation(samanthaCollider.Position);
             
-            //samanthaModel.DrawModel(modelView, view, projection);
-            //samanthaCollider.DrawBouding(device, colliderView, view, projection);
+            samanthaModel.DrawModel(modelView, view, projection);
+            samanthaCollider.DrawBouding(device, colliderView, view, projection);
 
-            //for (int i = 0; i < wallListColliders.Count; i++)
-            //{
-            //    Matrix wallView = Matrix.CreateTranslation(wallList[i].Position);
-            //    Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
-            //    wallList[i].DrawModel(wallView, view, projection);
-            //    wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
-            //}
-
+            for (int i = 0; i < wallListColliders.Count; i++)
+            {
+                Matrix wallView = Matrix.CreateTranslation(wallList[i].Position);
+                Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
+                wallList[i].DrawModel(wallView, view, projection);
+                wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
+            }
+            base.Draw(gameTime);
         }
 
         public override void Update()

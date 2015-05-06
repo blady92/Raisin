@@ -91,6 +91,7 @@
     <Compile Include="CItems\Enemies.cs" />
     <Compile Include="CItems\ESpy.cs" />
     <Compile Include="CItems\ETank.cs" />
+    <Compile Include="CItems\MoveableItem.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
     <Compile Include="CLogicEngine\LogicEngine.cs" />

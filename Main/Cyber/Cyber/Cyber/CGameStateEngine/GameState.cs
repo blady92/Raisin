@@ -33,6 +33,7 @@ namespace Cyber.CGameStateEngine
         { }
         public virtual void Draw(GraphicsDevice device) { }
 
+        public virtual void Draw(GraphicsDevice device, GameTime gameTime) { }
         public virtual void Update() { }
 
         public virtual void Update(GameTime gameTime, KeyboardState currentKeyboardState) { }
