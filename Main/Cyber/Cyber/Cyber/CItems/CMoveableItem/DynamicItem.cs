@@ -1,19 +1,22 @@
 ﻿using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CItems
 {
-    class MoveableItem
+    class DynamicItem : _3DObjects
     {
         private string pathToModel;
+        private string pathToAnimationClip;
         private SkinningAnimation skinnedModel;
-        private Vector3 position;
+        protected Vector3 position;
         private Collider collider;
 
-        public MoveableItem(string path, Vector3 position)
+        public DynamicItem(string path, string pathToAnimationClip, Vector3 position)
         {
+            pathToAnimationClip = pathToAnimationClip;
             this.pathToModel = path;
             this.position = position;
         }
@@ -46,9 +49,9 @@ namespace Cyber.CItems
         #endregion
         
         
-        public void LoadItem()
+        public void LoadItem(ContentManager thecContentManager)
         {
-            
+            skinnedModel.LoadContent_SkinnedModel(thecContentManager, pathToModel, pathToAnimationClip);
         }
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device)
@@ -56,7 +59,7 @@ namespace Cyber.CItems
             skinnedModel.DrawSkinnedModelWithShader(gameTime, device);
         }
 
-        public void MoveHer(Vector3 vec)
+        public void MoveItem(Vector3 vec)
         {
             position += vec;
         }

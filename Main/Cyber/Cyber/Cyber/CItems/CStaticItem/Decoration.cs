@@ -8,6 +8,25 @@ namespace Cyber.CItems.CStaticItem
 {
     class Decoration : StaticItem
     {
-        public Decoration(string path, Vector3 position) : base(path, position){ }
+        private itemType type;
+
+        internal enum itemType
+        {
+            terminal,
+            wall,
+            decoration //coś jak krzesła, stoły etc
+        }
+
+        public itemType Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
+        public Decoration(string path, Vector3 position, itemType type) : base(path, position)
+        {
+            type = type;
+        }
+
     }
 }

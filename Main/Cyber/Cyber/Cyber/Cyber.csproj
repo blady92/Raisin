@@ -86,12 +86,10 @@
     <Compile Include="CGameStateEngine\GameStateMainGame.cs" />
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
     <Compile Include="CGameStateEngine\GameStatePauseMenu.cs" />
+    <Compile Include="CItems\3DObjects.cs" />
     <Compile Include="CItems\ConsoleSprites.cs" />
-    <Compile Include="CItems\CMoveableItem\EFlyer.cs" />
     <Compile Include="CItems\CMoveableItem\Enemies.cs" />
-    <Compile Include="CItems\CMoveableItem\ESpy.cs" />
-    <Compile Include="CItems\CMoveableItem\ETank.cs" />
-    <Compile Include="CItems\CMoveableItem\MoveableItem.cs" />
+    <Compile Include="CItems\CMoveableItem\DynamicItem.cs" />
     <Compile Include="CItems\CStaticItem\Decoration.cs" />
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
     <Compile Include="CItems\CStaticItem\WallItem.cs" />

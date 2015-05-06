@@ -1,11 +1,12 @@
 ﻿using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CItems.CStaticItem
 {
-    class StaticItem
+    class StaticItem : _3DObjects
     {
         private string pathToModel;
         private SkinningAnimation skinnedModel;
@@ -46,14 +47,19 @@ namespace Cyber.CItems.CStaticItem
         #endregion
         
         
-        public void LoadItem()
+        public void LoadItem(ContentManager theContentManager)
         {
-            
+            skinnedModel.LoadContent_StaticModel(theContentManager, pathToModel);
+        }
+
+        public void DrawItem(GraphicsDevice device)
+        {
+            skinnedModel.DrawStaticModelWithBasicEffect(device);
         }
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device)
         {
-            skinnedModel.DrawStaticModelWithBasicEffect(device);
+            skinnedModel.DrawStaticModelWithShader(gameTime, device);
         }
 
         public void FixCollider(Vector3 resize, Vector3 move)
