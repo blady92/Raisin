@@ -109,14 +109,14 @@ namespace Cyber.CGameStateEngine
             Matrix colliderView = Matrix.CreateTranslation(samanthaCollider.Position);
             
             samanthaModel.DrawModel(modelView, view, projection);
-            //samanthaCollider.DrawBouding(device, colliderView, view, projection);
+            samanthaCollider.DrawBouding(device, colliderView, view, projection);
 
             for (int i = 0; i < wallListColliders.Count; i++)
             {
                 Matrix wallView = Matrix.CreateTranslation(wallList[i].Position);
                 Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
                 wallList[i].DrawModel(wallView, view, projection);
-                //CwallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
+                wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
             }
 
         }
