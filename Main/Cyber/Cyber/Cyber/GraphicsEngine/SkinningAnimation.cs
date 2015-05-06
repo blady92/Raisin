@@ -15,6 +15,7 @@ namespace Cyber.GraphicsEngine
         Effect myEffect;
         AnimationPlayer animationPlayer;
         Texture2D texture;
+        MouseState prevMouseState;
 
         //float cameraArc = 0;
         //float cameraRotation = 0;
@@ -242,10 +243,10 @@ namespace Cyber.GraphicsEngine
         }
 
 
-         public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
+         public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
+             #region STARE DZIAŁANIE KAMERY
              // Obracanie kamery góra/dół wokół modelu
              if (currentKeyboardState.IsKeyDown(Keys.Up) ||
                  currentKeyboardState.IsKeyDown(Keys.W))
@@ -310,6 +311,23 @@ namespace Cyber.GraphicsEngine
                  cameraRotation = 0;
                  cameraDistance = 100;
              }
+             #endregion
+
+             #region NOWE DZIAŁANIE KAMERY
+    
+
+             Debug.Write("Yo, ur mouse x is: ");
+             Debug.WriteLine(currentMouseState.X);
+
+             Debug.Write("Yo, ur mouse y is: ");
+             Debug.WriteLine(currentMouseState.Y);
+
+             if(currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y)
+             {
+                 cameraRotation += time * 0.1f;
+                 prevMouseState = currentMouseState;
+             }
+             #endregion
          }
                 
 

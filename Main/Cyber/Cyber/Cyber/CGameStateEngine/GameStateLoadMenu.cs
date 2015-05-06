@@ -55,9 +55,9 @@ namespace Cyber.CGameStateEngine
 
         }
 
-        public override void Update(GameTime gameTime, KeyboardState currentKeyboardState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
+        public override void Update(GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
         {
-            modelList[0].UpdateCamera(gameTime, currentKeyboardState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            modelList[0].UpdateCamera(gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
         }
 
         public Matrix[] returnModelTransforms()

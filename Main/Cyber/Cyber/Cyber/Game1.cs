@@ -45,6 +45,8 @@ namespace Cyber
         //Input Readings
         private KeyboardState oldState;
         private KeyboardState currentKeyboardState;
+        private MouseState currentMouseState;
+     //   private MouseState prevMouseState;
 
         //Game Console
         private GameConsole console;
@@ -130,6 +132,7 @@ namespace Cyber
 
             audioController.runAudio();
             currentKeyboardState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
 
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
@@ -141,7 +144,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
-                LogicEngine.LogicLoadMenu(gameTime, currentKeyboardState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+                LogicEngine.LogicLoadMenu(gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
