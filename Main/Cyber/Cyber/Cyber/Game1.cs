@@ -123,6 +123,7 @@ namespace Cyber
             UpdateInputs();
 
             audioController.runAudio();
+            currentKeyboardState = Keyboard.GetState();
 
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {

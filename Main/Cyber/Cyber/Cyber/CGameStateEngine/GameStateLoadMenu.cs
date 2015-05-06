@@ -16,14 +16,12 @@ namespace Cyber.CGameStateEngine
 
 
         SkinningAnimation modelLoader = new SkinningAnimation();
-        CameraBehavior cameraBehavior = new CameraBehavior();
         List<SkinningAnimation> modelList = new List<SkinningAnimation>();
         List<string> modelPathList = new List<string>();
-        //KeyboardState currentKeyboardState = new KeyboardState();
       
         public void LoadContent(ContentManager theContentManager)
         {
-            //Ważna kolejność
+           // Ważna kolejność
             string interiorPath = "Assets/3D/Interior/Interior_";
 
             modelPathList.Add(interiorPath+"Oxygen_Generator");
@@ -38,12 +36,14 @@ namespace Cyber.CGameStateEngine
                 modelList.Add(new SkinningAnimation());
                 modelList[i].LoadContent_StaticModel(theContentManager, modelPathList[i]);
             }
-            //modelList[1].LoadContent_StaticModel(theContentManager, "Assets/3D/Interior/Interior_Chair");
-            //modelLoader.LoadContent_StaticModel(theContentManager, pathInterior+"");
+
+           
+            
+         
         }
         public override void Draw(GraphicsDevice device)
         {
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
+              Matrix view = Matrix.CreateTranslation(0, -40, 0) *
               Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
               Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
               Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
@@ -55,12 +55,12 @@ namespace Cyber.CGameStateEngine
             {
                 skinningAnimation.DrawStaticModelWithBasicEffect(device);
             }
-            //modelLoader.DrawStaticModelWithBasicEffect(device);
+
         }
 
         public override void Update(GameTime gameTime, KeyboardState currentKeyboardState)
         {
-            cameraBehavior.UpdateCamera(gameTime, currentKeyboardState);
+            modelList[0].UpdateCamera(gameTime, currentKeyboardState);
         }
     }
 }

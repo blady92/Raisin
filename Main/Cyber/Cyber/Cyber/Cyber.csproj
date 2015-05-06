@@ -103,7 +103,6 @@
     <Compile Include="CSkillTree\Tree.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
-    <Compile Include="GraphicsEngine\CameraBehavior.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />
     <Compile Include="GraphicsEngine\SkinningAnimation.cs" />
