@@ -46,26 +46,30 @@ namespace Cyber.CGameStateEngine
             
          
         }
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
-              Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-              Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-              Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-              Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                  new Vector3(0, 30, 100), Vector3.Up);
-
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
-
             foreach (SkinningAnimation skinningAnimation in modelList)
             {
-                skinningAnimation.DrawStaticModelWithBasicEffect(device);
+                skinningAnimation.DrawStaticModelWithBasicEffect(device, world, view, projection);
             }
 
         }
 
-        public override void Update(GameTime gameTime, KeyboardState currentKeyboardState)
+        public override void Update(GameTime gameTime, KeyboardState currentKeyboardState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
         {
-            modelList[0].UpdateCamera(gameTime, currentKeyboardState);
+            modelList[0].UpdateCamera(gameTime, currentKeyboardState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+        }
+
+        public Matrix[] returnModelTransforms()
+        {
+            Matrix[] transforms = new Matrix[modelList[0].CurrentModel.Bones.Count];
+            modelList[0].CurrentModel.CopyAbsoluteBoneTransformsTo(transforms);
+           
+            return transforms;
+        }
+        public int returnModelParentBoneIndex()
+        {
+            return modelList[0].CurrentModel.Meshes[0].ParentBone.Index;
         }
     }
 }

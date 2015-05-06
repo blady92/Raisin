@@ -16,9 +16,9 @@ namespace Cyber.GraphicsEngine
         AnimationPlayer animationPlayer;
         Texture2D texture;
 
-        float cameraArc = 0;
-        float cameraRotation = 0;
-        float cameraDistance = 500;
+        //float cameraArc = 0;
+        //float cameraRotation = 0;
+        //float cameraDistance = 500;
 
         #endregion
 
@@ -105,6 +105,10 @@ namespace Cyber.GraphicsEngine
 
         public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device)
         {
+
+            float cameraArc = 0;
+            float cameraRotation = 0;
+            float cameraDistance = 500;
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
@@ -142,7 +146,9 @@ namespace Cyber.GraphicsEngine
         }
         public void DrawSkinnedModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
-        
+            float cameraArc = 0;
+            float cameraRotation = 0;
+            float cameraDistance = 500;
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
@@ -175,21 +181,8 @@ namespace Cyber.GraphicsEngine
             }
         }
 
-         public void DrawStaticModelWithBasicEffect(GraphicsDevice device)
+         public void DrawStaticModelWithBasicEffect(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
-            Matrix[] transforms = new Matrix[currentModel.Bones.Count];
-            currentModel.CopyAbsoluteBoneTransformsTo(transforms);
-
-            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
-
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                              new Vector3(0, 30, 100), Vector3.Up);
-
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
-
             //Render zeskinowany mesh
             foreach(ModelMesh mesh in currentModel.Meshes)
             { 
@@ -213,7 +206,9 @@ namespace Cyber.GraphicsEngine
 
          public void DrawStaticModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
-
+            float cameraArc = 0;
+            float cameraRotation = 0;
+            float cameraDistance = 500;
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
             currentModel.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -247,7 +242,7 @@ namespace Cyber.GraphicsEngine
         }
 
 
-         public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState)
+         public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 

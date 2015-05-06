@@ -150,9 +150,9 @@ namespace Cyber.CGameStateEngine
 
         #region LOAD MENU LOGIC
 
-        public void LogicLoadMenu(GameTime gameTime, KeyboardState currentKeyboardState)
+        public void LogicLoadMenu(GameTime gameTime, KeyboardState currentKeyboardState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
         {
-            gameStateLoadMenu.Update(gameTime, currentKeyboardState);
+            gameStateLoadMenu.Update(gameTime, currentKeyboardState, ref cameraArc, ref cameraRotation, ref cameraDistance);
         }
         #endregion
         #region GAME LOGIC

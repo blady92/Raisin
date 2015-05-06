@@ -49,6 +49,10 @@ namespace Cyber
         //Game Console
         private GameConsole console;
 
+        float cameraArc = 0;
+        float cameraRotation = 0;
+        float cameraDistance = 500;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -137,7 +141,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
-                LogicEngine.LogicLoadMenu(gameTime, currentKeyboardState);
+                LogicEngine.LogicLoadMenu(gameTime, currentKeyboardState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
@@ -165,7 +169,19 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
-                loadMenu.Draw(this.GraphicsDevice);
+                Matrix[] transforms = loadMenu.returnModelTransforms();
+                Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
+
+                Matrix view = Matrix.CreateTranslation(0, -40, 0) *
+                              Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
+                              Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
+                              Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
+                                                  new Vector3(0, 30, 100), Vector3.Up);
+
+                Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, this.GraphicsDevice.Viewport.AspectRatio, 1, 100000);
+
+
+                loadMenu.Draw(this.GraphicsDevice, world, view, projection);
             }
             else if (LogicEngine.GetState() == GameState.States.exit)
             {
