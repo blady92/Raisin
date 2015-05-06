@@ -25,11 +25,15 @@ namespace Cyber.CLogicEngine
         private static volatile Clock instance;
         private static object syncRoot = new Object();
 
-        int secAfterStart;
+        int secAfterStart, secTillEnd;
 
-        SortedDictionary<int, TickEventHandler> eventQueue;
+        SortedDictionary<int, TickEventHandler> startQueue;
+        SortedDictionary<int, TickEventHandler> endQueue;
+        SortedDictionary<DateTime, TickEventHandler> actualQueue;
 
         public delegate void TickEventHandler(object sender, int time);
+
+        private Thread t;
 
         //TODO: test serialization
 
@@ -41,8 +45,11 @@ namespace Cyber.CLogicEngine
             gameOverTime = startTime + gameLength;
 
             //initialize infinite loop in new thread
-            eventQueue = new SortedDictionary<int, TickEventHandler>();
-            Thread t = new Thread(new ParameterizedThreadStart(EventLoop));
+            startQueue = new SortedDictionary<int, TickEventHandler>();
+            endQueue = new SortedDictionary<int, TickEventHandler>();
+            actualQueue = new SortedDictionary<DateTime, TickEventHandler>();
+
+            t = new Thread(new ParameterizedThreadStart(EventLoop));
             t.Start();
             while(!t.IsAlive);
         }
@@ -58,11 +65,18 @@ namespace Cyber.CLogicEngine
                 }
                 #endif
                 secAfterStart = (int)((DateTime.Now - startTime).TotalSeconds);
-                if (eventQueue.ContainsKey(secAfterStart) && pausedState.Ticks == 0)
+                secTillEnd = (int)(gameOverTime - DateTime.Now).TotalSeconds;
+                if (startQueue.ContainsKey(secAfterStart) && pausedState.Ticks == 0)
                 {
-                    TickEventHandler handler = eventQueue[secAfterStart];
+                    TickEventHandler handler = startQueue[secAfterStart];
                     handler(this, secAfterStart);
-                    eventQueue.Remove(secAfterStart);
+                    startQueue.Remove(secAfterStart);
+                }
+                if (endQueue.ContainsKey(secTillEnd) && pausedState.Ticks == 0)
+                {
+                    TickEventHandler handler = endQueue[secTillEnd];
+                    handler(this, secTillEnd);
+                    endQueue.Remove(secTillEnd);
                 }
                 Thread.Sleep(1);
                 //TODO: kill after main game closed
@@ -80,18 +94,16 @@ namespace Cyber.CLogicEngine
             switch(whence)
             { 
                 case AFTERSTART:
-                    eventQueue.Add(time,toDo);
+                    startQueue.Add(time,toDo);
                     break;
                 case BEFOREOVER:
                     //TODO: unit tests
-                    //FIXME: co stanie się ze zdarzeniami zależącymi od końca gry gdy przesuniemy czas ??
-                    TimeSpan bef = new TimeSpan(length, 0, 0);
-                    eventQueue.Add((int)bef.TotalSeconds-time, toDo);
+                    endQueue.Add(time, toDo);
                     break;
                 case FROMNOW:
                     //TODO: unit tests
                     TimeSpan tonow = DateTime.Now - startTime;
-                    eventQueue.Add((int)tonow.TotalSeconds + time, toDo);
+                    startQueue.Add((int)tonow.TotalSeconds + time, toDo);
                     throw new NotImplementedException();
                 default:
                     throw new InvalidOperationException("Invalid time base for event addition");
@@ -156,6 +168,17 @@ namespace Cyber.CLogicEngine
         public bool CanPause()
         {
             return !CanResume();
+        }
+
+        /// <summary>
+        /// Enables destroying old clock when current game exits
+        /// </summary>
+        public void Destroy()
+        {
+            //TODO: force calling this method when game closed by X button
+            t.Abort();
+            instance = null;
+            Debug.WriteLine("Destroying clock...");
         }
 
         /// <summary>

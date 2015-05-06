@@ -9,6 +9,7 @@ using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Cyber.CLogicEngine;
 
 namespace Cyber.CGameStateEngine
 {
@@ -56,6 +57,7 @@ namespace Cyber.CGameStateEngine
                             switch (i)
                             {
                                 case 0:
+                                    gameStateMainGame.SetUpClock();
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
@@ -120,6 +122,7 @@ namespace Cyber.CGameStateEngine
                                 //gameState.State = GameState.States.startMenu;
                                 //break;                                
                                 case 3:
+                                    Clock.Instance.Destroy();
                                     Thread.Sleep(300);
                                     gameState.State = GameState.States.startMenu;
                                     break;
