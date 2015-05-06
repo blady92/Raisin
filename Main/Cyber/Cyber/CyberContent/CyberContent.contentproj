@@ -498,71 +498,76 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\3D\Characters\samantha.FBX">
+    <None Include="Assets\3D\Characters\samantha.FBX">
       <Name>samantha</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
+    </None>
+    <Compile Include="Assets\3D\Characters\Ally_Bunker.FBX">
+      <Name>Ally_Bunker</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
-    <None Include="Assets\3D\Interior\Interior_Chair.FBX">
+    <Compile Include="Assets\3D\Interior\Interior_Chair.FBX">
       <Name>Interior_Chair</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Collumn.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Collumn.FBX">
       <Name>Interior_Collumn</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Floor.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Floor.FBX">
       <Name>Interior_Floor</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Lamp.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Lamp.FBX">
       <Name>Interior_Lamp</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
+    </Compile>
     <Compile Include="Assets\3D\Interior\Interior_Oxygen_Generator.FBX">
       <Name>Interior_Oxygen_Generator</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <None Include="Assets\3D\Interior\Interior_Sensor.FBX">
+    <Compile Include="Assets\3D\Interior\Interior_Sensor.FBX">
       <Name>Interior_Sensor</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Table.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Table.FBX">
       <Name>Interior_Table</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Terminal.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Terminal.FBX">
       <Name>Interior_Terminal</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Wall_Base.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Wall_Base.FBX">
       <Name>Interior_Wall_Base</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Wall_Concave.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Wall_Concave.FBX">
       <Name>Interior_Wall_Concave</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Wall_Convex.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Wall_Convex.FBX">
       <Name>Interior_Wall_Convex</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
-    <None Include="Assets\3D\Interior\Interior_Wall_Lasers.FBX">
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Wall_Lasers.FBX">
       <Name>Interior_Wall_Lasers</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
+    </Compile>
     <Compile Include="Assets\Fonts\GameFont.spritefont">
       <Name>GameFont</Name>
       <Importer>FontDescriptionImporter</Importer>
