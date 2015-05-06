@@ -23,8 +23,8 @@ namespace Cyber.CItems
             set { enemy = value; }
         }
 
-        public Enemies(string path, Vector3 position, EnemyType type)
-            : base(path, position)
+        public Enemies(string path, string pathToAnimationClip, Vector3 position, EnemyType type)
+            : base(path, pathToAnimationClip, position)
         {
             enemy = type;
         }
