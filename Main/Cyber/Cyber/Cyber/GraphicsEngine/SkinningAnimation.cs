@@ -2,11 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-<<<<<<< HEAD
-=======
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
->>>>>>> 2a98045ae9e8afce0acf8566c91846193afb8f4f
 
 namespace Cyber.GraphicsEngine
 {

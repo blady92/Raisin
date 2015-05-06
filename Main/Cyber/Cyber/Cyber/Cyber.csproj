@@ -87,11 +87,14 @@
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
     <Compile Include="CGameStateEngine\GameStatePauseMenu.cs" />
     <Compile Include="CItems\ConsoleSprites.cs" />
-    <Compile Include="CItems\EFlyer.cs" />
-    <Compile Include="CItems\Enemies.cs" />
-    <Compile Include="CItems\ESpy.cs" />
-    <Compile Include="CItems\ETank.cs" />
-    <Compile Include="CItems\MoveableItem.cs" />
+    <Compile Include="CItems\CMoveableItem\EFlyer.cs" />
+    <Compile Include="CItems\CMoveableItem\Enemies.cs" />
+    <Compile Include="CItems\CMoveableItem\ESpy.cs" />
+    <Compile Include="CItems\CMoveableItem\ETank.cs" />
+    <Compile Include="CItems\CMoveableItem\MoveableItem.cs" />
+    <Compile Include="CItems\CStaticItem\Decoration.cs" />
+    <Compile Include="CItems\CStaticItem\StaticItem.cs" />
+    <Compile Include="CItems\CStaticItem\WallItem.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
     <Compile Include="CLogicEngine\LogicEngine.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="CSkillTree\Tree.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
+    <Compile Include="GraphicsEngine\CameraBehavior.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />
     <Compile Include="GraphicsEngine\SkinningAnimation.cs" />
@@ -112,7 +116,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="CItems\Samantha.cs" />
+    <Compile Include="CItems\CMoveableItem\Samantha.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CAdditionalLibs\XNAGameConsole.dll" />
