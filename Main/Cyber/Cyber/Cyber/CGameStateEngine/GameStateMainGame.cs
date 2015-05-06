@@ -23,8 +23,9 @@ namespace Cyber.CGameStateEngine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Matrix view = Matrix.CreateLookAt(new Vector3(10, 10, 100), new Vector3(5, 5, 0), Vector3.UnitZ);
-        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 1000f);
+        //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(100, 100, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
 
         private KeyboardState oldState;
         private KeyboardState newState;
@@ -54,22 +55,24 @@ namespace Cyber.CGameStateEngine
             wallList = new List<ModelTest>();
             wallListColliders = new List<Collider>();
 
-            samanthaModel = new ModelTest("Assets/3D/ship");
+            samanthaModel = new ModelTest("Assets/3D/Characters/Ally_Bunker");
             samanthaModel.LoadContent(theContentManager);
 
             samanthaCollider = new Collider();
             samanthaCollider.SetBoudings(samanthaModel.Model);
             samanthaCollider.CreateColliderBoudingBox();
-            
+            samanthaCollider.MoveBoundingBox(new Vector3(-15f, -15f, 0f));
 
             //Ładowanie przykładowych ścianek
             for (int i = 0; i < 4; i++)
             {
-                wallList.Add(new ModelTest("Assets/3D/wall"));
+                wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
                 wallList[i].LoadContent(theContentManager);
                 wallListColliders.Add(new Collider());
                 wallListColliders[i].SetBoudings(wallList[i].Model);
                 wallListColliders[i].CreateColliderBoudingBox();
+                wallListColliders[i].MoveBoundingBox(new Vector3(-15f, -20f, 5f)); ;
+
             }
 
             Debug.WriteLine("End of Loading");
@@ -92,16 +95,17 @@ namespace Cyber.CGameStateEngine
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             //Samantha setups
-            Vector3 vector = new Vector3(0, -10, 2.0f);
+            Vector3 vector = new Vector3(0, -100, 0.0f);
             samanthaModel.Position += vector;
+            samanthaCollider.BoudingBoxResizeOnce(0.5f, 0.5f, 1f);
             samanthaCollider.RecreateCage(vector);
-
             //Walls setups
             for (int i = 0; i < wallListColliders.Count; i++)
             {
-                Vector3 move = new Vector3(0.0f, i * 7.0f, 2.0f);
+                Vector3 move = new Vector3(0.0f, i * 10.0f, 0);
                 wallList[i].Position = move;
-                wallListColliders[i].RecreateCage(move);
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
+                wallListColliders[i].RecreateCage(new Vector3(0, i*10f, 0));
             }
         }
 
@@ -168,7 +172,7 @@ namespace Cyber.CGameStateEngine
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
                 i++;
-                Vector3 move = new Vector3(0, -0.05f, 0);
+                Vector3 move = new Vector3(0, -1f, 0);
                 samanthaCollider.RecreateCage(move);
                 if (!IsCollided())
                 {
@@ -176,7 +180,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else
                 {
-                    move = new Vector3(0, 0.05f, 0);
+                    move = new Vector3(0, 1f, 0);
                     samanthaCollider.RecreateCage(move);
                     audio.playAudio(1);
                 }
@@ -184,7 +188,7 @@ namespace Cyber.CGameStateEngine
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
             {
                 i++;
-                Vector3 move = new Vector3(0, 0.05f, 0);
+                Vector3 move = new Vector3(0, 1f, 0);
                 samanthaCollider.RecreateCage(move);
                 if (!IsCollided())
                 {
@@ -192,7 +196,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else
                 {
-                    move = new Vector3(0, -0.05f, 0);
+                    move = new Vector3(0, -1f, 0);
                     samanthaCollider.RecreateCage(move);
                     audio.playAudio(1);
                 }
@@ -200,7 +204,7 @@ namespace Cyber.CGameStateEngine
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
             {
                 i++;
-                Vector3 move = new Vector3(0.05f, 0, 0);
+                Vector3 move = new Vector3(1f, 0, 0);
                 samanthaCollider.RecreateCage(move);
                 if (!IsCollided())
                 {
@@ -208,7 +212,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else
                 {
-                    move = new Vector3(-0.05f, 0, 0);
+                    move = new Vector3(-1f, 0, 0);
                     samanthaCollider.RecreateCage(move);
                     audio.playAudio(1);
                 }
@@ -216,7 +220,7 @@ namespace Cyber.CGameStateEngine
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
             {
                 i++;
-                Vector3 move = new Vector3(-0.05f, 0, 0);
+                Vector3 move = new Vector3(-1f, 0, 0);
                 samanthaCollider.RecreateCage(move);
                 if (!IsCollided())
                 {
@@ -224,7 +228,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else
                 {
-                    move = new Vector3(0.05f, 0, 0);
+                    move = new Vector3(1f, 0, 0);
                     samanthaCollider.RecreateCage(move);
                     audio.playAudio(1);
                 }
