@@ -67,6 +67,7 @@
     <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -102,6 +103,11 @@
     <Compile Include="CSkillTree\SkillOffensive.cs" />
     <Compile Include="CSkillTree\SkillRest.cs" />
     <Compile Include="CSkillTree\Tree.cs" />
+    <Compile Include="CStageParsing\Generables.cs" />
+    <Compile Include="CStageParsing\IGenerable.cs" />
+    <Compile Include="CStageParsing\Stage.cs" />
+    <Compile Include="CStageParsing\StageParser.cs" />
+    <Compile Include="CStageParsing\Walls.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />

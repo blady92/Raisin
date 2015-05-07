@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
+using Cyber.CStageParsing;
 
 namespace Cyber.CGameStateEngine
 {
@@ -24,7 +25,7 @@ namespace Cyber.CGameStateEngine
         SpriteBatch spriteBatch;
 
         //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
-        Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(100, 100, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
 
         private KeyboardState oldState;
@@ -45,6 +46,8 @@ namespace Cyber.CGameStateEngine
         private ColliderController colliderController;
         private List<ModelTest> wallList;
         private List<Collider> wallListColliders;
+        private StageParser stageParser;
+        Walls walls;
 
         //Barriers for clock manipulation
         Boolean addPushed = false;
@@ -63,10 +66,15 @@ namespace Cyber.CGameStateEngine
             samanthaCollider.CreateColliderBoudingBox();
             samanthaCollider.MoveBoundingBox(new Vector3(-15f, -15f, 0f));
 
+            stageParser = new StageParser();
+            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage.bmp");
+            walls = new Walls(stage);
+
             //Ładowanie przykładowych ścianek
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < walls.Count; i++)
             {
-                wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
+                //wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
+                wallList.Add(new ModelTest("Assets/3D/ship"));
                 wallList[i].LoadContent(theContentManager);
     
     //USTAWIANIE KĄTA OBROTU
@@ -102,13 +110,47 @@ namespace Cyber.CGameStateEngine
             samanthaCollider.BoudingBoxResizeOnce(0.5f, 0.5f, 1f);
             samanthaCollider.RecreateCage(vector);
             //Walls setups
-            for (int i = 0; i < wallListColliders.Count; i++)
+            int i = 0;
+
+            for (int j = 0; j < walls.WallsUp.Count; i++, j++)
             {
-                Vector3 move = new Vector3(0.0f, i * 10.0f, 0);
+                /*
+                Vector3 move = new Vector3(0.0f, i * 7.0f, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].RecreateCage(move);
+                 * */
+                Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
                 wallList[i].Position = move;
                 wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
                 wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
-                wallListColliders[i].RecreateCage(new Vector3(0, i*10f, 0));
+                wallListColliders[i].RecreateCage(move);
+            }
+
+            for (int j = 0; j < walls.WallsDown.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(walls.WallsDown[j].X * 4, walls.WallsDown[j].Y * 4 + 4, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
+                wallListColliders[i].RecreateCage(move);
+            }
+
+            for (int j = 0; j < walls.WallsLeft.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(walls.WallsLeft[j].X * 4 - 4, walls.WallsLeft[j].Y * 4, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
+                wallListColliders[i].RecreateCage(move);
+            }
+
+            for (int j = 0; j < walls.WallsRight.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(walls.WallsRight[j].X * 4 + 4, walls.WallsRight[j].Y * 4, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
+                wallListColliders[i].RecreateCage(move);
             }
         }
 
