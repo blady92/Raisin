@@ -33,6 +33,7 @@ namespace Cyber.CGameStateEngine
         { }
         public virtual void Draw(GraphicsDevice device) { }
 
+        public virtual void Draw(GraphicsDevice device, GameTime gameTime) { }
         public virtual void Draw(GraphicsDevice device, Matrix world, Matrix view, Matrix projection) { }
 
         public virtual void Update() { }

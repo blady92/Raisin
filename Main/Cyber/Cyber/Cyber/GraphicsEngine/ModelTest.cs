@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,11 +9,17 @@ namespace Cyber.GraphicsEngine
 {
     class ModelTest
     {
-
+        private float rotationAngle;
         private Vector3 position;
         private Model model;
         private string fieldToAsset;
-        
+
+        public float RotationAngle
+        {
+            get { return rotationAngle; }
+            set { rotationAngle = value; }
+        }
+
         public Vector3 Position
         {
             get { return position; }

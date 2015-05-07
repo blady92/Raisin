@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cyber.CItems
 {
-    class ESpy
+    class _3DObjects
     {
     }
 }

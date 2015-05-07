@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using Cyber.Audio;
 using Cyber.AudioEngine;
 using Cyber.CGameStateEngine;
-using Cyber.CollisionEngine;
-using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -67,6 +64,7 @@ namespace Cyber
 
         protected override void Initialize()
         {
+
             #region INITIALIZE INPUT READINGS
             oldState = Keyboard.GetState();
             #endregion
@@ -168,7 +166,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                mainGame.Draw(this.GraphicsDevice);
+                mainGame.Draw(this.GraphicsDevice, gameTime);
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
