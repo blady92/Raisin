@@ -54,7 +54,7 @@ namespace Cyber.CItems.CStaticItem
 
         public void DrawItem(GraphicsDevice device)
         {
-            skinnedModel.DrawStaticModelWithBasicEffect(device);
+            //skinnedModel.DrawStaticModelWithBasicEffect(device);
         }
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device)

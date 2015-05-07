@@ -15,10 +15,11 @@ namespace Cyber.GraphicsEngine
         Effect myEffect;
         AnimationPlayer animationPlayer;
         Texture2D texture;
+        MouseState prevMouseState;
 
-        float cameraArc = 0;
-        float cameraRotation = 0;
-        float cameraDistance = 500;
+        //float cameraArc = 0;
+        //float cameraRotation = 0;
+        //float cameraDistance = 500;
 
         #endregion
 
@@ -105,6 +106,10 @@ namespace Cyber.GraphicsEngine
 
         public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device)
         {
+
+            float cameraArc = 0;
+            float cameraRotation = 0;
+            float cameraDistance = 500;
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
@@ -142,7 +147,9 @@ namespace Cyber.GraphicsEngine
         }
         public void DrawSkinnedModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
-        
+            float cameraArc = 0;
+            float cameraRotation = 0;
+            float cameraDistance = 500;
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
@@ -175,21 +182,8 @@ namespace Cyber.GraphicsEngine
             }
         }
 
-         public void DrawStaticModelWithBasicEffect(GraphicsDevice device)
+         public void DrawStaticModelWithBasicEffect(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
-            Matrix[] transforms = new Matrix[currentModel.Bones.Count];
-            currentModel.CopyAbsoluteBoneTransformsTo(transforms);
-
-            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
-
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                              new Vector3(0, 30, 100), Vector3.Up);
-
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
-
             //Render zeskinowany mesh
             foreach(ModelMesh mesh in currentModel.Meshes)
             { 
@@ -213,7 +207,9 @@ namespace Cyber.GraphicsEngine
 
          public void DrawStaticModelWithShader(GameTime gameTime, GraphicsDevice device)
         {
-
+            float cameraArc = 0;
+            float cameraRotation = 0;
+            float cameraDistance = 500;
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
             currentModel.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -247,10 +243,10 @@ namespace Cyber.GraphicsEngine
         }
 
 
-         public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState)
+         public void UpdateCamera(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
+             #region STARE DZIAŁANIE KAMERY
              // Obracanie kamery góra/dół wokół modelu
              if (currentKeyboardState.IsKeyDown(Keys.Up) ||
                  currentKeyboardState.IsKeyDown(Keys.W))
@@ -315,6 +311,28 @@ namespace Cyber.GraphicsEngine
                  cameraRotation = 0;
                  cameraDistance = 100;
              }
+             #endregion
+
+             #region NOWE DZIAŁANIE KAMERY
+    
+
+             Debug.Write("Yo, ur mouse x is: ");
+             Debug.WriteLine(currentMouseState.X);
+
+             Debug.Write("Yo, ur mouse y is: ");
+             Debug.WriteLine(currentMouseState.Y);
+
+             if((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X < prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
+             {
+                 cameraRotation -= time * 0.1f;
+                 prevMouseState = currentMouseState;
+             }
+             if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X > prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
+             {
+                 cameraRotation += time * 0.1f;
+                 prevMouseState = currentMouseState;
+             }
+             #endregion
          }
                 
 
