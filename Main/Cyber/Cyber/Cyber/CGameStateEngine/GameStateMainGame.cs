@@ -24,7 +24,7 @@ namespace Cyber.CGameStateEngine
         SpriteBatch spriteBatch;
 
         //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
-        Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 100), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
 
         private KeyboardState oldState;
@@ -68,11 +68,13 @@ namespace Cyber.CGameStateEngine
             {
                 wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
                 wallList[i].LoadContent(theContentManager);
+    
+    //USTAWIANIE KĄTA OBROTU
+                wallList[i].RotationAngle = 50;
                 wallListColliders.Add(new Collider());
                 wallListColliders[i].SetBoudings(wallList[i].Model);
                 wallListColliders[i].CreateColliderBoudingBox();
                 wallListColliders[i].MoveBoundingBox(new Vector3(-15f, -20f, 5f)); ;
-
             }
 
             Debug.WriteLine("End of Loading");
@@ -114,7 +116,7 @@ namespace Cyber.CGameStateEngine
         {
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
-            Matrix modelView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(samanthaModel.Position);
+            Matrix modelView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(samanthaModel.Position);
             Matrix colliderView = Matrix.CreateTranslation(samanthaCollider.Position);
             
             samanthaModel.DrawModel(modelView, view, projection);
@@ -122,7 +124,10 @@ namespace Cyber.CGameStateEngine
 
             for (int i = 0; i < wallListColliders.Count; i++)
             {
-                Matrix wallView = Matrix.CreateTranslation(wallList[i].Position);
+                //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
+                Matrix wallView =   Matrix.Identity * 
+                                    Matrix.CreateRotationZ(MathHelper.ToRadians(wallList[i].RotationAngle)) *
+                                    Matrix.CreateTranslation(wallList[i].Position);
                 Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
                 wallList[i].DrawModel(wallView, view, projection);
                 wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
