@@ -246,12 +246,15 @@ namespace Cyber.GraphicsEngine
          public void UpdateCamera(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+             float cameraSpeed = 0.1f;
+             float cameraZoomStep = 0.25f;
+
              #region STARE DZIAŁANIE KAMERY
              // Obracanie kamery góra/dół wokół modelu
              if (currentKeyboardState.IsKeyDown(Keys.Up) ||
                  currentKeyboardState.IsKeyDown(Keys.W))
              {
-                 cameraArc += time * 0.1f;
+                 cameraArc += time * cameraSpeed;
                  Debug.WriteLine("In SkinningAnimation: UP KEY PRESSED, or W perhaps");
                  Debug.WriteLine("cameraArc: ");
                  Debug.WriteLine(cameraArc);
@@ -260,7 +263,7 @@ namespace Cyber.GraphicsEngine
              if (currentKeyboardState.IsKeyDown(Keys.Down) ||
                  currentKeyboardState.IsKeyDown(Keys.S))
              {
-                 cameraArc -= time * 0.1f;
+                 cameraArc -= time * cameraSpeed;
                  Debug.WriteLine("In SkinningAnimation: DOWN KEY PRESSED, or W perhaps");
                  Debug.WriteLine("cameraArc: ");
                  Debug.WriteLine(cameraArc);
@@ -278,23 +281,23 @@ namespace Cyber.GraphicsEngine
              if (currentKeyboardState.IsKeyDown(Keys.Right) ||
                  currentKeyboardState.IsKeyDown(Keys.D))
              {
-                 cameraRotation += time * 0.1f;
+                 cameraRotation += time * cameraSpeed;
              }
 
              if (currentKeyboardState.IsKeyDown(Keys.Left) ||
                  currentKeyboardState.IsKeyDown(Keys.A))
              {
-                 cameraRotation -= time * 0.1f;
+                 cameraRotation -= time * cameraSpeed;
              }
 
           //   cameraRotation += currentGamePadState.ThumbSticks.Right.X * time * 0.25f;
 
              // Zoom In & Out.
              if (currentKeyboardState.IsKeyDown(Keys.Z))
-                 cameraDistance += time * 0.25f;
+                 cameraDistance += time * cameraZoomStep;
 
              if (currentKeyboardState.IsKeyDown(Keys.X))
-                 cameraDistance -= time * 0.25f;
+                 cameraDistance -= time * cameraZoomStep;
 
         //     cameraDistance += currentGamePadState.Triggers.Left * time * 0.5f;
                 //cameraDistance -= currentGamePadState.Triggers.Right * time * 0.5f;
@@ -324,12 +327,12 @@ namespace Cyber.GraphicsEngine
 
              if((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X < prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
-                 cameraRotation -= time * 0.1f;
+                 cameraRotation -= time * cameraSpeed;
                  prevMouseState = currentMouseState;
              }
              if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X > prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
-                 cameraRotation += time * 0.1f;
+                 cameraRotation += time * cameraSpeed;
                  prevMouseState = currentMouseState;
              }
              #endregion

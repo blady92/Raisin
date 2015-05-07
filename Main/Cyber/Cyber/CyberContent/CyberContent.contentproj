@@ -498,11 +498,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <None Include="Assets\3D\Characters\samantha.FBX">
+    <Compile Include="Assets\3D\Characters\samantha.FBX">
       <Name>samantha</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </None>
+    </Compile>
     <Compile Include="Assets\3D\Characters\Ally_Bunker.FBX">
       <Name>Ally_Bunker</Name>
       <Importer>FbxImporter</Importer>

@@ -24,7 +24,7 @@ namespace Cyber
         private int maxWidth = 1366;
         private int maxHeight = 768;
         private bool fullscreen = false;
-        private bool mouseVisibility = true;
+        private bool mouseVisibility = false;
 
         private Sprite mousePointer;
 
