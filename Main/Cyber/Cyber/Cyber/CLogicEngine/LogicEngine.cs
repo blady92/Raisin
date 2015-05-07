@@ -10,6 +10,7 @@ using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CGameStateEngine
 {
@@ -150,9 +151,9 @@ namespace Cyber.CGameStateEngine
 
         #region LOAD MENU LOGIC
 
-        public void LogicLoadMenu(GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
+        public void LogicLoadMenu(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
         {
-            gameStateLoadMenu.Update(gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            gameStateLoadMenu.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
         }
         #endregion
         #region GAME LOGIC

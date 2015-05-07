@@ -243,7 +243,7 @@ namespace Cyber.GraphicsEngine
         }
 
 
-         public void UpdateCamera(GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
+         public void UpdateCamera(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
              #region STARE DZIAŁANIE KAMERY
@@ -322,7 +322,12 @@ namespace Cyber.GraphicsEngine
              Debug.Write("Yo, ur mouse y is: ");
              Debug.WriteLine(currentMouseState.Y);
 
-             if(currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y)
+             if((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X < prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
+             {
+                 cameraRotation -= time * 0.1f;
+                 prevMouseState = currentMouseState;
+             }
+             if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X > prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
                  cameraRotation += time * 0.1f;
                  prevMouseState = currentMouseState;
