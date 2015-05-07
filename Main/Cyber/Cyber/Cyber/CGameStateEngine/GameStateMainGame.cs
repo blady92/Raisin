@@ -25,7 +25,7 @@ namespace Cyber.CGameStateEngine
         SpriteBatch spriteBatch;
 
         //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
-        Matrix view = Matrix.CreateLookAt(new Vector3(100, 100, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(200, 200, 400), new Vector3(0.1f, 0.1f, 0.1f), Vector3.UnitZ);
         Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
 
         private KeyboardState oldState;
@@ -47,6 +47,7 @@ namespace Cyber.CGameStateEngine
         private List<ModelTest> wallList;
         private List<Collider> wallListColliders;
         private StageParser stageParser;
+        private float przesuniecie;
         Walls walls;
 
         //Barriers for clock manipulation
@@ -67,26 +68,95 @@ namespace Cyber.CGameStateEngine
             samanthaCollider.MoveBoundingBox(new Vector3(-15f, -15f, 0f));
 
             stageParser = new StageParser();
-            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage.bmp");
+            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage2.bmp");
             walls = new Walls(stage);
+            Debug.WriteLine("Ilość górnych ścianek to: "+walls.WallsUp.Count);
 
             //Ładowanie przykładowych ścianek
             for (int i = 0; i < walls.Count; i++)
             {
-                //wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
-                wallList.Add(new ModelTest("Assets/3D/ship"));
+                wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
                 wallList[i].LoadContent(theContentManager);
-    
-    //USTAWIANIE KĄTA OBROTU
-                wallList[i].RotationAngle = 50;
                 wallListColliders.Add(new Collider());
-                wallListColliders[i].SetBoudings(wallList[i].Model);
-                wallListColliders[i].CreateColliderBoudingBox();
-                wallListColliders[i].MoveBoundingBox(new Vector3(-15f, -20f, 5f)); ;
             }
 
             Debug.WriteLine("End of Loading");
         }
+
+        public void SetUpScene()
+        {
+            ////Setup them position on the world at the start, then recreate cage. Order is necessary!
+            //Samantha setups
+            przesuniecie = 0;
+            Vector3 vector = new Vector3(0, -100, 0.0f);
+            samanthaModel.Position += vector;
+            samanthaCollider.BoudingBoxResizeOnce(0.5f, 0.5f, 1f);
+            samanthaCollider.RecreateCage(vector);
+            
+            #region Walls setups
+            int i = 0;
+            float mnoznikPrzesuniecaSciany;
+
+            #region WallsUP
+            mnoznikPrzesuniecaSciany = 19.5f;
+            for (int j = 0; j < walls.WallsUp.Count; i++, j++)
+            {
+                Debug.WriteLine(walls.WallsUp.Count);
+                wallList[i].RotationAngle = -90;
+                Vector3 move = new Vector3(walls.WallsUp[j].X * mnoznikPrzesuniecaSciany, walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - 4, 0.0f);
+                //Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].SetBoudings(wallList[i].Model);
+                wallListColliders[i].CreateColliderBoudingBox();
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.4f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-7, -2, 15f));
+                wallListColliders[i].RecreateCage(move);
+            }
+
+            #endregion
+            #region WallsDown
+            for (int j = 0; j < walls.WallsDown.Count; i++, j++)
+            {
+                wallList[i].RotationAngle = 90;
+                Vector3 move = new Vector3(walls.WallsDown[j].X * mnoznikPrzesuniecaSciany, walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + 4, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].SetBoudings(wallList[i].Model);
+                wallListColliders[i].CreateColliderBoudingBox();
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.4f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-7, -2, 15f));
+                wallListColliders[i].RecreateCage(move);
+            }
+
+            #endregion
+            #region WallsLeft
+            for (int j = 0; j < walls.WallsLeft.Count; i++, j++)
+            {
+                wallList[i].RotationAngle = 180;
+                Vector3 move = new Vector3(walls.WallsLeft[j].X * mnoznikPrzesuniecaSciany - 4, walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].SetBoudings(wallList[i].Model);
+                wallListColliders[i].CreateColliderBoudingBox();
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.4f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-7, -2, 15f));
+                wallListColliders[i].RecreateCage(move);
+            }
+            #endregion
+            #region WallsRight
+            for (int j = 0; j < walls.WallsRight.Count; i++, j++)
+            {
+                wallList[i].RotationAngle = 0;
+                Vector3 move = new Vector3(walls.WallsRight[j].X * mnoznikPrzesuniecaSciany + 4, walls.WallsRight[j].Y * mnoznikPrzesuniecaSciany, 2.0f);
+                wallList[i].Position = move;
+                wallListColliders[i].SetBoudings(wallList[i].Model);
+                wallListColliders[i].CreateColliderBoudingBox();
+                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.4f);
+                wallListColliders[i].MoveBoundingBox(new Vector3(-7, -2, 15f));
+                wallListColliders[i].RecreateCage(move);
+            }
+            #endregion
+            #endregion
+        }
+
 
         public void SetUpClock()
         {
@@ -101,59 +171,6 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("TIMEOUT");
         }
 
-        public void SetUpScene()
-        {
-            ////Setup them position on the world at the start, then recreate cage. Order is necessary!
-            //Samantha setups
-            Vector3 vector = new Vector3(0, -100, 0.0f);
-            samanthaModel.Position += vector;
-            samanthaCollider.BoudingBoxResizeOnce(0.5f, 0.5f, 1f);
-            samanthaCollider.RecreateCage(vector);
-            //Walls setups
-            int i = 0;
-
-            for (int j = 0; j < walls.WallsUp.Count; i++, j++)
-            {
-                /*
-                Vector3 move = new Vector3(0.0f, i * 7.0f, 2.0f);
-                wallList[i].Position = move;
-                wallListColliders[i].RecreateCage(move);
-                 * */
-                Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
-                wallList[i].Position = move;
-                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
-                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
-                wallListColliders[i].RecreateCage(move);
-            }
-
-            for (int j = 0; j < walls.WallsDown.Count; i++, j++)
-            {
-                Vector3 move = new Vector3(walls.WallsDown[j].X * 4, walls.WallsDown[j].Y * 4 + 4, 2.0f);
-                wallList[i].Position = move;
-                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
-                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
-                wallListColliders[i].RecreateCage(move);
-            }
-
-            for (int j = 0; j < walls.WallsLeft.Count; i++, j++)
-            {
-                Vector3 move = new Vector3(walls.WallsLeft[j].X * 4 - 4, walls.WallsLeft[j].Y * 4, 2.0f);
-                wallList[i].Position = move;
-                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
-                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
-                wallListColliders[i].RecreateCage(move);
-            }
-
-            for (int j = 0; j < walls.WallsRight.Count; i++, j++)
-            {
-                Vector3 move = new Vector3(walls.WallsRight[j].X * 4 + 4, walls.WallsRight[j].Y * 4, 2.0f);
-                wallList[i].Position = move;
-                wallListColliders[i].BoudingBoxResizeOnce(0.2f, 0.2f, 1.1f);
-                wallListColliders[i].MoveBoundingBox(new Vector3(-10, 0, 0));
-                wallListColliders[i].RecreateCage(move);
-            }
-        }
-
         public override void Draw(GraphicsDevice device, GameTime gameTime)
         {
             device.BlendState = BlendState.Opaque;
@@ -162,7 +179,7 @@ namespace Cyber.CGameStateEngine
             Matrix colliderView = Matrix.CreateTranslation(samanthaCollider.Position);
             
             samanthaModel.DrawModel(modelView, view, projection);
-            samanthaCollider.DrawBouding(device, colliderView, view, projection);
+            //samanthaCollider.DrawBouding(device, colliderView, view, projection);
 
             for (int i = 0; i < wallListColliders.Count; i++)
             {
@@ -172,14 +189,52 @@ namespace Cyber.CGameStateEngine
                                     Matrix.CreateTranslation(wallList[i].Position);
                 Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
                 wallList[i].DrawModel(wallView, view, projection);
-                wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
+                //wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
             }
             base.Draw(gameTime);
         }
 
         public override void Update()
         {
+            Debug.WriteLine("Mnożnik to: " + przesuniecie);
             KeyboardState newState = Keyboard.GetState();
+
+            #region Do testowania przesunięcia
+            //if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
+            //{
+            //    przesuniecie += 0.1f;
+            //    //mnoznikPrzesuniecaSciany += 0.1f;
+            //    for (int j = 0; j < walls.WallsUp.Count; i++, j++)
+            //    {
+            //        Vector3 move = new Vector3(walls.WallsUp[j].X * mnoznikPrzesuniecaSciany, walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - 4, 0.0f);
+            //        //Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
+            //        wallList[j].Position = move;
+            //        wallListColliders[j].SetBoudings(wallList[j].Model);
+            //        wallListColliders[j].CreateColliderBoudingBox();
+            //        wallListColliders[j].BoudingBoxResizeOnce(0.2f, 0.2f, przesuniecie);
+            //        //wallListColliders[i].MoveBoundingBox(move - new Vector3(80, -18, 0));
+            //        //wallListColliders[j].MoveBoundingBox(new Vector3(0, 0, przesuniecie));
+            //        wallListColliders[j].RecreateCage(move);
+            //    }
+            //}
+            //if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down))
+            //{
+            //    przesuniecie -= 0.1f;
+            //    for (int j = 0; j < walls.WallsUp.Count; i++, j++)
+            //    {
+            //        Vector3 move = new Vector3(walls.WallsUp[j].X * mnoznikPrzesuniecaSciany, walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - 4, 0.0f);
+            //        //Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
+            //        wallList[j].Position = move;
+            //        wallListColliders[j].SetBoudings(wallList[j].Model);
+            //        wallListColliders[j].CreateColliderBoudingBox();
+            //        wallListColliders[j].BoudingBoxResizeOnce(0.2f, 0.2f, przesuniecie);
+            //        //wallListColliders[i].MoveBoundingBox(move - new Vector3(80, -18, 0));
+            //        //wallListColliders[j].MoveBoundingBox(new Vector3(0, 0, przesuniecie));
+            //        wallListColliders[j].RecreateCage(move);
+            //    }
+            //}
+            #endregion
+
             if (newState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.T))
             {
                 if (Clock.Instance.CanResume())
