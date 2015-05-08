@@ -24,10 +24,7 @@ namespace Cyber.CGameStateEngine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
-        Matrix view = Matrix.CreateLookAt(new Vector3(200, 200, 400), new Vector3(0.1f, 0.1f, 0.1f), Vector3.UnitZ);
-        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
-
+        
         private KeyboardState oldState;
         private KeyboardState newState;
         private AudioController audio;
@@ -54,6 +51,10 @@ namespace Cyber.CGameStateEngine
         Boolean addPushed = false;
         Boolean subPushed = false;
 
+        //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
+        Matrix view = Matrix.CreateLookAt(new Vector3(200, 200, 400), new Vector3(0.1f, 0.1f, 0.1f), Vector3.UnitZ);
+        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
+
         public void LoadContent(ContentManager theContentManager)
         {
             wallList = new List<ModelTest>();
@@ -61,7 +62,6 @@ namespace Cyber.CGameStateEngine
 
             samanthaModel = new ModelTest("Assets/3D/Characters/Ally_Bunker");
             samanthaModel.LoadContent(theContentManager);
-
             samanthaCollider = new Collider();
             samanthaCollider.SetBoudings(samanthaModel.Model);
             samanthaCollider.CreateColliderBoudingBox();
@@ -173,6 +173,14 @@ namespace Cyber.CGameStateEngine
 
         public override void Draw(GraphicsDevice device, GameTime gameTime)
         {
+            view = view = Matrix.CreateLookAt(new Vector3(samanthaModel.Position.X + 200,
+                samanthaModel.Position.Y + 200,
+                samanthaModel.Position.Z + 400), new Vector3(
+                samanthaModel.Position.X,
+                samanthaModel.Position.Y,
+                samanthaModel.Position.Z),
+                Vector3.UnitZ);
+
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             Matrix modelView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(samanthaModel.Position);
