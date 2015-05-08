@@ -246,91 +246,124 @@ namespace Cyber.GraphicsEngine
          public void UpdateCamera(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-             #region STARE DZIAŁANIE KAMERY
-             // Obracanie kamery góra/dół wokół modelu
-             if (currentKeyboardState.IsKeyDown(Keys.Up) ||
-                 currentKeyboardState.IsKeyDown(Keys.W))
-             {
-                 cameraArc += time * 0.1f;
-                 Debug.WriteLine("In SkinningAnimation: UP KEY PRESSED, or W perhaps");
-                 Debug.WriteLine("cameraArc: ");
-                 Debug.WriteLine(cameraArc);
-             }
+             float cameraSpeed = 0.2f;
+             
 
-             if (currentKeyboardState.IsKeyDown(Keys.Down) ||
-                 currentKeyboardState.IsKeyDown(Keys.S))
-             {
-                 cameraArc -= time * 0.1f;
-                 Debug.WriteLine("In SkinningAnimation: DOWN KEY PRESSED, or W perhaps");
-                 Debug.WriteLine("cameraArc: ");
-                 Debug.WriteLine(cameraArc);
-             }
+             #region STARE DZIAŁANIE KAMERY - klawiatura
+             //float cameraZoomStep = 0.25f;
+        //     // Obracanie kamery góra/dół wokół modelu
+        //     if (currentKeyboardState.IsKeyDown(Keys.Up) ||
+        //         currentKeyboardState.IsKeyDown(Keys.W))
+        //     {
+        //         cameraArc += time * cameraSpeed;
+        //         Debug.WriteLine("In SkinningAnimation: UP KEY PRESSED, or W perhaps");
+        //         Debug.WriteLine("cameraArc: ");
+        //         Debug.WriteLine(cameraArc);
+        //     }
 
-            // cameraArc += currentGamePadState.ThumbSticks.Right.Y * time * 0.25f;
+        //     if (currentKeyboardState.IsKeyDown(Keys.Down) ||
+        //         currentKeyboardState.IsKeyDown(Keys.S))
+        //     {
+        //         cameraArc -= time * cameraSpeed;
+        //         Debug.WriteLine("In SkinningAnimation: DOWN KEY PRESSED, or W perhaps");
+        //         Debug.WriteLine("cameraArc: ");
+        //         Debug.WriteLine(cameraArc);
+        //     }
 
-             // Ograniczenie na kąt obrotu.
-             if (cameraArc > 90.0f)
-                 cameraArc = 90.0f;
-             else if (cameraArc < -90.0f)
-                 cameraArc = -90.0f;
+        //    // cameraArc += currentGamePadState.ThumbSticks.Right.Y * time * 0.25f;
 
-             // Obracanie kamery wokół obrotu.
-             if (currentKeyboardState.IsKeyDown(Keys.Right) ||
-                 currentKeyboardState.IsKeyDown(Keys.D))
-             {
-                 cameraRotation += time * 0.1f;
-             }
+        //     // Ograniczenie na kąt obrotu.
+        //     if (cameraArc > 90.0f)
+        //         cameraArc = 90.0f;
+        //     else if (cameraArc < -90.0f)
+        //         cameraArc = -90.0f;
 
-             if (currentKeyboardState.IsKeyDown(Keys.Left) ||
-                 currentKeyboardState.IsKeyDown(Keys.A))
-             {
-                 cameraRotation -= time * 0.1f;
-             }
+        //     // Obracanie kamery wokół obrotu.
+        //     if (currentKeyboardState.IsKeyDown(Keys.Right) ||
+        //         currentKeyboardState.IsKeyDown(Keys.D))
+        //     {
+        //         cameraRotation += time * cameraSpeed;
+        //         Debug.WriteLine("In SA: RIGHT KEY/W, cameraRotation: " + cameraRotation);
 
-          //   cameraRotation += currentGamePadState.ThumbSticks.Right.X * time * 0.25f;
+        //     }
 
-             // Zoom In & Out.
-             if (currentKeyboardState.IsKeyDown(Keys.Z))
-                 cameraDistance += time * 0.25f;
+        //     if (currentKeyboardState.IsKeyDown(Keys.Left) ||
+        //         currentKeyboardState.IsKeyDown(Keys.A))
+        //     {
+        //         cameraRotation -= time * cameraSpeed;
+        //         Debug.WriteLine("In SA: LEFT KEY/S, cameraRotation: " + cameraRotation);
+        //     }
 
-             if (currentKeyboardState.IsKeyDown(Keys.X))
-                 cameraDistance -= time * 0.25f;
+        //  //   cameraRotation += currentGamePadState.ThumbSticks.Right.X * time * 0.25f;
 
-        //     cameraDistance += currentGamePadState.Triggers.Left * time * 0.5f;
-                //cameraDistance -= currentGamePadState.Triggers.Right * time * 0.5f;
+        //     // Zoom In & Out.
+        //     if (currentKeyboardState.IsKeyDown(Keys.Z))
+        //         cameraDistance += time * cameraZoomStep;
 
-             // Ograniczenie dystansu kamery.
-             if (cameraDistance > 700.0f)
-                 cameraDistance = 700.0f;
-             else if (cameraDistance < 10.0f)
-                 cameraDistance = 10.0f;
+        //     if (currentKeyboardState.IsKeyDown(Keys.X))
+        //         cameraDistance -= time * cameraZoomStep;
 
-             if (currentKeyboardState.IsKeyDown(Keys.R))
-             {
-                 cameraArc = 0;
-                 cameraRotation = 0;
-                 cameraDistance = 100;
-             }
+        ////     cameraDistance += currentGamePadState.Triggers.Left * time * 0.5f;
+        //        //cameraDistance -= currentGamePadState.Triggers.Right * time * 0.5f;
+
+        //     // Ograniczenie dystansu kamery.
+        //     if (cameraDistance > 6000.0f)
+        //         cameraDistance = 6000.0f;
+        //     else if (cameraDistance < 10.0f)
+        //         cameraDistance = 10.0f;
+
+        //     if (currentKeyboardState.IsKeyDown(Keys.R))
+        //     {
+        //         cameraArc = 0;
+        //         cameraRotation = 0;
+        //         cameraDistance = 100;
+        //     }
              #endregion
 
-             #region NOWE DZIAŁANIE KAMERY
+             #region NOWE DZIAŁANIE KAMERY - mysz
     
 
-             Debug.Write("Yo, ur mouse x is: ");
-             Debug.WriteLine(currentMouseState.X);
+             //Debug.Write("Yo, ur mouse x is: ");
+             //Debug.WriteLine(currentMouseState.X);
 
-             Debug.Write("Yo, ur mouse y is: ");
-             Debug.WriteLine(currentMouseState.Y);
+             //Debug.Write("Yo, ur mouse y is: ");
+             //Debug.WriteLine(currentMouseState.Y);
 
+            //  Ograniczenie na kąt obrotu.
+                  if (cameraArc > -18.0f)
+                  {
+                      cameraArc = -18.0f;
+                  } 
+                  else if (cameraArc < -32.0f)
+                  {
+                      cameraArc = -32.0f;
+                  }
+                     
              if((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X < prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
-                 cameraRotation -= time * 0.1f;
+                 cameraRotation -= time * cameraSpeed;
                  prevMouseState = currentMouseState;
              }
              if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X > prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
-                 cameraRotation += time * 0.1f;
+                 cameraRotation += time * cameraSpeed;
                  prevMouseState = currentMouseState;
+             }
+             if ((currentMouseState.Y != prevMouseState.Y || currentMouseState.X != prevMouseState.X) && (currentMouseState.Y > prevMouseState.Y) && (currentMouseState.Y > 0) && (currentMouseState.Y < device.Viewport.Height) && (currentMouseState.LeftButton == ButtonState.Pressed))
+             {
+                 cameraArc += time * cameraSpeed;
+                 prevMouseState = currentMouseState;
+             }
+             if ((currentMouseState.Y != prevMouseState.Y || currentMouseState.X != prevMouseState.X) && (currentMouseState.Y < prevMouseState.Y) && (currentMouseState.Y > 0) && (currentMouseState.Y < device.Viewport.Height) && (currentMouseState.LeftButton == ButtonState.Pressed))
+             {
+                 cameraArc -= time * cameraSpeed;
+                 prevMouseState = currentMouseState;
+             }
+             if(currentMouseState.RightButton == ButtonState.Pressed)
+             {
+                  cameraArc = -25.0f;
+                  cameraRotation = -50.0f;
+                  cameraDistance = 6000;
              }
              #endregion
          }

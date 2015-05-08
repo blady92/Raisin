@@ -21,7 +21,7 @@ namespace Cyber
         private int maxWidth = 1366;
         private int maxHeight = 768;
         private bool fullscreen = false;
-        private bool mouseVisibility = true;
+        private bool mouseVisibility = false;
 
         private Sprite mousePointer;
 
@@ -48,9 +48,12 @@ namespace Cyber
         //Game Console
         private GameConsole console;
 
-        float cameraArc = 0;
-        float cameraRotation = 0;
-        float cameraDistance = 500;
+        //Camera Parameters
+        float cameraArc = -25.0f;
+        float cameraRotation = -50.0f;
+        float cameraDistance = 6000;
+        float cameraFarBuffer = 30000;
+    
 
         public Game1()
         {
@@ -170,16 +173,23 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
+                Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
+                Vector3 cameraTarget = new Vector3(0, 0, 0);
+                Vector3 cameraUpVector = Vector3.Up;
+
                 Matrix[] transforms = loadMenu.returnModelTransforms();
-                Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
+
+              // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
+                Matrix world = Matrix.Identity;
 
                 Matrix view = Matrix.CreateTranslation(0, -40, 0) *
                               Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
                               Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                              Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                                  new Vector3(0, 30, 100), Vector3.Up);
+                              Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector)*
+                              Matrix.CreateScale(0.6f, 0.6f, 1.0f);
 
-                Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, this.GraphicsDevice.Viewport.AspectRatio, 1, 100000);
+              //  Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, this.GraphicsDevice.Viewport.AspectRatio, 1, 100000);
+                Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
 
 
                 loadMenu.Draw(this.GraphicsDevice, world, view, projection);
@@ -189,7 +199,7 @@ namespace Cyber
                 Quit();
             }
             mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
-            base.Draw(gameTime);
+            base.Draw(gameTime);    
         }
 
         private void UpdateInputs()
