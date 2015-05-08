@@ -197,7 +197,7 @@ namespace Cyber.CGameStateEngine
                                     Matrix.CreateTranslation(wallList[i].Position);
                 Matrix wallColliderView = Matrix.CreateTranslation(wallListColliders[i].Position);
                 wallList[i].DrawModel(wallView, view, projection);
-                //wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
+                wallListColliders[i].DrawBouding(device, wallColliderView, view, projection);
             }
             base.Draw(gameTime);
         }
