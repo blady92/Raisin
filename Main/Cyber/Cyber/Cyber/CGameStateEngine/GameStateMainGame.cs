@@ -47,7 +47,7 @@ namespace Cyber.CGameStateEngine
         private List<Collider> wallListColliders;
         private StageParser stageParser;
         private float przesuniecie;
-        Walls walls;
+        StageStructure stageStructure;
 
         //Barriers for clock manipulation
         Boolean addPushed = false;
@@ -82,12 +82,13 @@ namespace Cyber.CGameStateEngine
             //samanthaCollider.MoveBoundingBox(new Vector3(-15f, -15f, 0f));
 
             stageParser = new StageParser();
-            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
-            walls = new Walls(stage);
-            Debug.WriteLine("Ilość górnych ścianek to: " + walls.WallsUp.Count);
+            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage2.bmp");
+            stageStructure = new StageStructure(stage);
+            
+            Debug.WriteLine("Ilość górnych ścianek to: " + stageStructure.Walls.WallsUp.Count);
 
             ////Ładowanie przykładowych ścianek
-            for (int i = 0; i < walls.Count; i++)
+            for (int i = 0; i < stageStructure.Walls.Count; i++)
             {
                 //wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
                 //wallList[i].LoadContent(theContentManager);
@@ -114,16 +115,16 @@ namespace Cyber.CGameStateEngine
 
             #region Walls setups
             int i = 0;
-            float mnoznikPrzesuniecaSciany;
+            float mnoznikPrzesuniecaSciany = 19.5f;
+            float wallOffset = 9.75f;
             #endregion
 
             #region WallsUp
-            mnoznikPrzesuniecaSciany = 19.5f;
-            for (int j = 0; j < walls.WallsUp.Count; i++, j++)
+            for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
             {
             wallList[i].Rotation = -90;
-            Vector3 move = new Vector3(walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
-                                        walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - 4,
+            Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
+                                        stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
                                         0.0f);
             wallList[i].Position = move;
             wallList[i].FixCollider(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
@@ -132,32 +133,34 @@ namespace Cyber.CGameStateEngine
 
             #endregion
             #region WallsDown
-            for (int j = 0; j < walls.WallsDown.Count; i++, j++)
+            for (int j = 0; j < stageStructure.Walls.WallsDown.Count; i++, j++)
             {
                 wallList[i].Rotation = 90;
-                Vector3 move = new Vector3( walls.WallsDown[j].X * mnoznikPrzesuniecaSciany, 
-                                            walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + 4, 
+                Vector3 move = new Vector3(stageStructure.Walls.WallsDown[j].X * mnoznikPrzesuniecaSciany,
+                                            stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset, 
                                             0.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
             }
             #endregion
             #region WallsLeft
-            for (int j = 0; j < walls.WallsLeft.Count; i++, j++)
+            for (int j = 0; j < stageStructure.Walls.WallsLeft.Count; i++, j++)
             {
                 wallList[i].Rotation = 180;
-                Vector3 move = new Vector3( walls.WallsLeft[j].X * mnoznikPrzesuniecaSciany - 4, 
-                                            walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 
+                Vector3 move = new Vector3(stageStructure.Walls.WallsLeft[j].X * mnoznikPrzesuniecaSciany - wallOffset,
+                                            stageStructure.Walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 
                                             0.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
             }
             #endregion
             #region WallsRight
-            for (int j = 0; j < walls.WallsRight.Count; i++, j++)
+            for (int j = 0; j < stageStructure.Walls.WallsRight.Count; i++, j++)
             {
                 wallList[i].Rotation = 0;
-                Vector3 move = new Vector3(walls.WallsRight[j].X * mnoznikPrzesuniecaSciany + 4, walls.WallsRight[j].Y * mnoznikPrzesuniecaSciany, 2.0f);
+                Vector3 move = new Vector3(stageStructure.Walls.WallsRight[j].X * mnoznikPrzesuniecaSciany + wallOffset,
+                                            stageStructure.Walls.WallsRight[j].Y * mnoznikPrzesuniecaSciany,
+                                            2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
