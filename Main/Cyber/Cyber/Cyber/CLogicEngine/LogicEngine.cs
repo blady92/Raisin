@@ -163,7 +163,6 @@ namespace Cyber.CGameStateEngine
          */
         public void LogicGame()
         {
-            gameStateMainGame.Keys();
             gameStateMainGame.Update();
         }
 

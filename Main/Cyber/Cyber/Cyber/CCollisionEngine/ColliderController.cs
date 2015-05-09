@@ -10,6 +10,7 @@ namespace Cyber.CollisionEngine
     class ColliderController
     {
         private Collider samantha;
+        private Collider samantha2;
         private Collider terminal;
         private List<Collider> enemies;
         private List<Collider> walls;
@@ -29,6 +30,12 @@ namespace Cyber.CollisionEngine
         {
             get { return samantha; }
             set { samantha = value; }
+        }
+
+        public Collider Samantha2
+        {
+            get { return samantha2; }
+            set { samantha2 = value; }
         }
 
         public List<Collider> Enemies

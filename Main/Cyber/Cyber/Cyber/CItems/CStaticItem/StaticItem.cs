@@ -10,11 +10,25 @@ namespace Cyber.CItems.CStaticItem
     {
         private string pathToModel;
         private SkinningAnimation skinnedModel;
+        private Collider colliderInternal;
+        private Collider colliderExternal;
         private Vector3 position;
-        private Collider collider;
+        private float rotation;
+        private StaticItemType type;
+        
+        public StaticItem(string path)
+        {
+            skinnedModel = new SkinningAnimation();
+            this.colliderExternal = new Collider();
+            this.colliderInternal = new Collider();
+            this.pathToModel = path;
+        }
 
         public StaticItem(string path, Vector3 position)
         {
+            this.skinnedModel = new SkinningAnimation();
+            this.colliderExternal = new Collider();
+            this.colliderInternal = new Collider();
             this.pathToModel = path;
             this.position = position;
         }
@@ -31,17 +45,34 @@ namespace Cyber.CItems.CStaticItem
             get { return skinnedModel; }
             set { skinnedModel = value; }
         }
-
-        public Collider Collider
+        
+        public Collider ColliderExternal
         {
-            get { return collider; }
-            set { collider = value; }
+            get { return colliderExternal; }
+            set { colliderExternal = value; }
         }
 
+        public Collider ColliderInternal
+        {
+            get { return colliderInternal; }
+            set { colliderInternal = value; }
+        }
         public Vector3 Position
         {
             get { return position; }
             set { position = value; }
+        }
+
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
+        public StaticItemType Type
+        {
+            get { return type; }
+            set { type = value; }
         }
 
         #endregion
@@ -52,9 +83,9 @@ namespace Cyber.CItems.CStaticItem
             skinnedModel.LoadContent_StaticModel(theContentManager, pathToModel);
         }
 
-        public void DrawItem(GraphicsDevice device)
+        public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
-            //skinnedModel.DrawStaticModelWithBasicEffect(device);
+            skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
         }
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device)
@@ -64,10 +95,11 @@ namespace Cyber.CItems.CStaticItem
 
         public void FixCollider(Vector3 resize, Vector3 move)
         {
-            collider = new Collider();
-            collider.SetBoudings(skinnedModel.CurrentModel);
-            collider.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
-            collider.MoveBoundingBox(move);
+            colliderExternal.SetBoudings(skinnedModel.CurrentModel);
+            colliderExternal.CreateColliderBoudingBox();
+            colliderExternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
+            colliderExternal.MoveBoundingBox(move);
+            colliderExternal.RecreateCage(position);
         }
     }
 }

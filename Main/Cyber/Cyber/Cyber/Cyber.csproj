@@ -88,12 +88,12 @@
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
     <Compile Include="CGameStateEngine\GameStatePauseMenu.cs" />
     <Compile Include="CItems\3DObjects.cs" />
+    <Compile Include="CItems\CDynamicItem\DynamicItemType.cs" />
     <Compile Include="CItems\ConsoleSprites.cs" />
-    <Compile Include="CItems\CMoveableItem\Enemies.cs" />
-    <Compile Include="CItems\CMoveableItem\DynamicItem.cs" />
-    <Compile Include="CItems\CStaticItem\Decoration.cs" />
+    <Compile Include="CItems\CDynamicItem\Enemies.cs" />
+    <Compile Include="CItems\CDynamicItem\DynamicItem.cs" />
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
-    <Compile Include="CItems\CStaticItem\WallItem.cs" />
+    <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
     <Compile Include="CLogicEngine\LogicEngine.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="CItems\CMoveableItem\Samantha.cs" />
+    <Compile Include="CItems\CDynamicItem\Samantha.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CAdditionalLibs\XNAGameConsole.dll" />

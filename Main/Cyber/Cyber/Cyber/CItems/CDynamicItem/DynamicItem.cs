@@ -1,4 +1,5 @@
-﻿using Cyber.CollisionEngine;
+﻿using Cyber.CItems.CDynamicItem;
+using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -12,11 +13,14 @@ namespace Cyber.CItems
         private string pathToAnimationClip;
         private SkinningAnimation skinnedModel;
         protected Vector3 position;
-        private Collider collider;
+        private Collider colliderInternal;
+        private Collider colliderExternal;
+        private float rotation;
+        private DynamicItemType type;
 
         public DynamicItem(string path, string pathToAnimationClip, Vector3 position)
         {
-            pathToAnimationClip = pathToAnimationClip;
+            this.pathToAnimationClip = pathToAnimationClip;
             this.pathToModel = path;
             this.position = position;
         }
@@ -34,16 +38,34 @@ namespace Cyber.CItems
             set { skinnedModel = value; }
         }
 
-        public Collider Collider
+        public Collider ColliderExternal
         {
-            get { return collider; }
-            set { collider = value; }
+            get { return colliderExternal; }
+            set { colliderExternal = value; }
+        }
+
+        public Collider ColliderInternal
+        {
+            get { return colliderInternal; }
+            set { colliderInternal = value; }
         }
 
         public Vector3 Position
         {
             get { return position; }
             set { position = value; }
+        }
+
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
+        public DynamicItemType Type
+        {
+            get { return type; }
+            set { type = value; }
         }
 
         #endregion
@@ -66,10 +88,10 @@ namespace Cyber.CItems
 
         public void FixCollider(Vector3 resize, Vector3 move)
         {
-            collider = new Collider();
-            collider.SetBoudings(skinnedModel.CurrentModel);
-            collider.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
-            collider.MoveBoundingBox(move);
+            colliderExternal = new Collider();
+            colliderExternal.SetBoudings(skinnedModel.CurrentModel);
+            colliderExternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
+            colliderExternal.MoveBoundingBox(move);
         }
     }
 }

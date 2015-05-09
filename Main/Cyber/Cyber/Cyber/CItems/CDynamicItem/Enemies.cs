@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace Cyber.CItems
-{
+{   
     class Enemies : DynamicItem
     {
         private EnemyType enemy;
