@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\title{Labirynt}
+\author{Jan Wojciechowski}
+\date{\today}
+\lstset
+{
+    basicstyle=\tt\scriptsize,
+    identifierstyle=\color{blue},
+    commentstyle=\color{red},
+    breaklines=true,
+    backgroundcolor=\color{yellow!30},
+    numbers=none,
+    language=[Sharp]C
+}
+\begin{document}
+\maketitle
+\section{Wstęp}
+Poniższy dokument zawiera informacje o sposobie implementacji labiryntu oraz jego parsowaniu. Strona tytułowa zawiera datę ostatniej modyfikacji tej dokumentacji, w razie zdezaktualizowania proszę powiadomić osobę odpowiedzialną za zmiany i/lub osobę odpowiedzialną za rozwój tej funkcjonalności.
+\section{Założenia teoretyczne}
+Sam labirynt jest planszą w kształcie prostokąta wypełnioną pokojami i korytarzami. Plansza ta zbudowana jest z kwadratowych sektorów, na których mogą znajdować się różne obiekty, ściany, NPC oraz gracz. Rozmiary planszy są nieograniczone. Każdy labirynt wczytywany jest z przygotowanego wcześniej pliku bitmapy. Kolory mogące wystąpić na bitmapie to:
+\begin{description}
+  \item[\#000000] \hfill \\
+    Korytarz
+  \item[\#808080] \hfill \\
+    Pomieszczenie
+  \item[\#FFFF00] \hfill \\
+    Obiekt
+  \item[\#E02040] \hfill \\
+    NPC
+\end{description}
+Pozostałe kolory są pomijane.
+\section{Stage}
+Stage jest implementacją stanu labiryntu. Jest on czymś na kształt ramki, w której umieszczane są pokoje, korytarze etc., lecz nie ściany, one opisane są niżej. Od strony implementacyjnej jest to zbiór tablic dwuwymiarowych bitów, które mówią o tym, gdzie dany obiekt się znajduje na planszy i jaki obszar zajmuje.
+\section{StageStructure}
+StageStructure jest klasą umożliwiającą wtórne parsowanie labiryntu celem uzyskania struktury ścian i podłóg. Klasa ta posiada 3 właściwości:
+\begin{description}
+  \item[Count] \hfill \\
+    Zwraca sumę ilości bloków ścian i podłóg
+  \item[Walls] \hfill \\
+    Obiekt reprezentujący kolekcję bloków ścian
+  \item[Floor] \hfill \\
+    Obiekt reprezentujący kolekcję podłóg
+\end{description}
+\subsection{Walls}
+Obiekt ten składa się z następujących kolekcji:
+\begin{description}
+  \item[WallsUp] \hfill \\
+    Kolekcja ścian patrzących w dół
+  \item[WallsDown] \hfill \\
+    Kolekcja ścian patrzących w górę
+  \item[WallsLeft] \hfill \\
+    Kolekcja ścian patrzących w prawo
+  \item[WallsRight] \hfill \\
+    Kolekcja ścian patrzących w lewo
+  \item[CornersUpperLeft] \hfill \\
+    Kolekcja kątów ostrych patrzących w prawy dolny róg
+  \item[CornersUpperRight] \hfill \\
+    Kolekcja kątów ostrych patrzących w lewy dolny róg
+  \item[CornersLowerLeft] \hfill \\
+    Kolekcja kątów ostrych patrzących w prawy górny róg
+  \item[CornersLowerRight] \hfill \\
+    Kolekcja kątów ostrych patrzących w lewy górny róg
+\end{description}
+Warto zauważyć, że każda ze ścian ulokowana jest \textit{wewnątrz} pomieszczenia, tak więc pomieszczenie składające się z jednego bloku będzie posiadało cztery rogi, przy czym wszystkie one będą ulokowane w tym samym bloku, to jest tam, gdzie znajduje się jedyny kwadrat pomieszczenia.
+\subsection{Floors}
+Obiekt składa się z kolekcji punktów, na których powinna znaleźć się podłoga.
+%\lstinputlisting{project.cs}
+\end{document}
