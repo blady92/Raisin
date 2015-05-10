@@ -107,7 +107,7 @@
     <Compile Include="CStageParsing\IGenerable.cs" />
     <Compile Include="CStageParsing\Stage.cs" />
     <Compile Include="CStageParsing\StageParser.cs" />
-    <Compile Include="CStageParsing\Walls.cs" />
+    <Compile Include="CStageParsing\StageStructure.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
