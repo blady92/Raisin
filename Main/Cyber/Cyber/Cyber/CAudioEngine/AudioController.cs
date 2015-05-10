@@ -30,15 +30,10 @@ namespace Cyber.AudioEngine
 
         public void setAudio()
         {
-            //Debug.WriteLine("Inicjalizacja audio. Stan obecny: "+audio.CueList.Count);
             audio.CueList.Clear();
-            //Debug.WriteLine("Zerowanie audio. Stan obecny: " + audio.CueList.Count);
-
             audio.CueList.Add(audio.SoundBank.GetCue("vrag"));
             audio.CueList.Add(audio.SoundBank.GetCue("pierwaja"));
-            audio.CueList.Add(audio.SoundBank.GetCue("edgeSound"));
-            
-            //Debug.WriteLine("Audio ustawione. Stan obecny: " + audio.CueList.Count);
+            audio.CueList.Add(audio.SoundBank.GetCue("edgeSound"));            
         }
 
         public void runAudio()
@@ -46,17 +41,14 @@ namespace Cyber.AudioEngine
             newState = Keyboard.GetState();
             if (newState.IsKeyDown(Keys.NumPad1) && oldState.IsKeyUp(Keys.NumPad1))
             {
-                //Debug.WriteLine("Playing audio 1: " + audio.CueList[0].Name);
                 audio.CueList[0].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad2) && oldState.IsKeyUp(Keys.NumPad2))
             {
-                //Debug.WriteLine("Playing audio 2: " + audio.CueList[1].Name);
                 audio.CueList[1].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
             {
-                //Debug.WriteLine("Playing audio 3: " + audio.CueList[2].Name);
                 audio.CueList[2].Play();
             }
             if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
@@ -69,7 +61,6 @@ namespace Cyber.AudioEngine
 
         public void playAudio(int i)
         {
-            //Debug.WriteLine("Playing audio "+i+": " + audio.CueList[1].Name);
             if (audio.CueList[i].IsPlaying || audio.CueList[i].IsStopped || audio.CueList[i].IsPaused)
             {
                 resetAudio();
@@ -87,6 +78,20 @@ namespace Cyber.AudioEngine
                 }
             }
             setAudio();
+        }
+
+        //Wrappers
+        public void Play0()
+        {
+            playAudio(1);
+        }
+        public void Play1()
+        {
+            playAudio(1);
+        }
+        public void Play2()
+        {
+            playAudio(2);
         }
     }
 }

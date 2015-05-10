@@ -18,6 +18,7 @@ namespace Cyber.CItems.CStaticItem
         
         public StaticItem(string path)
         {
+            rotation = 0;
             skinnedModel = new SkinningAnimation();
             this.colliderExternal = new Collider();
             this.colliderInternal = new Collider();
@@ -26,6 +27,7 @@ namespace Cyber.CItems.CStaticItem
 
         public StaticItem(string path, Vector3 position)
         {
+            rotation = 0;
             this.skinnedModel = new SkinningAnimation();
             this.colliderExternal = new Collider();
             this.colliderInternal = new Collider();
