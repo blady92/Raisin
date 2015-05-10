@@ -41,8 +41,8 @@ namespace Cyber.CGameStateEngine
         private ColliderController colliderController;
         private List<StaticItem> wallList;
         private StageParser stageParser;
-        private StaticItem WallConcave;
-        private StaticItem WallConvex;
+        //private StaticItem WallConcave;
+        //private StaticItem WallConvex;
 
         private float przesuniecie;
         StageStructure stageStructure;
@@ -67,13 +67,14 @@ namespace Cyber.CGameStateEngine
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
 
+            /*
             // DODAWANIE NAROŻNIKÓW
             // na razie bez kolizji
             WallConcave = new StaticItem("Assets/3D/Interior/Interior_Wall_Concave");
             WallConvex = new StaticItem("Assets/3D/Interior/Interior_Wall_Convex");
             WallConcave.LoadItem(theContentManager);
             WallConvex.LoadItem(theContentManager);
-
+            */
 
             stageParser = new StageParser();
             Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
@@ -113,9 +114,12 @@ namespace Cyber.CGameStateEngine
             int i = 0;
             float mnoznikPrzesuniecaSciany = 19.5f;
             float wallOffset = 9.75f;
+            float cornerOffset = 5.5f;
             #endregion
 
             samantha.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+            //WallConcave.Position = new Vector3(-100, 40, 0);
+            //WallConvex.Position = new Vector3(-140, 80, 0);
 
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
@@ -127,8 +131,6 @@ namespace Cyber.CGameStateEngine
             wallList[i].Position = move;
             wallList[i].FixCollider(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
             }
-            WallConcave.Position = new Vector3(-100, 40, 0);
-            WallConvex.Position = new Vector3(-140, 80, 0);
 
             #endregion
             #region WallsDown
@@ -168,8 +170,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerLeft.Count; i++, j++ )
             {
                 wallList[i].Rotation = 180;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
+                                            stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -179,8 +181,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerRight.Count; i++, j++)
             {
                 wallList[i].Rotation = 90;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
+                                            stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -190,8 +192,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperLeft.Count; i++, j++)
             {
                 wallList[i].Rotation = 270;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
+                                            stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -201,8 +203,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperRight.Count; i++, j++)
             {
                 wallList[i].Rotation = 0;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
+                                            stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -212,8 +214,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerLeft.Count; i++, j++)
             {
                 wallList[i].Rotation = 180;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
+                                            stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -223,8 +225,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerRight.Count; i++, j++)
             {
                 wallList[i].Rotation = 90;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerRight[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
+                                            stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -234,8 +236,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperLeft.Count; i++, j++)
             {
                 wallList[i].Rotation = 270;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
+                                            stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -245,8 +247,8 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperRight.Count; i++, j++)
             {
                 wallList[i].Rotation = 0;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperRight[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.ConvexCorners.ConvexCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany,
+                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
+                                            stageStructure.ConvexCorners.ConvexCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
@@ -299,6 +301,7 @@ namespace Cyber.CGameStateEngine
                 //wallList[i].ColliderInternal.DrawBouding(device, wallColliderView, view, projection);
             }
 
+            /*
             Matrix concaveView = Matrix.Identity *
                                     Matrix.CreateRotationZ(MathHelper.ToRadians(WallConcave.Rotation)) *
                                     Matrix.CreateTranslation(WallConcave.Position);
@@ -308,6 +311,7 @@ namespace Cyber.CGameStateEngine
 
             WallConcave.DrawItem(device, concaveView, view, projection);
             WallConvex.DrawItem(device, convexView, view, projection);
+            */
 
             base.Draw(gameTime);
         }
