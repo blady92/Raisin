@@ -9,12 +9,14 @@ namespace Cyber.CStageParsing
     {
         public WallsStructure Walls { get; set; }
         public FloorStructure Floor { get; set; }
+        public ConcaveCornersStructure ConcaveCorners { get; set; }
+        public ConvexCornersStructure ConvexCorners { get; set; }
 
         public int Count
         {
             get
             {
-                return Walls.Count + Floor.Count;
+                return Walls.Count + Floor.Count + ConvexCorners.Count + ConcaveCorners.Count;
             }
         }
 
@@ -22,6 +24,8 @@ namespace Cyber.CStageParsing
         {
             Walls = new WallsStructure();
             Floor = new FloorStructure();
+            ConcaveCorners = new ConcaveCornersStructure();
+            ConvexCorners = new ConvexCornersStructure();
 
             bool [,] structure = new bool [stage.Width, stage.Height];
 
@@ -58,42 +62,72 @@ namespace Cyber.CStageParsing
                         Floor.Floors.Add(currentPoint);
 
                         bool up = false, left = false, right = false, down = false;
+                        bool upperLeft = false, upperRight = false, lowerLeft = false, lowerRight = false;
 
                         left = !isTrue(structure, w - 1, h);
                         right = !isTrue(structure, w + 1, h);
                         up = !isTrue(structure, w, h - 1);
                         down = !isTrue(structure, w, h + 1);
 
+                        upperLeft = !isTrue(structure, w - 1, h - 1);
+                        upperRight = !isTrue(structure, w + 1, h - 1);
+                        lowerLeft = !isTrue(structure, w - 1, h + 1);
+                        lowerRight = !isTrue(structure, w + 1, h + 1);
+
                         if (up)
                         {
                             if (left)
                             {
-                                Walls.CornersUpperLeft.Add(currentPoint);
+                                ConcaveCorners.ConcaveCornersUpperLeft.Add(currentPoint);
                             }
                             if (right)
                             {
-                                Walls.CornersUpperRight.Add(currentPoint);
+                                ConcaveCorners.ConcaveCornersUpperRight.Add(currentPoint);
                             }
                             if (!left && !right)
                             {
                                 Walls.WallsUp.Add(currentPoint);
                             }
                         }
+                        else
+                        {
+                            if (!left && upperLeft)
+                            {
+                                ConvexCorners.ConvexCornersUpperLeft.Add(currentPoint);
+                            }
+                            if (!right && upperRight)
+                            {
+                                ConvexCorners.ConvexCornersUpperRight.Add(currentPoint);
+                            }
+                        }
+
                         if (down)
                         {
                             if (left)
                             {
-                                Walls.CornersLowerLeft.Add(currentPoint);
+                                ConcaveCorners.ConcaveCornersLowerLeft.Add(currentPoint);
                             }
                             if (right)
                             {
-                                Walls.CornersLowerRight.Add(currentPoint);
+                                ConcaveCorners.ConcaveCornersLowerRight.Add(currentPoint);
                             }
                             if (!left && !right)
                             {
                                 Walls.WallsDown.Add(currentPoint);
                             }
                         }
+                        else
+                        {
+                            if (!left && lowerLeft)
+                            {
+                                ConvexCorners.ConvexCornersLowerLeft.Add(currentPoint);
+                            }
+                            if (!right && lowerRight)
+                            {
+                                ConvexCorners.ConvexCornersLowerRight.Add(currentPoint);
+                            }
+                        }
+
                         if (!up && !down)
                         {
                             if (left)
@@ -128,17 +162,19 @@ namespace Cyber.CStageParsing
                 WallsDown = new List<Pair<int, int>>();
                 WallsLeft = new List<Pair<int, int>>();
                 WallsRight = new List<Pair<int, int>>();
+                /*
                 CornersLowerLeft = new List<Pair<int, int>>();
                 CornersLowerRight = new List<Pair<int, int>>();
                 CornersUpperLeft = new List<Pair<int, int>>();
                 CornersUpperRight = new List<Pair<int, int>>();
+                */
             }
             public int Count
             {
                 get
                 {
-                    return WallsDown.Count + WallsLeft.Count + WallsRight.Count + WallsUp.Count
-                        + CornersLowerLeft.Count + CornersLowerRight.Count + CornersUpperLeft.Count + CornersUpperRight.Count;
+                    return WallsDown.Count + WallsLeft.Count + WallsRight.Count + WallsUp.Count;
+                    //    + CornersLowerLeft.Count + CornersLowerRight.Count + CornersUpperLeft.Count + CornersUpperRight.Count;
                 }
             }
 
@@ -146,10 +182,12 @@ namespace Cyber.CStageParsing
             public List<Pair<int, int>> WallsDown { get; set; }
             public List<Pair<int, int>> WallsRight { get; set; }
             public List<Pair<int, int>> WallsLeft { get; set; }
+            /*
             public List<Pair<int, int>> CornersUpperLeft { get; set; }
             public List<Pair<int, int>> CornersUpperRight { get; set; }
             public List<Pair<int, int>> CornersLowerLeft { get; set; }
             public List<Pair<int, int>> CornersLowerRight { get; set; }
+            */
         }
 
         public class FloorStructure
@@ -165,6 +203,54 @@ namespace Cyber.CStageParsing
                 get
                 {
                     return Floors.Count;
+                }
+            }
+        }
+
+        public class ConcaveCornersStructure
+        {
+            public List<Pair<int, int>> ConcaveCornersUpperLeft { get; set; }
+            public List<Pair<int, int>> ConcaveCornersUpperRight { get; set; }
+            public List<Pair<int, int>> ConcaveCornersLowerLeft { get; set; }
+            public List<Pair<int, int>> ConcaveCornersLowerRight { get; set; }
+
+            public ConcaveCornersStructure()
+            {
+                ConcaveCornersLowerLeft = new List<Pair<int, int>>();
+                ConcaveCornersLowerRight = new List<Pair<int, int>>();
+                ConcaveCornersUpperLeft = new List<Pair<int, int>>();
+                ConcaveCornersUpperRight = new List<Pair<int, int>>();
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return ConcaveCornersLowerLeft.Count + ConcaveCornersLowerRight.Count + ConcaveCornersUpperLeft.Count + ConcaveCornersUpperRight.Count;
+                }
+            }
+        }
+
+        public class ConvexCornersStructure
+        {
+            public List<Pair<int, int>> ConvexCornersUpperLeft { get; set; }
+            public List<Pair<int, int>> ConvexCornersUpperRight { get; set; }
+            public List<Pair<int, int>> ConvexCornersLowerLeft { get; set; }
+            public List<Pair<int, int>> ConvexCornersLowerRight { get; set; }
+
+            public ConvexCornersStructure()
+            {
+                ConvexCornersLowerLeft = new List<Pair<int, int>>();
+                ConvexCornersLowerRight = new List<Pair<int, int>>();
+                ConvexCornersUpperLeft = new List<Pair<int, int>>();
+                ConvexCornersUpperRight = new List<Pair<int, int>>();
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return ConvexCornersLowerLeft.Count + ConvexCornersLowerRight.Count + ConvexCornersUpperLeft.Count + ConvexCornersUpperRight.Count;
                 }
             }
         }
