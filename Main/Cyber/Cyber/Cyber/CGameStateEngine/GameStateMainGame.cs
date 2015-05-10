@@ -41,7 +41,8 @@ namespace Cyber.CGameStateEngine
         private ColliderController colliderController;
         private List<StaticItem> wallList;
         private StageParser stageParser;
-
+        private StaticItem WallConcave;
+        private StaticItem WallConvex;
 
         private float przesuniecie;
         Walls walls;
@@ -66,7 +67,12 @@ namespace Cyber.CGameStateEngine
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
 
-            //DODAWANIE NAROŻNIKÓW
+            // DODAWANIE NAROŻNIKÓW
+            // na razie bez kolizji
+            WallConcave = new StaticItem("Assets/3D/Interior/Interior_Wall_Concave");
+            WallConvex = new StaticItem("Assets/3D/Interior/Interior_Wall_Convex");
+            WallConcave.LoadItem(theContentManager);
+            WallConvex.LoadItem(theContentManager);
 
 
             stageParser = new StageParser();
@@ -88,7 +94,6 @@ namespace Cyber.CGameStateEngine
         public void SetUpScene()
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
-            
             #region Walls setups
             int i = 0;
             float mnoznikPrzesuniecaSciany;
@@ -107,7 +112,8 @@ namespace Cyber.CGameStateEngine
             wallList[i].Position = move;
             wallList[i].FixCollider(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
             }
-            //Debug.WriteLine("Załadowane");
+            WallConcave.Position = new Vector3(-100, 40, 0);
+            WallConvex.Position = new Vector3(-140, 80, 0);
 
             #endregion
             #region WallsDown
@@ -189,14 +195,24 @@ namespace Cyber.CGameStateEngine
                 wallList[i].DrawItem(device, wallView, view, projection);
                 //wallList[i].ColliderInternal.DrawBouding(device, wallColliderView, view, projection);
             }
+
+            Matrix concaveView = Matrix.Identity *
+                                    Matrix.CreateRotationZ(MathHelper.ToRadians(WallConcave.Rotation)) *
+                                    Matrix.CreateTranslation(WallConcave.Position);
+            Matrix convexView = Matrix.Identity *
+                                    Matrix.CreateRotationZ(MathHelper.ToRadians(WallConvex.Rotation)) *
+                                    Matrix.CreateTranslation(WallConvex.Position);
+
+            WallConcave.DrawItem(device, concaveView, view, projection);
+            WallConvex.DrawItem(device, convexView, view, projection);
+
             base.Draw(gameTime);
         }
+
 
         public override void Update()
         {
             KeyboardState newState = Keyboard.GetState();
-
-            //colliderController.IsCollidedType();
 
             if (newState.IsKeyDown(Keys.T))
             {
@@ -237,7 +253,6 @@ namespace Cyber.CGameStateEngine
 
             Vector3 move = new Vector3(0, 0, 0);
             colliderController.PlayAudio = audio.Play0;
-
             if (newState.IsKeyDown(Keys.W))
             {
                 move = new Vector3(0, -1f, 0);
@@ -256,19 +271,6 @@ namespace Cyber.CGameStateEngine
                 colliderController.CheckCollision(samantha, move);
             }
             oldState = newState;
-            //samantha.ColliderExternal.RecreateCage(move);
-            
-            //Akcja dodatkowa do wywołania jeżeli zajdzie kolizja
-            colliderController.PlayAudio = audio.Play0;
-            //No i sprawdzenie czy zaszła kolizja i późniejsze 
-        }
-
-        public StaticItemType IsCollidedType()
-        {
-            foreach (StaticItem wall in wallList)
-                if (samantha.ColliderExternal.AABB.Intersects(wall.ColliderExternal.AABB))
-                    return StaticItemType.wall;
-            return StaticItemType.none;
         }
     }
 }
