@@ -64,6 +64,7 @@ namespace Cyber.CollisionEngine
 
         public void CheckCollision(StaticItem item, Vector3 move)
         {
+            item.ColliderExternal.RecreateCage(move);
             if (IsCollidedType(item) == StaticItemType.none)
             {
                 Debug.WriteLine("Nie skolidowano");

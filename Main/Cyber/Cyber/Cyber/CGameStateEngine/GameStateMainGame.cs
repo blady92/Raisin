@@ -38,10 +38,10 @@ namespace Cyber.CGameStateEngine
         }
 
         //Load Models        
-        private ModelTest wallModel;
         private ColliderController colliderController;
         private List<StaticItem> wallList;
         private StageParser stageParser;
+
 
         private float przesuniecie;
         Walls walls;
@@ -65,6 +65,9 @@ namespace Cyber.CGameStateEngine
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker", new Vector3(20, -100, 0));
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
+
+            //DODAWANIE NAROŻNIKÓW
+
 
             stageParser = new StageParser();
             Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
@@ -233,21 +236,31 @@ namespace Cyber.CGameStateEngine
             }
 
             Vector3 move = new Vector3(0, 0, 0);
-            if(newState.IsKeyDown(Keys.W))
-	            move = new Vector3(0, -1f, 0);
-            if(newState.IsKeyDown(Keys.S))
+            colliderController.PlayAudio = audio.Play0;
+
+            if (newState.IsKeyDown(Keys.W))
+            {
+                move = new Vector3(0, -1f, 0);
+                colliderController.CheckCollision(samantha, move);
+            }
+            if (newState.IsKeyDown(Keys.S)) { 
 	            move = new Vector3(0, 1f, 0);
-            if(newState.IsKeyDown(Keys.A))
-	            move = new Vector3(1f, 0, 0);
-            if(newState.IsKeyDown(Keys.D))
+                colliderController.CheckCollision(samantha, move);
+            }
+            if (newState.IsKeyDown(Keys.A)) { 
+                move = new Vector3(1f, 0, 0);
+                colliderController.CheckCollision(samantha, move);
+            }
+            if (newState.IsKeyDown(Keys.D)) { 
 	            move = new Vector3(-1f, 0, 0);
+                colliderController.CheckCollision(samantha, move);
+            }
             oldState = newState;
-            samantha.ColliderExternal.RecreateCage(move);
+            //samantha.ColliderExternal.RecreateCage(move);
             
             //Akcja dodatkowa do wywołania jeżeli zajdzie kolizja
             colliderController.PlayAudio = audio.Play0;
             //No i sprawdzenie czy zaszła kolizja i późniejsze 
-            colliderController.CheckCollision(samantha, move);
         }
 
         public StaticItemType IsCollidedType()
