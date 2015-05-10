@@ -109,8 +109,7 @@ namespace Cyber
             mainGame.LoadContent(this.Content);
             pauseMenu.LoadContent(this.Content);
             loadMenu.LoadContent(this.Content);
-            mainGame.SetUpScene();
-
+            //mainGame.SetUpScene();
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 

@@ -59,6 +59,7 @@ namespace Cyber.CGameStateEngine
                             {
                                 case 0:
                                     gameStateMainGame.SetUpClock();
+                                    gameStateMainGame.SetUpScene();
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:

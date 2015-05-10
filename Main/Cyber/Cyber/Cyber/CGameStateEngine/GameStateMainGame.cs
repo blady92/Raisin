@@ -63,7 +63,7 @@ namespace Cyber.CGameStateEngine
         {
             wallList = new List<StaticItem>();
 
-            samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker", new Vector3(20, -100, 0));
+            samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
 
@@ -93,6 +93,7 @@ namespace Cyber.CGameStateEngine
 
         public void SetUpScene()
         {
+            samantha.Position = new Vector3(20, -100, 0);
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region Walls setups
             int i = 0;
