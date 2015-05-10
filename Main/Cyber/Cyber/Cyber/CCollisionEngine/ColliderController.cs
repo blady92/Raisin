@@ -1,73 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cyber.CItems;
+using Cyber.CItems.CStaticItem;
 using Cyber.GraphicsEngine;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Cyber.CollisionEngine
 {
     class ColliderController
     {
-        private Collider samantha;
-        private Collider samantha2;
-        private Collider terminal;
-        private List<Collider> enemies;
-        private List<Collider> walls;
-        private CollidedWith collideState;
+        //Niezbędne składniki do zmiany stanu w zależności od występującej kolizji
+        //Więc podaję przepis na gofry
+        /*
+            Białka oddziel od żółtek i umieść je w osobnych miseczkach.
+            Do większej miski wsyp mąkę, proszek do pieczenia i sól. Dodaj przygotowane żółtka i wlej mleko oraz olej.
+            Zmiksuj całość za pomocą miksera. Kiedy wszystkie składniki się połączą, w osobnej misce ubij 
+            przygotowane białka (na sztywną pianę). Rozgrzej gofrownicę.
+            Ubite białka dodaj do przygotowanej masy i delikatnie wymieszaj za pomocą plastikowej łyżki.
+            Ciasto przenieś za pomocą chochli do dobrze rozgrzanej gofrownicy i piecz na złoty kolor.
+            Po upieczeniu ostudź je na kratce. Tak przygotowane gofry będą delikatne i puszyste.
+            Dodatki: śmietanę ubij z cukrem pudrem za pomocą miksera.
+            Na schłodzone gofry wyłóż pokrojone owoce, a na nie ubitą śmietanę. 
+         * Całość uzupełni sos czekoladowy - najlepiej wykonany samodzielnie.
+         */
 
-        enum CollidedWith
+        private List<StaticItem> wallList;
+        private Action playAudio;
+
+        public ColliderController(List<StaticItem> walls)
         {
-            terminal,
-            wall,
-            spy,
-            flyer,
-            tank
+            wallList = walls;
         }
+
 
         #region ACCESSORS
-        public Collider Samantha
+
+        public List<StaticItem> WallList
         {
-            get { return samantha; }
-            set { samantha = value; }
+            get { return wallList; }
+            set { wallList = value; }
         }
 
-        public Collider Samantha2
+        public Action PlayAudio
         {
-            get { return samantha2; }
-            set { samantha2 = value; }
+            get { return playAudio; }
+            set { playAudio = value; }
         }
 
-        public List<Collider> Enemies
-        {
-            get { return enemies; }
-            set { enemies = value; }
-        }
-
-        public List<Collider> Walls
-        {
-            get { return walls; }
-            set { walls = value; }
-        }
         #endregion
 
-        public bool WallCollision()
+        public StaticItemType IsCollidedType(StaticItem item)
         {
-            foreach (Collider wall in walls)
-                if (wall.AABB.Intersects(Samantha.AABB))
-                    return true;
-            return false;
+            foreach (StaticItem wall in wallList) { 
+                if (item.ColliderExternal.AABB.Intersects(wall.ColliderExternal.AABB))
+                    return StaticItemType.wall;
+            }
+            return StaticItemType.none;
         }
 
-        public bool EnemyCollision()
+        public void CheckCollision(StaticItem item, Vector3 move)
         {
-            foreach (Collider enemy in enemies)
-                if (enemy.AABB.Intersects(Samantha.AABB))
-                {
-                    collideState = CollidedWith.tank;
-                    return true;
-                }
-            return false;
+            if (IsCollidedType(item) == StaticItemType.none)
+            {
+                Debug.WriteLine("Nie skolidowano");
+                item.Position += move;
+            }
+            else if (IsCollidedType(item) == StaticItemType.wall)
+            {
+                Debug.WriteLine("Skolidowano ze ściano!");
+                move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
+                item.ColliderExternal.RecreateCage(move);
+                playAudio();
+            }
         }
     }
 }

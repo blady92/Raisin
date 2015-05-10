@@ -38,14 +38,11 @@ namespace Cyber.CGameStateEngine
         }
 
         //Load Models        
-        //private ModelTest samanthaModel;
         private ModelTest wallModel;
-        //private Collider samanthaCollider;
-        private Collider wallCollider;
         private ColliderController colliderController;
         private List<StaticItem> wallList;
-        private List<Collider> wallListColliders;
         private StageParser stageParser;
+
         private float przesuniecie;
         Walls walls;
 
@@ -60,38 +57,23 @@ namespace Cyber.CGameStateEngine
 
         //TESTOWANE
         private StaticItem samantha;
-        private StaticItem wall;
 
         public void LoadContent(ContentManager theContentManager)
         {
             wallList = new List<StaticItem>();
-            wallListColliders = new List<Collider>();
 
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker", new Vector3(20, -100, 0));
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
-
-            wall = new StaticItem("Assets/3D/Interior/Interior_Wall_Base");
-            wall.LoadItem(theContentManager);
-
-            //samanthaModel = new ModelTest("Assets/3D/Characters/Ally_Bunker");
-            //samanthaModel.LoadContent(theContentManager);
-            //samanthaCollider = new Collider();
-            //samanthaCollider.SetBoudings(samanthaModel.Model);
-            //samanthaCollider.CreateColliderBoudingBox();
-            //samanthaCollider.MoveBoundingBox(new Vector3(-15f, -15f, 0f));
 
             stageParser = new StageParser();
             Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
             walls = new Walls(stage);
             Debug.WriteLine("Ilość górnych ścianek to: " + walls.WallsUp.Count);
 
-            ////Ładowanie przykładowych ścianek
+            ////Ładowanie ścianek
             for (int i = 0; i < walls.Count; i++)
             {
-                //wallList.Add(new ModelTest("Assets/3D/Interior/Interior_Wall_Base"));
-                //wallList[i].LoadContent(theContentManager);
-                //wallListColliders.Add(new Collider());
                 wallList.Add(new StaticItem("Assets/3D/Interior/Interior_Wall_Base"));
                 wallList[i].LoadItem(theContentManager);
                 wallList[i].Type = StaticItemType.wall;
@@ -103,19 +85,13 @@ namespace Cyber.CGameStateEngine
         public void SetUpScene()
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
-            //Samantha setups
-            //przesuniecie = 0;
-            //Vector3 vector = new Vector3(-100, -120, 0.0f);
-            //samanthaModel.Position += vector;
-            //samanthaCollider.BoudingBoxResizeOnce(0.75f, 0.75f, 1f);
-            //samanthaCollider.RecreateCage(vector);
-            samantha.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-            wall.FixCollider(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-7, -2, 15f));
-
+            
             #region Walls setups
             int i = 0;
             float mnoznikPrzesuniecaSciany;
             #endregion
+
+            samantha.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
             #region WallsUp
             mnoznikPrzesuniecaSciany = 19.5f;
@@ -162,6 +138,9 @@ namespace Cyber.CGameStateEngine
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
+
+
+            colliderController = new ColliderController(wallList);
         }
 
 
@@ -195,7 +174,7 @@ namespace Cyber.CGameStateEngine
                        Matrix.CreateTranslation(samantha.Position);
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
             samantha.DrawItem(device, samanthaView, view, projection);
-            //samantha.Collider.DrawBouding(device, samanthaColliderView, view, projection);
+            samantha.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             for (int i = 0; i < wallList.Count; i++)
             {
@@ -214,41 +193,7 @@ namespace Cyber.CGameStateEngine
         {
             KeyboardState newState = Keyboard.GetState();
 
-            #region Do testowania przesunięcia
-            //if (newState.IsKeyDown(Keys.Up))
-            //{
-            //    przesuniecie += 0.1f;
-            //    //mnoznikPrzesuniecaSciany += 0.1f;
-            //    for (int j = 0; j < walls.WallsUp.Count; i++, j++)
-            //    {
-            //        Vector3 move = new Vector3(walls.WallsUp[j].X * mnoznikPrzesuniecaSciany, walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - 4, 0.0f);
-            //        //Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
-            //        wallList[j].Position = move;
-            //        wallListColliders[j].SetBoudings(wallList[j].Model);
-            //        wallListColliders[j].CreateColliderBoudingBox();
-            //        wallListColliders[j].BoudingBoxResizeOnce(0.2f, 0.2f, przesuniecie);
-            //        //wallListColliders[i].MoveBoundingBox(move - new Vector3(80, -18, 0));
-            //        //wallListColliders[j].MoveBoundingBox(new Vector3(0, 0, przesuniecie));
-            //        wallListColliders[j].RecreateCage(move);
-            //    }
-            //}
-            //if (newState.IsKeyDown(Keys.Down))
-            //{
-            //    przesuniecie -= 0.1f;
-            //    for (int j = 0; j < walls.WallsUp.Count; i++, j++)
-            //    {
-            //        Vector3 move = new Vector3(walls.WallsUp[j].X * mnoznikPrzesuniecaSciany, walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - 4, 0.0f);
-            //        //Vector3 move = new Vector3(walls.WallsUp[j].X * 4, walls.WallsUp[j].Y * 4 - 4, 2.0f);
-            //        wallList[j].Position = move;
-            //        wallListColliders[j].SetBoudings(wallList[j].Model);
-            //        wallListColliders[j].CreateColliderBoudingBox();
-            //        wallListColliders[j].BoudingBoxResizeOnce(0.2f, 0.2f, przesuniecie);
-            //        //wallListColliders[i].MoveBoundingBox(move - new Vector3(80, -18, 0));
-            //        //wallListColliders[j].MoveBoundingBox(new Vector3(0, 0, przesuniecie));
-            //        wallListColliders[j].RecreateCage(move);
-            //    }
-            //}
-            #endregion
+            //colliderController.IsCollidedType();
 
             if (newState.IsKeyDown(Keys.T))
             {
@@ -287,77 +232,22 @@ namespace Cyber.CGameStateEngine
                 }
             }
 
-
-            //Zmiana pozycji modela do narysowania
-            if (newState.IsKeyDown(Keys.W))
-            {
-                i++;
-                Vector3 move = new Vector3(0, -1f, 0);
-                samantha.ColliderExternal.RecreateCage(move);
-                if (IsCollidedType() == StaticItemType.none)
-                {
-                    samantha.Position += move;
-                }
-                else if (IsCollidedType() == StaticItemType.wall)
-                {
-                    Debug.WriteLine("Skolidowano ze ściano!");
-                    move = new Vector3(0, 1f, 0);
-                    samantha.ColliderExternal.RecreateCage(move);
-                    audio.playAudio(1);
-                }
-            }
-            if (newState.IsKeyDown(Keys.S))
-            {
-                i++;
-                Vector3 move = new Vector3(0, 1f, 0);
-                samantha.ColliderExternal.RecreateCage(move);
-                if (IsCollidedType() == StaticItemType.none)
-                {
-                    samantha.Position += move;
-                }
-                else if (IsCollidedType() == StaticItemType.wall)
-                {
-                    Debug.WriteLine("Skolidowano ze ściano!");
-                    move = new Vector3(0, -1f, 0);
-                    samantha.ColliderExternal.RecreateCage(move);
-                    audio.playAudio(1);
-                }
-            }
-            if (newState.IsKeyDown(Keys.A))
-            {
-                i++;
-                Vector3 move = new Vector3(1f, 0, 0);
-                samantha.ColliderExternal.RecreateCage(move);
-                if (IsCollidedType() == StaticItemType.none)
-                {
-                    samantha.Position += move;
-                }
-                else if (IsCollidedType() == StaticItemType.wall)
-                {
-                    Debug.WriteLine("Skolidowano ze ściano!");
-                    move = new Vector3(-1f, 0, 0);
-                    samantha.ColliderExternal.RecreateCage(move);
-                    audio.playAudio(1);
-                }
-            }
-            if (newState.IsKeyDown(Keys.D))
-            {
-                i++;
-                Vector3 move = new Vector3(-1f, 0, 0);
-                samantha.ColliderExternal.RecreateCage(move);
-                if (IsCollidedType() == StaticItemType.none)
-                {
-                    samantha.Position += move;
-                }
-                else if (IsCollidedType() == StaticItemType.wall)
-                {
-                    Debug.WriteLine("Skolidowano ze ściano!");
-                    move = new Vector3(1f, 0, 0);
-                    samantha.ColliderExternal.RecreateCage(move);
-                    audio.playAudio(1);
-                }
-            }
+            Vector3 move = new Vector3(0, 0, 0);
+            if(newState.IsKeyDown(Keys.W))
+	            move = new Vector3(0, -1f, 0);
+            if(newState.IsKeyDown(Keys.S))
+	            move = new Vector3(0, 1f, 0);
+            if(newState.IsKeyDown(Keys.A))
+	            move = new Vector3(1f, 0, 0);
+            if(newState.IsKeyDown(Keys.D))
+	            move = new Vector3(-1f, 0, 0);
             oldState = newState;
+            samantha.ColliderExternal.RecreateCage(move);
+            
+            //Akcja dodatkowa do wywołania jeżeli zajdzie kolizja
+            colliderController.PlayAudio = audio.Play0;
+            //No i sprawdzenie czy zaszła kolizja i późniejsze 
+            colliderController.CheckCollision(samantha, move);
         }
 
         public StaticItemType IsCollidedType()
@@ -368,5 +258,4 @@ namespace Cyber.CGameStateEngine
             return StaticItemType.none;
         }
     }
-
 }
