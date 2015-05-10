@@ -76,7 +76,7 @@ namespace Cyber.CGameStateEngine
 
 
             stageParser = new StageParser();
-            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage2.bmp");
+            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             stageStructure = new StageStructure(stage);
             
             Debug.WriteLine("Ilość górnych ścianek to: " + stageStructure.Walls.WallsUp.Count);
@@ -167,7 +167,7 @@ namespace Cyber.CGameStateEngine
             #region ConcaveCornersLowerLeft
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerLeft.Count; i++, j++ )
             {
-                wallList[i].Rotation = 0;
+                wallList[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
@@ -178,7 +178,7 @@ namespace Cyber.CGameStateEngine
             #region ConcaveCornersLowerRight
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerRight.Count; i++, j++)
             {
-                wallList[i].Rotation = 0;
+                wallList[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
@@ -189,7 +189,7 @@ namespace Cyber.CGameStateEngine
             #region ConcaveCornersUpperLeft
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperLeft.Count; i++, j++)
             {
-                wallList[i].Rotation = 0;
+                wallList[i].Rotation = 270;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
@@ -211,7 +211,7 @@ namespace Cyber.CGameStateEngine
             #region ConvexCornersLowerLeft
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerLeft.Count; i++, j++)
             {
-                wallList[i].Rotation = 0;
+                wallList[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
@@ -222,7 +222,7 @@ namespace Cyber.CGameStateEngine
             #region ConvexCornersLowerRight
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerRight.Count; i++, j++)
             {
-                wallList[i].Rotation = 0;
+                wallList[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerRight[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
@@ -233,7 +233,7 @@ namespace Cyber.CGameStateEngine
             #region ConvexCornersUpperLeft
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperLeft.Count; i++, j++)
             {
-                wallList[i].Rotation = 0;
+                wallList[i].Rotation = 270;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
