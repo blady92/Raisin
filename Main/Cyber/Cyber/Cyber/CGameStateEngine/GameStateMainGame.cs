@@ -77,7 +77,7 @@ namespace Cyber.CGameStateEngine
             */
 
             stageParser = new StageParser();
-            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
+            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
             stageStructure = new StageStructure(stage);
             
             Debug.WriteLine("Ilość górnych ścianek to: " + stageStructure.Walls.WallsUp.Count);
