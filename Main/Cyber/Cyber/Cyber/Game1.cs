@@ -168,7 +168,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                mainGame.Draw(this.GraphicsDevice, gameTime);
+                mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime);
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {

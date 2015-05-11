@@ -30,10 +30,14 @@ namespace Cyber.CollisionEngine
 
         private List<StaticItem> wallList;
         private Action playAudio;
+        private ConsoleSprites console;
+        private Icon icon;
 
-        public ColliderController(List<StaticItem> walls)
+        public ColliderController(List<StaticItem> wallList, ConsoleSprites console, Icon icon)
         {
-            wallList = walls;
+            this.wallList = wallList;
+            this.console = console;
+            this.icon = icon;
         }
 
 
@@ -69,12 +73,14 @@ namespace Cyber.CollisionEngine
             {
                 Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
+                icon.IconState = StaticIcon.none;
             }
             else if (IsCollidedType(item) == StaticItemType.wall)
             {
                 Debug.WriteLine("Skolidowano ze ściano!");
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderExternal.RecreateCage(move);
+                icon.IconState = StaticIcon.action;
                 playAudio();
             }
         }

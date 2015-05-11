@@ -83,6 +83,7 @@
     <Compile Include="CConsoleEngine\ConsoleCommands.cs" />
     <Compile Include="CConsoleEngine\ConsoleEngine.cs" />
     <Compile Include="CGameStateEngine\GameState.cs" />
+    <Compile Include="CGameStateEngine\GameStateEndGame.cs" />
     <Compile Include="CGameStateEngine\GameStateLoadMenu.cs" />
     <Compile Include="CGameStateEngine\GameStateMainGame.cs" />
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="CItems\ConsoleSprites.cs" />
     <Compile Include="CItems\CDynamicItem\Enemies.cs" />
     <Compile Include="CItems\CDynamicItem\DynamicItem.cs" />
+    <Compile Include="CItems\CStaticItem\Icon.cs" />
+    <Compile Include="CItems\CStaticItem\StaticIcon.cs" />
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
     <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />

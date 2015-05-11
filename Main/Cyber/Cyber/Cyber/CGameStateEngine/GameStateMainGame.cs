@@ -37,12 +37,16 @@ namespace Cyber.CGameStateEngine
             set { audio = value; }
         }
 
-        //Load Models        
+        //2D elements
+        private ConsoleSprites console;
+        private Icon iconOverHead;
+
+        //3D elements
         private ColliderController colliderController;
         private List<StaticItem> wallList;
         private StageParser stageParser;
-        //private StaticItem WallConcave;
-        //private StaticItem WallConvex;
+
+
 
         private float przesuniecie;
         StageStructure stageStructure;
@@ -61,20 +65,21 @@ namespace Cyber.CGameStateEngine
 
         public void LoadContent(ContentManager theContentManager)
         {
+            #region Load 2D elements
+            console = new ConsoleSprites();
+            console.LoadContent(theContentManager);
+
+            //UWAŻA NA WYMIARY OKNA
+            iconOverHead = new Icon((1366-32)/2, 768/2-120, StaticIcon.none);
+            iconOverHead.LoadContent(theContentManager);
+            #endregion
+
+            #region Load 3D elements
             wallList = new List<StaticItem>();
 
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
-
-            /*
-            // DODAWANIE NAROŻNIKÓW
-            // na razie bez kolizji
-            WallConcave = new StaticItem("Assets/3D/Interior/Interior_Wall_Concave");
-            WallConvex = new StaticItem("Assets/3D/Interior/Interior_Wall_Convex");
-            WallConcave.LoadItem(theContentManager);
-            WallConvex.LoadItem(theContentManager);
-            */
 
             stageParser = new StageParser();
             Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
@@ -103,6 +108,7 @@ namespace Cyber.CGameStateEngine
                 item.Type = StaticItemType.wall;
                 wallList.Add(item);
             }
+            #endregion
 
             Debug.WriteLine("End of Loading");
         }
@@ -119,8 +125,6 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             samantha.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-            //WallConcave.Position = new Vector3(-100, 40, 0);
-            //WallConvex.Position = new Vector3(-140, 80, 0);
 
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
@@ -255,7 +259,7 @@ namespace Cyber.CGameStateEngine
                 wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
-            colliderController = new ColliderController(wallList);
+            colliderController = new ColliderController(wallList, console, iconOverHead);
         }
 
 
@@ -272,7 +276,7 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("TIMEOUT");
         }
 
-        public override void Draw(GraphicsDevice device, GameTime gameTime)
+        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime)
         {
             view = Matrix.CreateLookAt(new Vector3(samantha.Position.X + 200,
                 samantha.Position.Y + 200,
@@ -299,27 +303,17 @@ namespace Cyber.CGameStateEngine
                                     Matrix.CreateTranslation(wallList[i].Position);
                 Matrix wallColliderView = Matrix.CreateTranslation(wallList[i].ColliderInternal.Position);
                 wallList[i].DrawItem(device, wallView, view, projection);
-                //wallList[i].ColliderInternal.DrawBouding(device, wallColliderView, view, projection);
+                //wallList[i].ColliderExternal.DrawBouding(device, wallColliderView, view, projection);
             }
-
-            /*
-            Matrix concaveView = Matrix.Identity *
-                                    Matrix.CreateRotationZ(MathHelper.ToRadians(WallConcave.Rotation)) *
-                                    Matrix.CreateTranslation(WallConcave.Position);
-            Matrix convexView = Matrix.Identity *
-                                    Matrix.CreateRotationZ(MathHelper.ToRadians(WallConvex.Rotation)) *
-                                    Matrix.CreateTranslation(WallConvex.Position);
-
-            WallConcave.DrawItem(device, concaveView, view, projection);
-            WallConvex.DrawItem(device, convexView, view, projection);
-            */
-
+            iconOverHead.Draw(spriteBatch);
+            console.Draw(spriteBatch);
             base.Draw(gameTime);
         }
 
 
         public override void Update()
         {
+            console.Update();
             KeyboardState newState = Keyboard.GetState();
 
             if (newState.IsKeyDown(Keys.T))

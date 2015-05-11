@@ -12,6 +12,9 @@ namespace Cyber.CGameStateEngine
 {
     class GameStateMainMenu : GameState
     {
+        /*TODO: http://stackoverflow.com/questions/3552707/xna-get-window-location
+         * Wypozycjonować wg tego gówna
+        */
         #region MODELVIEW
 
         private Sprite menuBackground;
