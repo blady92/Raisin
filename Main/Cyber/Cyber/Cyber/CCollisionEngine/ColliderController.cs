@@ -32,6 +32,7 @@ namespace Cyber.CollisionEngine
         private Action playAudio;
         private ConsoleSprites console;
         private Icon icon;
+        private KeyboardState newState, oldstate;
 
         public ColliderController(List<StaticItem> wallList, ConsoleSprites console, Icon icon)
         {
@@ -80,7 +81,7 @@ namespace Cyber.CollisionEngine
             item.ColliderInternal.RecreateCage(move);
             if (IsCollidedType(item) == StaticItemType.none)
             {
-                Debug.WriteLine("Nie skolidowano");
+                //Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
                 icon.IconState = StaticIcon.none;
                 if (!ConsoleCollided(item)) { 
@@ -89,7 +90,7 @@ namespace Cyber.CollisionEngine
             }
             else if (IsCollidedType(item) == StaticItemType.wall)
             {
-                Debug.WriteLine("Skolidowano ze ściano!");
+                //Debug.WriteLine("Skolidowano ze ściano!");
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderInternal.RecreateCage(move);
                 playAudio();
@@ -102,10 +103,11 @@ namespace Cyber.CollisionEngine
             if (ConsoleCollided(item))
             {
                 KeyboardState newState = Keyboard.GetState();
-                if (newState.IsKeyDown(Keys.Q))
+                if (newState.IsKeyDown(Keys.Tab) && oldstate.IsKeyUp(Keys.Tab))
                 {
-                    console.IsUsed = true;
+                    console.IsUsed = !console.IsUsed;
                 }
+                oldstate = newState;
                 if (console.IsUsed)
                 {
                     icon.IconState = StaticIcon.none;
@@ -114,7 +116,6 @@ namespace Cyber.CollisionEngine
                 {
                     icon.IconState = StaticIcon.action;
                 }
-
             }
         }
     }

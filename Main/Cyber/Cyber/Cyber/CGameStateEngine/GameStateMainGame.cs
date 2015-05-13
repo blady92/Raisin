@@ -387,24 +387,34 @@ namespace Cyber.CGameStateEngine
 
             Vector3 move = new Vector3(0, 0, 0);
             colliderController.PlayAudio = audio.Play0;
-            if (newState.IsKeyDown(Keys.W))
+            if (!console.IsUsed)
             {
-                move = new Vector3(0, 1f, 0);
-                colliderController.CheckCollision(samantha, move);
-            }
-            if (newState.IsKeyDown(Keys.S)) { 
-	            move = new Vector3(0, -1f, 0);
-                colliderController.CheckCollision(samantha, move);
-            }
-            if (newState.IsKeyDown(Keys.A)) { 
-                move = new Vector3(-1f, 0, 0);
-                colliderController.CheckCollision(samantha, move);
-            }
-            if (newState.IsKeyDown(Keys.D)) { 
-	            
-                move = new Vector3(1f, 0, 0);
-                colliderController.CheckCollision(samantha, move);
+                if (newState.IsKeyDown(Keys.W))
+                {
+                    move = new Vector3(0, 1f, 0);
+                    colliderController.CheckCollision(samantha, move);
+                }
+                if (newState.IsKeyDown(Keys.S))
+                {
+                    move = new Vector3(0, -1f, 0);
+                    colliderController.CheckCollision(samantha, move);
+                }
+                if (newState.IsKeyDown(Keys.A))
+                {
+                    move = new Vector3(-1f, 0, 0);
+                    colliderController.CheckCollision(samantha, move);
+                }
+                if (newState.IsKeyDown(Keys.D))
+                {
 
+                    move = new Vector3(1f, 0, 0);
+                    colliderController.CheckCollision(samantha, move);
+
+                }
+            }
+            else
+            {
+                console.Action();
             }
 
             colliderController.CallTerminalAfterCollision(samantha);

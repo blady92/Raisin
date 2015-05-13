@@ -19,10 +19,10 @@ namespace Cyber
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private int maxWidth = 1366;
-        private int maxHeight = 768;
+        public static float maxWidth = 1366;
+        public static float maxHeight = 768;
         private bool fullscreen = false;
-        private bool mouseVisibility = false;
+        private bool mouseVisibility = true;
 
         private Sprite mousePointer;
 
@@ -60,8 +60,8 @@ namespace Cyber
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = fullscreen;
-            graphics.PreferredBackBufferWidth = maxWidth;
-            graphics.PreferredBackBufferHeight = maxHeight;
+            graphics.PreferredBackBufferWidth = (int)maxWidth;
+            graphics.PreferredBackBufferHeight = (int)maxHeight;
             IsMouseVisible = mouseVisibility;
             Content.RootDirectory = "Content";
         }

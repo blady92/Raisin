@@ -34,6 +34,8 @@ namespace Cyber
         //Status oznaczający, czy dany element jest klikalny
         private bool setToClick;
 
+        //Status oznaczający, że ładowanie zakończono
+
         public Texture2D[] TextureList { get; set; }
         public Texture2D[] ClickTextureList { get; set; }
         public int ClickCurrentFrameAccessor
@@ -159,11 +161,17 @@ namespace Cyber
             spriteBatch.End();
         }
 
+        public bool LoadingFinished()
+        {
+            if (currentFrame == totalFrames-1)
+                return true;
+            return false;
+        }
         //Update w sposób ciągły i reset do zera
         public void Update()
         {
             currentFrame++;
-            if (currentFrame == totalFrames)
+            if (currentFrame == totalFrames-1)
             {
                 currentFrame = 0;
             }
