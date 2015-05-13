@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using NaturalSorting;
 
 namespace Cyber
 {
@@ -12,9 +15,9 @@ namespace Cyber
         private Vector2 spritePosition;
         
         //Obecna klatka standardowej animacji
-        private int currentFrame;
+        public int currentFrame { get; set; }
         //Łączna ilość klatek standardowej animacji
-        private int totalFrames;
+        public int totalFrames { get; set; }
 
         //Obecna klatka animacji po kliknięciu
         private int clickCurrentFrame;
@@ -93,6 +96,7 @@ namespace Cyber
             //Chcę do fajnego cycka się przytulić ;_;
             /// ....
             string[] sequences = Directory.GetFiles(@"..//..//..//..//CyberContent/" + path);
+            Array.Sort(sequences, new AlphanumComparatorFast());
             for (int i = 0; i < sequences.Length; i++)
             {
                 string s = sequences[i];
@@ -100,8 +104,10 @@ namespace Cyber
                 s = s.Replace(@"\", "/");
                 sequences[i] = s.Substring(s.IndexOf("Assets"));
             }
+            Debug.WriteLine(sequences.ToString());
             for (int i = 0; i < list.Length; i++)
             {
+                Debug.WriteLine(sequences[i]);
                 list[i] = theContentManager.Load<Texture2D>(""+sequences[i]);
             }
         }
@@ -163,13 +169,22 @@ namespace Cyber
             }
         }
 
-        //Update do ostatniej klatki i stop
+        //Update do ostatniej klatki i stop pojedynczo
         public void UpdateAnimation()
         {
             if (currentFrame < totalFrames-1)
             {
                 currentFrame++;
             }
+        }
+
+        //Update do samego końca, bez zatrzymywania się
+        public void UpdateTillEnd()
+        {
+            do
+            {
+                currentFrame++;
+            } while (currentFrame > totalFrames - 1);
         }
 
         //Przeciwieństwo do UpdateAnimation

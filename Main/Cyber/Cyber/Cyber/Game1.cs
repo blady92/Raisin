@@ -52,7 +52,6 @@ namespace Cyber
         //Camera Parameters
         float cameraArc = 35.0f;
         float cameraRotation = -360.0f;
-      //  float cameraRotationZ = -180.0f;
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
     
@@ -108,7 +107,7 @@ namespace Cyber
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             mainMenu.LoadContent(this.Content);
-            mainGame.LoadContent(this.Content);
+            mainGame.LoadContent(this.Content, this.GraphicsDevice);
             pauseMenu.LoadContent(this.Content);
             loadMenu.LoadContent(this.Content);
             //mainGame.SetUpScene();
@@ -179,7 +178,7 @@ namespace Cyber
                 // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
                 Matrix world = Matrix.Identity;
 
-                Matrix view = Matrix.CreateTranslation(0, -40, 0) *
+                Matrix view = Matrix.CreateTranslation(0, 0, 0) *
                               Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
                               Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
                               Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *

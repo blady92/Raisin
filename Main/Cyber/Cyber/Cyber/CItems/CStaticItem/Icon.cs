@@ -71,15 +71,17 @@ namespace Cyber.CItems.CStaticItem
             }
             else if (iconState == StaticIcon.danger)
             {
-                Debug.WriteLine("Ikona zagrożenia");
+                //Debug.WriteLine("Ikona zagrożenia");
             }
             else if (iconState == StaticIcon.onWatch)
             {
-                Debug.WriteLine("Ikona onWatch");
+                //Debug.WriteLine("Ikona onWatch");
             }
             else if (iconState == StaticIcon.none)
             {
+
                // Debug.WriteLine("Brak akcji do wykonania");
+
             }
         }
     }

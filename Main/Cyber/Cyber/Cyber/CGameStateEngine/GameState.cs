@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -38,6 +39,7 @@ namespace Cyber.CGameStateEngine
         public virtual void Draw(GraphicsDevice device, Matrix world, Matrix view, Matrix projection) { }
 
         public virtual void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime) { }
+        public virtual void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, ContentManager theContentManager) { }
         public virtual void Update() { }
 
         public virtual void Update(GameTime gameTime, KeyboardState currentKeyboardState) { }

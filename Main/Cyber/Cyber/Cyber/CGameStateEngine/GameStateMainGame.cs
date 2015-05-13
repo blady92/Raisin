@@ -42,11 +42,12 @@ namespace Cyber.CGameStateEngine
         private Icon iconOverHead;
 
         //3D elements
+        private StaticItem samantha;
+        private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> wallList;
         private StageParser stageParser;
-
-
+        
 
         private float przesuniecie;
         StageStructure stageStructure;
@@ -61,32 +62,39 @@ namespace Cyber.CGameStateEngine
 
 
         //TESTOWANE
-        private StaticItem samantha;
-        public void LoadContent(ContentManager theContentManager)
+        private bool loaded = false;
+
+        public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
             #region Load 2D elements
             console = new ConsoleSprites();
             console.LoadContent(theContentManager);
 
-            //UWAŻA NA WYMIARY OKNA
-            iconOverHead = new Icon((1366-32)/2, 768/2-120, StaticIcon.none);
+            //UWAZAC NA WYMIARY OKNA
+            //(1366 - 32) / 2, 768 / 2 - 120, StaticIcon.none
+            iconOverHead = new Icon((device.Viewport.Width - 32) / 2, device.Viewport.Height / 2 - 120, StaticIcon.none);
             iconOverHead.LoadContent(theContentManager);
             #endregion
 
             #region Load 3D elements
-            wallList = new List<StaticItem>();
-
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
 
+            terminal = new StaticItem("Assets/3D/Interior/Interior_Terminal");
+            terminal.LoadItem(theContentManager);
+            terminal.Type = StaticItemType.terminal;
+
+            wallList = new List<StaticItem>();
+
+
             stageParser = new StageParser();
             Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
             stageStructure = new StageStructure(stage);
-            
+
             Debug.WriteLine("Ilość górnych ścianek to: " + stageStructure.Walls.WallsUp.Count);
 
-            ////Ładowanie przykładowych ścianek
+            #region Ładowanie ścian
             for (int i = 0; i < stageStructure.Walls.Count; i++)
             {
                 wallList.Add(new StaticItem("Assets/3D/Interior/Interior_Wall_Base"));
@@ -108,13 +116,20 @@ namespace Cyber.CGameStateEngine
                 wallList.Add(item);
             }
             #endregion
-
+            #endregion
             Debug.WriteLine("End of Loading");
         }
 
         public void SetUpScene()
         {
-            samantha.Position = new Vector3(20, -100, 0);
+
+            samantha.Position = new Vector3(0, 0, 0);
+            samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+
+            terminal.Position = new Vector3(20, -100, 39);
+            terminal.FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
+            terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(20f, 20f, 0f));
+
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region Walls setups
             int i = 0;
@@ -123,8 +138,7 @@ namespace Cyber.CGameStateEngine
             float cornerOffset = 5.5f;
             #endregion
 
-            samantha.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-
+            
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
             {
@@ -133,7 +147,7 @@ namespace Cyber.CGameStateEngine
                                         stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
                                         0.0f);
             wallList[i].Position = move;
-            wallList[i].FixCollider(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+            wallList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
             }
 
             #endregion
@@ -145,7 +159,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset, 
                                             0.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
             }
             #endregion
             #region WallsLeft
@@ -156,7 +170,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.Walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 
                                             0.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
             }
             #endregion
             #region WallsRight
@@ -167,7 +181,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.Walls.WallsRight[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersLowerLeft
@@ -178,7 +192,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersLowerRight
@@ -189,7 +203,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersUpperLeft
@@ -200,7 +214,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersUpperRight
@@ -211,7 +225,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersLowerLeft
@@ -222,7 +236,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersLowerRight
@@ -233,7 +247,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersUpperLeft
@@ -244,7 +258,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersUpperRight
@@ -255,9 +269,11 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 wallList[i].Position = move;
-                wallList[i].FixCollider(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                wallList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
+            
+            wallList.Add(terminal);
             colliderController = new ColliderController(wallList, console, iconOverHead);
         }
 
@@ -288,13 +304,23 @@ namespace Cyber.CGameStateEngine
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
+
             Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                        Matrix.CreateTranslation(samantha.Position);
             
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
             samantha.DrawItem(device, samanthaView, view, projection);
+
           
            //  samantha.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
+            Matrix terminalView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+            Matrix.CreateTranslation(terminal.Position);
+            Matrix terminalColliderView = Matrix.CreateTranslation(terminal.ColliderExternal.Position);
+            Matrix terminalColliderInternallView = Matrix.CreateTranslation(terminal.ColliderInternal.Position);
+
+            terminal.DrawItem(device, terminalView, view, projection);
+           // terminal.ColliderExternal.DrawBouding(device, terminalColliderView, view, projection);
+          //  terminal.ColliderInternal.DrawBouding(device, terminalColliderInternallView, view, projection);
 
             for (int i = 0; i < wallList.Count; i++)
             {
@@ -306,6 +332,7 @@ namespace Cyber.CGameStateEngine
                 wallList[i].DrawItem(device, wallView, view, projection);
               //  wallList[i].ColliderExternal.DrawBouding(device, wallColliderView, view, projection);
             }
+
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);
@@ -316,6 +343,8 @@ namespace Cyber.CGameStateEngine
         {
             console.Update();
             KeyboardState newState = currentKeyboardState;
+
+
 
            //Kuba edit:
             samantha.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
@@ -373,9 +402,13 @@ namespace Cyber.CGameStateEngine
                 colliderController.CheckCollision(samantha, move);
             }
             if (newState.IsKeyDown(Keys.D)) { 
-	            move = new Vector3(1f, 0, 0);
+	            
+                move = new Vector3(1f, 0, 0);
                 colliderController.CheckCollision(samantha, move);
+
             }
+
+            console.Update();
             oldState = newState;
         }
     }

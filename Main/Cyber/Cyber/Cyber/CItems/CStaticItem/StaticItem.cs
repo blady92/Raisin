@@ -95,13 +95,22 @@ namespace Cyber.CItems.CStaticItem
             skinnedModel.DrawStaticModelWithShader(gameTime, device);
         }
 
-        public void FixCollider(Vector3 resize, Vector3 move)
+        public void FixColliderExternal(Vector3 resize, Vector3 move)
         {
             colliderExternal.SetBoudings(skinnedModel.CurrentModel);
             colliderExternal.CreateColliderBoudingBox();
             colliderExternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
             colliderExternal.MoveBoundingBox(move);
             colliderExternal.RecreateCage(position);
+        }
+
+        public void FixColliderInternal(Vector3 resize, Vector3 move)
+        {
+            colliderInternal.SetBoudings(skinnedModel.CurrentModel);
+            colliderInternal.CreateColliderBoudingBox();
+            colliderInternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
+            colliderInternal.MoveBoundingBox(move);
+            colliderInternal.RecreateCage(position);
         }
     }
 }
