@@ -62,7 +62,6 @@ namespace Cyber.CGameStateEngine
 
         //TESTOWANE
         private StaticItem samantha;
-
         public void LoadContent(ContentManager theContentManager)
         {
             #region Load 2D elements
@@ -276,24 +275,26 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("TIMEOUT");
         }
 
-        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, Matrix world, Matrix view, Matrix projection)
         {
-            view = Matrix.CreateLookAt(new Vector3(samantha.Position.X + 200,
-                samantha.Position.Y + 200,
-                samantha.Position.Z + 400), new Vector3(
-                samantha.Position.X,
-                samantha.Position.Y,
-                samantha.Position.Z),
-                Vector3.UnitZ);
+            //view = Matrix.CreateLookAt(new Vector3(samantha.Position.X + 200,
+            //    samantha.Position.Y + 200,
+            //    samantha.Position.Z + 400), new Vector3(
+            //    samantha.Position.X,
+            //    samantha.Position.Y,
+            //    samantha.Position.Z),
+            //    Vector3.UnitZ);
 
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
             Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                        Matrix.CreateTranslation(samantha.Position);
+            
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
             samantha.DrawItem(device, samanthaView, view, projection);
-            samantha.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
+          
+           //  samantha.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             for (int i = 0; i < wallList.Count; i++)
             {
@@ -303,7 +304,7 @@ namespace Cyber.CGameStateEngine
                                     Matrix.CreateTranslation(wallList[i].Position);
                 Matrix wallColliderView = Matrix.CreateTranslation(wallList[i].ColliderInternal.Position);
                 wallList[i].DrawItem(device, wallView, view, projection);
-                //wallList[i].ColliderExternal.DrawBouding(device, wallColliderView, view, projection);
+              //  wallList[i].ColliderExternal.DrawBouding(device, wallColliderView, view, projection);
             }
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
@@ -311,11 +312,14 @@ namespace Cyber.CGameStateEngine
         }
 
 
-        public override void Update()
+        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance )
         {
             console.Update();
-            KeyboardState newState = Keyboard.GetState();
+            KeyboardState newState = currentKeyboardState;
 
+           //Kuba edit:
+            samantha.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+      
             if (newState.IsKeyDown(Keys.T))
             {
                 if (Clock.Instance.CanResume())
@@ -357,19 +361,19 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (newState.IsKeyDown(Keys.W))
             {
-                move = new Vector3(0, -1f, 0);
+                move = new Vector3(0, 1f, 0);
                 colliderController.CheckCollision(samantha, move);
             }
             if (newState.IsKeyDown(Keys.S)) { 
-	            move = new Vector3(0, 1f, 0);
+	            move = new Vector3(0, -1f, 0);
                 colliderController.CheckCollision(samantha, move);
             }
             if (newState.IsKeyDown(Keys.A)) { 
-                move = new Vector3(1f, 0, 0);
+                move = new Vector3(-1f, 0, 0);
                 colliderController.CheckCollision(samantha, move);
             }
             if (newState.IsKeyDown(Keys.D)) { 
-	            move = new Vector3(-1f, 0, 0);
+	            move = new Vector3(1f, 0, 0);
                 colliderController.CheckCollision(samantha, move);
             }
             oldState = newState;

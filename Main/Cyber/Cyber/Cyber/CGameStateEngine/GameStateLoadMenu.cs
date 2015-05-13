@@ -4,27 +4,26 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Cyber.CItems.CStaticItem;
 
 
 namespace Cyber.CGameStateEngine
 {
     class GameStateLoadMenu : GameState
     {
-        float cameraArc = 0;
-        float cameraRotation = 0;
-        float cameraDistance = 500;
-
 
         SkinningAnimation modelLoader = new SkinningAnimation();
         List<SkinningAnimation> modelList = new List<SkinningAnimation>();
         List<string> modelPathList = new List<string>();
+
+      //  StaticItem samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
       
         public void LoadContent(ContentManager theContentManager)
         {
            // Ważna kolejność
             string interiorPath = "Assets/3D/Interior/Interior_";
 
-            modelPathList.Add(interiorPath+"Oxygen_Generator");
+            modelPathList.Add(interiorPath + "Oxygen_Generator");
             modelPathList.Add(interiorPath + "Chair");
             modelPathList.Add(interiorPath + "Wall_Base");
             modelPathList.Add(interiorPath + "Wall_Base");
@@ -32,11 +31,14 @@ namespace Cyber.CGameStateEngine
             modelPathList.Add(interiorPath + "Wall_Base");
             modelPathList.Add(interiorPath + "Wall_Base");
             modelPathList.Add(interiorPath + "Wall_Base");
-            for (int i = 0; i < 1; i++) { 
+            for (int i = 0; i < 1; i++)
+            {
                 modelList.Add(new SkinningAnimation());
                 modelList[i].LoadContent_StaticModel(theContentManager, modelPathList[i]);
             }
 
+            //samantha.LoadItem(theContentManager);
+            //samantha.Type = StaticItemType.none;
            
             
          
@@ -47,6 +49,7 @@ namespace Cyber.CGameStateEngine
             {
                 skinningAnimation.DrawStaticModelWithBasicEffect(device, world, view, projection);
             }
+
 
         }
 

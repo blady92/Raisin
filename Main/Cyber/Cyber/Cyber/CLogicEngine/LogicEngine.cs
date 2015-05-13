@@ -162,9 +162,9 @@ namespace Cyber.CGameStateEngine
          * Tutaj powinny być wszelkie reakcje na przyciski, zakończenie gry etc
          * 
          */
-        public void LogicGame()
+        public void LogicGame(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
         {
-            gameStateMainGame.Update();
+            gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
         }
 
         #endregion

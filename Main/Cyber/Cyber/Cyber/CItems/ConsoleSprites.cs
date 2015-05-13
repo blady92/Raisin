@@ -91,8 +91,7 @@ namespace Cyber.CItems
             {
                 //Debug.WriteLine("Not used");
             }
-
-            Debug.WriteLine("Pozycja minimalna : " + console.Position.Y + " oraz wychylenie " + (768 - console.SpriteAccessor.Height));
+          //  Debug.WriteLine("Pozycja minimalna : " + console.Position.Y + " oraz wychylenie " + (768 - console.SpriteAccessor.Height));
         }
         public void HideConsole()
         {

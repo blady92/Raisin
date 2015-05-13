@@ -246,7 +246,7 @@ namespace Cyber.GraphicsEngine
          public void UpdateCamera(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
          {
              float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-             float cameraSpeed = 0.2f;
+             float cameraSpeed = 0.1f;
              
 
              #region STARE DZIAŁANIE KAMERY - klawiatura
@@ -329,25 +329,27 @@ namespace Cyber.GraphicsEngine
              //Debug.Write("Yo, ur mouse y is: ");
              //Debug.WriteLine(currentMouseState.Y);
 
-            //  Ograniczenie na kąt obrotu.
-                  if (cameraArc > -18.0f)
+             // Ograniczenie na kąt obrotu.
+                  if (cameraArc > 37.0f)
                   {
-                      cameraArc = -18.0f;
+                      cameraArc = 35.0f;
                   } 
-                  else if (cameraArc < -32.0f)
+                  else if (cameraArc < 33.0f)
                   {
-                      cameraArc = -32.0f;
+                      cameraArc = 35.0f;
                   }
-                     
-             if((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X < prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
+
+             if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X < prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
                  cameraRotation -= time * cameraSpeed;
                  prevMouseState = currentMouseState;
+                 Debug.WriteLine("cr: " + cameraRotation);
              }
              if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X > prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
                  cameraRotation += time * cameraSpeed;
                  prevMouseState = currentMouseState;
+                 Debug.WriteLine("cr: " + cameraRotation);
              }
              if ((currentMouseState.Y != prevMouseState.Y || currentMouseState.X != prevMouseState.X) && (currentMouseState.Y > prevMouseState.Y) && (currentMouseState.Y > 0) && (currentMouseState.Y < device.Viewport.Height) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {

@@ -79,7 +79,7 @@ namespace Cyber.CItems.CStaticItem
             }
             else if (iconState == StaticIcon.none)
             {
-                Debug.WriteLine("Brak akcji do wykonania");
+               // Debug.WriteLine("Brak akcji do wykonania");
             }
         }
     }

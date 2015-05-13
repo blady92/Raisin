@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNAGameConsole;
 using Cyber.CConsoleEngine;
+using System.Diagnostics;
 
 namespace Cyber
 {
@@ -49,8 +50,9 @@ namespace Cyber
         private GameConsole console;
 
         //Camera Parameters
-        float cameraArc = -25.0f;
-        float cameraRotation = -50.0f;
+        float cameraArc = 35.0f;
+        float cameraRotation = -360.0f;
+      //  float cameraRotationZ = -180.0f;
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
     
@@ -136,7 +138,7 @@ namespace Cyber
 
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                LogicEngine.LogicGame();
+                LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             }
             else if (LogicEngine.GetState() == GameState.States.startMenu)
             {
@@ -168,30 +170,33 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime);
-            }
-            else if (LogicEngine.GetState() == GameState.States.loadMenu)
-            {
                 Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
                 Vector3 cameraTarget = new Vector3(0, 0, 0);
                 Vector3 cameraUpVector = Vector3.Up;
 
-                Matrix[] transforms = loadMenu.returnModelTransforms();
+                //Matrix[] transforms = loadMenu.returnModelTransforms();
 
-              // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
+                // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
                 Matrix world = Matrix.Identity;
 
                 Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                              Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
+                              Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
+                              Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
                               Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                              Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector)*
-                              Matrix.CreateScale(0.6f, 0.6f, 1.0f);
+                              
 
-              //  Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, this.GraphicsDevice.Viewport.AspectRatio, 1, 100000);
+
+
+                              Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector) *
+                              Matrix.CreateScale(1.0f, 1.0f, 1.0f);
+
+                //  Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, this.GraphicsDevice.Viewport.AspectRatio, 1, 100000);
                 Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
-
-
-                loadMenu.Draw(this.GraphicsDevice, world, view, projection);
+                mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection);
+            }
+            else if (LogicEngine.GetState() == GameState.States.loadMenu)
+            {
+               
             }
             else if (LogicEngine.GetState() == GameState.States.exit)
             {

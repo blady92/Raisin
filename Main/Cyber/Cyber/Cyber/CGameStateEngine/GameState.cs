@@ -43,5 +43,7 @@ namespace Cyber.CGameStateEngine
         public virtual void Update(GameTime gameTime, KeyboardState currentKeyboardState) { }
 
         public virtual void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance) { }
+
+        public virtual void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, Matrix world, Matrix view, Matrix projection) { }
     }
 }
