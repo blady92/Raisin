@@ -322,17 +322,16 @@ namespace Cyber.CGameStateEngine
             terminal.ColliderExternal.DrawBouding(device, terminalColliderView, view, projection);
             terminal.ColliderInternal.DrawBouding(device, terminalColliderInternallView, view, projection);
 
-
-            //for (int i = 0; i < wallList.Count; i++)
-            //{
-            //    //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
-            //    Matrix wallView = Matrix.Identity *
-            //                        Matrix.CreateRotationZ(MathHelper.ToRadians(wallList[i].Rotation)) *
-            //                        Matrix.CreateTranslation(wallList[i].Position);
-            //    Matrix wallColliderView = Matrix.CreateTranslation(wallList[i].ColliderInternal.Position);
-            //    wallList[i].DrawItem(device, wallView, view, projection);
-            //    //wallList[i].ColliderInternal.DrawBouding(device, wallColliderView, view, projection);
-            //}
+            for (int i = 0; i < wallList.Count; i++)
+            {
+                //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
+                Matrix wallView = Matrix.Identity *
+                                    Matrix.CreateRotationZ(MathHelper.ToRadians(wallList[i].Rotation)) *
+                                    Matrix.CreateTranslation(wallList[i].Position);
+                Matrix wallColliderView = Matrix.CreateTranslation(wallList[i].ColliderInternal.Position);
+                wallList[i].DrawItem(device, wallView, view, projection);
+                //wallList[i].ColliderInternal.DrawBouding(device, wallColliderView, view, projection);
+            }
 
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);

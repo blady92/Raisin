@@ -61,13 +61,14 @@ namespace Cyber.CItems
         {
             KeyboardState newState = Keyboard.GetState();
             if (newState.IsKeyDown(Keys.Q))
-            {
-                isUsed = !IsUsed;
-            }
+                isUsed = true;
+            if (newState.IsKeyDown(Keys.E))
+                isUsed = false;
             if (isUsed)
-            {
                 console.UpdateAnimation();
-            }
+            else 
+                console.UpdateReverse();
+
         }
 
         public void HideConsole()

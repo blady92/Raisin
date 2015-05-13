@@ -705,53 +705,53 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console24.png">
-      <Name>console24</Name>
+    <Compile Include="Assets\2D\consoleAnimation\console11.png">
+      <Name>console11</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console25.png">
-      <Name>console25</Name>
+    <Compile Include="Assets\2D\consoleAnimation\console12.png">
+      <Name>console12</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console26.png">
-      <Name>console26</Name>
+    <Compile Include="Assets\2D\consoleAnimation\console13.png">
+      <Name>console13</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console27.png">
-      <Name>console27</Name>
+    <Compile Include="Assets\2D\consoleAnimation\console14.png">
+      <Name>console14</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console28.png">
-      <Name>console28</Name>
+    <Compile Include="Assets\2D\consoleAnimation\console15.png">
+      <Name>console15</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console29.png">
-      <Name>console29</Name>
+    <Compile Include="Assets\2D\consoleAnimation\console16.png">
+      <Name>console16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\console17.png">
+      <Name>console17</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\console18.png">
+      <Name>console18</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\console2.png">
+      <Name>console2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Assets\2D\consoleAnimation\console3.png">
       <Name>console3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console30.png">
-      <Name>console30</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console31.png">
-      <Name>console31</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\console32.png">
-      <Name>console32</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
