@@ -106,7 +106,7 @@ namespace Cyber
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             mainMenu.LoadContent(this.Content);
-            mainGame.LoadContent(this.Content);
+            mainGame.LoadContent(this.Content, this.GraphicsDevice);
             pauseMenu.LoadContent(this.Content);
             loadMenu.LoadContent(this.Content);
             //mainGame.SetUpScene();

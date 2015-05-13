@@ -59,16 +59,21 @@ namespace Cyber.CollisionEngine
 
         public StaticItemType IsCollidedType(StaticItem item)
         {
-            foreach (StaticItem wall in wallList) { 
-                if (item.ColliderExternal.AABB.Intersects(wall.ColliderExternal.AABB))
+            foreach (StaticItem wall in wallList)
+            {
+                if (item.ColliderInternal.AABB.Intersects(wall.ColliderInternal.AABB))
                     return StaticItemType.wall;
+                if (item.ColliderInternal.AABB.Intersects(wall.ColliderExternal.AABB))
+                {
+                    return StaticItemType.terminal;
+                }
             }
             return StaticItemType.none;
         }
 
         public void CheckCollision(StaticItem item, Vector3 move)
         {
-            item.ColliderExternal.RecreateCage(move);
+            item.ColliderInternal.RecreateCage(move);
             if (IsCollidedType(item) == StaticItemType.none)
             {
                 Debug.WriteLine("Nie skolidowano");
@@ -79,9 +84,13 @@ namespace Cyber.CollisionEngine
             {
                 Debug.WriteLine("Skolidowano ze ściano!");
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
-                item.ColliderExternal.RecreateCage(move);
-                icon.IconState = StaticIcon.action;
+                item.ColliderInternal.RecreateCage(move);
                 playAudio();
+            }
+            else if (IsCollidedType(item) == StaticItemType.terminal)
+            {
+                item.Position += move;
+                icon.IconState = StaticIcon.action;
             }
         }
     }

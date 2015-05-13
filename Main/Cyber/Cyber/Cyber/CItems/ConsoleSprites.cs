@@ -14,12 +14,9 @@ namespace Cyber.CItems
     class ConsoleSprites
     {
         private bool isUsed;
-        private Sprite console;
-        private Sprite consoleAdditional;
-        private Sprite consoleButton;
-        private float speedMovement;
-        private bool yAnimationDone;
-        private bool xAnimationDone;
+        public SpriteAnimationDynamic console { get; set; }
+        public Sprite consoleAdditional { get; set; }
+        public Sprite consoleButton { get; set; }
 
         #region ACCESSORS
 
@@ -29,97 +26,59 @@ namespace Cyber.CItems
             set { isUsed = value; }
         }
 
-        public Sprite ConsoleBackground
+        public SpriteAnimationDynamic Console
         {
             get { return console; }
             set { console = value; }
         }
-
-        public Sprite ConsoleButton
-        {
-            get { return consoleButton; }
-            set { consoleButton = value; }
-        }
-
-        public float SpeedMovement
-        {
-            get { return speedMovement; }
-            set { speedMovement = value; }
-        }
         #endregion
 
         public void LoadContent(ContentManager theContentManager)
-        {   console = new Sprite(0, 0); //Ustawienie byle jak
-            console.LoadContent(theContentManager, "Assets/2D/console");
+        {
+            console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
+            console.LoadAnimationHover(theContentManager);
+            console.SpritePosition = new Vector2(0, 0);
             
             //UWAGA NA WYMIARY OKNA GRY
             //console.Position = new Vector2(-console.SpriteAccessor.Width + 30, 768-100);
             //Schowanie głównej konsoli
-            console.Position = new Vector2(-console.SpriteAccessor.Width + 30, 768 - 30);
+            //console.Position = new Vector2(-console.SpriteAccessor.Width + 30, 768 - 30);
             //Maksymalne pokazanie
             //console.Position = new Vector2(-console.SpriteAccessor.Width + console.SpriteAccessor.Width, 768 - console.SpriteAccessor.Height);
 
 
-            consoleAdditional = new Sprite(0,0);
-            consoleAdditional.LoadContent(theContentManager, "Assets/2D/consoleAdditional");
-            //schowanie
-            consoleAdditional.Position = new Vector2(console.Position.X + consoleAdditional.SpriteAccessor.Width + 3, console.Position.Y);
+            //consoleAdditional = new Sprite(0,0);
+            //consoleAdditional.LoadContent(theContentManager, "Assets/2D/consoleAdditional");
             //pokazanie
-            consoleAdditional.Position = new Vector2(console.SpriteAccessor.Width, console.Position.Y);
-
-            xAnimationDone = false;
-            yAnimationDone = false;
+            //consoleAdditional.Position = new Vector2(console.SpriteAccessor.Width, console.Position.Y);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            consoleAdditional.DrawByRectangle(spriteBatch);
-            console.DrawByRectangle(spriteBatch);
+           console.DrawAnimation(spriteBatch);
         }
 
         public void Update()
         {
             KeyboardState newState = Keyboard.GetState();
-            if (newState.IsKeyDown((Keys.Y)))
+            if (newState.IsKeyDown(Keys.Q))
             {
-                isUsed = !isUsed;
+                isUsed = !IsUsed;
             }
             if (isUsed)
             {
-                ShowConsole(new Vector2(20, 10));
+                console.UpdateAnimation();
             }
-            else
-            {
-                //Debug.WriteLine("Not used");
-            }
-
-            Debug.WriteLine("Pozycja minimalna : " + console.Position.Y + " oraz wychylenie " + (768 - console.SpriteAccessor.Height));
         }
+
         public void HideConsole()
         {
-            
+            console.UpdateReverse();
         }
 
-        public void ShowConsole(Vector2 speed)
+        public void ShowConsole()
         {
-            if(!yAnimationDone){
-                if (console.Position.Y > 768 - console.SpriteAccessor.Height)
-                {
-                    console.Position.Y -= speed.Y;
-                    consoleAdditional.Position.Y += speed.Y;
-                }
-                else
-                {
-                    yAnimationDone = true;
-                }
-            }
-            if(yAnimationDone)
-            {
-                if (console.Position.X < -console.SpriteAccessor.Width + console.SpriteAccessor.Width)
-                {
-                    console.Position.X += speed.X;
-                    consoleAdditional.Position.X += speed.X;
-                }
-            }
+            Debug.WriteLine(console.currentFrame);
+            console.UpdateTillEnd();
         }
     }
 }
