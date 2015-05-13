@@ -340,7 +340,7 @@ namespace Cyber.CGameStateEngine
         }
 
 
-        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance )
+        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget)
         {
             console.Update();
             KeyboardState newState = currentKeyboardState;
@@ -389,27 +389,39 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
             {
-                if (newState.IsKeyDown(Keys.W))
-                {
+                if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
                     colliderController.CheckCollision(samantha, move);
+                    Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    cameraTarget.Y = samantha.Position.Y;
                 }
-                if (newState.IsKeyDown(Keys.S))
-                {
-                    move = new Vector3(0, -1f, 0);
+                if (newState.IsKeyDown(Keys.S)) { 
+	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samantha, move);
+                    Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    cameraTarget.Y = samantha.Position.Y;
                 }
-                if (newState.IsKeyDown(Keys.A))
-                {
+                if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
                     colliderController.CheckCollision(samantha, move);
+                    Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    cameraTarget.X = -samantha.Position.X;
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
 
                     move = new Vector3(1f, 0, 0);
                     colliderController.CheckCollision(samantha, move);
-
+                    Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    cameraTarget.X = -samantha.Position.X;
                 }
             }
             else

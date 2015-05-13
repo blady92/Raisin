@@ -363,8 +363,8 @@ namespace Cyber.GraphicsEngine
              }
              if(currentMouseState.RightButton == ButtonState.Pressed)
              {
-                  cameraArc = -25.0f;
-                  cameraRotation = -50.0f;
+                  cameraArc = 35.0f;
+                  cameraRotation = -360.0f;
                   cameraDistance = 6000;
              }
              #endregion

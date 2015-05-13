@@ -54,6 +54,8 @@ namespace Cyber
         float cameraRotation = -360.0f;
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
+        Vector3 cameraTarget = new Vector3(0, 0, 0);
+       
     
 
         public Game1()
@@ -137,7 +139,7 @@ namespace Cyber
 
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+                LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
             }
             else if (LogicEngine.GetState() == GameState.States.startMenu)
             {
@@ -169,8 +171,8 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
+
                 Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
-                Vector3 cameraTarget = new Vector3(0, 0, 0);
                 Vector3 cameraUpVector = Vector3.Up;
 
                 //Matrix[] transforms = loadMenu.returnModelTransforms();
@@ -182,15 +184,11 @@ namespace Cyber
                               Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
                               Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
                               Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                              
-
-
-
                               Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector) *
                               Matrix.CreateScale(1.0f, 1.0f, 1.0f);
-
-                //  Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, this.GraphicsDevice.Viewport.AspectRatio, 1, 100000);
+                
                 Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
+                
                 mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection);
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)

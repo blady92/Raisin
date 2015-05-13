@@ -134,6 +134,7 @@ namespace Cyber.CItems
             possibleKeys.Add(Keys.OemCloseBrackets);
             possibleKeys.Add(Keys.OemPeriod);
             possibleKeys.Add(Keys.LeftShift);
+            possibleKeys.Add(Keys.Space);
             
             possibleKeys.Add(Keys.D0);
             possibleKeys.Add(Keys.D1);
@@ -175,6 +176,8 @@ namespace Cyber.CItems
 
                 case Keys.OemPeriod: return ".";
                 case Keys.LeftShift: return "";
+                case Keys.OemSemicolon: return ";";
+                case Keys.Space: return " ";
             }
             return k.ToString();
         }
