@@ -56,6 +56,13 @@ namespace Cyber.CollisionEngine
         }
 
         #endregion
+        
+        public bool ConsoleCollided(StaticItem item)
+        {
+            if (item.ColliderInternal.AABB.Intersects(wallList[wallList.Count-1].ColliderExternal.AABB))
+                return true;
+            return false;
+        }
 
         public StaticItemType IsCollidedType(StaticItem item)
         {
@@ -63,10 +70,7 @@ namespace Cyber.CollisionEngine
             {
                 if (item.ColliderInternal.AABB.Intersects(wall.ColliderInternal.AABB))
                     return StaticItemType.wall;
-                if (item.ColliderInternal.AABB.Intersects(wall.ColliderExternal.AABB))
-                {
-                    return StaticItemType.terminal;
-                }
+                
             }
             return StaticItemType.none;
         }
@@ -79,6 +83,9 @@ namespace Cyber.CollisionEngine
                 Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
                 icon.IconState = StaticIcon.none;
+                if (!ConsoleCollided(item)) { 
+                    console.IsUsed = false;
+                }
             }
             else if (IsCollidedType(item) == StaticItemType.wall)
             {
@@ -87,10 +94,27 @@ namespace Cyber.CollisionEngine
                 item.ColliderInternal.RecreateCage(move);
                 playAudio();
             }
-            else if (IsCollidedType(item) == StaticItemType.terminal)
+            
+        }
+
+        public void CallTerminalAfterCollision(StaticItem item)
+        {
+            if (ConsoleCollided(item))
             {
-                item.Position += move;
-                icon.IconState = StaticIcon.action;
+                KeyboardState newState = Keyboard.GetState();
+                if (newState.IsKeyDown(Keys.Q))
+                {
+                    console.IsUsed = true;
+                }
+                if (console.IsUsed)
+                {
+                    icon.IconState = StaticIcon.none;
+                }
+                else
+                {
+                    icon.IconState = StaticIcon.action;
+                }
+
             }
         }
     }

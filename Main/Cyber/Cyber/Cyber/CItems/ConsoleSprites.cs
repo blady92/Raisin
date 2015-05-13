@@ -37,15 +37,7 @@ namespace Cyber.CItems
         {
             console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
             console.LoadAnimationHover(theContentManager);
-            console.SpritePosition = new Vector2(0, 0);
-            
-            //UWAGA NA WYMIARY OKNA GRY
-            //console.Position = new Vector2(-console.SpriteAccessor.Width + 30, 768-100);
-            //Schowanie głównej konsoli
-            //console.Position = new Vector2(-console.SpriteAccessor.Width + 30, 768 - 30);
-            //Maksymalne pokazanie
-            //console.Position = new Vector2(-console.SpriteAccessor.Width + console.SpriteAccessor.Width, 768 - console.SpriteAccessor.Height);
-
+            console.SpritePosition = new Vector2(0, 768-console.TextureList[0].Height);
 
             //consoleAdditional = new Sprite(0,0);
             //consoleAdditional.LoadContent(theContentManager, "Assets/2D/consoleAdditional");
@@ -59,17 +51,10 @@ namespace Cyber.CItems
 
         public void Update()
         {
-            KeyboardState newState = Keyboard.GetState();
-            if (newState.IsKeyDown(Keys.Q))
-                isUsed = true;
-            if (newState.IsKeyDown(Keys.E))
-                isUsed = false;
             if (isUsed)
-
                 console.UpdateAnimation();
             else 
                 console.UpdateReverse();
-
         }
 
         public void HideConsole()
@@ -79,7 +64,6 @@ namespace Cyber.CItems
 
         public void ShowConsole()
         {
-            Debug.WriteLine(console.currentFrame);
             console.UpdateTillEnd();
         }
     }

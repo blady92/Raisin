@@ -128,7 +128,8 @@ namespace Cyber.CGameStateEngine
 
             terminal.Position = new Vector3(20, -100, 39);
             terminal.FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
-            terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(20f, 20f, 0f));
+            terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
+            //terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(20f, 20f, 0f));
 
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region Walls setups
@@ -319,8 +320,8 @@ namespace Cyber.CGameStateEngine
             Matrix terminalColliderInternallView = Matrix.CreateTranslation(terminal.ColliderInternal.Position);
 
             terminal.DrawItem(device, terminalView, view, projection);
-           // terminal.ColliderExternal.DrawBouding(device, terminalColliderView, view, projection);
-          //  terminal.ColliderInternal.DrawBouding(device, terminalColliderInternallView, view, projection);
+            //terminal.ColliderExternal.DrawBouding(device, terminalColliderView, view, projection);
+            //terminal.ColliderInternal.DrawBouding(device, terminalColliderInternallView, view, projection);
 
             for (int i = 0; i < wallList.Count; i++)
             {
@@ -343,8 +344,6 @@ namespace Cyber.CGameStateEngine
         {
             console.Update();
             KeyboardState newState = currentKeyboardState;
-
-
 
            //Kuba edit:
             samantha.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
@@ -408,6 +407,7 @@ namespace Cyber.CGameStateEngine
 
             }
 
+            colliderController.CallTerminalAfterCollision(samantha);
             console.Update();
             oldState = newState;
         }
