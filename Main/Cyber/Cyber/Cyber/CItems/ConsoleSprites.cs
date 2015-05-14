@@ -155,8 +155,6 @@ namespace Cyber.CItems
             possibleKeys.Add(Keys.I);
             
             possibleKeys.Add(Keys.OemSemicolon);
-            possibleKeys.Add(Keys.OemOpenBrackets);
-            possibleKeys.Add(Keys.OemCloseBrackets);
             possibleKeys.Add(Keys.OemPeriod);
             possibleKeys.Add(Keys.LeftShift);
             possibleKeys.Add(Keys.Space);
