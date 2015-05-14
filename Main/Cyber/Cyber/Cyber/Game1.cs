@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using XNAGameConsole;
 using Cyber.CConsoleEngine;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
 
 namespace Cyber
 {
@@ -22,7 +23,7 @@ namespace Cyber
         public static float maxWidth = 1366;
         public static float maxHeight = 768;
         private bool fullscreen = false;
-        private bool mouseVisibility = true;
+        private bool mouseVisibility = false;
 
         private Sprite mousePointer;
 
@@ -56,6 +57,12 @@ namespace Cyber
         float cameraFarBuffer = 30000;
         Vector3 cameraTarget = new Vector3(0, 0, 0);
        
+        //Video Stuff
+        Video video;
+        VideoPlayer videoPlayer;
+        Texture2D videoTexture;
+        Rectangle videoRectangle;
+        int state = 0;
     
 
         public Game1()
@@ -100,6 +107,10 @@ namespace Cyber
             LogicEngine = new LogicEngine(menus);
             #endregion INITIALIZE LOGIC ENGINE
 
+            #region INITIALIZE VIDEO CUTSCENE
+            videoPlayer = new VideoPlayer();
+            #endregion
+
             base.Initialize();
 
         }
@@ -115,6 +126,14 @@ namespace Cyber
             //mainGame.SetUpScene();
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
+
+            #region VIDEO
+            video = Content.Load<Video>("Assets/Video/test");
+            videoRectangle = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            if (state == 0)
+                videoPlayer.Play(video);
+         
+            #endregion
 
             #region CONSOLE
             console = new GameConsole(this, spriteBatch, ConsoleEngine.GetDefaultGameConsoleOptions(this));
@@ -133,13 +152,33 @@ namespace Cyber
             // TODO: Add your update logic here
             UpdateInputs();
 
+            switch(state)
+            {
+                case 0:
+                    if (videoPlayer.State == MediaState.Stopped)
+                        state = 1;
+                    break;
+                case 1:
+                    break;
+            }
+
             audioController.runAudio();
             currentKeyboardState = Keyboard.GetState();
             currentMouseState = Mouse.GetState();
 
+
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
+                if (currentKeyboardState.IsKeyDown(Keys.Space))
+                {
+                    state = 1;
+                }
+
+                if(state == 1)
+                {
+                    LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
+                }
+                
             }
             else if (LogicEngine.GetState() == GameState.States.startMenu)
             {
@@ -160,6 +199,7 @@ namespace Cyber
         {
             GraphicsDevice.Clear(Color.Black);
 
+
             // TODO: Add your drawing code here
             if (LogicEngine.GetState() == GameState.States.startMenu)
             { 
@@ -173,25 +213,42 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
+                videoTexture = videoPlayer.GetTexture();
+                spriteBatch.Begin();
+                switch (state)
+                {
+                    case 0:
+                        spriteBatch.Draw(videoTexture, videoRectangle, Color.White);
+                        break;
+                    case 1:
+                        GraphicsDevice.Clear(Color.Black);
+                        break;
+                }
 
-                Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
-                Vector3 cameraUpVector = Vector3.Up;
+                spriteBatch.End();
 
-                //Matrix[] transforms = loadMenu.returnModelTransforms();
+                if(state == 1)
+                {
+                    mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
+                    Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
+                    Vector3 cameraUpVector = Vector3.Up;
 
-                // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
-                Matrix world = Matrix.Identity;
+                    //Matrix[] transforms = loadMenu.returnModelTransforms();
 
-                Matrix view = Matrix.CreateTranslation(0, 0, 0) *
-                              Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
-                              Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
-                              Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                              Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector) *
-                              Matrix.CreateScale(1.0f, 1.0f, 1.0f);
+                    // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
+                    Matrix world = Matrix.Identity;
+
+                    Matrix view = Matrix.CreateTranslation(0, 0, 0) *
+                                  Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
+                                  Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
+                                  Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
+                                  Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector) *
+                                  Matrix.CreateScale(1.0f, 1.0f, 1.0f);
                 
-                Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
+                    Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
                 
-                mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection);
+                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection);
+                }
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
