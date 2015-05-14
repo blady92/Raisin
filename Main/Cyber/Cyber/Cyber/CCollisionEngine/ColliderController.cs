@@ -105,6 +105,7 @@ namespace Cyber.CollisionEngine
                 KeyboardState newState = Keyboard.GetState();
                 if (newState.IsKeyDown(Keys.Tab) && oldstate.IsKeyUp(Keys.Tab))
                 {
+                    console.ResetConsole();
                     console.IsUsed = !console.IsUsed;
                 }
                 oldstate = newState;
