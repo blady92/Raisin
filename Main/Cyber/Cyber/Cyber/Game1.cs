@@ -164,10 +164,12 @@ namespace Cyber
             if (LogicEngine.GetState() == GameState.States.startMenu)
             { 
                 mainMenu.Draw(spriteBatch);
+                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
-                pauseMenu.Draw(spriteBatch);
+                pauseMenu.Draw(spriteBatch); 
+                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
@@ -193,13 +195,12 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
-               
+                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             else if (LogicEngine.GetState() == GameState.States.exit)
             {
                 Quit();
             }
-            mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             base.Draw(gameTime);    
         }
 

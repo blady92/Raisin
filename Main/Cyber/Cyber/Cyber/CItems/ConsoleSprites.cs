@@ -13,41 +13,38 @@ namespace Cyber.CItems
 {
     class ConsoleSprites
     {
-        private bool isUsed;
-        public SpriteAnimationDynamic console { get; set; }
-        public Sprite consoleAdditional { get; set; }
-        public Sprite consoleButton { get; set; }
-        public string text { get; set; }
+        /* Uwaga jedna, tutaj się używa tylko czciontów Monospaced Font (bo wiesz, kombo czionka + font = czciont)
+         * Inaczej na długość będzie serio kiepsko, a tak to...
+         * Pixelgasm and perfectionist paradise :v
+         */ 
+        public bool IsUsed { get; set; }
+        public SpriteAnimationDynamic Console { get; set; }
+        public Sprite ConsoleAdditional { get; set; }
+        public Sprite ConsoleButton { get; set; }
+        public string Text { get; set; }
+        public string LatestStoreCommand { get; set; }
+        public string PrintedText { get; set; }
         public SpriteFont font { get; set; }
-        private Keys[] allKeys;
+        private List<Keys> allKeys;
         private List<Keys> possibleKeys;
         private KeyboardState newPressKey;
         private KeyboardState oldPressKey;
         private int lenght;
-        
-        #region ACCESSORS
-
-        public bool IsUsed
-        {
-            get { return isUsed; }
-            set { isUsed = value; }
-        }
-
-        public SpriteAnimationDynamic Console
-        {
-            get { return console; }
-            set { console = value; }
-        }
-        #endregion
+        private float textBox;
 
         public void LoadContent(ContentManager theContentManager)
         {
-            console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
-            console.LoadAnimationHover(theContentManager);
-            console.SpritePosition = new Vector2(0, 768-console.TextureList[0].Height);
+            Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
+            Console.LoadAnimationHover(theContentManager);
+            Console.SpritePosition = new Vector2(0, 768 - Console.TextureList[0].Height);
             font = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleFont");
-            text = "Pressed: ";
-            lenght = text.Length;
+
+            textBox = 270;
+            Text = "";
+            PrintedText =
+    AddTheoLine() + "Jakis tam sobie dlugi tekst o Polanie bez kolan i Kubie bez brody, co sie nabijaja z Dobrotka bo i tak ma to gdzies, bo nie slyszy :v";
+            PrintedText = parseText(PrintedText);
+            lenght = Text.Length;
             SetupKeys();
 
             //consoleAdditional = new Sprite(0,0);
@@ -57,45 +54,73 @@ namespace Cyber.CItems
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-           console.DrawAnimation(spriteBatch);
-            if (console.LoadingFinished())
+           Console.DrawAnimation(spriteBatch);
+            if (Console.LoadingFinished())
             {
                 //od tego momentu można zacząć pisać tekst
                 spriteBatch.Begin();
-                spriteBatch.DrawString(font, text, new Vector2(20, Game1.maxHeight-80), Color.Red);
+                float spaceFromEdge = 20;                
+                spriteBatch.DrawString(font, PrintedText, new Vector2(spaceFromEdge, Game1.maxHeight-180), new Color(121,122,125));
+                spriteBatch.DrawString(font, "Pressed: "+Text, new Vector2(spaceFromEdge, Game1.maxHeight-29), new Color(121,122,125));
                 spriteBatch.End();
             }
         }
 
         public void Update()
         {
-            if (isUsed){
-                console.UpdateAnimation();
-                allKeys = Keyboard.GetState().GetPressedKeys();
+            if (IsUsed){
+                Console.UpdateAnimation();
+                allKeys = new List<Keys>(Keyboard.GetState().GetPressedKeys().ToArray());
                 newPressKey = Keyboard.GetState();
-                for (int i = 0; i < allKeys.Length; i++)
+                for (int i = 0; i < allKeys.Count; i++)
                 {
-                    if (newPressKey.IsKeyDown(allKeys[i]) && oldPressKey.IsKeyUp(allKeys[i]))
+                    if (newPressKey.IsKeyDown(allKeys[i]) && oldPressKey.IsKeyUp(allKeys[i]) && possibleKeys.Contains(allKeys[i]))
                     {
-                        if (possibleKeys.Contains(allKeys[i]))
-                        {
-                            text += ParseKey(allKeys[i]);
+                        if (Text.Length+1 < 27) { 
+                            if (allKeys.Contains(Keys.LeftShift) || allKeys.Contains(Keys.RightShift)){
+                                if (allKeys.Contains(Keys.D9))
+                                    Text += "(";
+                                else if (allKeys.Contains(Keys.D0))
+                                    Text += ")";
+                                else
+                                    Text += ParseKey((allKeys[i]));
+                            }
+                            else
+                                Text += ParseKey(allKeys[i]).ToLower();
                         }
                     }
                 }
                 if (newPressKey.IsKeyDown(Keys.Back) && oldPressKey.IsKeyUp(Keys.Back))
                 {
-                    if(text.Length > lenght)
-                        text = text.Remove(text.Length - 1);
+                    if (Text.Length > lenght)
+                        Text = Text.Remove(Text.Length - 1);
                 }
                 else if (newPressKey.IsKeyDown(Keys.Enter) && oldPressKey.IsKeyUp(Keys.Enter))
                 {
-                    Debug.WriteLine("Dodane do rozmowy chuje!");
+                    if (Text.Length > 0) { 
+                        PrintedText += AddSamanthaLine() + Text;
+                        LatestStoreCommand = Text;
+                        Text = "";
+                    }
                 }
                 oldPressKey = newPressKey;
             }
             else 
-                console.UpdateReverse();
+                Console.UpdateReverse();
+        }
+
+        public string AddSamanthaLine()
+        {
+            return "\nSamantha:  ";
+        }
+        public string AddTheoLine()
+        {
+            return "\nTheo:  ";
+        }
+
+        public void ResetConsole()
+        {
+            Text = "";
         }
 
         public void SetupKeys()
@@ -184,14 +209,36 @@ namespace Cyber.CItems
 
         public void HideConsole()
         {
-            console.UpdateReverse();
+            Console.UpdateReverse();
         }
 
         public void ShowConsole()
         {
-            console.UpdateTillEnd();
+            Console.UpdateTillEnd();
         }
 
+        private String parseText(String text)
+        {
+            String line = String.Empty;
+            String returnString = String.Empty;
+            String[] wordArray = text.Split(' ');
+
+            foreach (String word in wordArray)
+            {
+                if (font.MeasureString(line + word).Length() > textBox)
+                {
+                    returnString = returnString + line + '\n';
+                    line = String.Empty;
+                }
+
+                line = line + word + ' ';
+            }
+
+            return returnString + line;
+        }
+
+
+        //A po chuj to ja nie wie :v
         public void Action()
         {
             
