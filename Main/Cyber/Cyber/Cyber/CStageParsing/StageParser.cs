@@ -9,6 +9,7 @@ namespace Cyber.CStageParsing
     public class StageParser
     {
         Dictionary<Color, IGenerable> dict;
+
         public Stage ParseBitmap(string path)
         {
             Stage stage = new Stage();
@@ -16,19 +17,16 @@ namespace Cyber.CStageParsing
             Bitmap bitmap = new Bitmap(path);
             stage.Height = bitmap.Height;
             stage.Width = bitmap.Width;
-            /*
-            Dictionary<Color, IGenerable> dict = new Dictionary<Color, IGenerable>();
-            dict.Add(Color.Black, new Corridor());
-            dict.Add(Color.Gray, new Room());
-            dict.Add(Color.Yellow, new StageObject());
-            dict.Add(Color.Red, new StageNPC());
-            */
 
             dict = new Dictionary<Color, IGenerable>();
             dict.Add(Color.FromArgb(0, 0, 0), new Corridor(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(128, 128, 128), new Room(bitmap.Height, bitmap.Width));
-            dict.Add(Color.FromArgb(255, 255, 0), new StageObject(bitmap.Height, bitmap.Width));
-            dict.Add(Color.FromArgb(224, 32, 64), new StageNPC(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(188, 27, 65), new Flyer(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(255, 0, 98), new Spy(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(139, 19, 47), new Tank(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(21, 95, 107), new Terminal(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(25, 212, 216), new PlayerPosition(bitmap.Height, bitmap.Width));
+
 
             bool[,] hashTable = new bool[bitmap.Height, bitmap.Width];
             /*
@@ -62,7 +60,7 @@ namespace Cyber.CStageParsing
                                 if (generable.Structure[j, i] == true)
                                 {
                                     Color newColor = bitmap.GetPixel(j, i);
-                                    if (!(newColor.Equals(Color.FromArgb(224, 32, 64)) || newColor.Equals(Color.FromArgb(255, 255, 0)))) // patrz TODO niżej, zrobię to ładniej, ale późno już, a ja rano w pole jadę zboże siać :v
+                                    if (!(dict.ContainsKey(newColor) && dict[newColor].IsSingleBlock()))
                                     {
                                         hashTable[i, j] |= generable.Structure[j, i];
                                     }
@@ -94,6 +92,10 @@ namespace Cyber.CStageParsing
             {
                 stage.Objects.Add(generable as StageObject);
             }
+            else if (generable is PlayerPosition)
+            {
+                stage.PlayerPosition = (generable as PlayerPosition).GetBlock();
+            }
         }
 
         private IGenerable RecursiveSearch(Bitmap bitmap, int x, int y)
@@ -120,7 +122,7 @@ namespace Cyber.CStageParsing
                     continue; // lecimy dalej
                 }
                 if (newColor.Equals(color) ||  // jeżeli pole ma kolor taki jak ten co go uzupełniamy, albo to jest pole wewnątrz pokoju/korytarza
-                    newColor.Equals(Color.FromArgb(224, 32, 64)) || newColor.Equals(Color.FromArgb(255, 255, 0))) // TODO: Janek popraw to później kurwa bo wstyd - Janek
+                    (dict.ContainsKey(newColor) && dict[newColor].IsSingleBlock()))
                 {
                     representative.Structure[coords.X, coords.Y] = true;
                     if (coords.X > 1)

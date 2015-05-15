@@ -131,7 +131,8 @@ namespace Cyber
             video = Content.Load<Video>("Assets/Video/test");
             videoRectangle = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             if (state == 0)
-                videoPlayer.Play(video);
+            videoPlayer.Play(video);
+            videoPlayer.Pause();
          
             #endregion
 
@@ -155,6 +156,7 @@ namespace Cyber
             switch(state)
             {
                 case 0:
+
                     if (videoPlayer.State == MediaState.Stopped)
                         state = 1;
                     break;
@@ -169,6 +171,7 @@ namespace Cyber
 
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
+                videoPlayer.Resume();
                 if (currentKeyboardState.IsKeyDown(Keys.Space))
                 {
                     state = 1;

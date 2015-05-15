@@ -110,6 +110,8 @@
     <Compile Include="CSkillTree\Tree.cs" />
     <Compile Include="CStageParsing\Generables.cs" />
     <Compile Include="CStageParsing\IGenerable.cs" />
+    <Compile Include="CStageParsing\NPCs.cs" />
+    <Compile Include="CStageParsing\Objects.cs" />
     <Compile Include="CStageParsing\Stage.cs" />
     <Compile Include="CStageParsing\StageParser.cs" />
     <Compile Include="CStageParsing\StageStructure.cs" />

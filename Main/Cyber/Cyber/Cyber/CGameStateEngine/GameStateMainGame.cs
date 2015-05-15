@@ -43,11 +43,11 @@ namespace Cyber.CGameStateEngine
 
         //3D elements
         private StaticItem samantha;
-        private StaticItem terminal;
+        //private StaticItem terminal;
         private ColliderController colliderController;
-        private List<StaticItem> stageSurroundingsList;
+        private List<StaticItem> stageElements;
         private StageParser stageParser;
-        
+        private Stage stage;
 
         private float przesuniecie;
         StageStructure stageStructure;
@@ -81,38 +81,65 @@ namespace Cyber.CGameStateEngine
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
 
-            terminal = new StaticItem("Assets/3D/Interior/Interior_Terminal");
-            terminal.LoadItem(theContentManager);
-            terminal.Type = StaticItemType.terminal;
+            //terminal = new StaticItem("Assets/3D/Interior/Interior_Terminal");
+            //terminal.LoadItem(theContentManager);
+            //terminal.Type = StaticItemType.terminal;
 
-            stageSurroundingsList = new List<StaticItem>();
+            stageElements = new List<StaticItem>();
 
             stageParser = new StageParser();
-            Stage stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+            stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
             stageStructure = new StageStructure(stage);
 
-            //Debug.WriteLine("Ilość górnych ścianek to: " + stageStructure.Walls.WallsUp.Count);
+            foreach (StageObject stageObj in stage.Objects)
+            {
+                StaticItem item = new StaticItem(stageObj.StaticObjectAsset);
+                item.LoadItem(theContentManager);
+                if (stageObj is Terminal)
+                {
+                    item.Type = StaticItemType.terminal;
+                }
+                else
+                {
+                    item.Type = StaticItemType.decoration;
+                }
+                stageElements.Add(item);
+            }
+
+            #endregion
+
+            #region NPCs
+            foreach (StageNPC stageNPC in stage.NPCs)
+            {
+                StaticItem item = new StaticItem(stageNPC.StaticObjectAsset);
+                item.LoadItem(theContentManager);
+                item.Type = StaticItemType.wall;
+                stageElements.Add(item);
+            }
+
+            Debug.WriteLine("Ilość narożników to: " + stageStructure.ConcaveCorners.Count + " lub " + stageStructure.ConvexCorners.Count);
             #endregion
             #region Ładowanie ścian
             for (int i = 0; i < stageStructure.Walls.Count; i++)
             {
-                stageSurroundingsList.Add(new StaticItem("Assets/3D/Interior/Interior_Wall_Base"));
-                stageSurroundingsList[i].LoadItem(theContentManager);
-                stageSurroundingsList[i].Type = StaticItemType.wall;
+                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Base");
+                item.LoadItem(theContentManager);
+                item.Type = StaticItemType.wall;
+                stageElements.Add(item);
             }
             for (int i = 0; i < stageStructure.ConcaveCorners.Count; i++)
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Concave");
                 item.LoadItem(theContentManager);
                 item.Type = StaticItemType.wall;
-                stageSurroundingsList.Add(item);
+                stageElements.Add(item);
             }
             for (int i = 0; i < stageStructure.ConvexCorners.Count; i++)
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Convex");
                 item.LoadItem(theContentManager);
                 item.Type = StaticItemType.wall;
-                stageSurroundingsList.Add(item);
+                stageElements.Add(item);
             }
             #endregion
             #region Ładowanie podłóg
@@ -121,7 +148,7 @@ namespace Cyber.CGameStateEngine
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
                 item.LoadItem(theContentManager);
                 item.Type = StaticItemType.none; // TODO: dodać typ floor
-                stageSurroundingsList.Add(item);
+                stageElements.Add(item);
             }
             #endregion
             Debug.WriteLine("End of Loading");
@@ -129,155 +156,177 @@ namespace Cyber.CGameStateEngine
 
         public void SetUpScene()
         {
-
-            samantha.Position = new Vector3(-100, -100, 0);
-            samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-
-            terminal.Position = new Vector3(20, -100, 39);
-            terminal.FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
-            terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
-            //terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(20f, 20f, 0f));
-
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
-            #region Walls setups
+            #region setups
             int i = 0;
             float mnoznikPrzesuniecaSciany = 19.5f;
+            float mnoznikPrzesunieciaOther = mnoznikPrzesuniecaSciany;
             float wallOffset = 9.75f;
             float cornerOffset = 5.5f;
             #endregion
 
+            samantha.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
+                                            stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
+                                            0.0f);
+            samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+
+            //terminal.Position = new Vector3(20, -100, 39);
+            //terminal.FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
+            //terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
+            //terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(20f, 20f, 0f));
+
             
+            #region Objects
+            for (int j = 0; j < stage.Objects.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
+                                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
+                                        0.0f);
+                stageElements[i].Position = move;
+                //stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
+                //stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
+            }
+            #endregion
+            #region NPCs
+            for (int j = 0; j < stage.NPCs.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(stage.NPCs[j].GetBlock().X * mnoznikPrzesunieciaOther,
+                                        stage.NPCs[j].GetBlock().Y * mnoznikPrzesunieciaOther,
+                                        0.0f);
+                stageElements[i].Position = move;
+            }
+            #endregion
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
             {
-            stageSurroundingsList[i].Rotation = -90;
+            stageElements[i].Rotation = -90;
             Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
                                         stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
                                         0.0f);
-            stageSurroundingsList[i].Position = move;
-            stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+            stageElements[i].Position = move;
+            stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
             }
 
             #endregion
             #region WallsDown
             for (int j = 0; j < stageStructure.Walls.WallsDown.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 90;
+                stageElements[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.Walls.WallsDown[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset, 
                                             0.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
             }
             #endregion
             #region WallsLeft
             for (int j = 0; j < stageStructure.Walls.WallsLeft.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 180;
+                stageElements[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.Walls.WallsLeft[j].X * mnoznikPrzesuniecaSciany - wallOffset,
                                             stageStructure.Walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 
                                             0.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
             }
             #endregion
             #region WallsRight
             for (int j = 0; j < stageStructure.Walls.WallsRight.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 0;
+                stageElements[i].Rotation = 0;
                 Vector3 move = new Vector3(stageStructure.Walls.WallsRight[j].X * mnoznikPrzesuniecaSciany + wallOffset,
                                             stageStructure.Walls.WallsRight[j].Y * mnoznikPrzesuniecaSciany,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersLowerLeft
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerLeft.Count; i++, j++ )
             {
-                stageSurroundingsList[i].Rotation = 180;
+                stageElements[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersLowerRight
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerRight.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 90;
+                stageElements[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersUpperLeft
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperLeft.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 270;
+                stageElements[i].Rotation = 270;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersUpperRight
             for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperRight.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 0;
+                stageElements[i].Rotation = 0;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersLowerLeft
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerLeft.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 180;
+                stageElements[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
                                             stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersLowerRight
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerRight.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 90;
+                stageElements[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
                                             stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersUpperLeft
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperLeft.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 270;
+                stageElements[i].Rotation = 270;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
                                             stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersUpperRight
             for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperRight.Count; i++, j++)
             {
-                stageSurroundingsList[i].Rotation = 0;
+                stageElements[i].Rotation = 0;
                 Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
                                             stageStructure.ConvexCorners.ConvexCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
-                stageSurroundingsList[i].Position = move;
-                stageSurroundingsList[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
 
@@ -288,13 +337,13 @@ namespace Cyber.CGameStateEngine
                 Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
                                             stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
                                             0.0f);
-                stageSurroundingsList[i].Position = move;
+                stageElements[i].Position = move;
                 //stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
             }
             #endregion
 
-            stageSurroundingsList.Add(terminal);
-            colliderController = new ColliderController(stageSurroundingsList, console, iconOverHead);
+            //stageSurroundingsList.Add(terminal);
+            colliderController = new ColliderController(stageElements, console, iconOverHead);
         }
 
 
@@ -333,23 +382,23 @@ namespace Cyber.CGameStateEngine
 
           
            //  samantha.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
-            Matrix terminalView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-            Matrix.CreateTranslation(terminal.Position);
-            Matrix terminalColliderView = Matrix.CreateTranslation(terminal.ColliderExternal.Position);
-            Matrix terminalColliderInternallView = Matrix.CreateTranslation(terminal.ColliderInternal.Position);
+            //Matrix terminalView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+            //Matrix.CreateTranslation(terminal.Position);
+            //Matrix terminalColliderView = Matrix.CreateTranslation(terminal.ColliderExternal.Position);
+            //Matrix terminalColliderInternallView = Matrix.CreateTranslation(terminal.ColliderInternal.Position);
 
-            terminal.DrawItem(device, terminalView, view, projection);
+            //terminal.DrawItem(device, terminalView, view, projection);
             //terminal.ColliderExternal.DrawBouding(device, terminalColliderView, view, projection);
             //terminal.ColliderInternal.DrawBouding(device, terminalColliderInternallView, view, projection);
 
-            for (int i = 0; i < stageSurroundingsList.Count; i++)
+            for (int i = 0; i < stageElements.Count; i++)
             {
                 //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
                 Matrix wallView = Matrix.Identity *
-                                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageSurroundingsList[i].Rotation)) *
-                                    Matrix.CreateTranslation(stageSurroundingsList[i].Position);
-                Matrix wallColliderView = Matrix.CreateTranslation(stageSurroundingsList[i].ColliderInternal.Position);
-                stageSurroundingsList[i].DrawItem(device, wallView, view, projection);
+                                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElements[i].Rotation)) *
+                                    Matrix.CreateTranslation(stageElements[i].Position);
+                Matrix wallColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
+                stageElements[i].DrawItem(device, wallView, view, projection);
               //  wallList[i].ColliderExternal.DrawBouding(device, wallColliderView, view, projection);
             }
 
