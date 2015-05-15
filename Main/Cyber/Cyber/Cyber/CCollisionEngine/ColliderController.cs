@@ -28,27 +28,23 @@ namespace Cyber.CollisionEngine
          * Całość uzupełni sos czekoladowy - najlepiej wykonany samodzielnie.
          */
 
-        private List<StaticItem> wallList;
+        public List<StaticItem> staticItemList { get; set; }
+        public List<StaticItem> npcItem { get; set; }
         private Action playAudio;
         private ConsoleSprites console;
         private Icon icon;
         private KeyboardState newState, oldstate;
+        public StaticItemType CollisionItemType { get; set; }
+        public bool ConsoleDetection { get; set; }
 
-        public ColliderController(List<StaticItem> wallList, ConsoleSprites console, Icon icon)
+        public ColliderController(ConsoleSprites console, Icon icon)
         {
-            this.wallList = wallList;
             this.console = console;
             this.icon = icon;
         }
 
 
         #region ACCESSORS
-
-        public List<StaticItem> WallList
-        {
-            get { return wallList; }
-            set { wallList = value; }
-        }
 
         public Action PlayAudio
         {
@@ -57,25 +53,57 @@ namespace Cyber.CollisionEngine
         }
 
         #endregion
-        
-        public bool ConsoleCollided(StaticItem item)
+
+        //Sprawdza czy weszło w zasięg przeciwnika
+        public bool EnemyCollision(StaticItem item)
         {
-            if (item.ColliderInternal.AABB.Intersects(wallList[wallList.Count-1].ColliderExternal.AABB))
-                return true;
+            foreach (StaticItem npc in npcItem)
+            {
+                if (item.ColliderInternal.AABB.Intersects(npc.ColliderExternal.AABB))
+                    return true;
+            }
             return false;
         }
 
+        //Zwraca z czym się zderzyło z bliska. Od wykrywania zasięgu są metody powyżej
         public StaticItemType IsCollidedType(StaticItem item)
         {
-            foreach (StaticItem wall in wallList)
+            foreach (StaticItem staticItem in staticItemList)
             {
-                if (item.ColliderInternal.AABB.Intersects(wall.ColliderInternal.AABB))
-                    return StaticItemType.wall;
-                
+                if (staticItem.Type == StaticItemType.terminal)
+                {
+                    if (staticItem.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                    {
+                        ConsoleDetection = true;
+                        CollisionItemType = staticItem.Type;
+                        return staticItem.Type;
+                    }
+                    else if (staticItem.ColliderExternal.AABB.Intersects(item.ColliderInternal.AABB))
+                    {
+                        ConsoleDetection = true;
+                        CollisionItemType = StaticItemType.none;
+                        return StaticItemType.none;
+                    }
+                    {
+                        ConsoleDetection = false;
+                    }
+                }
+                else if (staticItem.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                {
+                    return staticItem.Type;
+                }
             }
+
+            foreach (StaticItem npc in npcItem)
+            {
+                if (npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                    return npc.Type;
+            }
+
             return StaticItemType.none;
         }
 
+        //Sprawdzenie czy zaszła jakakolwiek kolizja by się nie przenikać między sobą
         public void CheckCollision(StaticItem item, Vector3 move)
         {
             item.ColliderInternal.RecreateCage(move);
@@ -84,13 +112,15 @@ namespace Cyber.CollisionEngine
                 //Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
                 icon.IconState = StaticIcon.none;
-                if (!ConsoleCollided(item)) { 
+                if (ConsoleDetection)
+                {
                     console.IsUsed = false;
+                    //console.IsUsed = !ConsoleDetection;
                 }
             }
-            else if (IsCollidedType(item) == StaticItemType.wall)
+            else
             {
-                //Debug.WriteLine("Skolidowano ze ściano!");
+                Debug.WriteLine("Skolidowano ze ściano!");
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderInternal.RecreateCage(move);
                 playAudio();
@@ -100,7 +130,7 @@ namespace Cyber.CollisionEngine
 
         public void CallTerminalAfterCollision(StaticItem item)
         {
-            if (ConsoleCollided(item))
+            if (ConsoleDetection)
             {
                 KeyboardState newState = Keyboard.GetState();
                 if (newState.IsKeyDown(Keys.Tab) && oldstate.IsKeyUp(Keys.Tab))
