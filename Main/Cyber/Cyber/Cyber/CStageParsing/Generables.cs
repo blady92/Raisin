@@ -97,7 +97,9 @@ namespace Cyber.CStageParsing
     {
         public StageNPC(int height, int width) : base(height, width)
         {
+            Rotation = 0;
         }
+        public int Rotation { get; set; }
         public abstract string StaticObjectAsset { get; }
         override public bool IsSingleBlock()
         {
@@ -128,6 +130,37 @@ namespace Cyber.CStageParsing
         public override IGenerable clone()
         {
             IGenerable instance = new PlayerPosition(Height, Width);
+            instance.Structure = (bool[,])Structure.Clone();
+            return instance;
+        }
+
+        public override bool IsSingleBlock()
+        {
+            return true;
+        }
+        public Pair<int, int> GetBlock()
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (Structure[j, i])
+                    {
+                        return new Pair<int, int>(j, i);
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    public class NPCDirection : GenerableStructureImplementation
+    {
+        public NPCDirection(int height, int width) : base(height, width) { }
+
+        public override IGenerable clone()
+        {
+            IGenerable instance = new NPCDirection(Height, Width);
             instance.Structure = (bool[,])Structure.Clone();
             return instance;
         }

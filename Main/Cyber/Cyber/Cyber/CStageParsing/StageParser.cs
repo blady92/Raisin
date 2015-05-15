@@ -9,6 +9,7 @@ namespace Cyber.CStageParsing
     public class StageParser
     {
         Dictionary<Color, IGenerable> dict;
+        List<NPCDirection> npcDirs = new List<NPCDirection>();
 
         public Stage ParseBitmap(string path)
         {
@@ -26,6 +27,7 @@ namespace Cyber.CStageParsing
             dict.Add(Color.FromArgb(139, 19, 47), new Tank(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(21, 95, 107), new Terminal(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(25, 212, 216), new PlayerPosition(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(88, 11, 29), new NPCDirection(bitmap.Height, bitmap.Width));
 
 
             bool[,] hashTable = new bool[bitmap.Height, bitmap.Width];
@@ -48,7 +50,6 @@ namespace Cyber.CStageParsing
                     }
 
                     Color color = bitmap.GetPixel(col, row);
-                    //color = Color.FromArgb(color.A, color.R, color.G, color.B);
                     if (dict.ContainsKey(color)) // jeśli znaczący kolor
                     {
                         IGenerable generable = RecursiveSearch(bitmap, col, row); // pobieramy cały złożony obiekt
@@ -68,6 +69,41 @@ namespace Cyber.CStageParsing
                             }
                         }
                     }
+                }
+            }
+
+            // Określanie kierunków
+            foreach (NPCDirection npcDir in npcDirs)
+            {
+                Pair<int, int> block = npcDir.GetBlock();
+                StageNPC npc;
+
+                npc = stage.GetNPCAt(block.X - 1, block.Y);
+                if (npc != null)
+                {
+                    npc.Rotation = 270;
+                    continue;
+                }
+
+                npc = stage.GetNPCAt(block.X, block.Y + 1);
+                if (npc != null)
+                {
+                    npc.Rotation = 180;
+                    continue;
+                }
+
+                npc = stage.GetNPCAt(block.X + 1, block.Y);
+                if (npc != null)
+                {
+                    npc.Rotation = 90;
+                    continue;
+                }
+
+                npc = stage.GetNPCAt(block.X, block.Y - 1);
+                if (npc != null)
+                {
+                    npc.Rotation = 0;
+                    continue;
                 }
             }
 
@@ -95,6 +131,10 @@ namespace Cyber.CStageParsing
             else if (generable is PlayerPosition)
             {
                 stage.PlayerPosition = (generable as PlayerPosition).GetBlock();
+            }
+            else if (generable is NPCDirection)
+            {
+                npcDirs.Add(generable as NPCDirection);
             }
         }
 

@@ -10,7 +10,7 @@ namespace Cyber.CStageParsing
         public Tank(int height, int width) : base(height, width) { }
         public override string StaticObjectAsset
         {
-            get { return "Assets/3D/Characters/Ally_Bunker"; }
+            get { return "Assets/3D/Characters/samantha"; }
         }
 
         public override IGenerable clone()

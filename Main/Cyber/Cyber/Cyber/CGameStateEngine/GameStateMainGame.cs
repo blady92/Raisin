@@ -194,6 +194,7 @@ namespace Cyber.CGameStateEngine
                                         stage.NPCs[j].GetBlock().Y * mnoznikPrzesunieciaOther,
                                         0.0f);
                 stageElements[i].Position = move;
+                stageElements[i].Rotation = stage.NPCs[j].Rotation;
             }
             #endregion
             #region WallsUp
