@@ -95,14 +95,14 @@ namespace Cyber.CGameStateEngine
             {
                 StaticItem item = new StaticItem(stageObj.StaticObjectAsset);
                 item.LoadItem(theContentManager);
-                if (stageObj is Terminal)
-                {
+                //if (stageObj is Terminal)
+                //{
                     item.Type = StaticItemType.terminal;
-                }
-                else
-                {
-                    item.Type = StaticItemType.decoration;
-                }
+                //}
+                //else
+                //{
+                //    item.Type = StaticItemType.decoration;
+                //}
                 stageElements.Add(item);
             }
 
@@ -181,7 +181,7 @@ namespace Cyber.CGameStateEngine
             {
                 Vector3 move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
                                         stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                                        0.0f);
+                                        50.0f);
                 stageElements[i].Position = move;
                 //stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
                 //stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
