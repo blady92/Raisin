@@ -71,6 +71,7 @@ namespace Cyber.CStageParsing
         public StageObject(int height, int width) : base(height, width) 
         {
         }
+        public int Rotation { get; set; }
         public abstract string StaticObjectAsset { get; }
 
         override public bool IsSingleBlock()
