@@ -82,10 +82,6 @@ namespace Cyber.CGameStateEngine
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
 
-            //terminal = new StaticItem("Assets/3D/Interior/Interior_Terminal");
-            //terminal.LoadItem(theContentManager);
-            //terminal.Type = StaticItemType.terminal;
-
             stageElements = new List<StaticItem>();
             npcList = new List<StaticItem>();
 
@@ -163,6 +159,8 @@ namespace Cyber.CGameStateEngine
             int i = 0;
             float mnoznikPrzesuniecaSciany = 19.5f;
             float mnoznikPrzesunieciaOther = mnoznikPrzesuniecaSciany;
+            float terminalZ = 50.0f;
+            float objectZ = 0.0f;
             float wallOffset = 9.75f;
             float cornerOffset = 5.5f;
             #endregion
@@ -181,10 +179,21 @@ namespace Cyber.CGameStateEngine
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
             {
+                float z;
+
+                if (stage.Objects[j] is Terminal)
+                {
+                    z = terminalZ;
+                }
+                else
+                {
+                    z = objectZ;
+                }
                 Vector3 move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
                                         stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                                        50.0f);
+                                        z);
                 stageElements[i].Position = move;
+                stageElements[i].Rotation = stage.Objects[j].Rotation;
                 //stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
                 //stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
             }

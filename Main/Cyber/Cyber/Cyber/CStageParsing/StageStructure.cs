@@ -92,7 +92,7 @@ namespace Cyber.CStageParsing
                         if (up && down && left && right)
                         {
                             Column column = new Column(stage.Height, stage.Width);
-                            column.Structure[h, w] = true;
+                            column.Structure[w, h] = true;
                             stage.Objects.Add(column);
                             Floor.Floors.Add(currentPoint);
                             continue;
@@ -120,6 +120,13 @@ namespace Cyber.CStageParsing
                             if (!left && !right)
                             {
                                 Walls.WallsDown.Add(currentPoint);
+                                if ((w + h) % 2 == 0)
+                                {
+                                    Lamp lamp = new Lamp(stage.Height, stage.Width);
+                                    lamp.Structure[w, h] = true;
+                                    lamp.Rotation = 90;
+                                    stage.Objects.Add(lamp);
+                                }
                             }
                         }
                         else
@@ -146,6 +153,13 @@ namespace Cyber.CStageParsing
                             if (!left && !right)
                             {
                                 Walls.WallsUp.Add(currentPoint);
+                                if ((w + h) % 2 == 0)
+                                {
+                                    Lamp lamp = new Lamp(stage.Height, stage.Width);
+                                    lamp.Structure[w, h] = true;
+                                    lamp.Rotation = 270;
+                                    stage.Objects.Add(lamp);
+                                }
                             }
                         }
                         else
@@ -164,10 +178,24 @@ namespace Cyber.CStageParsing
                             if (left)
                             {
                                 Walls.WallsRight.Add(currentPoint);
+                                if ((w + h) % 2 == 0)
+                                {
+                                    Lamp lamp = new Lamp(stage.Height, stage.Width);
+                                    lamp.Structure[w, h] = true;
+                                    lamp.Rotation = 0;
+                                    stage.Objects.Add(lamp);
+                                }
                             }
                             if (right)
                             {
                                 Walls.WallsLeft.Add(currentPoint);
+                                if ((w + h) % 2 == 0)
+                                {
+                                    Lamp lamp = new Lamp(stage.Height, stage.Width);
+                                    lamp.Structure[w, h] = true;
+                                    lamp.Rotation = 180;
+                                    stage.Objects.Add(lamp);
+                                }
                             }
                         }
                         if (stageCount < Count) // jeśli coś dodano, to trzeba pod to podłożyć podłogę
