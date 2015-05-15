@@ -23,5 +23,29 @@ namespace Cyber.CStageParsing
             NPCs = new List<StageNPC>();
             PlayerPosition = new Pair<int, int>(0, 0);
         }
+
+        public StageObject GetObjectAt(int x, int y)
+        {
+            foreach (StageObject stageObject in Objects)
+            {
+                if (stageObject.Structure[x, y])
+                {
+                    return stageObject;
+                }
+            }
+            return null;
+        }
+
+        public StageNPC GetNPCAt(int x, int y)
+        {
+            foreach (StageNPC stageNPC in NPCs)
+            {
+                if (stageNPC.Structure[x, y])
+                {
+                    return stageNPC;
+                }
+            }
+            return null;
+        }
     }
 }
