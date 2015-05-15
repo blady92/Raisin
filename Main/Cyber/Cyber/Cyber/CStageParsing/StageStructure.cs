@@ -12,6 +12,7 @@ namespace Cyber.CStageParsing
 
     public class StageStructure
     {
+        private int lampFrequency = 3;
         public WallsStructure Walls { get; set; }
         public FloorStructure Floor { get; set; }
         public ConcaveCornersStructure ConcaveCorners { get; set; }
@@ -120,7 +121,7 @@ namespace Cyber.CStageParsing
                             if (!left && !right)
                             {
                                 Walls.WallsDown.Add(currentPoint);
-                                if ((w + h) % 2 == 0)
+                                if ((w + h) % lampFrequency == 0)
                                 {
                                     Lamp lamp = new Lamp(stage.Height, stage.Width);
                                     lamp.Structure[w, h] = true;
@@ -153,7 +154,7 @@ namespace Cyber.CStageParsing
                             if (!left && !right)
                             {
                                 Walls.WallsUp.Add(currentPoint);
-                                if ((w + h) % 2 == 0)
+                                if ((w + h) % lampFrequency == 0)
                                 {
                                     Lamp lamp = new Lamp(stage.Height, stage.Width);
                                     lamp.Structure[w, h] = true;
@@ -178,7 +179,7 @@ namespace Cyber.CStageParsing
                             if (left)
                             {
                                 Walls.WallsRight.Add(currentPoint);
-                                if ((w + h) % 2 == 0)
+                                if ((w + h) % lampFrequency == 0)
                                 {
                                     Lamp lamp = new Lamp(stage.Height, stage.Width);
                                     lamp.Structure[w, h] = true;
@@ -189,7 +190,7 @@ namespace Cyber.CStageParsing
                             if (right)
                             {
                                 Walls.WallsLeft.Add(currentPoint);
-                                if ((w + h) % 2 == 0)
+                                if ((w + h) % lampFrequency == 0)
                                 {
                                     Lamp lamp = new Lamp(stage.Height, stage.Width);
                                     lamp.Structure[w, h] = true;
