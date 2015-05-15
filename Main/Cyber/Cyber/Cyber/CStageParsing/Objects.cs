@@ -84,4 +84,20 @@ namespace Cyber.CStageParsing
             return instance;
         }
     }
+
+    public class Column : StageObject
+    {
+        public Column(int height, int width) : base(height, width) { }
+        public override string StaticObjectAsset
+        {
+            get { return "Assets/3D/Interior/Interior_Collumn"; }
+        }
+
+        public override IGenerable clone()
+        {
+            IGenerable instance = new Column(Height, Width);
+            instance.Structure = (bool[,])Structure.Clone();
+            return instance;
+        }
+    }
 }

@@ -88,8 +88,8 @@ namespace Cyber.CGameStateEngine
             stageElements = new List<StaticItem>();
 
             stageParser = new StageParser();
-            stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
-            stageStructure = new StageStructure(stage);
+            stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
+            stageStructure = new StageStructure(stage, StageStructureGenerationStrategy.GENEROUS);
 
             foreach (StageObject stageObj in stage.Objects)
             {

@@ -5,6 +5,11 @@ using System.Text;
 
 namespace Cyber.CStageParsing
 {
+    public enum StageStructureGenerationStrategy
+    {
+        GENEROUS, GREEDY
+    }
+
     public class StageStructure
     {
         public WallsStructure Walls { get; set; }
@@ -20,7 +25,7 @@ namespace Cyber.CStageParsing
             }
         }
 
-        public StageStructure(Stage stage)
+        public StageStructure(Stage stage, StageStructureGenerationStrategy strategy)
         {
             Walls = new WallsStructure();
             Floor = new FloorStructure();
@@ -51,6 +56,131 @@ namespace Cyber.CStageParsing
                 }
             }
 
+            switch (strategy)
+            {
+                case StageStructureGenerationStrategy.GREEDY:
+                    GreedyGenerate(stage, structure);
+                    break;
+                case StageStructureGenerationStrategy.GENEROUS:
+                    GenerousGenerate(stage, structure);
+                    break;
+            }
+            
+        }
+
+        private void GenerousGenerate(Stage stage, bool[,] structure)
+        {
+            for (int h = 0; h < stage.Height; h++)
+            {
+                for (int w = 0; w < stage.Width; w++)
+                {
+                    Pair<int, int> currentPoint = new Pair<int, int>(w, h);
+
+                    if (isTrue(structure, w, h))
+                    {
+                        Floor.Floors.Add(currentPoint);
+                    }
+                    else
+                    {
+                        bool up = false, left = false, right = false, down = false;
+
+                        left = isTrue(structure, w - 1, h);
+                        right = isTrue(structure, w + 1, h);
+                        up = isTrue(structure, w, h - 1);
+                        down = isTrue(structure, w, h + 1);
+
+                        if (up && down && left && right)
+                        {
+                            Column column = new Column(stage.Height, stage.Width);
+                            column.Structure[h, w] = true;
+                            stage.Objects.Add(column);
+                            Floor.Floors.Add(currentPoint);
+                            continue;
+                        }
+
+                        bool upperLeft = false, upperRight = false, lowerLeft = false, lowerRight = false;
+
+                        upperLeft = isTrue(structure, w - 1, h - 1);
+                        upperRight = isTrue(structure, w + 1, h - 1);
+                        lowerLeft = isTrue(structure, w - 1, h + 1);
+                        lowerRight = isTrue(structure, w + 1, h + 1);
+
+                        int stageCount = Count; // zapamiętuje, ile póki co jest struktur na planszy
+
+                        if (up)
+                        {
+                            if (left)
+                            {
+                                ConvexCorners.ConvexCornersLowerRight.Add(currentPoint);
+                            }
+                            if (right)
+                            {
+                                ConvexCorners.ConvexCornersLowerLeft.Add(currentPoint);
+                            }
+                            if (!left && !right)
+                            {
+                                Walls.WallsDown.Add(currentPoint);
+                            }
+                        }
+                        else
+                        {
+                            if (!left && upperLeft)
+                            {
+                                ConcaveCorners.ConcaveCornersLowerRight.Add(currentPoint);
+                            }
+                            if (!right && upperRight)
+                            {
+                                ConcaveCorners.ConcaveCornersLowerLeft.Add(currentPoint);
+                            }
+                        }
+                        if (down)
+                        {
+                            if (left)
+                            {
+                                ConvexCorners.ConvexCornersUpperRight.Add(currentPoint);
+                            }
+                            if (right)
+                            {
+                                ConvexCorners.ConvexCornersUpperLeft.Add(currentPoint);
+                            }
+                            if (!left && !right)
+                            {
+                                Walls.WallsUp.Add(currentPoint);
+                            }
+                        }
+                        else
+                        {
+                            if (!left && lowerLeft)
+                            {
+                                ConcaveCorners.ConcaveCornersUpperRight.Add(currentPoint);
+                            }
+                            if (!right && lowerRight)
+                            {
+                                ConcaveCorners.ConcaveCornersUpperLeft.Add(currentPoint);
+                            }
+                        }
+                        if (!up && !down)
+                        {
+                            if (left)
+                            {
+                                Walls.WallsRight.Add(currentPoint);
+                            }
+                            if (right)
+                            {
+                                Walls.WallsLeft.Add(currentPoint);
+                            }
+                        }
+                        if (stageCount < Count) // jeśli coś dodano, to trzeba pod to podłożyć podłogę
+                        {
+                            Floor.Floors.Add(currentPoint);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GreedyGenerate(Stage stage, bool[,] structure)
+        {
             for (int h = 0; h < stage.Height; h++)
             {
                 for (int w = 0; w < stage.Width; w++)
