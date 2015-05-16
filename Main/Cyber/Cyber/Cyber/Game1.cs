@@ -216,6 +216,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
+                
                 videoTexture = videoPlayer.GetTexture();
                 spriteBatch.Begin();
                 switch (state)
@@ -232,6 +233,7 @@ namespace Cyber
 
                 if(state == 1)
                 {
+                    mainGame.LookAtSam(ref cameraTarget);
                     mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
                     Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
                     Vector3 cameraUpVector = Vector3.Up;
