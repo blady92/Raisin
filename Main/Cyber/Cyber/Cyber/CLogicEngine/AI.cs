@@ -21,11 +21,33 @@ namespace Cyber
 
         private ColliderController colliderController = null;
 
+        #region ACCESSORS
         internal ColliderController ColliderController
         {
             get { return colliderController; }
             set { colliderController = value; }
         }
+
+        /// <summary>
+        /// Safely get an instance of AI
+        /// </summary>
+        public static AI Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (instance == null)
+                            instance = new AI();
+                    }
+                }
+
+                return instance;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Populate the robot list
@@ -64,26 +86,6 @@ namespace Cyber
             /* TODO: znaleźć metodę na usuwanie zdarzeń z zegara, tak żeby można było wywoływać AlertOthers()
              * cały czas gdy gracz jest w polu widzenia któregokolwiek z robotów
              */
-        }
-
-        /// <summary>
-        /// Safely get an instance of AI
-        /// </summary>
-        public static AI Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                            instance = new AI();
-                    }
-                }
-
-                return instance;
-            }
         }
     }
 }
