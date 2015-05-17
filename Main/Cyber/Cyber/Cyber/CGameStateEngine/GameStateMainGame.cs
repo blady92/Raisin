@@ -373,6 +373,7 @@ namespace Cyber.CGameStateEngine
             colliderController = new ColliderController(console, iconOverHead);
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
+            colliderController.samantha = samantha;
 
             #region Inicjalizacja AI
             AI ai = AI.Instance;

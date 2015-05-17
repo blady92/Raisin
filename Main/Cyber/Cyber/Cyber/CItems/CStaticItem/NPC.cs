@@ -11,7 +11,8 @@ namespace Cyber.CItems.CStaticItem
     {
         //TODO: unit tests ???
         Queue<Vector3> patrolWaypoints = new Queue<Vector3>();
-        Vector3 chasingPosition = Vector3.Zero;
+        //Vector3 chasingPosition = Vector3.Zero;//TODO: change to chasingWaypoints
+        Queue<Vector3> chasingWaypoints = new Queue<Vector3>();
 
         public NPC(string path) : base(path) { }
 
@@ -30,10 +31,14 @@ namespace Cyber.CItems.CStaticItem
         /// Tell robot where he has to go
         /// </summary>
         /// <param name="pos"></param>
-        public void Chase(Vector3 pos)
+        public void Chase(List<Vector3> waypoints)
         {
-            chasingPosition = pos;
-            Debug.WriteLine("NPC: idę do "+pos);
+            chasingWaypoints.Clear();
+            foreach (var position in waypoints)
+            {
+                chasingWaypoints.Enqueue(position);
+            }
+            Debug.WriteLine("NPC: idę do "+waypoints.Last());
         }
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace Cyber.CItems.CStaticItem
         public void StopChasing()
         {
             Debug.WriteLine("NPC: poddaję się");
-            chasingPosition = Vector3.Zero;
+            chasingWaypoints.Clear();
         }
 
         /// <summary>
@@ -51,14 +56,14 @@ namespace Cyber.CItems.CStaticItem
         /// <returns></returns>
         public Vector3 GetNextWaypoint()
         {
-            if (chasingPosition == Vector3.Zero)
+            if (chasingWaypoints.Count == 0)
             {
                 if (patrolWaypoints.Count == 0)
                     return Vector3.Zero;
                 return patrolWaypoints.Peek();
             }
             else
-                return chasingPosition;
+                return chasingWaypoints.Peek();
         }
     }
 }

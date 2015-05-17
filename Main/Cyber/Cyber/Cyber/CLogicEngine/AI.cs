@@ -4,6 +4,7 @@ using Cyber.CollisionEngine;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -81,7 +82,7 @@ namespace Cyber
 
             foreach (NPC r in robots)
             {
-                r.Chase(target.Position);
+                r.Chase(FindWayToPlace(r.Position, target.Position));
             }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);
@@ -107,10 +108,35 @@ namespace Cyber
             {
                 if (npc.GetNextWaypoint() != Vector3.Zero)
                 {
-                    Vector3 move = new Vector3(0, 0, 1f);
+                    Vector3 move = GetDirectionTo(npc.Position, npc.GetNextWaypoint());
+                    if (true/*TODO: if npc is almost on the next waypoint*/)
+                    {
+                        /*rotate waypoint*/
+                    }
                     colliderController.CheckCollision(npc, move);
+                    //Debug.WriteLine("NPC: przeniosłem się do "+npc.Position);
                 }
             }
+        }
+
+        /// <summary>
+        /// Search map graph to find shortest path from one point to another
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private List<Vector3> FindWayToPlace(Vector3 from, Vector3 to)
+        {
+            List<Vector3> result = new List<Vector3>();
+            result.Add(to);
+            return result;
+        }
+
+        private Vector3 GetDirectionTo(Vector3 from ,Vector3 to)
+        {
+            Vector3 result = (to - from);
+            result.Normalize();
+            return result;
         }
     }
 }
