@@ -30,6 +30,7 @@ namespace Cyber.CollisionEngine
 
         public List<StaticItem> staticItemList { get; set; }
         public List<StaticItem> npcItem { get; set; }
+        public StaticItem samantha { get; set; }
         private Action playAudio;
         private ConsoleSprites console;
         private Icon icon;
@@ -96,9 +97,12 @@ namespace Cyber.CollisionEngine
 
             foreach (StaticItem npc in npcItem)
             {
-                if (npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                     return npc.Type;
             }
+
+            if (samantha != item && samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                return samantha.Type;
 
             return StaticItemType.none;
         }
@@ -120,7 +124,7 @@ namespace Cyber.CollisionEngine
             }
             else
             {
-                Debug.WriteLine(CollisionItemType.ToString());
+                //Debug.WriteLine(CollisionItemType.ToString());
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderInternal.RecreateCage(move);
                 playAudio();

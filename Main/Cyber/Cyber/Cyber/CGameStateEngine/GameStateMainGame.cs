@@ -87,7 +87,7 @@ namespace Cyber.CGameStateEngine
             npcList = new List<StaticItem>();
 
             stageParser = new StageParser();
-            stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
+            stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
             stageStructure = new StageStructure(stage, StageStructureGenerationStrategy.GENEROUS);
 
             foreach (StageObject stageObj in stage.Objects)
@@ -114,10 +114,11 @@ namespace Cyber.CGameStateEngine
             #region NPCs
             foreach (StageNPC stageNPC in stage.NPCs)
             {
-                StaticItem item = new StaticItem(stageNPC.StaticObjectAsset);
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.tank;
-                npcList.Add(item);
+                NPC npc = new NPC(stageNPC.StaticObjectAsset);
+                npc.LoadItem(theContentManager);
+                npc.Type = StaticItemType.tank;
+                npcList.Add(npc);
+                AI.Instance.AddRobot(npc);
             }
 
             Debug.WriteLine("Ilość narożników to: " + stageStructure.ConcaveCorners.Count + " lub " + stageStructure.ConvexCorners.Count);
@@ -145,15 +146,15 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-            #region Ładowanie podłóg
-            foreach (Pair<int, int> point in stageStructure.Floor.Floors)
-            {
-                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
-                stageElements.Add(item);
-            }
-            #endregion
+            //#region Ładowanie podłóg
+            //foreach (Pair<int, int> point in stageStructure.Floor.Floors)
+            //{
+            //    StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
+            //    item.LoadItem(theContentManager);
+            //    item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
+            //    stageElements.Add(item);
+            //}
+            //#endregion
             Debug.WriteLine("End of Loading");
         }
 
@@ -182,11 +183,6 @@ namespace Cyber.CGameStateEngine
                                             0.0f);
             samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
-            //terminal.Position = new Vector3(20, -100, 39);
-            //terminal.FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
-            //terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
-            //terminal.FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(20f, 20f, 0f));
-
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
             {
@@ -211,6 +207,7 @@ namespace Cyber.CGameStateEngine
                     stageElements[j].Position = move;
                     stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8,-8, -50));
                 }
+                else
                 {
                     z = objectZ;
                     move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
@@ -369,22 +366,28 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            #region Floor setups
-            float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
-            for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
-            {
-                Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
-                                            stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
-                                            -5.0f);
-                stageElements[i].Position = move;
-                //stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
-            }
-            #endregion
+            //#region Floor setups
+            //float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
+            //for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
+            //{
+            //    Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
+            //                                stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
+            //                                -5.0f);
+            //    stageElements[i].Position = move;
+            ////    stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+            //}
+            //#endregion
 
             //stageSurroundingsList.Add(terminal);
             colliderController = new ColliderController(console, iconOverHead);
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
+            colliderController.samantha = samantha;
+
+            #region Inicjalizacja AI
+            AI ai = AI.Instance;
+            ai.ColliderController = colliderController;
+            #endregion
         }
 
 
@@ -559,13 +562,19 @@ namespace Cyber.CGameStateEngine
             if (colliderController.EnemyCollision(samantha))
             {
                 //Debug.WriteLine("Weszłam w zasięg robota!");
+                Debug.WriteLine("Sam zlokalizowana w "+samantha.Position.ToString());
+                AI.Instance.AlertOthers(samantha);
             }
-            else
+            /*else
             {
                 //Debug.WriteLine("Uff jestem bezpieczna");
             }
+                Debug.WriteLine("Uff jestem bezpieczna");
+            }*/
             console.Update();
             oldState = newState;
+
+            AI.Instance.MoveNPCs(null);
         }
     }
 }
