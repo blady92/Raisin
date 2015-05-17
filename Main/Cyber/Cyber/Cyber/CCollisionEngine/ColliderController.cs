@@ -120,7 +120,7 @@ namespace Cyber.CollisionEngine
             }
             else
             {
-                Debug.WriteLine("Skolidowano ze ściano!");
+                Debug.WriteLine(CollisionItemType.ToString());
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderInternal.RecreateCage(move);
                 playAudio();
