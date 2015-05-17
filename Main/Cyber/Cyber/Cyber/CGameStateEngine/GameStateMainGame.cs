@@ -152,6 +152,12 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("End of Loading");
         }
 
+        public void LookAtSam(ref Vector3 cameraTarget)
+        {
+            cameraTarget.X = stage.PlayerPosition.X;
+            cameraTarget.Y = stage.PlayerPosition.Y;
+        }
+
         public void SetUpScene()
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
@@ -165,6 +171,7 @@ namespace Cyber.CGameStateEngine
             float cornerOffset = 5.5f;
             #endregion
 
+            
             samantha.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
