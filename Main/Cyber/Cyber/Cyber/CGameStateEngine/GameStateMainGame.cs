@@ -46,6 +46,7 @@ namespace Cyber.CGameStateEngine
         //private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
+        private List<StaticItem> npcList;
         private StageParser stageParser;
         private Stage stage;
 
@@ -82,9 +83,10 @@ namespace Cyber.CGameStateEngine
             samantha.Type = StaticItemType.none;
 
             stageElements = new List<StaticItem>();
+            npcList = new List<StaticItem>();
 
             stageParser = new StageParser();
-            stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
+            stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
             stageStructure = new StageStructure(stage, StageStructureGenerationStrategy.GENEROUS);
 
             foreach (StageObject stageObj in stage.Objects)
@@ -109,8 +111,8 @@ namespace Cyber.CGameStateEngine
             {
                 StaticItem item = new StaticItem(stageNPC.StaticObjectAsset);
                 item.LoadItem(theContentManager);
-                item.Type = StaticItemType.wall;
-                stageElements.Add(item);
+                item.Type = StaticItemType.tank;
+                npcList.Add(item);
             }
 
             Debug.WriteLine("Ilość narożników to: " + stageStructure.ConcaveCorners.Count + " lub " + stageStructure.ConvexCorners.Count);
@@ -143,7 +145,7 @@ namespace Cyber.CGameStateEngine
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
                 item.LoadItem(theContentManager);
-                item.Type = StaticItemType.none; // TODO: dodać typ floor
+                item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
                 stageElements.Add(item);
             }
             #endregion
@@ -185,32 +187,36 @@ namespace Cyber.CGameStateEngine
             for (int j = 0; j < stage.Objects.Count; i++, j++)
             {
                 float z;
-
+                Vector3 move = new Vector3();
                 if (stage.Objects[j] is Terminal)
                 {
                     z = terminalZ;
+                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
+                                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
+                                        z);
+                    stageElements[i].Position = move;
+                    stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
+                    stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
                 }
                 else
                 {
                     z = objectZ;
+                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
+                                            stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
+                                            z);
+                    stageElements[i].Position = move;
+                    stageElements[i].Rotation = stage.Objects[j].Rotation;
                 }
-                Vector3 move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
-                                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                                        z);
-                stageElements[i].Position = move;
-                stageElements[i].Rotation = stage.Objects[j].Rotation;
-                //stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
-                //stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
             }
             #endregion
             #region NPCs
-            for (int j = 0; j < stage.NPCs.Count; i++, j++)
+            for (int j = 0; j < stage.NPCs.Count; j++)
             {
                 Vector3 move = new Vector3(stage.NPCs[j].GetBlock().X * mnoznikPrzesunieciaOther,
                                         stage.NPCs[j].GetBlock().Y * mnoznikPrzesunieciaOther,
                                         0.0f);
-                stageElements[i].Position = move;
-                stageElements[i].Rotation = stage.NPCs[j].Rotation;
+                npcList[j].Position = move;
+                npcList[j].Rotation = stage.NPCs[j].Rotation;
             }
             #endregion
             #region WallsUp
@@ -360,7 +366,9 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             //stageSurroundingsList.Add(terminal);
-            colliderController = new ColliderController(stageElements, console, iconOverHead);
+            colliderController = new ColliderController(console, iconOverHead);
+            colliderController.staticItemList = stageElements;
+            colliderController.npcItem = npcList;
         }
 
 
@@ -396,9 +404,8 @@ namespace Cyber.CGameStateEngine
             
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
             samantha.DrawItem(device, samanthaView, view, projection);
+            samantha.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
-          
-           //  samantha.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
             //Matrix terminalView = Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
             //Matrix.CreateTranslation(terminal.Position);
             //Matrix terminalColliderView = Matrix.CreateTranslation(terminal.ColliderExternal.Position);
@@ -408,15 +415,41 @@ namespace Cyber.CGameStateEngine
             //terminal.ColliderExternal.DrawBouding(device, terminalColliderView, view, projection);
             //terminal.ColliderInternal.DrawBouding(device, terminalColliderInternallView, view, projection);
 
-            for (int i = 0; i < stageElements.Count; i++)
+            //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
+
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
+            //    Matrix stageElementView = Matrix.Identity *
+            //                        Matrix.CreateRotationZ(MathHelper.ToRadians(stageElements[i].Rotation)) *
+            //                        Matrix.CreateTranslation(stageElements[i].Position);
+            //    Matrix stageElementColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
+            //    stageElements[i].DrawItem(device, stageElementView, view, projection);
+            //    stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+            //    stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+            //}
+
+            foreach (StaticItem stageElement in stageElements)
             {
-                //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
-                Matrix wallView = Matrix.Identity *
-                                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElements[i].Rotation)) *
-                                    Matrix.CreateTranslation(stageElements[i].Position);
-                Matrix wallColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
-                stageElements[i].DrawItem(device, wallView, view, projection);
-              //  wallList[i].ColliderExternal.DrawBouding(device, wallColliderView, view, projection);
+                Matrix stageElementView = Matrix.Identity *
+                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
+                    Matrix.CreateTranslation(stageElement.Position);
+                stageElement.DrawItem(device, stageElementView, view, projection);
+
+                //Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
+                //stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+                //stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+            }
+            foreach (StaticItem item in npcList)
+            {
+                Matrix stageElementView = Matrix.Identity *
+                                          Matrix.CreateRotationZ(MathHelper.ToRadians(item.Rotation)) *
+                                          Matrix.CreateTranslation(item.Position);
+                item.DrawItem(device, stageElementView, view, projection);
+
+                Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
+                item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+                item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             }
 
             iconOverHead.Draw(spriteBatch);
@@ -430,7 +463,7 @@ namespace Cyber.CGameStateEngine
             console.Update();
             KeyboardState newState = currentKeyboardState;
 
-           //Kuba edit:
+            //Kuba edit:
             samantha.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
       
             if (newState.IsKeyDown(Keys.T))
@@ -477,25 +510,25 @@ namespace Cyber.CGameStateEngine
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
                     colliderController.CheckCollision(samantha, move);
-                    Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.Y = samantha.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samantha, move);
-                    Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.Y = samantha.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
                     colliderController.CheckCollision(samantha, move);
-                    Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.X = -samantha.Position.X;
                 }
                 if (newState.IsKeyDown(Keys.D))
@@ -503,9 +536,9 @@ namespace Cyber.CGameStateEngine
 
                     move = new Vector3(1f, 0, 0);
                     colliderController.CheckCollision(samantha, move);
-                    Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
+                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
+                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.X = -samantha.Position.X;
                 }
             }

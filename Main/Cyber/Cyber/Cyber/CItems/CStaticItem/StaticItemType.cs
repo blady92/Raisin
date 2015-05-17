@@ -10,6 +10,11 @@ namespace Cyber.CItems.CStaticItem
         wall,
         terminal,
         decoration,
-        none
+        floor,
+        none,
+        //tymczasowo
+        tank,
+        spy,
+        flyer
     }
 }
