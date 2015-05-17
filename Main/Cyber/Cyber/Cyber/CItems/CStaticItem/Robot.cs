@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -32,6 +33,7 @@ namespace Cyber.CItems.CStaticItem
         public void Chase(Vector3 pos)
         {
             chasingPosition = pos;
+            Debug.WriteLine("NPC: idę do "+pos);
         }
 
         /// <summary>
@@ -39,6 +41,7 @@ namespace Cyber.CItems.CStaticItem
         /// </summary>
         public void StopChasing()
         {
+            Debug.WriteLine("NPC: poddaję się");
             chasingPosition = Vector3.Zero;
         }
 

@@ -559,13 +559,13 @@ namespace Cyber.CGameStateEngine
             colliderController.CallTerminalAfterCollision(samantha);
             if (colliderController.EnemyCollision(samantha))
             {
-                Debug.WriteLine("Weszłam w zasięg robota!");
+                Debug.WriteLine("Sam zlokalizowana w "+samantha.Position.ToString());
                 AI.Instance.AlertOthers(samantha);
             }
-            else
+            /*else
             {
                 Debug.WriteLine("Uff jestem bezpieczna");
-            }
+            }*/
             console.Update();
             oldState = newState;
         }

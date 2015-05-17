@@ -13,6 +13,7 @@ namespace Cyber.CLogicEngine
         private DateTime startTime;
         private DateTime gameOverTime;
         private TimeSpan pausedState = new TimeSpan(0);
+        private DateTime pauseTime = DateTime.MinValue;
 
         private const int length = 48;
 
@@ -78,6 +79,15 @@ namespace Cyber.CLogicEngine
                     handler(this, secTillEnd);
                     endQueue.Remove(secTillEnd);
                 }
+                lock (syncRoot)
+                {
+                    if (actualQueue.Count > 0 && actualQueue.First().Key < DateTime.Now && pausedState.Ticks == 0)
+                    {
+                        TickEventHandler handler = actualQueue.First().Value;
+                        handler(this, secTillEnd);
+                        actualQueue.Remove(actualQueue.First().Key);
+                    }
+                }
                 Thread.Sleep(1);
                 //TODO: kill after main game closed
             }
@@ -102,9 +112,27 @@ namespace Cyber.CLogicEngine
                     break;
                 case FROMNOW:
                     //TODO: unit tests
-                    DateTime callingTime = DateTime.Now + new TimeSpan(0,0,time);
-                    actualQueue.Add(callingTime, toDo);
-                    throw new NotImplementedException();
+                    lock (syncRoot)
+                    {
+                        DateTime callingTime = DateTime.Now + new TimeSpan(0, 0, time);
+                        if (actualQueue.ContainsValue(toDo))
+                        {
+                            List<DateTime> keysToRemove = new List<DateTime>();
+                            foreach (var item in actualQueue)
+                            {
+                                if (item.Value == toDo)
+                                {
+                                    keysToRemove.Add(item.Key);
+                                }
+                            }
+                            foreach (var item in keysToRemove)
+                            {
+                                actualQueue.Remove(item);
+                            }
+                        }
+                        actualQueue.Add(callingTime, toDo);
+                    }
+                    break;
                 default:
                     throw new InvalidOperationException("Invalid time base for event addition");
             }
@@ -141,6 +169,7 @@ namespace Cyber.CLogicEngine
         public void Pause()
         {
             pausedState = gameOverTime - DateTime.Now;
+            pauseTime = DateTime.Now;
             Debug.WriteLine(pausedState);
         }
 
@@ -155,6 +184,14 @@ namespace Cyber.CLogicEngine
             pausedState = new TimeSpan(0);
             startTime = gameOverTime - gameLength;
             //TODO: dokończyć !!! !!! !!! !!! !!!
+            SortedDictionary<DateTime, TickEventHandler> newQueue = new SortedDictionary<DateTime, TickEventHandler>();
+            foreach (var item in actualQueue)
+            {
+                TimeSpan remainingTime = item.Key - pauseTime;
+                newQueue.Add(DateTime.Now + remainingTime, item.Value);
+            }
+            actualQueue = newQueue;
+            pauseTime = DateTime.MinValue;
         }
 
         public bool CanResume()
