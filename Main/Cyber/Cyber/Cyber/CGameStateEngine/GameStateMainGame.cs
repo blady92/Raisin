@@ -568,6 +568,8 @@ namespace Cyber.CGameStateEngine
             }*/
             console.Update();
             oldState = newState;
+
+            AI.Instance.MoveNPCs(null);
         }
     }
 }

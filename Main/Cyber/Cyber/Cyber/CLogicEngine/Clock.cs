@@ -60,10 +60,10 @@ namespace Cyber.CLogicEngine
             while (DateTime.Now < gameOverTime || pausedState.Ticks > 0)
             {
                 #if DEBUG
-                if (secAfterStart != (int)((DateTime.Now - startTime).TotalSeconds))
+                /*if (secAfterStart != (int)((DateTime.Now - startTime).TotalSeconds))
                 {
                     Debug.WriteLine("From start: "+secAfterStart+"; till end: "+(int)(gameOverTime-DateTime.Now).TotalSeconds);
-                }
+                }*/
                 #endif
                 secAfterStart = (int)((DateTime.Now - startTime).TotalSeconds);
                 secTillEnd = (int)(gameOverTime - DateTime.Now).TotalSeconds;

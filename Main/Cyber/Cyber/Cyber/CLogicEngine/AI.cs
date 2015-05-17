@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Cyber
 {
@@ -20,6 +21,8 @@ namespace Cyber
         private const int chasingTime = 20;
 
         private ColliderController colliderController = null;
+
+        private Thread t;
 
         #region ACCESSORS
         internal ColliderController ColliderController
@@ -48,6 +51,13 @@ namespace Cyber
             }
         }
         #endregion
+
+        public AI()
+        {
+            /*t = new Thread(new ParameterizedThreadStart(SteeringLoop));
+            t.Start();
+            while (!t.IsAlive) ;*/
+        }
 
         /// <summary>
         /// Populate the robot list
@@ -86,6 +96,21 @@ namespace Cyber
             /* TODO: znaleźć metodę na usuwanie zdarzeń z zegara, tak żeby można było wywoływać AlertOthers()
              * cały czas gdy gracz jest w polu widzenia któregokolwiek z robotów
              */
+        }
+
+        /// <summary>
+        /// Function that is telling all of NPC's to go
+        /// </summary>
+        public void MoveNPCs(object obj)
+        {
+            foreach (var npc in robots)
+            {
+                if (npc.GetNextWaypoint() != Vector3.Zero)
+                {
+                    Vector3 move = new Vector3(0, 0, 1f);
+                    colliderController.CheckCollision(npc, move);
+                }
+            }
         }
     }
 }

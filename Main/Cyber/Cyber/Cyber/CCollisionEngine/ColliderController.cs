@@ -96,7 +96,7 @@ namespace Cyber.CollisionEngine
 
             foreach (StaticItem npc in npcItem)
             {
-                if (npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                     return npc.Type;
             }
 

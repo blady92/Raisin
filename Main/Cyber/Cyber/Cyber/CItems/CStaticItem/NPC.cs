@@ -10,7 +10,7 @@ namespace Cyber.CItems.CStaticItem
     class NPC : StaticItem
     {
         //TODO: unit tests ???
-        Queue<Vector3> patrolWaypoints;
+        Queue<Vector3> patrolWaypoints = new Queue<Vector3>();
         Vector3 chasingPosition = Vector3.Zero;
 
         public NPC(string path) : base(path) { }
@@ -52,7 +52,11 @@ namespace Cyber.CItems.CStaticItem
         public Vector3 GetNextWaypoint()
         {
             if (chasingPosition == Vector3.Zero)
+            {
+                if (patrolWaypoints.Count == 0)
+                    return Vector3.Zero;
                 return patrolWaypoints.Peek();
+            }
             else
                 return chasingPosition;
         }
