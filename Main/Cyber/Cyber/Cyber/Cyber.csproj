@@ -99,11 +99,13 @@
     <Compile Include="CItems\CStaticItem\StaticIcon.cs" />
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
     <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
+    <Compile Include="CLogicEngine\AI.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
     <Compile Include="CLogicEngine\LogicEngine.cs" />
     <Compile Include="CCollisionEngine\Collider.cs" />
     <Compile Include="CCollisionEngine\ColliderController.cs" />
+    <Compile Include="CLogicEngine\Robot.cs" />
     <Compile Include="CSkillTree\SkillDefensive.cs" />
     <Compile Include="CSkillTree\SkillOffensive.cs" />
     <Compile Include="CSkillTree\SkillRest.cs" />

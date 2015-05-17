@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Cyber.CLogicEngine;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cyber2O
+namespace Cyber
 {
     class AI
     {
@@ -14,7 +15,7 @@ namespace Cyber2O
 
         private List<Robot> robots = new List<Robot>();
 
-        private static const int chasingTime = 20;
+        private const int chasingTime = 20;
 
         /// <summary>
         /// Populate the robot list
