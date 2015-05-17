@@ -102,8 +102,8 @@ namespace Cyber.CLogicEngine
                     break;
                 case FROMNOW:
                     //TODO: unit tests
-                    TimeSpan tonow = DateTime.Now - startTime;
-                    startQueue.Add((int)tonow.TotalSeconds + time, toDo);
+                    DateTime callingTime = DateTime.Now + new TimeSpan(0,0,time);
+                    actualQueue.Add(callingTime, toDo);
                     throw new NotImplementedException();
                 default:
                     throw new InvalidOperationException("Invalid time base for event addition");

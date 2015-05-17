@@ -1,4 +1,6 @@
-﻿using Cyber.CLogicEngine;
+﻿using Cyber.CItems.CStaticItem;
+using Cyber.CLogicEngine;
+using Cyber.CollisionEngine;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,15 +15,23 @@ namespace Cyber
         private static volatile AI instance;
         private static object syncRoot = new Object();
 
-        private List<Robot> robots = new List<Robot>();
+        private List<NPC> robots = new List<NPC>();
 
         private const int chasingTime = 20;
+
+        private ColliderController colliderController = null;
+
+        internal ColliderController ColliderController
+        {
+            get { return colliderController; }
+            set { colliderController = value; }
+        }
 
         /// <summary>
         /// Populate the robot list
         /// </summary>
         /// <param name="r"></param>
-        public void AddRobot(Robot r)
+        public void AddRobot(NPC r)
         {
             robots.Add(r);
         }
@@ -29,16 +39,17 @@ namespace Cyber
         /// <summary>
         /// Tell every robot on map location of the player
         /// </summary>
-        public void AlertOthers()
+        /// <param name="target">Target that will be chased</param>
+        public void AlertOthers(StaticItem target)
         {
-            foreach (Robot r in robots)
+            if (colliderController == null)
             {
-                throw new NotImplementedException("TODO: pobrać pozycję gracza i przekazać robotowi");
-                //r.Chase(Vector3.Zero);
-                /*
-                 * TODO: najfajniej byłoby jeśli ten Vector3 aktualizowałby się w miarę poruszania się gracza
-                 * wtedy to co jest powinno w zupełności wystarczyć żeby roboty wiedziały gdzie iść
-                 */
+                throw new Exception("You should set collider controller before beeing able to steer NPC's");
+            }
+
+            foreach (NPC r in robots)
+            {
+                r.Chase(target.Position);
             }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);
@@ -46,7 +57,7 @@ namespace Cyber
 
         private void StopChase(object sender, int time)
         {
-            foreach(Robot r in robots)
+            foreach(NPC r in robots)
             {
                 r.StopChasing();
             }

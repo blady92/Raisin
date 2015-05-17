@@ -109,10 +109,11 @@ namespace Cyber.CGameStateEngine
             #region NPCs
             foreach (StageNPC stageNPC in stage.NPCs)
             {
-                StaticItem item = new StaticItem(stageNPC.StaticObjectAsset);
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.tank;
-                npcList.Add(item);
+                NPC npc = new NPC(stageNPC.StaticObjectAsset);
+                npc.LoadItem(theContentManager);
+                npc.Type = StaticItemType.tank;
+                npcList.Add(npc);
+                AI.Instance.AddRobot(npc);
             }
 
             Debug.WriteLine("Ilość narożników to: " + stageStructure.ConcaveCorners.Count + " lub " + stageStructure.ConvexCorners.Count);
@@ -372,6 +373,11 @@ namespace Cyber.CGameStateEngine
             colliderController = new ColliderController(console, iconOverHead);
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
+
+            #region Inicjalizacja AI
+            AI ai = AI.Instance;
+            ai.ColliderController = colliderController;
+            #endregion
         }
 
 
@@ -554,6 +560,7 @@ namespace Cyber.CGameStateEngine
             if (colliderController.EnemyCollision(samantha))
             {
                 Debug.WriteLine("Weszłam w zasięg robota!");
+                AI.Instance.AlertOthers(samantha);
             }
             else
             {
