@@ -217,7 +217,10 @@ namespace Cyber.CGameStateEngine
                                         0.0f);
                 npcList[j].Position = move;
                 npcList[j].Rotation = stage.NPCs[j].Rotation;
+                npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+                npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
             }
+
             #endregion
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
@@ -548,6 +551,14 @@ namespace Cyber.CGameStateEngine
             }
 
             colliderController.CallTerminalAfterCollision(samantha);
+            if (colliderController.EnemyCollision(samantha))
+            {
+                Debug.WriteLine("Weszłam w zasięg robota!");
+            }
+            else
+            {
+                Debug.WriteLine("Uff jestem bezpieczna");
+            }
             console.Update();
             oldState = newState;
         }
