@@ -77,7 +77,7 @@ namespace Cyber.GraphicsEngine.Bilboarding
             effect.Parameters["Projection"].SetValue(Projection);
             effect.Parameters["Size"].SetValue(bilboardSize/2f);
             effect.Parameters["Up"].SetValue(Up);
-            effect.Parameters["Right"].SetValue(Right);
+            effect.Parameters["Side"].SetValue(Right);
 
             effect.CurrentTechnique.Passes[0].Apply();
         }

@@ -252,7 +252,7 @@ namespace Cyber
                 
                     Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
                 
-                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection);
+                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection, ref cameraUpVector, ref cameraTarget);
                 }
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)

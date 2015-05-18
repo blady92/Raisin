@@ -67,6 +67,9 @@ namespace Cyber.CGameStateEngine
         //TESTOWANE
         private bool loaded = false;
         private BilboardSystem button;
+        private Vector3 up;
+        private Vector3 cameraRight;
+
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
@@ -160,10 +163,10 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("End of Loading");
             
             Vector3[] positions = new Vector3[1];
-            positions[0] = new Vector3(20,20, 50);
+            positions[0] = new Vector3(150, 150, 80);
             button = new BilboardSystem(device, theContentManager, 
                 theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
-                new Vector2(20), 
+                new Vector2(80), 
                 positions);
         }
 
@@ -415,19 +418,11 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("TIMEOUT");
         }
 
-        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, Matrix world, Matrix view, Matrix projection)
+        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, 
+            GameTime gameTime, Matrix world, Matrix view, Matrix projection,
+            ref Vector3 cameraUp, ref Vector3 cameraForward
+            )
         {
-            //button.Draw(view, projection, );
-            //^- tutaj brakuje by dokończyć bilobarding
-
-            //view = Matrix.CreateLookAt(new Vector3(samantha.Position.X + 200,
-            //    samantha.Position.Y + 200,
-            //    samantha.Position.Z + 400), new Vector3(
-            //    samantha.Position.X,
-            //    samantha.Position.Y,
-            //    samantha.Position.Z),
-            //    Vector3.UnitZ);
-
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
@@ -450,7 +445,7 @@ namespace Cyber.CGameStateEngine
             //    stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
             //    stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             //}
-
+            #region Rysowanie elementów sceny
             foreach (StaticItem stageElement in stageElements)
             {
                 Matrix stageElementView = Matrix.Identity *
@@ -462,6 +457,8 @@ namespace Cyber.CGameStateEngine
                 //stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
                 //stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             }
+            #endregion
+            #region Rysowanie NPCów
             foreach (StaticItem item in npcList)
             {
                 Matrix stageElementView = Matrix.Identity *
@@ -473,6 +470,13 @@ namespace Cyber.CGameStateEngine
                 //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
                 //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             }
+            #endregion
+            
+            //up = cameraUp;
+            //cameraRight = Vector3.Cross(cameraForward, up);
+            up = new Vector3(0.5f, 0, 0.5f);
+            cameraRight = new Vector3(1, 0, 0);
+            button.Draw(view, projection, up, cameraRight);
 
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
