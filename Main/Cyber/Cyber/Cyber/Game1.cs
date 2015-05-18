@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cyber.Audio;
 using Cyber.AudioEngine;
+using Cyber.CAdditionalLibs;
 using Cyber.CGameStateEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -77,6 +78,10 @@ namespace Cyber
 
         protected override void Initialize()
         {
+            for (int i = 0; i < 5; i++)
+            {
+                Debug.WriteLine(IDGenerator.GenerateID());
+            }
 
             #region INITIALIZE INPUT READINGS
             oldState = Keyboard.GetState();

@@ -106,10 +106,8 @@ namespace Cyber
                 s = s.Replace(@"\", "/");
                 sequences[i] = s.Substring(s.IndexOf("Assets"));
             }
-            Debug.WriteLine(sequences.ToString());
             for (int i = 0; i < list.Length; i++)
             {
-                Debug.WriteLine(sequences[i]);
                 list[i] = theContentManager.Load<Texture2D>(""+sequences[i]);
             }
         }

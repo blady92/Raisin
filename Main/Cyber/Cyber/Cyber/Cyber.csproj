@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAdditionalLibs\AlphanumComparatorFast.cs" />
+    <Compile Include="CAdditionalLibs\IDGenerator.cs" />
     <Compile Include="CAudioEngine\AudioController.cs" />
     <Compile Include="CAudioEngine\AudioModel.cs" />
     <Compile Include="CConsoleEngine\ConsoleCommands.cs" />

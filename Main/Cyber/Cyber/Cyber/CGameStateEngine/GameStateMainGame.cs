@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cyber.AudioEngine;
+using Cyber.CAdditionalLibs;
 using Cyber.CItems;
 using Cyber.CItems.CStaticItem;
 using Cyber.CollisionEngine;
@@ -68,6 +69,7 @@ namespace Cyber.CGameStateEngine
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
+            
             #region Load 2D elements
             console = new ConsoleSprites();
             console.LoadContent(theContentManager);
@@ -77,7 +79,6 @@ namespace Cyber.CGameStateEngine
             iconOverHead = new Icon((device.Viewport.Width - 32) / 2, device.Viewport.Height / 2 - 120, StaticIcon.none);
             iconOverHead.LoadContent(theContentManager);
             #endregion
-
             #region Load 3D elements
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samantha.LoadItem(theContentManager);
@@ -110,7 +111,6 @@ namespace Cyber.CGameStateEngine
             }
 
             #endregion
-
             #region NPCs
             foreach (StageNPC stageNPC in stage.NPCs)
             {
@@ -380,6 +380,7 @@ namespace Cyber.CGameStateEngine
 
             //stageSurroundingsList.Add(terminal);
             colliderController = new ColliderController(console, iconOverHead);
+            colliderController.samantha = samantha;
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
             colliderController.samantha = samantha;
