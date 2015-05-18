@@ -169,7 +169,6 @@ namespace Cyber
             currentKeyboardState = Keyboard.GetState();
             currentMouseState = Mouse.GetState();
 
-
             if (LogicEngine.GetState() == GameState.States.mainGame)
             {
                 videoPlayer.Resume();

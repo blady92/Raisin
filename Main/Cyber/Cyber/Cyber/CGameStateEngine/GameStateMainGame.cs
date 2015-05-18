@@ -9,6 +9,7 @@ using Cyber.CItems;
 using Cyber.CItems.CStaticItem;
 using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
+using Cyber.GraphicsEngine.Bilboarding;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -65,7 +66,7 @@ namespace Cyber.CGameStateEngine
 
         //TESTOWANE
         private bool loaded = false;
-        private StaticItem kolumna;
+        private BilboardSystem button;
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
@@ -146,16 +147,23 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-            //#region Ładowanie podłóg
-            //foreach (Pair<int, int> point in stageStructure.Floor.Floors)
-            //{
-            //    StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
-            //    item.LoadItem(theContentManager);
-            //    item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
-            //    stageElements.Add(item);
-            //}
-            //#endregion
+            #region Ładowanie podłóg
+            foreach (Pair<int, int> point in stageStructure.Floor.Floors)
+            {
+                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
+                item.LoadItem(theContentManager);
+                item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
+                stageElements.Add(item);
+            }
+            #endregion
             Debug.WriteLine("End of Loading");
+            
+            Vector3[] positions = new Vector3[1];
+            positions[0] = new Vector3(20,20, 50);
+            button = new BilboardSystem(device, theContentManager, 
+                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
+                new Vector2(20), 
+                positions);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -367,17 +375,17 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            //#region Floor setups
-            //float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
-            //for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
-            //{
-            //    Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
-            //                                stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
-            //                                -5.0f);
-            //    stageElements[i].Position = move;
-            ////    stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
-            //}
-            //#endregion
+            #region Floor setups
+            float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
+            for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
+                                            stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
+                                            -5.0f);
+                stageElements[i].Position = move;
+                //    stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+            }
+            #endregion
 
             //stageSurroundingsList.Add(terminal);
             colliderController = new ColliderController(console, iconOverHead);
@@ -408,6 +416,9 @@ namespace Cyber.CGameStateEngine
 
         public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, Matrix world, Matrix view, Matrix projection)
         {
+            //button.Draw(view, projection, );
+            //^- tutaj brakuje by dokończyć bilobarding
+
             //view = Matrix.CreateLookAt(new Vector3(samantha.Position.X + 200,
             //    samantha.Position.Y + 200,
             //    samantha.Position.Z + 400), new Vector3(
@@ -514,7 +525,7 @@ namespace Cyber.CGameStateEngine
                 }
             }
             #endregion
-            #region Sterowanie Samanthą
+            #region Sterowanie Samanthą i kamerą
             Vector3 move = new Vector3(0, 0, 0);
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
