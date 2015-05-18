@@ -146,15 +146,16 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-            //#region Ładowanie podłóg
-            //foreach (Pair<int, int> point in stageStructure.Floor.Floors)
-            //{
-            //    StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
-            //    item.LoadItem(theContentManager);
-            //    item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
-            //    stageElements.Add(item);
-            //}
-            //#endregion
+
+            #region Ładowanie podłóg
+            foreach (Pair<int, int> point in stageStructure.Floor.Floors)
+            {
+                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
+                item.LoadItem(theContentManager);
+                item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
+                stageElements.Add(item);
+            }
+            #endregion
             Debug.WriteLine("End of Loading");
         }
 
@@ -366,17 +367,17 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            //#region Floor setups
-            //float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
-            //for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
-            //{
-            //    Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
-            //                                stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
-            //                                -5.0f);
-            //    stageElements[i].Position = move;
-            ////    stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
-            //}
-            //#endregion
+            #region Floor setups
+            float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
+            for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
+            {
+                Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
+                                            stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
+                                            -5.0f);
+                stageElements[i].Position = move;
+                //    stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+            }
+            #endregion
 
             //stageSurroundingsList.Add(terminal);
             colliderController = new ColliderController(console, iconOverHead);
