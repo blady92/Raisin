@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>Reach</XnaProfile>
+    <XnaProfile>HiDef</XnaProfile>
     <XnaCrossPlatformGroupID>5cddf0d5-de00-4e97-9730-ea81b867de30</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -121,6 +121,7 @@
     <Compile Include="CStageParsing\StageStructure.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
+    <Compile Include="GraphicsEngine\Bilboarding\BilboardSystem.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />
     <Compile Include="GraphicsEngine\SkinningAnimation.cs" />

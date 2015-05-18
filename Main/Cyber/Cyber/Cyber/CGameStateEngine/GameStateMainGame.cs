@@ -9,6 +9,7 @@ using Cyber.CItems;
 using Cyber.CItems.CStaticItem;
 using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
+using Cyber.GraphicsEngine.Bilboarding;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -65,7 +66,7 @@ namespace Cyber.CGameStateEngine
 
         //TESTOWANE
         private bool loaded = false;
-        private StaticItem kolumna;
+        private BilboardSystem button;
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
@@ -157,6 +158,13 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             Debug.WriteLine("End of Loading");
+            
+            Vector3[] positions = new Vector3[1];
+            positions[0] = new Vector3(20,20, 50);
+            button = new BilboardSystem(device, theContentManager, 
+                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
+                new Vector2(20), 
+                positions);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -230,6 +238,7 @@ namespace Cyber.CGameStateEngine
                 npcList[j].Rotation = stage.NPCs[j].Rotation;
                 npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
                 npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
+                npcList[j].ID = IDGenerator.GenerateID();
             }
 
             #endregion
@@ -408,6 +417,9 @@ namespace Cyber.CGameStateEngine
 
         public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, Matrix world, Matrix view, Matrix projection)
         {
+            //button.Draw(view, projection, );
+            //^- tutaj brakuje by dokończyć bilobarding
+
             //view = Matrix.CreateLookAt(new Vector3(samantha.Position.X + 200,
             //    samantha.Position.Y + 200,
             //    samantha.Position.Z + 400), new Vector3(
@@ -514,7 +526,7 @@ namespace Cyber.CGameStateEngine
                 }
             }
             #endregion
-            #region Sterowanie Samanthą
+            #region Sterowanie Samanthą i kamerą
             Vector3 move = new Vector3(0, 0, 0);
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
