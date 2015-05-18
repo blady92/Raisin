@@ -32,6 +32,11 @@ namespace Cyber.CItems
         private int lenght;
         private float textBox;
 
+        List<DisplayMessage> messages = new List<DisplayMessage>();
+        private string oldText = "";
+        int messageCharCounter = 0;
+        float spaceFromEdge = 20;
+
         public void LoadContent(ContentManager theContentManager)
         {
             Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
@@ -57,11 +62,25 @@ namespace Cyber.CItems
            Console.DrawAnimation(spriteBatch);
             if (Console.LoadingFinished())
             {
+                if (oldText.Length > 130)
+                {
+                    messageCharCounter = 65;
+                }
+                else if(oldText.Length != 0)
+                {
+                    messageCharCounter = 25;
+                }
+                else
+                {
+                    messageCharCounter = 0;
+                }
+                Debug.WriteLine("oT L: " + oldText.Length);
+                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 180 + messageCharCounter), new Color(121, 122, 125)));
                 //od tego momentu można zacząć pisać tekst
                 spriteBatch.Begin();
-                float spaceFromEdge = 20;                
-                spriteBatch.DrawString(font, PrintedText, new Vector2(spaceFromEdge, Game1.maxHeight-180), new Color(121,122,125));
-                spriteBatch.DrawString(font, "Pressed: "+Text, new Vector2(spaceFromEdge, Game1.maxHeight-29), new Color(121,122,125));
+                spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight-180), new Color(121,122,125));
+                spriteBatch.DrawString(font, ">_ "+Text, new Vector2(spaceFromEdge, Game1.maxHeight-29), new Color(121,122,125));
+                DrawMessages(spriteBatch);
                 spriteBatch.End();
             }
         }
@@ -97,13 +116,19 @@ namespace Cyber.CItems
                 }
                 else if (newPressKey.IsKeyDown(Keys.Enter) && oldPressKey.IsKeyUp(Keys.Enter))
                 {
-                    if (Text.Length > 0) { 
+                    if (Text.Length > 0) {
+                        //kuba edit
+                        oldText = PrintedText;
+                        PrintedText = "";
+                        messages.Clear();
                         PrintedText += AddSamanthaLine() + Text;
+                        PrintedText = parseText(PrintedText);
                         LatestStoreCommand = Text;
                         Text = "";
                     }
                 }
                 oldPressKey = newPressKey;
+                
             }
             else 
                 Console.UpdateReverse();
@@ -240,6 +265,46 @@ namespace Cyber.CItems
         public void Action()
         {
             
+        }
+
+
+        // Kuba edit
+        public void UpdateMessages(GameTime gameTime)
+        {
+            if(messages.Count > 0)
+            {
+                for (int i = 0; i < messages.Count; i++)
+                {
+                    DisplayMessage dm = messages[i];
+                    dm.DisplayTime -= gameTime.ElapsedGameTime;
+                    if(dm.DisplayTime <= TimeSpan.Zero)
+                    {
+                        messages.RemoveAt(i);
+                    }
+                    else
+                    {
+                        messages[i] = dm;
+                    }
+                }
+            }
+        }
+
+        public void DrawMessages(SpriteBatch spriteBatch)
+        {
+            if(messages.Count > 0)
+            {
+                for(int i = 0; i < messages.Count; i++)
+                {
+                    DisplayMessage dm = messages[i];
+                    dm.DrawnMessage += dm.Message[dm.CurrentIndex].ToString();
+                    spriteBatch.DrawString(font, dm.DrawnMessage, dm.Position, dm.DrawColor);
+                    if(dm.CurrentIndex != dm.Message.Length - 1)
+                    {
+                        dm.CurrentIndex++;
+                        messages[i] = dm;
+                    }
+                }
+            }
         }
     }
 }

@@ -100,6 +100,7 @@
     <Compile Include="CItems\CStaticItem\StaticIcon.cs" />
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
     <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
+    <Compile Include="CItems\DisplayMessage.cs" />
     <Compile Include="CLogicEngine\AI.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
