@@ -147,6 +147,7 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
+
             #region Ładowanie podłóg
             foreach (Pair<int, int> point in stageStructure.Floor.Floors)
             {
@@ -168,8 +169,8 @@ namespace Cyber.CGameStateEngine
 
         public void LookAtSam(ref Vector3 cameraTarget)
         {
-            cameraTarget.X = stage.PlayerPosition.X;
-            cameraTarget.Y = stage.PlayerPosition.Y;
+            cameraTarget.X = -samantha.Position.X;
+            cameraTarget.Y = samantha.Position.Y;
         }
 
         public void SetUpScene()
@@ -532,26 +533,17 @@ namespace Cyber.CGameStateEngine
             {
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
-                    colliderController.CheckCollision(samantha, move);
-                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
+                    colliderController.CheckCollision(samantha, move);                   
                     cameraTarget.Y = samantha.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samantha, move);
-                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.Y = samantha.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
                     colliderController.CheckCollision(samantha, move);
-                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.X = -samantha.Position.X;
                 }
                 if (newState.IsKeyDown(Keys.D))
@@ -559,9 +551,6 @@ namespace Cyber.CGameStateEngine
 
                     move = new Vector3(1f, 0, 0);
                     colliderController.CheckCollision(samantha, move);
-                    //Debug.WriteLine("Sam X: " + samantha.Position.X);
-                    //Debug.WriteLine("Sam Y: " + samantha.Position.Y);
-                    //Debug.WriteLine("Sam Z: " + samantha.Position.Z);
                     cameraTarget.X = -samantha.Position.X;
                 }
             }
