@@ -15,7 +15,7 @@ namespace Cyber.CItems.CStaticItem
         private Vector3 position;
         private float rotation;
         private StaticItemType type;
-        
+        public string ID { get; set; }
         public StaticItem(string path)
         {
             rotation = 0;

@@ -17,6 +17,8 @@ namespace Cyber.CItems
         private Collider colliderExternal;
         private float rotation;
         private DynamicItemType type;
+        public string ID { get; set; }
+
 
         public DynamicItem(string path, string pathToAnimationClip, Vector3 position)
         {

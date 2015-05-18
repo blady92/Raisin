@@ -229,6 +229,7 @@ namespace Cyber.CGameStateEngine
                 npcList[j].Rotation = stage.NPCs[j].Rotation;
                 npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
                 npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
+                npcList[j].ID = IDGenerator.GenerateID();
             }
 
             #endregion
