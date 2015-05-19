@@ -47,8 +47,8 @@ namespace Cyber.CGameStateEngine
         private Icon iconOverHead;
 
         //3D elements
-        private StaticItem samantha;
-        private DynamicItem dude;
+        private StaticItem samanthaGhostController;
+        private DynamicItem samanthaActualPlayer;
         //private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
@@ -94,14 +94,14 @@ namespace Cyber.CGameStateEngine
             iconOverHead.LoadContent(theContentManager);
             #endregion
             #region Load 3D elements
-            samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
-            samantha.LoadItem(theContentManager);
-            samantha.Type = StaticItemType.none;
+            samanthaGhostController = new StaticItem("Assets/3D/Characters/Ally_Bunker");
+            samanthaGhostController.LoadItem(theContentManager);
+            samanthaGhostController.Type = StaticItemType.none;
 
-            dude = new DynamicItem("Assets/3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
-            dude.LoadItem(theContentManager);
-            dude.Type = DynamicItemType.none;
-            Debug.WriteLine("When Loading, dude pos is: X: " + dude.Position.X + " Y: " + dude.Position.Y + " Z: " + dude.Position.Z);
+            samanthaActualPlayer = new DynamicItem("Assets/3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
+            samanthaActualPlayer.LoadItem(theContentManager);
+            samanthaActualPlayer.Type = DynamicItemType.none;
+            
 
             stageElements = new List<StaticItem>();
             npcList = new List<StaticItem>();
@@ -200,8 +200,8 @@ namespace Cyber.CGameStateEngine
 
         public void LookAtSam(ref Vector3 cameraTarget)
         {
-            cameraTarget.X = -dude.Position.X;
-            cameraTarget.Y = dude.Position.Y;
+            cameraTarget.X = -samanthaGhostController.Position.X;
+            cameraTarget.Y = samanthaGhostController.Position.Y;
         }
 
         public void SetUpScene()
@@ -217,17 +217,12 @@ namespace Cyber.CGameStateEngine
             float cornerOffset = 5.5f;
             #endregion
 
-            
-            samantha.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
+
+            samanthaGhostController.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
-            samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+            samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
-            dude.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther,
-                                            stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
-                                            0.0f);
-
-            dude.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
@@ -427,10 +422,9 @@ namespace Cyber.CGameStateEngine
 
             //stageSurroundingsList.Add(terminal);
             colliderController = new ColliderController(console, iconOverHead);
-            colliderController.samantha = samantha;
+            colliderController.samantha = samanthaGhostController;
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
-            colliderController.samantha = samantha;
 
             #region Inicjalizacja AI
             AI ai = AI.Instance;
@@ -460,15 +454,15 @@ namespace Cyber.CGameStateEngine
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
-            Matrix dudeView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-                       Matrix.CreateTranslation(dude.Position);
+            Matrix samanthaActualPlayerView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                       Matrix.CreateTranslation(samanthaGhostController.Position);
 
-            Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-                      Matrix.CreateTranslation(samantha.Position);
-            
-            Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
-         //   samantha.DrawItem(device, samanthaView, view, projection);
-            dude.DrawItem(gameTime, device, dudeView, view, projection);
+            Matrix samanthaGhostView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                      Matrix.CreateTranslation(samanthaGhostController.Position);
+
+            Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
+            //   samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
            
             //samantha.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
@@ -599,9 +593,9 @@ namespace Cyber.CGameStateEngine
             KeyboardState newState = currentKeyboardState;
 
             //Kuba edit:
-            samantha.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
-            dude.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
-            dude.SkinnedModel.UpdatePlayer(gameTime);
+            samanthaGhostController.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
 
             #region Sterowanie zegarem
             if (newState.IsKeyDown(Keys.T))
@@ -648,33 +642,25 @@ namespace Cyber.CGameStateEngine
             {
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
-                    dude.Position += move;
-                    cameraTarget.Y = dude.Position.Y;
-                    //colliderController.CheckCollision(samantha, move);                   
-                    //cameraTarget.Y = samantha.Position.Y;
+                    colliderController.CheckCollision(samanthaGhostController, move);
+                    cameraTarget.Y = samanthaGhostController.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
-                    dude.Position += move;
-                    cameraTarget.Y = dude.Position.Y;
-                    //colliderController.CheckCollision(samantha, move);
-                    //cameraTarget.Y = samantha.Position.Y;
+                    colliderController.CheckCollision(samanthaGhostController, move);
+                    cameraTarget.Y = samanthaGhostController.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
-                    dude.Position += move;
-                    cameraTarget.X = -dude.Position.X;
-                    //colliderController.CheckCollision(samantha, move);
-                    //cameraTarget.X = -samantha.Position.X;
+                    colliderController.CheckCollision(samanthaGhostController, move);
+                    cameraTarget.X = -samanthaGhostController.Position.X;
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
 
                     move = new Vector3(1f, 0, 0);
-                    dude.Position += move;
-                    cameraTarget.X = -dude.Position.X;
-                    //colliderController.CheckCollision(samantha, move);
-                    //cameraTarget.X = -samantha.Position.X;
+                    colliderController.CheckCollision(samanthaGhostController, move);
+                    cameraTarget.X = -samanthaGhostController.Position.X;
                 }
 
               
@@ -685,12 +671,12 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            colliderController.CallTerminalAfterCollision(samantha);
-            if (colliderController.EnemyCollision(samantha))
+            colliderController.CallTerminalAfterCollision(samanthaGhostController);
+            if (colliderController.EnemyCollision(samanthaGhostController))
             {
                 //Debug.WriteLine("Weszłam w zasięg robota!");
-                Debug.WriteLine("Sam zlokalizowana w "+samantha.Position.ToString());
-                AI.Instance.AlertOthers(samantha);
+                Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
+                AI.Instance.AlertOthers(samanthaGhostController);
             }
             /*else
             {
