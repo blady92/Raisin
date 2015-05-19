@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Cyber.CStageParsing;
+using Cyber.CItems.CDynamicItem;
 
 namespace Cyber.CGameStateEngine
 {
@@ -47,6 +48,7 @@ namespace Cyber.CGameStateEngine
 
         //3D elements
         private StaticItem samantha;
+        private DynamicItem dude;
         //private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
@@ -95,6 +97,10 @@ namespace Cyber.CGameStateEngine
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
+
+            dude = new DynamicItem("Assets/3D/Characters/dude", "Take 001", new Vector3(0, 0, 0));
+            dude.LoadItem(theContentManager);
+            dude.Type = DynamicItemType.none;
 
             stageElements = new List<StaticItem>();
             npcList = new List<StaticItem>();
@@ -452,6 +458,8 @@ namespace Cyber.CGameStateEngine
             
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
             samantha.DrawItem(device, samanthaView, view, projection);
+            dude.DrawItem(gameTime, device);
+           
             //samantha.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
