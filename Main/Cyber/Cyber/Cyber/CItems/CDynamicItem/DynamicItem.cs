@@ -79,9 +79,9 @@ namespace Cyber.CItems
             skinnedModel.LoadContent_SkinnedModel(thecContentManager, pathToModel, animationClipName);
         }
 
-        public void DrawItem(GameTime gameTime, GraphicsDevice device)
+        public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
-            skinnedModel.DrawSkinnedModelWithSkinnedEffect(gameTime, device);
+            skinnedModel.DrawSkinnedModelWithSkinnedEffect(gameTime, device, world, view, projection);
         }
 
         public void MoveItem(Vector3 vec)
