@@ -586,7 +586,7 @@ namespace Cyber.CGameStateEngine
             #endregion
             #endregion
             button.Draw(view, projection, up, Vector3.Cross(up, cameraRight));
-           // Debug.WriteLine("Wektor UP: "+up + " wektor Right" + cameraRight);
+            Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);
@@ -603,44 +603,44 @@ namespace Cyber.CGameStateEngine
             dude.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             dude.SkinnedModel.UpdatePlayer(gameTime);
 
-            #region Sterowanie zegarem
-            if (newState.IsKeyDown(Keys.T))
-            {
-                if (Clock.Instance.CanResume())
-                {
-                    Clock.Instance.Resume();
-                    Debug.WriteLine("Starting clock...");
-                }
-                if (newState.IsKeyDown(Keys.Add))
-                {
-                    addPushed = true;
-                }
-                if (newState.IsKeyUp(Keys.Add) && addPushed)
-                {
-                    addPushed = false;
-                    Clock.Instance.AddSeconds(60);
-                    Debug.WriteLine("ADDED +1");
-                }
-                if (newState.IsKeyDown(Keys.Subtract))
-                {
-                    subPushed = true;
-                }
-                if (newState.IsKeyUp(Keys.Subtract) && subPushed)
-                {
-                    subPushed = false;
-                    Clock.Instance.AddSeconds(-60);
-                    Debug.WriteLine("ADDED -1");
-                }
-            }
-            if (newState.IsKeyDown(Keys.Y))
-            {
-                if (Clock.Instance.CanPause())
-                {
-                    Clock.Instance.Pause();
-                    Debug.WriteLine("Stopped clock");
-                }
-            }
-            #endregion
+            //#region Sterowanie zegarem
+            //if (newState.IsKeyDown(Keys.T))
+            //{
+            //    if (Clock.Instance.CanResume())
+            //    {
+            //        Clock.Instance.Resume();
+            //        Debug.WriteLine("Starting clock...");
+            //    }
+            //    if (newState.IsKeyDown(Keys.Add))
+            //    {
+            //        addPushed = true;
+            //    }
+            //    if (newState.IsKeyUp(Keys.Add) && addPushed)
+            //    {
+            //        addPushed = false;
+            //        Clock.Instance.AddSeconds(60);
+            //        Debug.WriteLine("ADDED +1");
+            //    }
+            //    if (newState.IsKeyDown(Keys.Subtract))
+            //    {
+            //        subPushed = true;
+            //    }
+            //    if (newState.IsKeyUp(Keys.Subtract) && subPushed)
+            //    {
+            //        subPushed = false;
+            //        Clock.Instance.AddSeconds(-60);
+            //        Debug.WriteLine("ADDED -1");
+            //    }
+            //}
+            //if (newState.IsKeyDown(Keys.Y))
+            //{
+            //    if (Clock.Instance.CanPause())
+            //    {
+            //        Clock.Instance.Pause();
+            //        Debug.WriteLine("Stopped clock");
+            //    }
+            //}
+            //#endregion
             #region Sterowanie Samanthą i kamerą
             Vector3 move = new Vector3(0, 0, 0);
             colliderController.PlayAudio = audio.Play0;
