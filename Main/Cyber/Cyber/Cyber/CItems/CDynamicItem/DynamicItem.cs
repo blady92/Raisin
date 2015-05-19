@@ -10,7 +10,7 @@ namespace Cyber.CItems
     class DynamicItem : _3DObjects
     {
         private string pathToModel;
-        private string pathToAnimationClip;
+        private string animationClipName;
         private SkinningAnimation skinnedModel;
         protected Vector3 position;
         private Collider colliderInternal;
@@ -20,9 +20,10 @@ namespace Cyber.CItems
         public string ID { get; set; }
 
 
-        public DynamicItem(string path, string pathToAnimationClip, Vector3 position)
+        public DynamicItem(string path, string animationClipNamePassed, Vector3 position)
         {
-            this.pathToAnimationClip = pathToAnimationClip;
+            this.skinnedModel = new SkinningAnimation();
+            this.animationClipName = animationClipNamePassed;
             this.pathToModel = path;
             this.position = position;
         }
@@ -75,12 +76,12 @@ namespace Cyber.CItems
         
         public void LoadItem(ContentManager thecContentManager)
         {
-            skinnedModel.LoadContent_SkinnedModel(thecContentManager, pathToModel, pathToAnimationClip);
+            skinnedModel.LoadContent_SkinnedModel(thecContentManager, pathToModel, animationClipName);
         }
 
-        public void DrawItem(GameTime gameTime, GraphicsDevice device)
+        public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
-            skinnedModel.DrawSkinnedModelWithShader(gameTime, device);
+            skinnedModel.DrawSkinnedModelWithSkinnedEffect(gameTime, device, world, view, projection);
         }
 
         public void MoveItem(Vector3 vec)

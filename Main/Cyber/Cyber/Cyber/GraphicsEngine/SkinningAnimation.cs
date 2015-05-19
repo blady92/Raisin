@@ -74,56 +74,16 @@ namespace Cyber.GraphicsEngine
             Update(gameTime);
         }
 
-        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device, Matrix view, Matrix projection)
-        {
-            Matrix[] bones = animationPlayer.GetSkinTransforms();
 
-            Matrix[] transforms = new Matrix[currentModel.Bones.Count];
-            currentModel.CopyAbsoluteBoneTransformsTo(transforms);
-
-            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
-
-            //Render zeskinowany mesh
-            foreach(ModelMesh mesh in currentModel.Meshes)
-            { 
-                    // <-- SKINNED EFFECT DLA SZKIELETOWYCH -->
-                    foreach (SkinnedEffect effect in mesh.Effects)
-                    {
-                        effect.SetBoneTransforms(bones);
-
-                        effect.View = view;
-                        effect.Projection = projection;
-
-                       // effect.Texture = texture;
-                        effect.EnableDefaultLighting();
-
-                       effect.SpecularColor = new Vector3(0.25f);
-                       effect.SpecularPower = 16;
-                    }
-                    mesh.Draw();
-            }
-        }
-
-        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device)
+        public void DrawSkinnedModelWithSkinnedEffect(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
 
-            float cameraArc = 0;
-            float cameraRotation = 0;
-            float cameraDistance = 500;
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
-            Matrix[] transforms = new Matrix[currentModel.Bones.Count];
-            currentModel.CopyAbsoluteBoneTransformsTo(transforms);
+            //Matrix[] transforms = new Matrix[currentModel.Bones.Count];
+            //currentModel.CopyAbsoluteBoneTransformsTo(transforms);
 
-            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
-
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                              new Vector3(0, 30, 100), Vector3.Up);
-
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
+            //Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
 
             //Render zeskinowany mesh
             foreach (ModelMesh mesh in currentModel.Meshes)
@@ -133,6 +93,7 @@ namespace Cyber.GraphicsEngine
                 {
                     effect.SetBoneTransforms(bones);
 
+                    effect.World = world;
                     effect.View = view;
                     effect.Projection = projection;
 
@@ -368,6 +329,11 @@ namespace Cyber.GraphicsEngine
                   cameraDistance = 6000;
              }
              #endregion
+         }
+
+        public void UpdatePlayer(GameTime gameTime)
+         {
+             animationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity); // rób to -> przekaz do dude i powinno działać
          }
                 
 

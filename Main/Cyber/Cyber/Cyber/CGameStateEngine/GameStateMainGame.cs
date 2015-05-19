@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Cyber.CStageParsing;
+using Cyber.CItems.CDynamicItem;
 
 namespace Cyber.CGameStateEngine
 {
@@ -47,6 +48,7 @@ namespace Cyber.CGameStateEngine
 
         //3D elements
         private StaticItem samantha;
+        private DynamicItem dude;
         //private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
@@ -95,6 +97,11 @@ namespace Cyber.CGameStateEngine
             samantha = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samantha.LoadItem(theContentManager);
             samantha.Type = StaticItemType.none;
+
+            dude = new DynamicItem("Assets/3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
+            dude.LoadItem(theContentManager);
+            dude.Type = DynamicItemType.none;
+            Debug.WriteLine("When Loading, dude pos is: X: " + dude.Position.X + " Y: " + dude.Position.Y + " Z: " + dude.Position.Z);
 
             stageElements = new List<StaticItem>();
             npcList = new List<StaticItem>();
@@ -447,11 +454,16 @@ namespace Cyber.CGameStateEngine
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
-            Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+            Matrix dudeView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                        Matrix.CreateTranslation(samantha.Position);
+
+            Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                      Matrix.CreateTranslation(samantha.Position);
             
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
-            samantha.DrawItem(device, samanthaView, view, projection);
+         //   samantha.DrawItem(device, samanthaView, view, projection);
+            dude.DrawItem(gameTime, device, dudeView, view, projection);
+           
             //samantha.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
@@ -568,7 +580,7 @@ namespace Cyber.CGameStateEngine
             #endregion
             #endregion
             button.Draw(view, projection, up, Vector3.Cross(up, cameraRight));
-            Debug.WriteLine("Wektor UP: "+up + " wektor Right" + cameraRight);
+           // Debug.WriteLine("Wektor UP: "+up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);
@@ -582,6 +594,8 @@ namespace Cyber.CGameStateEngine
 
             //Kuba edit:
             samantha.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            dude.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            dude.SkinnedModel.UpdatePlayer(gameTime);
 
             #region Sterowanie zegarem
             if (newState.IsKeyDown(Keys.T))
@@ -648,6 +662,8 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samantha, move);
                     cameraTarget.X = -samantha.Position.X;
                 }
+
+              
             }
             else
             {
