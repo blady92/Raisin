@@ -52,7 +52,7 @@ namespace Cyber.CGameStateEngine
         //private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
-        private List<StaticItem> npcList;
+        private List<DynamicItem> npcList;
         private StageParser stageParser;
         private Stage stage;
 
@@ -104,7 +104,7 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("When Loading, dude pos is: X: " + dude.Position.X + " Y: " + dude.Position.Y + " Z: " + dude.Position.Z);
 
             stageElements = new List<StaticItem>();
-            npcList = new List<StaticItem>();
+            npcList = new List<DynamicItem>();
 
             stageParser = new StageParser();
             
@@ -149,7 +149,7 @@ namespace Cyber.CGameStateEngine
             {
                 NPC npc = new NPC(stageNPC.StaticObjectAsset);
                 npc.LoadItem(theContentManager);
-                npc.Type = StaticItemType.tank;
+                npc.Type = DynamicItemType.tank;
                 npcList.Add(npc);
                 AI.Instance.AddRobot(npc);
             }
@@ -454,6 +454,7 @@ namespace Cyber.CGameStateEngine
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
+            Debug.WriteLine(angle);
             Matrix dudeView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                        Matrix.CreateTranslation(samantha.Position);
 

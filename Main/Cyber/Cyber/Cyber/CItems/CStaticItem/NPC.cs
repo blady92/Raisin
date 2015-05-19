@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Cyber.CItems.CStaticItem
 {
-    class NPC : StaticItem
+    class NPC : DynamicItem
     {
         //TODO: unit tests ???
         Queue<Vector3> patrolWaypoints = new Queue<Vector3>();

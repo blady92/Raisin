@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cyber.CItems;
+using Cyber.CItems.CDynamicItem;
 using Cyber.CItems.CStaticItem;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
@@ -29,8 +30,8 @@ namespace Cyber.CollisionEngine
          */
 
         public List<StaticItem> staticItemList { get; set; }
-        public List<StaticItem> npcItem { get; set; }
-        public StaticItem samantha { get; set; }
+        public List<DynamicItem> npcItem { get; set; }
+        public DynamicItem samantha { get; set; }
         private Action playAudio;
         private ConsoleSprites console;
         private Icon icon;
@@ -56,9 +57,9 @@ namespace Cyber.CollisionEngine
         #endregion
 
         //Sprawdza czy weszło w zasięg przeciwnika
-        public bool EnemyCollision(StaticItem item)
+        public bool EnemyCollision(DynamicItem item)
         {
-            foreach (StaticItem npc in npcItem)
+            foreach (DynamicItem npc in npcItem)
             {
                 if (item.ColliderInternal.AABB.Intersects(npc.ColliderExternal.AABB))
                     return true;
@@ -67,7 +68,7 @@ namespace Cyber.CollisionEngine
         }
 
         //Zwraca z czym się zderzyło z bliska. Od wykrywania zasięgu są metody powyżej
-        public StaticItemType IsCollidedType(StaticItem item)
+        public StaticItemType IsCollidedTypeStatic(DynamicItem item)
         {
             foreach (StaticItem staticItem in staticItemList)
             {
@@ -94,8 +95,13 @@ namespace Cyber.CollisionEngine
                     return staticItem.Type;
                 }
             }
+            return StaticItemType.none;
+        }
 
-            foreach (StaticItem npc in npcItem)
+        public DynamicItemType IsCollidedTypeDynamic(DynamicItem item)
+        {
+
+            foreach (DynamicItem npc in npcItem)
             {
                 if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                     return npc.Type;
@@ -103,15 +109,14 @@ namespace Cyber.CollisionEngine
 
             if (samantha != item && samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 return samantha.Type;
-
-            return StaticItemType.none;
+            return DynamicItemType.none;
         }
 
         //Sprawdzenie czy zaszła jakakolwiek kolizja by się nie przenikać między sobą
-        public void CheckCollision(StaticItem item, Vector3 move)
+        public void CheckCollision(DynamicItem item, Vector3 move)
         {
             item.ColliderInternal.RecreateCage(move);
-            if (IsCollidedType(item) == StaticItemType.none)
+            if (IsCollidedTypeStatic(item) == StaticItemType.none || IsCollidedTypeDynamic(item) == DynamicItemType.none)
             {
                 //Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
@@ -132,7 +137,7 @@ namespace Cyber.CollisionEngine
             
         }
 
-        public void CallTerminalAfterCollision(StaticItem item)
+        public void CallTerminalAfterCollision(DynamicItem item)
         {
             if (ConsoleDetection)
             {
