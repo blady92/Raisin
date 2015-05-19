@@ -72,7 +72,7 @@ namespace Cyber.CGameStateEngine
         private bool loaded = false;
         private BilboardSystem button;
         private Vector3 up = new Vector3(0, 0, 0);
-        private Vector3 cameraRight = new Vector3(0,0,0);
+        private Vector3 cameraRight = new Vector3(0, 0, 0);
         KeyboardState oldstate;
 
 
@@ -107,9 +107,10 @@ namespace Cyber.CGameStateEngine
             npcList = new List<DynamicItem>();
 
             stageParser = new StageParser();
-            
+
             #region ustawianie leveli
-            if (level == Level.level1) { 
+            if (level == Level.level1)
+            {
                 stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
             }
             else if (level == Level.level2)
@@ -189,19 +190,19 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             Debug.WriteLine("End of Loading");
-            
+
             Vector3[] positions = new Vector3[1];
             positions[0] = new Vector3(150, 150, 80);
-            button = new BilboardSystem(device, theContentManager, 
-                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
-                new Vector2(100), 
+            button = new BilboardSystem(device, theContentManager,
+                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"),
+                new Vector2(100),
                 positions);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
         {
-            cameraTarget.X = -dude.Position.X;
-            cameraTarget.Y = dude.Position.Y;
+            cameraTarget.X = -samantha.Position.X;
+            cameraTarget.Y = samantha.Position.Y;
         }
 
         public void SetUpScene()
@@ -217,17 +218,11 @@ namespace Cyber.CGameStateEngine
             float cornerOffset = 5.5f;
             #endregion
 
-            
-            samantha.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
+
+            samantha.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther,
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
             samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-
-            dude.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther,
-                                            stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
-                                            0.0f);
-
-            dude.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
@@ -251,7 +246,7 @@ namespace Cyber.CGameStateEngine
                         stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
                         z);
                     stageElements[j].Position = move;
-                    stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8,-8, -50));
+                    stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8, -8, -50));
                 }
                 else
                 {
@@ -262,7 +257,7 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Position = move;
                     stageElements[i].Rotation = stage.Objects[j].Rotation;
                 }
-                
+
             }
             #endregion
             #region NPCs
@@ -274,7 +269,7 @@ namespace Cyber.CGameStateEngine
                 npcList[j].Position = move;
                 npcList[j].Rotation = stage.NPCs[j].Rotation;
                 npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-                npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
+                npcList[j].FixColliderExternal(new Vector3(2, 2, 2), new Vector3(-15f, -15f, 10f));
                 npcList[j].ID = IDGenerator.GenerateID();
             }
 
@@ -282,12 +277,12 @@ namespace Cyber.CGameStateEngine
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
             {
-            stageElements[i].Rotation = -90;
-            Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
-                                        stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
-                                        0.0f);
-            stageElements[i].Position = move;
-            stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+                stageElements[i].Rotation = -90;
+                Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
+                                            stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
+                                            0.0f);
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
             }
 
             #endregion
@@ -296,7 +291,7 @@ namespace Cyber.CGameStateEngine
             {
                 stageElements[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.Walls.WallsDown[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset, 
+                                            stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset,
                                             0.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
@@ -307,7 +302,7 @@ namespace Cyber.CGameStateEngine
             {
                 stageElements[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.Walls.WallsLeft[j].X * mnoznikPrzesuniecaSciany - wallOffset,
-                                            stageStructure.Walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 
+                                            stageStructure.Walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany,
                                             0.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
@@ -325,7 +320,7 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #region ConcaveCornersLowerLeft
-            for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerLeft.Count; i++, j++ )
+            for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerLeft.Count; i++, j++)
             {
                 stageElements[i].Rotation = 180;
                 Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
@@ -427,10 +422,9 @@ namespace Cyber.CGameStateEngine
 
             //stageSurroundingsList.Add(terminal);
             colliderController = new ColliderController(console, iconOverHead);
-            colliderController.samantha = samantha;
+            colliderController.samantha = dude;
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
-            colliderController.samantha = samantha;
 
             #region Inicjalizacja AI
             AI ai = AI.Instance;
@@ -452,25 +446,25 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("TIMEOUT");
         }
 
-        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, 
+        public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch,
             GameTime gameTime, Matrix world, Matrix view, Matrix projection,
             ref Vector3 cameraUp, ref Vector3 cameraForward
             )
         {
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
-            
+
             Debug.WriteLine(angle);
-            Matrix dudeView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-                       Matrix.CreateTranslation(dude.Position);
+            Matrix dudeView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                       Matrix.CreateTranslation(samantha.Position);
 
             Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                       Matrix.CreateTranslation(samantha.Position);
-            
+
             Matrix samanthaColliderView = Matrix.CreateTranslation(samantha.ColliderInternal.Position);
-         //   samantha.DrawItem(device, samanthaView, view, projection);
+            //   samantha.DrawItem(device, samanthaView, view, projection);
             dude.DrawItem(gameTime, device, dudeView, view, projection);
-           
+
             //samantha.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
@@ -499,19 +493,19 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #region Rysowanie NPCów
-            foreach (StaticItem item in npcList)
+            foreach (DynamicItem item in npcList)
             {
                 Matrix stageElementView = Matrix.Identity *
                                           Matrix.CreateRotationZ(MathHelper.ToRadians(item.Rotation)) *
                                           Matrix.CreateTranslation(item.Position);
-                item.DrawItem(device, stageElementView, view, projection);
+                item.DrawItem(gameTime, device, stageElementView, view, projection);
 
                 //Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
                 //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
                 //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             }
             #endregion
-            
+
             //up = cameraUp;
             //cameraRight = Vector3.Cross(cameraForward, up);
             #region sterowanie bilboardem w celu optymalizacji ustawienia
@@ -520,8 +514,8 @@ namespace Cyber.CGameStateEngine
             #region UP Vector
             if (newState.IsKeyDown(Keys.R))
             {
-                up += new Vector3(0.1f, 0,0);
-            } 
+                up += new Vector3(0.1f, 0, 0);
+            }
             if (newState.IsKeyDown(Keys.T))
             {
                 up += new Vector3(0, 0.1f, 0);
@@ -532,7 +526,7 @@ namespace Cyber.CGameStateEngine
             }
             if (newState.IsKeyDown(Keys.F))
             {
-                up -= new Vector3(0.1f , 0, 0);
+                up -= new Vector3(0.1f, 0, 0);
             }
             if (newState.IsKeyDown(Keys.G))
             {
@@ -587,7 +581,7 @@ namespace Cyber.CGameStateEngine
             #endregion
             #endregion
             button.Draw(view, projection, up, Vector3.Cross(up, cameraRight));
-           // Debug.WriteLine("Wektor UP: "+up + " wektor Right" + cameraRight);
+            // Debug.WriteLine("Wektor UP: "+up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);
@@ -647,38 +641,33 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
             {
-                if (newState.IsKeyDown(Keys.W)) { 
+                if (newState.IsKeyDown(Keys.W))
+                {
                     move = new Vector3(0, 1f, 0);
-                    dude.Position += move;
-                    cameraTarget.Y = dude.Position.Y;
-                    //colliderController.CheckCollision(samantha, move);                   
-                    //cameraTarget.Y = samantha.Position.Y;
+                    colliderController.CheckCollision(dude, move);
+                    cameraTarget.Y = samantha.Position.Y;
                 }
-                if (newState.IsKeyDown(Keys.S)) { 
-	                move = new Vector3(0, -1f, 0);
-                    dude.Position += move;
-                    cameraTarget.Y = dude.Position.Y;
-                    //colliderController.CheckCollision(samantha, move);
-                    //cameraTarget.Y = samantha.Position.Y;
+                if (newState.IsKeyDown(Keys.S))
+                {
+                    move = new Vector3(0, -1f, 0);
+                    colliderController.CheckCollision(dude, move);
+                    cameraTarget.Y = samantha.Position.Y;
                 }
-                if (newState.IsKeyDown(Keys.A)) { 
+                if (newState.IsKeyDown(Keys.A))
+                {
                     move = new Vector3(-1f, 0, 0);
-                    dude.Position += move;
-                    cameraTarget.X = -dude.Position.X;
-                    //colliderController.CheckCollision(samantha, move);
-                    //cameraTarget.X = -samantha.Position.X;
+                    colliderController.CheckCollision(dude, move);
+                    cameraTarget.X = -samantha.Position.X;
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
 
                     move = new Vector3(1f, 0, 0);
-                    dude.Position += move;
-                    cameraTarget.X = -dude.Position.X;
-                    //colliderController.CheckCollision(samantha, move);
-                    //cameraTarget.X = -samantha.Position.X;
+                    colliderController.CheckCollision(dude, move);
+                    cameraTarget.X = -samantha.Position.X;
                 }
 
-              
+
             }
             else
             {
@@ -686,11 +675,11 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            colliderController.CallTerminalAfterCollision(samantha);
-            if (colliderController.EnemyCollision(samantha))
+            colliderController.CallTerminalAfterCollision(dude);
+            if (colliderController.EnemyCollision(dude))
             {
                 //Debug.WriteLine("Weszłam w zasięg robota!");
-                Debug.WriteLine("Sam zlokalizowana w "+samantha.Position.ToString());
+                Debug.WriteLine("Sam zlokalizowana w " + samantha.Position.ToString());
                 AI.Instance.AlertOthers(samantha);
             }
             /*else
