@@ -200,8 +200,8 @@ namespace Cyber.CGameStateEngine
 
         public void LookAtSam(ref Vector3 cameraTarget)
         {
-            cameraTarget.X = -samantha.Position.X;
-            cameraTarget.Y = samantha.Position.Y;
+            cameraTarget.X = -dude.Position.X;
+            cameraTarget.Y = dude.Position.Y;
         }
 
         public void SetUpScene()
@@ -222,6 +222,12 @@ namespace Cyber.CGameStateEngine
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
             samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+
+            dude.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther,
+                                            stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
+                                            0.0f);
+
+            dude.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
@@ -455,7 +461,7 @@ namespace Cyber.CGameStateEngine
             device.DepthStencilState = DepthStencilState.Default;
             
             Matrix dudeView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-                       Matrix.CreateTranslation(samantha.Position);
+                       Matrix.CreateTranslation(dude.Position);
 
             Matrix samanthaView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                       Matrix.CreateTranslation(samantha.Position);
@@ -642,25 +648,33 @@ namespace Cyber.CGameStateEngine
             {
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
-                    colliderController.CheckCollision(samantha, move);                   
-                    cameraTarget.Y = samantha.Position.Y;
+                    dude.Position += move;
+                    cameraTarget.Y = dude.Position.Y;
+                    //colliderController.CheckCollision(samantha, move);                   
+                    //cameraTarget.Y = samantha.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
-                    colliderController.CheckCollision(samantha, move);
-                    cameraTarget.Y = samantha.Position.Y;
+                    dude.Position += move;
+                    cameraTarget.Y = dude.Position.Y;
+                    //colliderController.CheckCollision(samantha, move);
+                    //cameraTarget.Y = samantha.Position.Y;
                 }
                 if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
-                    colliderController.CheckCollision(samantha, move);
-                    cameraTarget.X = -samantha.Position.X;
+                    dude.Position += move;
+                    cameraTarget.X = -dude.Position.X;
+                    //colliderController.CheckCollision(samantha, move);
+                    //cameraTarget.X = -samantha.Position.X;
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
 
                     move = new Vector3(1f, 0, 0);
-                    colliderController.CheckCollision(samantha, move);
-                    cameraTarget.X = -samantha.Position.X;
+                    dude.Position += move;
+                    cameraTarget.X = -dude.Position.X;
+                    //colliderController.CheckCollision(samantha, move);
+                    //cameraTarget.X = -samantha.Position.X;
                 }
 
               

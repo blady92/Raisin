@@ -336,7 +336,6 @@ namespace Cyber.GraphicsEngine
              animationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity); // rób to -> przekaz do dude i powinno działać
          }
                 
-
         #endregion
 
     }
