@@ -27,8 +27,10 @@ namespace Cyber.CGameStateEngine
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ContentManager theContentManager;
 
-        
+        public Level level { get; set; }
+
         private KeyboardState oldState;
         private KeyboardState newState;
         private AudioController audio;
@@ -67,13 +69,19 @@ namespace Cyber.CGameStateEngine
         //TESTOWANE
         private bool loaded = false;
         private BilboardSystem button;
-        private Vector3 up;
-        private Vector3 cameraRight;
+        private Vector3 up = new Vector3(0, 0, 0);
+        private Vector3 cameraRight = new Vector3(0,0,0);
+        KeyboardState oldstate;
 
+
+        public void Unload()
+        {
+            theContentManager.Unload();
+        }
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
-            
+            this.theContentManager = theContentManager;
             #region Load 2D elements
             console = new ConsoleSprites();
             console.LoadContent(theContentManager);
@@ -92,7 +100,21 @@ namespace Cyber.CGameStateEngine
             npcList = new List<StaticItem>();
 
             stageParser = new StageParser();
-            stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+            
+            #region ustawianie leveli
+            if (level == Level.level1) { 
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+            }
+            else if (level == Level.level2)
+            {
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
+            }
+            else
+            {
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage2.bmp");
+            }
+            #endregion
+
             stageStructure = new StageStructure(stage, StageStructureGenerationStrategy.GENEROUS);
 
             foreach (StageObject stageObj in stage.Objects)
@@ -150,7 +172,6 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-
             #region Ładowanie podłóg
             foreach (Pair<int, int> point in stageStructure.Floor.Floors)
             {
@@ -166,7 +187,7 @@ namespace Cyber.CGameStateEngine
             positions[0] = new Vector3(150, 150, 80);
             button = new BilboardSystem(device, theContentManager, 
                 theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
-                new Vector2(80), 
+                new Vector2(100), 
                 positions);
         }
 
@@ -474,10 +495,80 @@ namespace Cyber.CGameStateEngine
             
             //up = cameraUp;
             //cameraRight = Vector3.Cross(cameraForward, up);
-            up = new Vector3(0.5f, 0, 0.5f);
-            cameraRight = new Vector3(1, 0, 0);
-            button.Draw(view, projection, up, cameraRight);
+            #region sterowanie bilboardem w celu optymalizacji ustawienia
 
+            KeyboardState newState = Keyboard.GetState();
+            #region UP Vector
+            if (newState.IsKeyDown(Keys.R))
+            {
+                up += new Vector3(0.1f, 0,0);
+            } 
+            if (newState.IsKeyDown(Keys.T))
+            {
+                up += new Vector3(0, 0.1f, 0);
+            }
+            if (newState.IsKeyDown(Keys.Y))
+            {
+                up += new Vector3(0, 0, 0.1f);
+            }
+            if (newState.IsKeyDown(Keys.F))
+            {
+                up -= new Vector3(0.1f , 0, 0);
+            }
+            if (newState.IsKeyDown(Keys.G))
+            {
+                up -= new Vector3(0, 0.1f, 0);
+            }
+            if (newState.IsKeyDown(Keys.H))
+            {
+                up -= new Vector3(0, 0, 0.1f);
+            }
+            if (newState.IsKeyDown(Keys.H))
+            {
+                up -= new Vector3(0, 0, 0.1f);
+            }
+            #endregion
+            #region RIGHT Vector
+            if (newState.IsKeyDown(Keys.U))
+            {
+                cameraRight += new Vector3(0.1f, 0, 0);
+            }
+            if (newState.IsKeyDown(Keys.I))
+            {
+                cameraRight += new Vector3(0, 0.1f, 0);
+            }
+            if (newState.IsKeyDown(Keys.O))
+            {
+                cameraRight += new Vector3(0, 0, 0.1f);
+            }
+            if (newState.IsKeyDown(Keys.J))
+            {
+                cameraRight -= new Vector3(0.1f, 0, 0);
+            }
+            if (newState.IsKeyDown(Keys.K))
+            {
+                cameraRight -= new Vector3(0, 0.1f, 0);
+            }
+            if (newState.IsKeyDown(Keys.L))
+            {
+                cameraRight -= new Vector3(0, 0, 0.1f);
+            }
+            if (newState.IsKeyDown(Keys.H))
+            {
+                cameraRight -= new Vector3(0, 0, 0.1f);
+            }
+            if (newState.IsKeyDown(Keys.P))
+            {
+                up = new Vector3(0, 0, 0);
+            }
+            if (newState.IsKeyDown(Keys.OemSemicolon))
+            {
+                cameraRight = new Vector3(0, 0, 0);
+            }
+            #endregion
+            #endregion
+            button.Draw(view, projection, up, Vector3.Cross(up, cameraRight));
+            Debug.WriteLine("Wektor UP: "+up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);

@@ -4,6 +4,7 @@ using Cyber.Audio;
 using Cyber.AudioEngine;
 using Cyber.CAdditionalLibs;
 using Cyber.CGameStateEngine;
+using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -93,6 +94,7 @@ namespace Cyber
             mainMenu = new GameStateMainMenu();
             pauseMenu = new GameStatePauseMenu();
             mainGame  = new GameStateMainGame();
+            mainGame.level = Level.level1;
             loadMenu = new GameStateLoadMenu();
 
             mainGame.Audio = audioController;
@@ -105,7 +107,7 @@ namespace Cyber
             #endregion INITIALIZE GAMESTATES            
 
             #region INITIALIZE LOGIC ENGINE
-            LogicEngine = new LogicEngine(menus);
+            LogicEngine = new LogicEngine(menus, this.Content, this.GraphicsDevice);
             #endregion INITIALIZE LOGIC ENGINE
 
             #region INITIALIZE VIDEO CUTSCENE
@@ -124,7 +126,6 @@ namespace Cyber
             mainGame.LoadContent(this.Content, this.GraphicsDevice);
             pauseMenu.LoadContent(this.Content);
             loadMenu.LoadContent(this.Content);
-            //mainGame.SetUpScene();
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
@@ -238,9 +239,6 @@ namespace Cyber
                     Vector3 cameraPosition = new Vector3(0, -14.1759f, -cameraDistance);
                     Vector3 cameraUpVector = Vector3.Up;
 
-                    //Matrix[] transforms = loadMenu.returnModelTransforms();
-
-                    // Matrix world = transforms[loadMenu.returnModelParentBoneIndex()];
                     Matrix world = Matrix.Identity;
 
                     Matrix view = Matrix.CreateTranslation(0, 0, 0) *

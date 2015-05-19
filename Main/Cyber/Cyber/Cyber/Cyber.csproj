@@ -103,6 +103,7 @@
     <Compile Include="CItems\DisplayMessage.cs" />
     <Compile Include="CLogicEngine\AI.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
+    <Compile Include="CLogicEngine\Level.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
     <Compile Include="CLogicEngine\LogicEngine.cs" />
     <Compile Include="CCollisionEngine\Collider.cs" />

@@ -8,6 +8,7 @@ using System.Threading;
 using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,7 +22,12 @@ namespace Cyber.CGameStateEngine
         private GameStateMainGame gameStateMainGame;
         private GameStateLoadMenu gameStateLoadMenu;
         private GameStatePauseMenu gameStatePauseMenu;
+
+        private ContentManager theContentManager;
+        private GraphicsDevice device;
         private List<GameState> menus;
+        private KeyboardState oldState;
+        private KeyboardState currentKeyboardState;
 
         public GameState GameState
         {
@@ -29,8 +35,10 @@ namespace Cyber.CGameStateEngine
             set { gameState = value; }
         }
 
-        public LogicEngine(List<GameState> menus)
+        public LogicEngine(List<GameState> menus, ContentManager theContentManager, GraphicsDevice device)
         {
+            this.theContentManager = theContentManager;
+            this.device = device;
             this.menus = menus;
             gameState = new GameState();
             gameStateMainMenu = (GameStateMainMenu)menus[0];
@@ -157,13 +165,17 @@ namespace Cyber.CGameStateEngine
         }
         #endregion
         #region GAME LOGIC
-        /*
-         * Tutaj powinny być wszelkie reakcje na przyciski, zakończenie gry etc
-         * 
-         */
         public void LogicGame(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget)
         {
             gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
+            currentKeyboardState = Keyboard.GetState();
+            if (currentKeyboardState.IsKeyDown(Keys.D2) && oldState.IsKeyUp(Keys.D2))
+            {
+                gameStateMainGame.level = Level.level2;
+                gameStateMainGame.LoadContent(theContentManager, device);
+                gameStateMainGame.SetUpScene();
+            }
+            oldState = currentKeyboardState;
         }
 
         #endregion
