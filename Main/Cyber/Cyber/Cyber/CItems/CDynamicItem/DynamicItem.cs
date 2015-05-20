@@ -10,13 +10,13 @@ namespace Cyber.CItems
     class DynamicItem : _3DObjects
     {
         private string pathToModel;
-        private string animationClipName;
+        public string animationClipName { get; set; }
         private SkinningAnimation skinnedModel;
         protected Vector3 position;
         private Collider colliderInternal;
         private Collider colliderExternal;
         private float rotation;
-        private DynamicItemType type;
+        public DynamicItemType Type { get; set; }
         public string ID { get; set; }
 
 
@@ -24,8 +24,29 @@ namespace Cyber.CItems
         {
             this.skinnedModel = new SkinningAnimation();
             this.animationClipName = animationClipNamePassed;
+            this.colliderExternal = new Collider();
+            this.colliderInternal = new Collider();
             this.pathToModel = path;
             this.position = position;
+        }
+
+        public DynamicItem(string path, Vector3 position)
+        {
+            rotation = 0;
+            skinnedModel = new SkinningAnimation();
+            this.colliderExternal = new Collider();
+            this.colliderInternal = new Collider();
+            this.pathToModel = path;
+            this.position = position;
+        }
+
+        public DynamicItem(string path)
+        {
+            rotation = 0;
+            skinnedModel = new SkinningAnimation();
+            this.colliderExternal = new Collider();
+            this.colliderInternal = new Collider();
+            this.pathToModel = path;
         }
 
         #region ACCESSORS
@@ -65,12 +86,6 @@ namespace Cyber.CItems
             set { rotation = value; }
         }
 
-        public DynamicItemType Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
         #endregion
         
         
@@ -89,12 +104,22 @@ namespace Cyber.CItems
             position += vec;
         }
 
-        public void FixCollider(Vector3 resize, Vector3 move)
+        public void FixColliderExternal(Vector3 resize, Vector3 move)
         {
-            colliderExternal = new Collider();
             colliderExternal.SetBoudings(skinnedModel.CurrentModel);
+            colliderExternal.CreateColliderBoudingBox();
             colliderExternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
             colliderExternal.MoveBoundingBox(move);
+            colliderExternal.RecreateCage(position);
+        }
+
+        public void FixColliderInternal(Vector3 resize, Vector3 move)
+        {
+            colliderInternal.SetBoudings(skinnedModel.CurrentModel);
+            colliderInternal.CreateColliderBoudingBox();
+            colliderInternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
+            colliderInternal.MoveBoundingBox(move);
+            colliderInternal.RecreateCage(position);
         }
     }
 }

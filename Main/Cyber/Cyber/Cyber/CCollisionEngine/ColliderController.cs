@@ -101,7 +101,7 @@ namespace Cyber.CollisionEngine
                     return npc.Type;
             }
 
-            if (samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+            if (samantha != item && samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 return samantha.Type;
 
             return StaticItemType.none;
@@ -129,7 +129,7 @@ namespace Cyber.CollisionEngine
                 item.ColliderInternal.RecreateCage(move);
                 //playAudio();
             }
-            
+
         }
 
         public void CallTerminalAfterCollision(StaticItem item)

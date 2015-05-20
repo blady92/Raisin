@@ -227,7 +227,7 @@ namespace Cyber.CGameStateEngine
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
 
-            dude.FixCollider(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+            samantha.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
 
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
@@ -585,7 +585,7 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #endregion
-            button.Draw(view, projection, up, Vector3.Cross(up, cameraRight));
+            button.Draw(view, projection, up, Vector3.Cross(cameraForward, up));
             Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
