@@ -7,7 +7,7 @@ namespace Cyber.CLogicEngine
 {
     public class StageUtils
     {
-        public static const double PRZESUNIECIE = 19.5d; 
+        public static readonly double PRZESUNIECIE = 19.5d; 
         public static double BitmapCoordToStageCoord(double coord)
         {
             return coord * PRZESUNIECIE;

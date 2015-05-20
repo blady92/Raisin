@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Cyber.CConsoleEngine;
+using Cyber.AudioEngine;
 
 namespace Cyber.CItems
 {
@@ -37,6 +39,16 @@ namespace Cyber.CItems
         int messageCharCounter = 0;
         float spaceFromEdge = 20;
 
+        private Dictionary<string, GameConsoleCommand> commands = new Dictionary<string,GameConsoleCommand>();
+        private Game game;
+        private AudioController audioController;
+
+        public ConsoleSprites(Game game, AudioController audioController)
+        {
+            this.game = game;
+            this.audioController = audioController;
+        }
+
         public void LoadContent(ContentManager theContentManager)
         {
             Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
@@ -51,12 +63,24 @@ namespace Cyber.CItems
             PrintedText = parseText(PrintedText);
             lenght = Text.Length;
             SetupKeys();
+            SetupGameConsole();
 
             //consoleAdditional = new Sprite(0,0);
             //consoleAdditional.LoadContent(theContentManager, "Assets/2D/consoleAdditional");
             //pokazanie
             //consoleAdditional.Position = new Vector2(console.SpriteAccessor.Width, console.Position.Y);
         }
+
+        private void SetupGameConsole()
+        {
+            PutCommand(new GameConsoleCommand(new SayHelloCommand()));
+            PutCommand(new GameConsoleCommand(new AudioCommand(game, audioController)));
+        }
+        private void PutCommand(GameConsoleCommand gameConsoleCommand)
+        {
+            commands.Add(gameConsoleCommand.Name, gameConsoleCommand);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
            Console.DrawAnimation(spriteBatch);
@@ -118,12 +142,16 @@ namespace Cyber.CItems
                 {
                     if (Text.Length > 0) {
                         //kuba edit
+                        string result = ProcessCommand(Text);
+
                         oldText = PrintedText;
                         PrintedText = "";
                         messages.Clear();
                         PrintedText += AddSamanthaLine() + Text;
+                        PrintedText += AddTheoLine() + result;
                         PrintedText = parseText(PrintedText);
                         LatestStoreCommand = Text;
+                        
                         Text = "";
                     }
                 }
@@ -305,6 +333,23 @@ namespace Cyber.CItems
                     }
                 }
             }
+        }
+
+        private string ProcessCommand(string command)
+        {
+            string[] paramss = command.Split(' ');
+            command = paramss[0];
+            if (!commands.ContainsKey(command))
+            {
+                return "Polecenia nie znaleziono";
+            }
+            if (paramss.Length == 1)
+            {
+                return commands[command].Execute(null);
+            }
+            string[] args = new string[paramss.Length - 1];
+            Array.Copy(paramss, 1, args, 0, paramss.Length - 1);
+            return commands[command].Execute(args);
         }
     }
 }
