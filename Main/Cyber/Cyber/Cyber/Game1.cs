@@ -139,7 +139,7 @@ namespace Cyber
             #endregion
 
             #region CONSOLE
-            console = new GameConsole(this, spriteBatch, ConsoleEngine.GetDefaultGameConsoleOptions(this));
+            console = new GameConsole(this, spriteBatch, DeveloperConsoleEngine.GetDefaultGameConsoleOptions(this));
             console.AddCommand(new SayHelloCommand());
             console.AddCommand(new SudoCommand());
             console.AddCommand(new AudioCommand(this, audioController));
