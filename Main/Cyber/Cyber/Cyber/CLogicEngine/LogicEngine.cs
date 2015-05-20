@@ -132,6 +132,7 @@ namespace Cyber.CGameStateEngine
                                 //break;                                
                                 case 3:
                                     Clock.Instance.Destroy();
+                                    AI.Destroy();
                                     Thread.Sleep(300);
                                     gameState.State = GameState.States.startMenu;
                                     break;

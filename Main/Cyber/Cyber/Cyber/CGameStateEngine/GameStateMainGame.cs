@@ -110,7 +110,7 @@ namespace Cyber.CGameStateEngine
             
             #region ustawianie leveli
             if (level == Level.level1) { 
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             }
             else if (level == Level.level2)
             {
@@ -429,6 +429,7 @@ namespace Cyber.CGameStateEngine
             #region Inicjalizacja AI
             AI ai = AI.Instance;
             ai.ColliderController = colliderController;
+            ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(stage.Rooms);
             #endregion
         }
 

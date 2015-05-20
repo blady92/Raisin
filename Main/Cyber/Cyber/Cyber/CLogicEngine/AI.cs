@@ -17,11 +17,12 @@ namespace Cyber
         private static volatile AI instance;
         private static object syncRoot = new Object();
 
-        private List<NPC> robots = new List<NPC>();
+        private static List<NPC> robots = new List<NPC>();
 
         private const int chasingTime = 20;
 
         private ColliderController colliderController = null;
+        private bool[,] freeSpaceMap = null;
 
         private Thread t;
 
@@ -30,6 +31,12 @@ namespace Cyber
         {
             get { return colliderController; }
             set { colliderController = value; }
+        }
+
+        public bool[,] FreeSpaceMap
+        {
+            get { return freeSpaceMap; }
+            set { freeSpaceMap = value; }
         }
 
         /// <summary>
@@ -137,6 +144,16 @@ namespace Cyber
             Vector3 result = (to - from);
             result.Normalize();
             return result;
+        }
+
+        public static void Destroy()
+        {
+            foreach (var robot in robots)
+            {
+                robot.StopChasing();
+            }
+            instance = null;
+            Debug.WriteLine("Destroying AI...");
         }
     }
 }
