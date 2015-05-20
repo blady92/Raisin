@@ -17,7 +17,7 @@ namespace Cyber
         private static volatile AI instance;
         private static object syncRoot = new Object();
 
-        private List<NPC> robots = new List<NPC>();
+        private static List<NPC> robots = new List<NPC>();
 
         private const int chasingTime = 20;
 
@@ -137,6 +137,16 @@ namespace Cyber
             Vector3 result = (to - from);
             result.Normalize();
             return result;
+        }
+
+        public static void Destroy()
+        {
+            foreach (var robot in robots)
+            {
+                robot.StopChasing();
+            }
+            instance = null;
+            Debug.WriteLine("Destroying AI...");
         }
     }
 }
