@@ -89,7 +89,7 @@ namespace Cyber.CGameStateEngine
         {
             this.theContentManager = theContentManager;
             #region Load 2D elements
-            console = new ConsoleSprites();
+            console = new ConsoleSprites(this, audio);
             console.LoadContent(theContentManager);
 
             //UWAZAC NA WYMIARY OKNA
@@ -433,6 +433,7 @@ namespace Cyber.CGameStateEngine
             #region Inicjalizacja AI
             AI ai = AI.Instance;
             ai.ColliderController = colliderController;
+            ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(stage.Rooms);
             #endregion
         }
 
