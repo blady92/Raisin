@@ -1,4 +1,5 @@
 ﻿using Cyber.CStageParsing;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,21 @@ namespace Cyber.CLogicEngine
                 result[i] = BitmapCoordToStageCoord(coords[i]);
             }
             return result;
+        }
+
+        public static Vector3 BitmapCoordsToStageVector(Position coords)
+        {
+            double[] param = new double[2];
+            param[0] = coords.X;
+            param[1] = coords.Y;
+            double[] res = BitmapCoordsToStageCoords(param);
+            Vector3 result = new Vector3((float)res[0], (float)res[1], 0f);
+            return result;
+        }
+
+        public static Position StageVectorToBitmapCoords(Vector3 coords)
+        {
+            return new Position((int)(coords.X / PRZESUNIECIE), (int)(coords.Y / PRZESUNIECIE));
         }
 
         public static bool[,] RoomListToFreeSpaceMap(List<Room> rooms)

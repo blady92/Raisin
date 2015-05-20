@@ -26,6 +26,8 @@ namespace Cyber
 
         private Thread t;
 
+        private IPathfindingAlgorithm pathfindingAlgorithm = null;
+
         #region ACCESSORS
         internal ColliderController ColliderController
         {
@@ -36,7 +38,11 @@ namespace Cyber
         public bool[,] FreeSpaceMap
         {
             get { return freeSpaceMap; }
-            set { freeSpaceMap = value; }
+            set 
+            {
+                freeSpaceMap = value; 
+                pathfindingAlgorithm = new BestFirstAlgorithm(freeSpaceMap);
+            }
         }
 
         /// <summary>
@@ -89,7 +95,7 @@ namespace Cyber
 
             foreach (NPC r in robots)
             {
-                r.Chase(FindWayToPlace(r.Position, target.Position));
+                r.Chase(pathfindingAlgorithm.FindWayToPlace(r.Position, target.Position));
             }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);
@@ -124,19 +130,6 @@ namespace Cyber
                     //Debug.WriteLine("NPC: przeniosłem się do "+npc.Position);
                 }
             }
-        }
-
-        /// <summary>
-        /// Search map graph to find shortest path from one point to another
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        private List<Vector3> FindWayToPlace(Vector3 from, Vector3 to)
-        {
-            List<Vector3> result = new List<Vector3>();
-            result.Add(to);
-            return result;
         }
 
         private Vector3 GetDirectionTo(Vector3 from ,Vector3 to)
