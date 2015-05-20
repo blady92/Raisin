@@ -84,7 +84,8 @@
     <Compile Include="CAudioEngine\AudioController.cs" />
     <Compile Include="CAudioEngine\AudioModel.cs" />
     <Compile Include="CConsoleEngine\ConsoleCommands.cs" />
-    <Compile Include="CConsoleEngine\ConsoleEngine.cs" />
+    <Compile Include="CConsoleEngine\DeveloperConsoleEngine.cs" />
+    <Compile Include="CConsoleEngine\GameConsoleCommand.cs" />
     <Compile Include="CGameStateEngine\GameState.cs" />
     <Compile Include="CGameStateEngine\GameStateEndGame.cs" />
     <Compile Include="CGameStateEngine\GameStateLoadMenu.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
     <Compile Include="CItems\DisplayMessage.cs" />
     <Compile Include="CLogicEngine\AI.cs" />
+    <Compile Include="CLogicEngine\BestFirstAlgorithm.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
     <Compile Include="CLogicEngine\Level.cs" />
     <Compile Include="CLogicEngine\Clock.cs" />
@@ -109,6 +111,10 @@
     <Compile Include="CCollisionEngine\Collider.cs" />
     <Compile Include="CCollisionEngine\ColliderController.cs" />
     <Compile Include="CItems\CStaticItem\NPC.cs" />
+    <Compile Include="CLogicEngine\Moves.cs" />
+    <Compile Include="CLogicEngine\PathfindingAlgorithm.cs" />
+    <Compile Include="CLogicEngine\Position.cs" />
+    <Compile Include="CLogicEngine\StageUtils.cs" />
     <Compile Include="CSkillTree\SkillDefensive.cs" />
     <Compile Include="CSkillTree\SkillOffensive.cs" />
     <Compile Include="CSkillTree\SkillRest.cs" />

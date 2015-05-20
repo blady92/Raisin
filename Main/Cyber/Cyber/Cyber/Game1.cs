@@ -59,6 +59,7 @@ namespace Cyber
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
         Vector3 cameraTarget = new Vector3(0, 0, 0);
+        float cameraZoom = 1.0f;
        
         //Video Stuff
         Video video;
@@ -139,7 +140,7 @@ namespace Cyber
             #endregion
 
             #region CONSOLE
-            console = new GameConsole(this, spriteBatch, ConsoleEngine.GetDefaultGameConsoleOptions(this));
+            console = new GameConsole(this, spriteBatch, DeveloperConsoleEngine.GetDefaultGameConsoleOptions(this));
             console.AddCommand(new SayHelloCommand());
             console.AddCommand(new SudoCommand());
             console.AddCommand(new AudioCommand(this, audioController));
@@ -180,7 +181,7 @@ namespace Cyber
 
                 if(state == 1)
                 {
-                    LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
+                    LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
                 }
                 
             }
@@ -241,12 +242,14 @@ namespace Cyber
 
                     Matrix world = Matrix.Identity;
 
-                    Matrix view = Matrix.CreateTranslation(0, 0, 0) *
+                    Matrix view = 
+                                  Matrix.CreateTranslation(-mainGame.returnSamanthaPosition().X, -mainGame.returnSamanthaPosition().Y, 0) *
+                                 // Matrix.CreateTranslation(0, 0, 0) *
                                   Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
                                   Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
                                   Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                                  Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector) *
-                                  Matrix.CreateScale(1.0f, 1.0f, 1.0f);
+                                  Matrix.CreateLookAt(cameraPosition, new Vector3(0,0,0), cameraUpVector) *
+                                  Matrix.CreateScale(cameraZoom, cameraZoom, 1.0f);
                 
                     Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
                 

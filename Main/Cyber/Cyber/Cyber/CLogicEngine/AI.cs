@@ -17,19 +17,32 @@ namespace Cyber
         private static volatile AI instance;
         private static object syncRoot = new Object();
 
-        private List<NPC> robots = new List<NPC>();
+        private static List<NPC> robots = new List<NPC>();
 
         private const int chasingTime = 20;
 
         private ColliderController colliderController = null;
+        private bool[,] freeSpaceMap = null;
 
         private Thread t;
+
+        private IPathfindingAlgorithm pathfindingAlgorithm = null;
 
         #region ACCESSORS
         internal ColliderController ColliderController
         {
             get { return colliderController; }
             set { colliderController = value; }
+        }
+
+        public bool[,] FreeSpaceMap
+        {
+            get { return freeSpaceMap; }
+            set 
+            {
+                freeSpaceMap = value; 
+                pathfindingAlgorithm = new BestFirstAlgorithm(freeSpaceMap);
+            }
         }
 
         /// <summary>
@@ -82,7 +95,7 @@ namespace Cyber
 
             foreach (NPC r in robots)
             {
-                r.Chase(FindWayToPlace(r.Position, target.Position));
+                r.Chase(pathfindingAlgorithm.FindWayToPlace(r.Position, target.Position));
             }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);
@@ -119,24 +132,21 @@ namespace Cyber
             }
         }
 
-        /// <summary>
-        /// Search map graph to find shortest path from one point to another
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        private List<Vector3> FindWayToPlace(Vector3 from, Vector3 to)
-        {
-            List<Vector3> result = new List<Vector3>();
-            result.Add(to);
-            return result;
-        }
-
         private Vector3 GetDirectionTo(Vector3 from ,Vector3 to)
         {
             Vector3 result = (to - from);
             result.Normalize();
             return result;
+        }
+
+        public static void Destroy()
+        {
+            foreach (var robot in robots)
+            {
+                robot.StopChasing();
+            }
+            instance = null;
+            Debug.WriteLine("Destroying AI...");
         }
     }
 }
