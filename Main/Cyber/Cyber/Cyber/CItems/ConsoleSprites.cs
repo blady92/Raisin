@@ -59,7 +59,8 @@ namespace Cyber.CItems
             textBox = 270;
             Text = "";
             PrintedText =
-    AddTheoLine() + "Hello Samantho!";
+
+            AddTheoLine() + "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis.";
             PrintedText = parseText(PrintedText);
             lenght = Text.Length;
             SetupKeys();
@@ -92,13 +93,13 @@ namespace Cyber.CItems
                 }
                 else if(oldText.Length != 0)
                 {
-                    messageCharCounter = 25;
+                    messageCharCounter = 45;
                 }
                 else
                 {
                     messageCharCounter = 0;
                 }
-                //Debug.WriteLine("oT L: " + oldText.Length);
+                Debug.WriteLine("oT L: " +  "(" + oldText.Length + ")");
                 messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 180 + messageCharCounter), new Color(121, 122, 125)));
                 //od tego momentu można zacząć pisać tekst
                 spriteBatch.Begin();
