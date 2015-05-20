@@ -208,6 +208,11 @@ namespace Cyber.CGameStateEngine
             cameraTarget.Y = samanthaGhostController.Position.Y;
         }
 
+        public Vector3 returnSamanthaPosition()
+        {
+            return samanthaGhostController.Position;
+        }
+
         public void SetUpScene()
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!

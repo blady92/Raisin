@@ -241,11 +241,13 @@ namespace Cyber
 
                     Matrix world = Matrix.Identity;
 
-                    Matrix view = Matrix.CreateTranslation(0, 0, 0) *
+                    Matrix view = 
+                                  Matrix.CreateTranslation(-mainGame.returnSamanthaPosition().X, -mainGame.returnSamanthaPosition().Y, 0) *
+                                 // Matrix.CreateTranslation(0, 0, 0) *
                                   Matrix.CreateRotationZ(MathHelper.ToRadians(cameraRotation)) *
                                   Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
                                   Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                                  Matrix.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector) *
+                                  Matrix.CreateLookAt(cameraPosition, new Vector3(0,0,0), cameraUpVector) *
                                   Matrix.CreateScale(1.0f, 1.0f, 1.0f);
                 
                     Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
