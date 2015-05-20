@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cyber.CLogicEngine
 {
-    class Position
+    public class Position
     {
         private int x, y;
 
