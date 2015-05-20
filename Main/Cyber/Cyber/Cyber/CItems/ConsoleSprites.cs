@@ -47,7 +47,7 @@ namespace Cyber.CItems
             textBox = 270;
             Text = "";
             PrintedText =
-    AddTheoLine() + "Jakis tam sobie dlugi tekst o Polanie bez kolan i Kubie bez brody, co sie nabijaja z Dobrotka bo i tak ma to gdzies, bo nie slyszy :v";
+    AddTheoLine() + "Hello Samantho!";
             PrintedText = parseText(PrintedText);
             lenght = Text.Length;
             SetupKeys();

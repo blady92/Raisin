@@ -119,7 +119,6 @@ namespace Cyber.CollisionEngine
                 if (ConsoleDetection)
                 {
                     console.IsUsed = false;
-                    //console.IsUsed = !ConsoleDetection;
                 }
             }
             else

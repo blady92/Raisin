@@ -75,6 +75,8 @@ namespace Cyber.CGameStateEngine
         private Vector3 cameraRight = new Vector3(0,0,0);
         KeyboardState oldstate;
 
+        private Vector3[] positions;
+
 
         public void Unload()
         {
@@ -114,7 +116,7 @@ namespace Cyber.CGameStateEngine
             }
             else if (level == Level.level2)
             {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
             }
             else
             {
@@ -190,21 +192,24 @@ namespace Cyber.CGameStateEngine
             #endregion
             Debug.WriteLine("End of Loading");
             
-            Vector3[] positions = new Vector3[1];
-            positions[0] = new Vector3(150, 150, 80);
-            button = new BilboardSystem(device, theContentManager, 
-                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
-                new Vector2(100), 
-                positions);
+            positions = new Vector3[1];
+            positions[0] = new Vector3(0, 0, 100);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
         {
             cameraTarget.X = -samanthaGhostController.Position.X;
             cameraTarget.Y = samanthaGhostController.Position.Y;
+            Debug.WriteLine("ghost X: "+ samanthaGhostController.Position.X);
+            Debug.WriteLine("ghost Y: " + samanthaGhostController.Position.Y);
         }
 
-        public void SetUpScene()
+        public Vector3 ReturnSamLocation()
+        {
+            return samanthaGhostController.Position;
+        }
+
+        public void SetUpScene(GraphicsDevice device)
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region setups
@@ -238,6 +243,11 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Position = move;
                     stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
                     stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
+                    positions = new Vector3[1];
+                    positions[0] = move + new Vector3(0, 0, 20);
+                    button = new BilboardSystem(device, theContentManager,
+                        theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"),
+                        new Vector2(100), positions);
                 }
                 else if (stage.Objects[j] is Column)
                 {
@@ -448,7 +458,7 @@ namespace Cyber.CGameStateEngine
 
         public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, 
             GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-            ref Vector3 cameraUp, ref Vector3 cameraForward
+            ref Vector3 cameraPosition, ref Vector3 cameraTarget
             )
         {
             device.BlendState = BlendState.Opaque;
@@ -507,81 +517,15 @@ namespace Cyber.CGameStateEngine
             
             //up = cameraUp;
             //cameraRight = Vector3.Cross(cameraForward, up);
-            #region sterowanie bilboardem w celu optymalizacji ustawienia
-
-            KeyboardState newState = Keyboard.GetState();
-            #region UP Vector
-            if (newState.IsKeyDown(Keys.R))
-            {
-                up += new Vector3(0.1f, 0,0);
-            } 
-            if (newState.IsKeyDown(Keys.T))
-            {
-                up += new Vector3(0, 0.1f, 0);
+            Vector3 forward = (-(cameraTarget - cameraPosition)/6000);
+            Vector3 up = Vector3.Up;
+            Vector3 right = Vector3.Cross(forward, up);
+            if (iconOverHead.IconState == StaticIcon.action)
+            { 
+                button.Draw(view, projection, up, right);
             }
-            if (newState.IsKeyDown(Keys.Y))
-            {
-                up += new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.F))
-            {
-                up -= new Vector3(0.1f , 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.G))
-            {
-                up -= new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.H))
-            {
-                up -= new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.H))
-            {
-                up -= new Vector3(0, 0, 0.1f);
-            }
-            #endregion
-            #region RIGHT Vector
-            if (newState.IsKeyDown(Keys.U))
-            {
-                cameraRight += new Vector3(0.1f, 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.I))
-            {
-                cameraRight += new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.O))
-            {
-                cameraRight += new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.J))
-            {
-                cameraRight -= new Vector3(0.1f, 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.K))
-            {
-                cameraRight -= new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.L))
-            {
-                cameraRight -= new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.H))
-            {
-                cameraRight -= new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.P))
-            {
-                up = new Vector3(0, 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.OemSemicolon))
-            {
-                cameraRight = new Vector3(0, 0, 0);
-            }
-            #endregion
-            #endregion
-            button.Draw(view, projection, up, Vector3.Cross(cameraForward, up));
-            Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
-            iconOverHead.Draw(spriteBatch);
+            Debug.WriteLine(cameraTarget + "" + cameraPosition);
+            //iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);
         }
@@ -688,6 +632,8 @@ namespace Cyber.CGameStateEngine
             oldState = newState;
 
             AI.Instance.MoveNPCs(null);
+
+            
         }
     }
 }
