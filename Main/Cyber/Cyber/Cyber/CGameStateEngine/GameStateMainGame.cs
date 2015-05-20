@@ -683,7 +683,7 @@ namespace Cyber.CGameStateEngine
                     {
                         rotateSam += time * 0.2f;
                     }
-                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam < -90.0f)
+                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -90.0f)
                     {
                         rotateSam -= time * 0.2f;
                         if(rotateSam <= -180.0f)
@@ -699,7 +699,7 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.X = -samanthaGhostController.Position.X;
                     Debug.WriteLine("Rotate sam: " + rotateSam);
-                    if (rotateSam >= -91.0f && rotateSam <= 90.0f )
+                    if (rotateSam >= -91.0f && rotateSam <= 90.0f)
                     {
                         rotateSam += time * 0.2f;
       
@@ -728,7 +728,7 @@ namespace Cyber.CGameStateEngine
                         rotateSam += time * 0.2f;
                         if(rotateSam > 270.0f)
                         {
-                            rotateSam = 270.0f;
+                            rotateSam = -90.0f;
                         }
                     }
                   //  changedDirection = true;
