@@ -596,7 +596,7 @@ namespace Cyber.CGameStateEngine
         }
 
 
-        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget)
+        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
             console.Update();
             KeyboardState newState = currentKeyboardState;
@@ -731,9 +731,6 @@ namespace Cyber.CGameStateEngine
                             rotateSam = -90.0f;
                         }
                     }
-                  //  changedDirection = true;
-                  //  samPointingAtDirection = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection;
-                     
                 }
               
             }
@@ -743,7 +740,15 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            colliderController.CallTerminalAfterCollision(samanthaGhostController);
+            if (colliderController.CallTerminalAfterCollision(samanthaGhostController))
+            {   
+                cameraZoom = 2.75f;
+            }
+            else
+            {
+                cameraZoom = 1.0f;
+            }
+           
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
                 //Debug.WriteLine("Weszłam w zasięg robota!");

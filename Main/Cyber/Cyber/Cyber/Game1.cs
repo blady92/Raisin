@@ -59,6 +59,7 @@ namespace Cyber
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
         Vector3 cameraTarget = new Vector3(0, 0, 0);
+        float cameraZoom = 1.0f;
        
         //Video Stuff
         Video video;
@@ -180,7 +181,7 @@ namespace Cyber
 
                 if(state == 1)
                 {
-                    LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
+                    LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
                 }
                 
             }
@@ -248,7 +249,7 @@ namespace Cyber
                                   Matrix.CreateRotationY(MathHelper.ToRadians(-180.0f)) *
                                   Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
                                   Matrix.CreateLookAt(cameraPosition, new Vector3(0,0,0), cameraUpVector) *
-                                  Matrix.CreateScale(1.0f, 1.0f, 1.0f);
+                                  Matrix.CreateScale(cameraZoom, cameraZoom, 1.0f);
                 
                     Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
                 

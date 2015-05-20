@@ -98,7 +98,7 @@ namespace Cyber.CItems
                 {
                     messageCharCounter = 0;
                 }
-                Debug.WriteLine("oT L: " + oldText.Length);
+                //Debug.WriteLine("oT L: " + oldText.Length);
                 messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 180 + messageCharCounter), new Color(121, 122, 125)));
                 //od tego momentu można zacząć pisać tekst
                 spriteBatch.Begin();

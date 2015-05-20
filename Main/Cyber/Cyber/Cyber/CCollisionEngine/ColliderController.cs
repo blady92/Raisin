@@ -132,10 +132,11 @@ namespace Cyber.CollisionEngine
 
         }
 
-        public void CallTerminalAfterCollision(StaticItem item)
+        public bool CallTerminalAfterCollision(StaticItem item)
         {
             if (ConsoleDetection)
             {
+               
                 KeyboardState newState = Keyboard.GetState();
                 if (newState.IsKeyDown(Keys.Tab) && oldstate.IsKeyUp(Keys.Tab))
                 {
@@ -146,12 +147,15 @@ namespace Cyber.CollisionEngine
                 if (console.IsUsed)
                 {
                     icon.IconState = StaticIcon.none;
+                    return true;
                 }
                 else
                 {
                     icon.IconState = StaticIcon.action;
                 }
+                
             }
+            return false;
         }
     }
 }
