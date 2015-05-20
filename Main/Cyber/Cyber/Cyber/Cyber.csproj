@@ -109,6 +109,7 @@
     <Compile Include="CCollisionEngine\Collider.cs" />
     <Compile Include="CCollisionEngine\ColliderController.cs" />
     <Compile Include="CItems\CStaticItem\NPC.cs" />
+    <Compile Include="CLogicEngine\StageUtils.cs" />
     <Compile Include="CSkillTree\SkillDefensive.cs" />
     <Compile Include="CSkillTree\SkillOffensive.cs" />
     <Compile Include="CSkillTree\SkillRest.cs" />

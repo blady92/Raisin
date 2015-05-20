@@ -22,6 +22,7 @@ namespace Cyber
         private const int chasingTime = 20;
 
         private ColliderController colliderController = null;
+        private bool[,] freeSpaceMap = null;
 
         private Thread t;
 
@@ -30,6 +31,12 @@ namespace Cyber
         {
             get { return colliderController; }
             set { colliderController = value; }
+        }
+
+        public bool[,] FreeSpaceMap
+        {
+            get { return freeSpaceMap; }
+            set { freeSpaceMap = value; }
         }
 
         /// <summary>
