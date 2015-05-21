@@ -8,8 +8,6 @@ using Cyber.CAdditionalLibs;
 using Cyber.CItems;
 using Cyber.CItems.CStaticItem;
 using Cyber.CollisionEngine;
-using Cyber.GraphicsEngine;
-using Cyber.GraphicsEngine.Bilboarding;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,6 +15,7 @@ using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Cyber.CStageParsing;
 using Cyber.CItems.CDynamicItem;
+using MyGame;
 
 namespace Cyber.CGameStateEngine
 {
@@ -65,23 +64,24 @@ namespace Cyber.CGameStateEngine
 
         //Matrix view = Matrix.CreateLookAt(new Vector3(500, 500, 700), new Vector3(5, 5, 5), Vector3.UnitZ);
         Matrix view = Matrix.CreateLookAt(new Vector3(200, 200, 0), new Vector3(0.1f, 0.1f, 0.1f), Vector3.UnitZ);
-        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);
-
-
-        //TESTOWANE
-        private bool loaded = false;
-        private BilboardSystem button;
-        private Vector3 up = new Vector3(0, 0, 0);
-        private Vector3 cameraRight = new Vector3(0,0,0);
-        KeyboardState oldstate;
-
-        //Położenie bilboardu
-        //private Vector3[] positions;
+        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 600f, 0.1f, 10000f);        
 
         //Spojrzenie postaci tam gdzie zwrot
         float rotateSam = 0.0f;
         Matrix samPointingAtDirection = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(0));
         bool changedDirection = false;
+
+
+        //TESTOWANE
+        private bool loaded = false;
+
+
+        BillboardSystem button;
+        Vector3[] positions = new Vector3[1];
+        public Vector3 Up { get; private set; } 
+        public Vector3 Right { get; private set; }
+
+
 
         public void Unload()
         {
@@ -90,6 +90,14 @@ namespace Cyber.CGameStateEngine
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
+            positions[0] = new Vector3(100, 100, 60);
+            button = new BillboardSystem(    device, theContentManager, 
+                                            theContentManager.Load<Texture2D>("Assets/2D/buttonTab"), 
+                                            new Vector2(60), 
+                                            positions
+            );
+
+
             this.theContentManager = theContentManager;
             #region Load 2D elements
             console = new ConsoleSprites(this, audio);
@@ -196,9 +204,7 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             Debug.WriteLine("End of Loading");
-            
-            //positions = new Vector3[1];
-            //positions[0] = new Vector3(0, 0, 100);
+
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -462,11 +468,14 @@ namespace Cyber.CGameStateEngine
             Debug.WriteLine("TIMEOUT");
         }
 
+
         public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, 
             GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-            ref Vector3 cameraPosition, ref Vector3 cameraTarget
+            ref Vector3 cameraPosition, ref Vector3 cameraTarget, ref Vector3 cameraUpVector, ref float cameraRotation
             )
         {
+
+            #region Przed bilboardingiem
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
@@ -522,94 +531,39 @@ namespace Cyber.CGameStateEngine
             
             //up = cameraUp;
             //cameraRight = Vector3.Cross(cameraForward, up);
-            Vector3 forward = (-(cameraTarget - cameraPosition)/6000);
-            Vector3 up = Vector3.Up;
-            Vector3 right = Vector3.Cross(forward, up);
+            //Vector3 forward = (-(cameraTarget - cameraPosition)/6000);
+            //Vector3 up = Vector3.Up;
+            //Vector3 right = Vector3.Cross(forward, up);
             //if (iconOverHead.IconState == StaticIcon.action)
             //{ 
             //    //button.Draw(view, projection, up, right);
             //}
-            Debug.WriteLine(cameraTarget + "" + cameraPosition);
+            //Debug.WriteLine(cameraTarget + "" + cameraPosition);
             //iconOverHead.Draw(spriteBatch);
-            #region sterowanie bilboardem w celu optymalizacji ustawienia
-
-            KeyboardState newState = Keyboard.GetState();
-            #region UP Vector
-            if (newState.IsKeyDown(Keys.R))
-            {
-                up += new Vector3(0.1f, 0,0);
-            } 
-            if (newState.IsKeyDown(Keys.T))
-            {
-                up += new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.Y))
-            {
-                up += new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.F))
-            {
-                up -= new Vector3(0.1f , 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.G))
-            {
-                up -= new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.H))
-            {
-                up -= new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.H))
-            {
-                up -= new Vector3(0, 0, 0.1f);
-            }
-            #endregion
-            #region RIGHT Vector
-            if (newState.IsKeyDown(Keys.U))
-            {
-                cameraRight += new Vector3(0.1f, 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.I))
-            {
-                cameraRight += new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.O))
-            {
-                cameraRight += new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.J))
-            {
-                cameraRight -= new Vector3(0.1f, 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.K))
-            {
-                cameraRight -= new Vector3(0, 0.1f, 0);
-            }
-            if (newState.IsKeyDown(Keys.L))
-            {
-                cameraRight -= new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.H))
-            {
-                cameraRight -= new Vector3(0, 0, 0.1f);
-            }
-            if (newState.IsKeyDown(Keys.P))
-            {
-                up = new Vector3(0, 0, 0);
-            }
-            if (newState.IsKeyDown(Keys.OemSemicolon))
-            {
-                cameraRight = new Vector3(0, 0, 0);
-            }
-            #endregion
-            #endregion
             //button.Draw(view, projection, up, Vector3.Cross(forward, up));
             //Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
-            base.Draw(gameTime);
-        }
+            #endregion
 
+            //Vector3 up = Vector3.Transform(cameraUpVector, cameraRotation);
+            //Vector3 forward = cameraTarget - cameraPosition;
+            //Vector3 up = Vector3.Cross(forward, Vector3.Cross(forward, Vector3.Up));
+            //Vector3 right = -Vector3.Cross(forward, up)/100;
+            //Debug.WriteLine("up: "+ up + " forward: " + forward + " right: " + right);
+            
+            //Tutaj wartość na minusie oznacza obrót bilboardu, reszty nie tykać, bo to jest obrót na boki,
+            //a nie na oś Z
+            Matrix rotation = Matrix.CreateFromYawPitchRoll(0, -80, 0); ;
+            rotation *= Matrix.CreateScale(1, 0.5f, 1);
+            rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(-cameraRotation));
+            Vector3 up = Vector3.Transform(Vector3.Up, rotation);
+            Vector3 forward = Vector3.Transform(Vector3.Forward, rotation);
+
+            Vector3 right = Vector3.Cross(forward, up);
+
+            button.Draw(device, view, projection, up, right);
+        }
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
@@ -623,7 +577,7 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
 
-            //#region Sterowanie zegarem
+            #region Sterowanie zegarem
             //if (newState.IsKeyDown(Keys.T))
             //{
             //    if (Clock.Instance.CanResume())
@@ -660,7 +614,7 @@ namespace Cyber.CGameStateEngine
             //        Debug.WriteLine("Stopped clock");
             //    }
             //}
-            //#endregion
+            #endregion
             #region Sterowanie Samanthą i kamerą
             Vector3 move = new Vector3(0, 0, 0);
             colliderController.PlayAudio = audio.Play0;
@@ -784,4 +738,5 @@ namespace Cyber.CGameStateEngine
             
         }
     }
+
 }

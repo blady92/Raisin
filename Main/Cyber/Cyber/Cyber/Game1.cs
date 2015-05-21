@@ -25,7 +25,7 @@ namespace Cyber
 
         public static float maxWidth = 1366;
         public static float maxHeight = 768;
-        private bool fullscreen = true;
+        private bool fullscreen = false;
         private bool mouseVisibility = false;
 
         private Sprite mousePointer;
@@ -60,7 +60,7 @@ namespace Cyber
         float cameraFarBuffer = 30000;
         Vector3 cameraTarget = new Vector3(0, 0, 0);
         float cameraZoom = 1.0f;
-       
+
         //Video Stuff
         Video video;
         VideoPlayer videoPlayer;
@@ -251,9 +251,10 @@ namespace Cyber
                                   Matrix.CreateLookAt(cameraPosition, new Vector3(0,0,0), cameraUpVector) *
                                   Matrix.CreateScale(cameraZoom, cameraZoom, 1.0f);
                 
+                    Debug.WriteLine("CameraRotation: "+ cameraRotation);
                     Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
                 
-                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection, ref cameraUpVector, ref cameraTarget);
+                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection, ref cameraUpVector, ref cameraTarget, ref cameraUpVector, ref cameraRotation);
                 }
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)

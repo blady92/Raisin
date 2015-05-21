@@ -25,7 +25,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Dhpoware
+namespace Cyber
 {
     /// <summary>
     /// Custom vertex structure used for billboarding.
