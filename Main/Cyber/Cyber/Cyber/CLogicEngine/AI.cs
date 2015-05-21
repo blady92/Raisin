@@ -41,7 +41,9 @@ namespace Cyber
             set 
             {
                 freeSpaceMap = value; 
-                pathfindingAlgorithm = new BestFirstAlgorithm(freeSpaceMap);
+                //pathfindingAlgorithm = new BestFirstAlgorithm(freeSpaceMap);
+                pathfindingAlgorithm = new StraightWayAlgorithm();
+                Debug.Print("AI.cs:46: Po zaimplementowaniu BestFirst, zamienić!");
             }
         }
 
@@ -93,9 +95,9 @@ namespace Cyber
                 throw new Exception("You should set collider controller before beeing able to steer NPC's");
             }
 
-            foreach (NPC r in robots)
+            foreach (NPC npc in robots)
             {
-                r.Chase(pathfindingAlgorithm.FindWayToPlace(r.Position, target.Position));
+                npc.Chase(pathfindingAlgorithm.FindWayToPlace(npc.Position, target.Position));
             }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);

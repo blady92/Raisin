@@ -15,6 +15,6 @@ namespace Cyber.CLogicEngine
         /// <param name="to"></param>
         /// <returns></returns>
         List<Vector3> FindWayToPlace(Vector3 from, Vector3 to);
-        Vector3 GetNextPosition(Moves nextMove);
+        Position GetNextPosition(Position pos, Moves nextMove);
     }
 }
