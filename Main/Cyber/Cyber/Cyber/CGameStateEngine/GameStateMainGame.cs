@@ -76,7 +76,7 @@ namespace Cyber.CGameStateEngine
         KeyboardState oldstate;
 
         //Położenie bilboardu
-        private Vector3[] positions;
+        //private Vector3[] positions;
 
         //Spojrzenie postaci tam gdzie zwrot
         float rotateSam = 0.0f;
@@ -97,7 +97,7 @@ namespace Cyber.CGameStateEngine
 
             //UWAZAC NA WYMIARY OKNA
             //(1366 - 32) / 2, 768 / 2 - 120, StaticIcon.none
-            iconOverHead = new Icon((device.Viewport.Width - 32) / 2, device.Viewport.Height / 2 - 120, StaticIcon.none);
+            iconOverHead = new Icon((device.Viewport.Width - 32) / 2, device.Viewport.Height / 2 - 100, StaticIcon.none);
             iconOverHead.LoadContent(theContentManager);
             #endregion
             #region Load 3D elements
@@ -197,8 +197,8 @@ namespace Cyber.CGameStateEngine
             #endregion
             Debug.WriteLine("End of Loading");
             
-            positions = new Vector3[1];
-            positions[0] = new Vector3(0, 0, 100);
+            //positions = new Vector3[1];
+            //positions[0] = new Vector3(0, 0, 100);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -248,11 +248,11 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Position = move;
                     stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
                     stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
-                    positions = new Vector3[1];
-                    positions[0] = move + new Vector3(0, 0, 20);
-                    button = new BilboardSystem(device, theContentManager,
-                        theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"),
-                        new Vector2(100), positions);
+                    //positions = new Vector3[1];
+                    //positions[0] = move + new Vector3(0, 0, 20);
+                    //button = new BilboardSystem(device, theContentManager,
+                    //    theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"),
+                    //    new Vector2(100), positions);
                 }
                 else if (stage.Objects[j] is Column)
                 {
@@ -525,10 +525,10 @@ namespace Cyber.CGameStateEngine
             Vector3 forward = (-(cameraTarget - cameraPosition)/6000);
             Vector3 up = Vector3.Up;
             Vector3 right = Vector3.Cross(forward, up);
-            if (iconOverHead.IconState == StaticIcon.action)
-            { 
-                button.Draw(view, projection, up, right);
-            }
+            //if (iconOverHead.IconState == StaticIcon.action)
+            //{ 
+            //    //button.Draw(view, projection, up, right);
+            //}
             Debug.WriteLine(cameraTarget + "" + cameraPosition);
             //iconOverHead.Draw(spriteBatch);
             #region sterowanie bilboardem w celu optymalizacji ustawienia
@@ -603,7 +603,7 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #endregion
-            button.Draw(view, projection, up, Vector3.Cross(forward, up));
+            //button.Draw(view, projection, up, Vector3.Cross(forward, up));
             //Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);

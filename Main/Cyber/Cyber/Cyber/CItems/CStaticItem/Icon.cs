@@ -53,7 +53,7 @@ namespace Cyber.CItems.CStaticItem
         public void LoadContent(ContentManager theContentManager)
         {
             action = new Sprite(x, y);
-            action.LoadContent(theContentManager, "Assets/2D/buttonE");
+            action.LoadContent(theContentManager, "Assets/2D/buttonTab");
 
             //danger = new Sprite(x, y);
             //danger.LoadContent(theContentManager, "Assets/2D/buttonE");

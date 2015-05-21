@@ -128,7 +128,9 @@
     <Compile Include="CStageParsing\StageStructure.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
+    <Compile Include="GraphicsEngine\Bilboarding\Bilboard.cs" />
     <Compile Include="GraphicsEngine\Bilboarding\BilboardSystem.cs" />
+    <Compile Include="GraphicsEngine\Bilboarding\BilboardTestSystem.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />
     <Compile Include="GraphicsEngine\SkinningAnimation.cs" />

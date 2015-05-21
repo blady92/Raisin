@@ -140,6 +140,7 @@ namespace Cyber.CollisionEngine
                 if (newState.IsKeyDown(Keys.Tab) && oldstate.IsKeyUp(Keys.Tab))
                 {
                     console.ResetConsole();
+                    console.SetDefault();
                     console.IsUsed = !console.IsUsed;
                 }
                 oldstate = newState;

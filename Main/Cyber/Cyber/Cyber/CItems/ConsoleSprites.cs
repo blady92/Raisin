@@ -177,6 +177,16 @@ namespace Cyber.CItems
             Text = "";
         }
 
+        public void SetDefault()
+        {
+            messages.Clear();
+            oldText = "";
+            PrintedText = "";
+            PrintedText = parseText(AddTheoLine() +
+                      "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis.");
+
+        }
+
         public void SetupKeys()
         {
             possibleKeys = new List<Keys>();
