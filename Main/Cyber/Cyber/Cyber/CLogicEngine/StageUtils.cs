@@ -64,7 +64,37 @@ namespace Cyber.CLogicEngine
         /// <returns>Modified free space map</returns>
         public static bool[,] MarkWallBordersAsForbidden(bool[,] freeSpaceMap)
         {
-            Debug.WriteLine("StageUtils.cs:67: implement the method");
+            /*Debug.WriteLine("StageUtils.cs:67: implement the method");
+            Debug.WriteLine(freeSpaceMap.GetLength(0));
+            Debug.WriteLine(freeSpaceMap.GetLength(1));
+            //for each row besides last
+            for (int i = 0; i < freeSpaceMap.GetLength(1) - 1; i++)
+            {
+                int j;
+                //for each column besides last
+                for (j = 0; j < freeSpaceMap.GetLength(0) - 1; j++)
+                {
+                    //previous line
+                    if (freeSpaceMap[i, j])
+                    {
+
+                    }
+                    //current line
+                    if (freeSpaceMap[i, j + 1])
+                    {
+                        freeSpaceMap[i, j] = true;
+                    }
+                    //next line
+                    if (freeSpaceMap[i + 1, j])
+                    {
+                        freeSpaceMap[i, j] = true;
+                    }
+                }
+                if (freeSpaceMap[i,j])
+                {
+                    freeSpaceMap[i, j + 1] = true;
+                }
+            }*/
             return freeSpaceMap;
         }
     }
