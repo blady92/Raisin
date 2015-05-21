@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -53,7 +54,18 @@ namespace Cyber.CLogicEngine
                     }
                 }
             }
-            return result;
+            return MarkWallBordersAsForbidden(result);
+        }
+
+        /// <summary>
+        /// Marks all fields with contact with wall as non-free to prevent NPCs beeing stuck at walls
+        /// </summary>
+        /// <param name="freeSpaceMap"></param>
+        /// <returns>Modified free space map</returns>
+        public static bool[,] MarkWallBordersAsForbidden(bool[,] freeSpaceMap)
+        {
+            Debug.WriteLine("StageUtils.cs:67: implement the method");
+            return freeSpaceMap;
         }
     }
 }

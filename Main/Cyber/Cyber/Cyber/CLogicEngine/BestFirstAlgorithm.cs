@@ -52,12 +52,12 @@ namespace Cyber.CLogicEngine
                 else
                 {
                     closedNodes.Add(peak);
+                    moves.Pop();
                     if (moves.Count == 0)
                     {
                         //if we had to clear whole stack leave with nothing
                         break;
                     }
-                    moves.Pop();
                 }
                 safetySwitch++;
                 if (safetySwitch > safetyMargin)
