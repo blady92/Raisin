@@ -66,7 +66,7 @@ namespace Cyber.CGameStateEngine
                             {
                                 case 0:
                                     gameStateMainGame.SetUpClock();
-                                    gameStateMainGame.SetUpScene();
+                                    gameStateMainGame.SetUpScene(device);
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
@@ -166,15 +166,15 @@ namespace Cyber.CGameStateEngine
         }
         #endregion
         #region GAME LOGIC
-        public void LogicGame(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget)
+        public void LogicGame(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
-            gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget);
+            gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
             currentKeyboardState = Keyboard.GetState();
             if (currentKeyboardState.IsKeyDown(Keys.D2) && oldState.IsKeyUp(Keys.D2))
             {
                 gameStateMainGame.level = Level.level2;
                 gameStateMainGame.LoadContent(theContentManager, device);
-                gameStateMainGame.SetUpScene();
+                gameStateMainGame.SetUpScene(device);
             }
             oldState = currentKeyboardState;
         }

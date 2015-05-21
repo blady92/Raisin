@@ -329,6 +329,8 @@ namespace Cyber.GraphicsEngine
                   cameraDistance = 6000;
              }
              #endregion
+
+
          }
 
         public void UpdatePlayer(GameTime gameTime)

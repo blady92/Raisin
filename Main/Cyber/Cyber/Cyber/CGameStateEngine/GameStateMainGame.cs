@@ -75,6 +75,13 @@ namespace Cyber.CGameStateEngine
         private Vector3 cameraRight = new Vector3(0,0,0);
         KeyboardState oldstate;
 
+        //Położenie bilboardu
+        private Vector3[] positions;
+
+        //Spojrzenie postaci tam gdzie zwrot
+        float rotateSam = 0.0f;
+        Matrix samPointingAtDirection = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(0));
+        bool changedDirection = false;
 
         public void Unload()
         {
@@ -114,7 +121,7 @@ namespace Cyber.CGameStateEngine
             }
             else if (level == Level.level2)
             {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage1.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
             }
             else
             {
@@ -190,21 +197,24 @@ namespace Cyber.CGameStateEngine
             #endregion
             Debug.WriteLine("End of Loading");
             
-            Vector3[] positions = new Vector3[1];
-            positions[0] = new Vector3(150, 150, 80);
-            button = new BilboardSystem(device, theContentManager, 
-                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"), 
-                new Vector2(100), 
-                positions);
+            positions = new Vector3[1];
+            positions[0] = new Vector3(0, 0, 100);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
         {
             cameraTarget.X = -samanthaGhostController.Position.X;
             cameraTarget.Y = samanthaGhostController.Position.Y;
+            Debug.WriteLine("ghost X: "+ samanthaGhostController.Position.X);
+            Debug.WriteLine("ghost Y: " + samanthaGhostController.Position.Y);
         }
 
-        public void SetUpScene()
+        public Vector3 returnSamanthaPosition()
+        {
+            return samanthaGhostController.Position;
+        }
+
+        public void SetUpScene(GraphicsDevice device)
         {
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region setups
@@ -238,6 +248,11 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Position = move;
                     stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
                     stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
+                    positions = new Vector3[1];
+                    positions[0] = move + new Vector3(0, 0, 20);
+                    button = new BilboardSystem(device, theContentManager,
+                        theContentManager.Load<Texture2D>("Assets/2D/Bilboard/buttonE"),
+                        new Vector2(100), positions);
                 }
                 else if (stage.Objects[j] is Column)
                 {
@@ -449,14 +464,13 @@ namespace Cyber.CGameStateEngine
 
         public override void Draw(GraphicsDevice device, SpriteBatch spriteBatch, 
             GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-            ref Vector3 cameraUp, ref Vector3 cameraForward
+            ref Vector3 cameraPosition, ref Vector3 cameraTarget
             )
         {
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             
-            Matrix samanthaActualPlayerView =  Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-                       Matrix.CreateTranslation(samanthaGhostController.Position);
+            Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
 
             Matrix samanthaGhostView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                       Matrix.CreateTranslation(samanthaGhostController.Position);
@@ -508,6 +522,15 @@ namespace Cyber.CGameStateEngine
             
             //up = cameraUp;
             //cameraRight = Vector3.Cross(cameraForward, up);
+            Vector3 forward = (-(cameraTarget - cameraPosition)/6000);
+            Vector3 up = Vector3.Up;
+            Vector3 right = Vector3.Cross(forward, up);
+            if (iconOverHead.IconState == StaticIcon.action)
+            { 
+                button.Draw(view, projection, up, right);
+            }
+            Debug.WriteLine(cameraTarget + "" + cameraPosition);
+            //iconOverHead.Draw(spriteBatch);
             #region sterowanie bilboardem w celu optymalizacji ustawienia
 
             KeyboardState newState = Keyboard.GetState();
@@ -580,20 +603,22 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #endregion
-            button.Draw(view, projection, up, Vector3.Cross(cameraForward, up));
-            Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
+            button.Draw(view, projection, up, Vector3.Cross(forward, up));
+            //Debug.WriteLine("Wektor UP: " + up + " wektor Right" + cameraRight);
             iconOverHead.Draw(spriteBatch);
             console.Draw(spriteBatch);
             base.Draw(gameTime);
         }
 
 
-        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget)
+        public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
             console.Update();
             KeyboardState newState = currentKeyboardState;
 
             //Kuba edit:
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
             samanthaGhostController.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
@@ -641,29 +666,87 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
             {
+                
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.Y = samanthaGhostController.Position.Y;
+                   Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -91.0f && rotateSam < 0.0f || rotateSam > 180.0f)
+                    {
+                        rotateSam += time * 0.2f;
+                      //  Debug.WriteLine("D wins");
+                        if(rotateSam >= 360.0f)
+                        {
+                            rotateSam = 0.0f;
+                        }
+                    }
+                    else if (rotateSam > 0.0f && rotateSam <= 180.0f)
+                    {
+                        rotateSam -= time * 0.2f;
+                      //  Debug.WriteLine("A wins");
+                    }
+                   
+
                 }
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.Y = samanthaGhostController.Position.Y;
+                    Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if(rotateSam >= -6.8f && rotateSam <= 180.0f)
+                    {
+                        rotateSam += time * 0.2f;
+                    }
+                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -90.0f)
+                    {
+                        rotateSam -= time * 0.2f;
+                        if(rotateSam <= -180.0f)
+                        {
+                            rotateSam = 180.0f;
+                        }
+                    }
+                  //  changedDirection = true;
+                   
                 }
                 if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.X = -samanthaGhostController.Position.X;
+                    Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -91.0f && rotateSam <= 90.0f)
+                    {
+                        rotateSam += time * 0.2f;
+      
+                    }
+                    if (rotateSam <= 180.0f && rotateSam > 90.0f)
+                    {
+                        rotateSam -= time * 0.2f;
+                    }
+                  
+                   // changedDirection = true;
+                   // samPointingAtDirection = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection; 
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
-
+                    
                     move = new Vector3(1f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.X = -samanthaGhostController.Position.X;
+                    Debug.WriteLine("Rotate sam: " + rotateSam);  
+                    if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
+                    {
+                        rotateSam -= time * 0.2f;
+                    }
+                    if (rotateSam >= 170.0f)
+                    {
+                        rotateSam += time * 0.2f;
+                        if(rotateSam > 270.0f)
+                        {
+                            rotateSam = -90.0f;
+                        }
+                    }
                 }
-
               
             }
             else
@@ -672,7 +755,15 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            colliderController.CallTerminalAfterCollision(samanthaGhostController);
+            if (colliderController.CallTerminalAfterCollision(samanthaGhostController))
+            {   
+                cameraZoom = 2.75f;
+            }
+            else
+            {
+                cameraZoom = 1.0f;
+            }
+           
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
                 //Debug.WriteLine("Weszłam w zasięg robota!");
@@ -689,6 +780,8 @@ namespace Cyber.CGameStateEngine
             oldState = newState;
 
             AI.Instance.MoveNPCs(null);
+
+            
         }
     }
 }

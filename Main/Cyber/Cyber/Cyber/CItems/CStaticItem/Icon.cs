@@ -15,7 +15,7 @@ namespace Cyber.CItems.CStaticItem
         private Sprite action;
         private Sprite danger;
         private Sprite onWatch;
-        private StaticIcon iconState;
+        public StaticIcon iconState { get; set; }
 
         #region ACCESSORS
         public Sprite Action
@@ -54,7 +54,6 @@ namespace Cyber.CItems.CStaticItem
         {
             action = new Sprite(x, y);
             action.LoadContent(theContentManager, "Assets/2D/buttonE");
-
 
             //danger = new Sprite(x, y);
             //danger.LoadContent(theContentManager, "Assets/2D/buttonE");
