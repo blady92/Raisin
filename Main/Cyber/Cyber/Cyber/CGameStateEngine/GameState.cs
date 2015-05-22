@@ -20,7 +20,8 @@ namespace Cyber.CGameStateEngine
             saveMenu,
             settingsMenu,
             exit,
-            endGame
+            endGame,
+            loadingGame
         }
 
         private States state;

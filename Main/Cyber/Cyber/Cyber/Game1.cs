@@ -42,6 +42,8 @@ namespace Cyber
         private GameStateMainGame mainGame;
         private GameStatePauseMenu pauseMenu;
         private GameStateLoadMenu loadMenu;
+        private GameStateEndGame endGame;
+        private GameStateLoadingGame loadingGame;
         private List<GameState> menus;
 
         //Input Readings
@@ -105,6 +107,8 @@ namespace Cyber
             menus.Add(mainGame);
             menus.Add(pauseMenu);
             menus.Add(loadMenu);
+            menus.Add(loadingGame);
+            menus.Add(endGame);
             #endregion INITIALIZE GAMESTATES            
 
             #region INITIALIZE LOGIC ENGINE
@@ -206,19 +210,23 @@ namespace Cyber
 
 
             // TODO: Add your drawing code here
+            #region rysowanie menu g³ównego
             if (LogicEngine.GetState() == GameState.States.startMenu)
             { 
                 mainMenu.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
+            #endregion
+            #region rysowanie menu pauzy
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
                 pauseMenu.Draw(spriteBatch); 
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
+            #endregion
+            #region rysowanie g³ównej gry
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                
                 videoTexture = videoPlayer.GetTexture();
                 spriteBatch.Begin();
                 switch (state)
@@ -256,14 +264,31 @@ namespace Cyber
                     mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection, ref cameraRotation);
                 }
             }
+            #endregion
+            #region rysowanie okna ³adowania poziomu
+            else if (LogicEngine.GetState() == GameState.States.loadingGame)
+            {
+                loadingGame.Draw(spriteBatch);
+            }
+            #endregion
+            #region rysowanie planszy powtórki poziomu w przypadku przegranej
+            else if (LogicEngine.GetState() == GameState.States.endGame)
+            {
+                endGame.Draw(spriteBatch);
+            }
+            #endregion
+            #region rysowanie menu ³adowania poziomów
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
+            #endregion
+            #region koniec wszystkiego
             else if (LogicEngine.GetState() == GameState.States.exit)
             {
                 Quit();
             }
+            #endregion
             base.Draw(gameTime);    
         }
 

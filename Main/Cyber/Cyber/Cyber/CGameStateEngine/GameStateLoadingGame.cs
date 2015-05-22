@@ -7,23 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CGameStateEngine
 {
-    class GameStateEndGame : GameState
+    class GameStateLoadingGame : GameState
     {
         public void LoadContent(ContentManager theContentManager)
         {
-            
+
         }
 
-        //A tu ofc rysowanko "You've lost..."
+        //Rysowanie samego tła, że się ładuje, bo i tak chuja zawiesi, więc musi być statyczne chociaż
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
-        }
 
-        //Tu będzie menu czy chce zacząć level od nowa
-        public override void Update()
-        {
-            
         }
     }
 }
