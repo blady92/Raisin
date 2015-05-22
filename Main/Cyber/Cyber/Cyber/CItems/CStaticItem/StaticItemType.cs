@@ -15,6 +15,7 @@ namespace Cyber.CItems.CStaticItem
         //tymczasowo
         tank,
         spy,
-        flyer
+        flyer,
+        samantha
     }
 }

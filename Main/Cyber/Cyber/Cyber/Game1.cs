@@ -251,10 +251,9 @@ namespace Cyber
                                   Matrix.CreateLookAt(cameraPosition, new Vector3(0,0,0), cameraUpVector) *
                                   Matrix.CreateScale(cameraZoom, cameraZoom, 1.0f);
                 
-                    Debug.WriteLine("CameraRotation: "+ cameraRotation);
                     Matrix projection = Matrix.CreateOrthographic(this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 1, cameraFarBuffer);
                 
-                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection, ref cameraUpVector, ref cameraTarget, ref cameraUpVector, ref cameraRotation);
+                    mainGame.Draw(this.GraphicsDevice, this.spriteBatch, gameTime, world, view, projection, ref cameraRotation);
                 }
             }
             else if (LogicEngine.GetState() == GameState.States.loadMenu)

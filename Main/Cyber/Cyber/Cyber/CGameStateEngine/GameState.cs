@@ -42,7 +42,7 @@ namespace Cyber.CGameStateEngine
         public virtual void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, ContentManager theContentManager) { }
         public virtual void Draw(   GraphicsDevice device, SpriteBatch spriteBatch,
                                     GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-                                    ref Vector3 cameraPosition, ref Vector3 cameraTarget, ref Vector3 cameraUpVector, ref float cameraRotation) { }
+                                    ref float cameraRotation) { }
 
         public virtual void Draw(GraphicsDevice device, SpriteBatch spriteBatch, GameTime gameTime, Matrix world, Matrix view, Matrix projection) { }
 

@@ -1,8 +1,11 @@
-﻿using Cyber.CollisionEngine;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Cyber.CollisionEngine;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MyGame;
 
 namespace Cyber.CItems.CStaticItem
 {
@@ -15,6 +18,9 @@ namespace Cyber.CItems.CStaticItem
         private Vector3 position;
         private float rotation;
         private StaticItemType type;
+        public bool OnOffBilboard { get; set; }
+        public List<BillboardSystem> bilboards { get; set; }
+
         public string ID { get; set; }
         public StaticItem(string path)
         {
@@ -79,7 +85,6 @@ namespace Cyber.CItems.CStaticItem
 
         #endregion
         
-        
         public void LoadItem(ContentManager theContentManager)
         {
             skinnedModel.LoadContent_StaticModel(theContentManager, pathToModel);
@@ -88,6 +93,17 @@ namespace Cyber.CItems.CStaticItem
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
             skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
+        }
+        public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
+        {
+            skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
+            if (OnOffBilboard)
+            {
+                foreach (BillboardSystem bilboard in bilboards)
+                {
+                    bilboard.Draw(device, view, projection, cameraRotation);
+                }
+            }
         }
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device)

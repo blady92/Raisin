@@ -7,6 +7,7 @@ namespace Cyber.CItems.CDynamicItem
 {
     public enum DynamicItemType
     {
+        samantha,
         spy,
         flyer,
         tank,

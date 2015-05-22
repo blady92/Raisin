@@ -97,7 +97,6 @@
     <Compile Include="CItems\ConsoleSprites.cs" />
     <Compile Include="CItems\CDynamicItem\Enemies.cs" />
     <Compile Include="CItems\CDynamicItem\DynamicItem.cs" />
-    <Compile Include="CItems\CStaticItem\Icon.cs" />
     <Compile Include="CItems\CStaticItem\StaticIcon.cs" />
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
     <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
@@ -128,7 +127,6 @@
     <Compile Include="CStageParsing\StageStructure.cs" />
     <Compile Include="GraphicsEngine\AnimationClip.cs" />
     <Compile Include="GraphicsEngine\AnimationPlayer.cs" />
-    <Compile Include="GraphicsEngine\Bilboarding\Bilboard.cs" />
     <Compile Include="GraphicsEngine\Bilboarding\BillboardSystem.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />

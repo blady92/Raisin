@@ -16,6 +16,8 @@ namespace MyGame
         VertexBuffer verts;
         IndexBuffer ints;
         VertexPositionTexture[] particles;
+        public Vector3 positions { get; set; }
+        public Vector3[] particlePositions { get; set; }
         int[] indices;
 
         // Billboard settings
@@ -34,12 +36,14 @@ namespace MyGame
 
         public BillboardSystem(GraphicsDevice graphicsDevice,
             ContentManager content, Texture2D texture,
-            Vector2 billboardSize, Vector3[] particlePositions)
+            Vector2 billboardSize, Vector3 position)
         {
-            this.nBillboards = particlePositions.Length;
+            //this.nBillboards = particlePositions.Length;
+            this.nBillboards = 1;
             this.billboardSize = billboardSize;
             this.graphicsDevice = graphicsDevice;
             this.texture = texture;
+            Vector3[] particlePositions = { position };
 
             effect = content.Load<Effect>("Assets/ShadersFX/Billboard");
 
@@ -48,13 +52,11 @@ namespace MyGame
 
         void generateParticles(Vector3[] particlePositions)
         {
-            // Create vertex and index arrays
             particles = new VertexPositionTexture[nBillboards * 4];
             indices = new int[nBillboards * 6];
 
             int x = 0;
 
-            // For each billboard...
             for (int i = 0; i < nBillboards * 4; i += 4)
             {
                 Vector3 pos = particlePositions[i / 4];
@@ -95,15 +97,21 @@ namespace MyGame
             effect.Parameters["Side"].SetValue(Right);
         }
 
-        public void Draw(GraphicsDevice device, Matrix View, Matrix Projection, Vector3 Up, Vector3 Right)
+        public void Draw(GraphicsDevice device, Matrix View, Matrix Projection, float cameraRotation)
         {
+            Matrix rotation = Matrix.CreateFromYawPitchRoll(0, -80, 0); ;
+            rotation *= Matrix.CreateScale(1, 0.5f, 1);
+            rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(-cameraRotation));
+            Vector3 up = Vector3.Transform(Vector3.Up, rotation);
+            Vector3 right = Vector3.Cross(Vector3.Transform(Vector3.Forward, rotation), up);
+
             // Set the vertex and index buffer to the graphics card
             graphicsDevice.SetVertexBuffer(verts);
             graphicsDevice.Indices = ints;
 
             graphicsDevice.BlendState = BlendState.AlphaBlend;
 
-            setEffectParameters(View, Projection, Up, Right);
+            setEffectParameters(View, Projection, up, right);
 
             if (EnsureOcclusion)
             {

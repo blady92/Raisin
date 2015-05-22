@@ -8,6 +8,7 @@ using Cyber.CItems.CStaticItem;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MyGame;
 
 namespace Cyber.CollisionEngine
 {
@@ -33,17 +34,17 @@ namespace Cyber.CollisionEngine
         public StaticItem samantha { get; set; }
         private Action playAudio;
         private ConsoleSprites console;
-        private Icon icon;
+        //private Icon icon;
         private KeyboardState newState, oldstate;
         public StaticItemType CollisionItemType { get; set; }
         public bool ConsoleDetection { get; set; }
 
-        public ColliderController(ConsoleSprites console, Icon icon)
+        public ColliderController(ConsoleSprites console)
         {
             this.console = console;
-            this.icon = icon;
+            //this.icon = icon;
         }
-
+        public int terminalNumber { get; set; }
 
         #region ACCESSORS
 
@@ -69,29 +70,32 @@ namespace Cyber.CollisionEngine
         //Zwraca z czym się zderzyło z bliska. Od wykrywania zasięgu są metody powyżej
         public StaticItemType IsCollidedType(StaticItem item)
         {
-            foreach (StaticItem staticItem in staticItemList)
+            for(int i=0; i<staticItemList.Count; i++)
             {
-                if (staticItem.Type == StaticItemType.terminal)
+                if (staticItemList[i].Type == StaticItemType.terminal && item.Type == StaticItemType.samantha)
                 {
-                    if (staticItem.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                    if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                     {
                         ConsoleDetection = true;
-                        CollisionItemType = staticItem.Type;
-                        return staticItem.Type;
+                        CollisionItemType = staticItemList[i].Type;
+                        return staticItemList[i].Type;
                     }
-                    else if (staticItem.ColliderExternal.AABB.Intersects(item.ColliderInternal.AABB))
+                    else if (staticItemList[i].ColliderExternal.AABB.Intersects(item.ColliderInternal.AABB))
                     {
                         ConsoleDetection = true;
+                        staticItemList[i].OnOffBilboard = true;
                         CollisionItemType = StaticItemType.none;
                         return StaticItemType.none;
                     }
+                    else
                     {
+                        staticItemList[i].OnOffBilboard = false;
                         ConsoleDetection = false;
                     }
                 }
-                else if (staticItem.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                else if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 {
-                    return staticItem.Type;
+                    return staticItemList[i].Type;
                 }
             }
 
@@ -115,7 +119,7 @@ namespace Cyber.CollisionEngine
             {
                 //Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
-                icon.IconState = StaticIcon.none;
+                //icon.IconState = StaticIcon.none;
                 if (ConsoleDetection)
                 {
                     console.IsUsed = false;
@@ -146,12 +150,14 @@ namespace Cyber.CollisionEngine
                 oldstate = newState;
                 if (console.IsUsed)
                 {
-                    icon.IconState = StaticIcon.none;
+                    staticItemList[terminalNumber].OnOffBilboard = false;
+                    //icon.IconState = StaticIcon.none;
                     return true;
                 }
                 else
                 {
-                    icon.IconState = StaticIcon.action;
+                    staticItemList[terminalNumber].OnOffBilboard = true;
+                    //icon.IconState = StaticIcon.action;
                 }
                 
             }
