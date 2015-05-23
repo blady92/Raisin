@@ -88,6 +88,7 @@
     <Compile Include="CConsoleEngine\GameConsoleCommand.cs" />
     <Compile Include="CGameStateEngine\GameState.cs" />
     <Compile Include="CGameStateEngine\GameStateEndGame.cs" />
+    <Compile Include="CGameStateEngine\GameStateLoadingGame.cs" />
     <Compile Include="CGameStateEngine\GameStateLoadMenu.cs" />
     <Compile Include="CGameStateEngine\GameStateMainGame.cs" />
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />

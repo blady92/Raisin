@@ -172,11 +172,27 @@ namespace Cyber.CGameStateEngine
             currentKeyboardState = Keyboard.GetState();
             if (currentKeyboardState.IsKeyDown(Keys.D2) && oldState.IsKeyUp(Keys.D2))
             {
+                GameState.State = GameState.States.loadingGame;
+            }
+            oldState = currentKeyboardState;
+        }
+
+        public void LogicChangeLevel(ContentManager theContentManager, GraphicsDevice device)
+        {
+            if (gameStateMainGame.level == Level.level1)
+            {
                 gameStateMainGame.level = Level.level2;
                 gameStateMainGame.LoadContent(theContentManager, device);
                 gameStateMainGame.SetUpScene(device);
+                GameState.State = GameState.States.mainGame;
             }
-            oldState = currentKeyboardState;
+            else
+            {
+                gameStateMainGame.level = Level.level1;
+                gameStateMainGame.LoadContent(theContentManager, device);
+                gameStateMainGame.SetUpScene(device);
+                GameState.State = GameState.States.mainGame;
+            }
         }
 
         #endregion

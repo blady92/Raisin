@@ -50,7 +50,6 @@ namespace Cyber
         private KeyboardState oldState;
         private KeyboardState currentKeyboardState;
         private MouseState currentMouseState;
-     //   private MouseState prevMouseState;
 
         //Game Console
         private GameConsole console;
@@ -99,7 +98,8 @@ namespace Cyber
             mainGame  = new GameStateMainGame();
             mainGame.level = Level.level1;
             loadMenu = new GameStateLoadMenu();
-
+            loadingGame = new GameStateLoadingGame();
+            endGame = new GameStateEndGame();
             mainGame.Audio = audioController;
 
             menus = new List<GameState>();
@@ -196,6 +196,10 @@ namespace Cyber
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
                 LogicEngine.LogicLoadMenu(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
+            }
+            else if (LogicEngine.GetState() == GameState.States.loadingGame)
+            {
+                LogicEngine.LogicChangeLevel(this.Content, this.GraphicsDevice);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
