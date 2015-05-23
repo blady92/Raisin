@@ -131,6 +131,8 @@ namespace Cyber
             mainGame.LoadContent(this.Content, this.GraphicsDevice);
             pauseMenu.LoadContent(this.Content);
             loadMenu.LoadContent(this.Content);
+            loadingGame.LoadContent(this.Content);
+            endGame.LoadContent(this.Content);
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
@@ -204,6 +206,10 @@ namespace Cyber
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
                 LogicEngine.LogicPauseMenu();
+            }
+            else if (LogicEngine.GetState() == GameState.States.endGame)
+            {
+                LogicEngine.LogicEndGame(this.GraphicsDevice, this.Content);
             }
             base.Update(gameTime);
         }

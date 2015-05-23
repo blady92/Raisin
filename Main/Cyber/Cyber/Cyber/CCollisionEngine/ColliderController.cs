@@ -122,12 +122,12 @@ namespace Cyber.CollisionEngine
                 //icon.IconState = StaticIcon.none;
                 if (ConsoleDetection)
                 {
+                    staticItemList[terminalNumber].OnOffBilboard = false;
                     console.IsUsed = false;
                 }
             }
             else
             {
-                //Debug.WriteLine(CollisionItemType.ToString());
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderInternal.RecreateCage(move);
                 //playAudio();
@@ -151,13 +151,11 @@ namespace Cyber.CollisionEngine
                 if (console.IsUsed)
                 {
                     staticItemList[terminalNumber].OnOffBilboard = false;
-                    //icon.IconState = StaticIcon.none;
                     return true;
                 }
                 else
                 {
                     staticItemList[terminalNumber].OnOffBilboard = true;
-                    //icon.IconState = StaticIcon.action;
                 }
                 
             }

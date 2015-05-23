@@ -28,6 +28,7 @@ namespace Cyber.CGameStateEngine
         private List<GameState> menus;
         private KeyboardState oldState;
         private KeyboardState currentKeyboardState;
+        public bool endGame { get; set; }
 
         public GameState GameState
         {
@@ -174,6 +175,14 @@ namespace Cyber.CGameStateEngine
             {
                 GameState.State = GameState.States.loadingGame;
             }
+            if (currentKeyboardState.IsKeyDown(Keys.D1) && oldState.IsKeyUp(Keys.D1))
+            {
+                endGame = true;
+            }
+            if (endGame)
+            {
+                GameState.State = GameState.States.endGame;
+            }
             oldState = currentKeyboardState;
         }
 
@@ -197,6 +206,13 @@ namespace Cyber.CGameStateEngine
 
         #endregion
 
+        #region END GAME
+        //Przygotować klikanie czy user chce zacząć poziom od nowa, czy wrócić do menu i zakończyć zabawę
+        public void LogicEndGame(GraphicsDevice device, ContentManager theContentManager)
+        {
+            
+        }
+        #endregion
         public GameState.States GetState()
         {
             return gameState.State;
