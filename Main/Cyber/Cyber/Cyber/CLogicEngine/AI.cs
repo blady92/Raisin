@@ -28,6 +28,8 @@ namespace Cyber
 
         private IPathfindingAlgorithm pathfindingAlgorithm = null;
 
+        private Position lastSamPosition = null;
+
         #region ACCESSORS
         internal ColliderController ColliderController
         {
@@ -92,10 +94,13 @@ namespace Cyber
             {
                 throw new Exception("You should set collider controller before beeing able to steer NPC's");
             }
-
-            foreach (NPC r in robots)
+            if (!StageUtils.StageVectorToBitmapCoords(target.Position).Equals(lastSamPosition))
             {
-                r.Chase(pathfindingAlgorithm.FindWayToPlace(r.Position, target.Position));
+                lastSamPosition = StageUtils.StageVectorToBitmapCoords(target.Position);
+                foreach (NPC npc in robots)
+                {
+                    npc.Chase(pathfindingAlgorithm.FindWayToPlace(npc.Position, target.Position));
+                }
             }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);

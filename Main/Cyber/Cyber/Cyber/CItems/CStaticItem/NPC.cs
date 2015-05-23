@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Cyber.CLogicEngine;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +12,6 @@ namespace Cyber.CItems.CStaticItem
     {
         //TODO: unit tests ???
         Queue<Vector3> patrolWaypoints = new Queue<Vector3>();
-        //Vector3 chasingPosition = Vector3.Zero;//TODO: change to chasingWaypoints
         Queue<Vector3> chasingWaypoints = new Queue<Vector3>();
 
         public NPC(string path) : base(path) { }
@@ -38,7 +38,12 @@ namespace Cyber.CItems.CStaticItem
             {
                 chasingWaypoints.Enqueue(position);
             }
-            Debug.WriteLine("NPC: idę do "+waypoints.Last());
+#if DEBUG
+            if (waypoints.Count != 0)
+            {
+                Debug.WriteLine("NPC: idę do "+waypoints.Last());
+            }
+#endif
         }
 
         /// <summary>
@@ -63,7 +68,17 @@ namespace Cyber.CItems.CStaticItem
                 return patrolWaypoints.Peek();
             }
             else
+            {
+                if ((chasingWaypoints.Peek() - Position).Length() < StageUtils.PRZESUNIECIE)
+                {
+                    chasingWaypoints.Dequeue();
+                }
+                if (chasingWaypoints.Count == 0)
+                {
+                    return Vector3.Zero;
+                }
                 return chasingWaypoints.Peek();
+            }
         }
     }
 }
