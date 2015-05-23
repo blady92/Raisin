@@ -22,6 +22,8 @@ namespace Cyber.CGameStateEngine
         private GameStateMainGame gameStateMainGame;
         private GameStateLoadMenu gameStateLoadMenu;
         private GameStatePauseMenu gameStatePauseMenu;
+        private GameStateLoadingGame gameStateLoadingMenu;
+        private GameStateEndGame gameStateEndGame;
 
         private ContentManager theContentManager;
         private GraphicsDevice device;
@@ -43,14 +45,17 @@ namespace Cyber.CGameStateEngine
             this.menus = menus;
             gameState = new GameState();
             gameStateMainMenu = (GameStateMainMenu)menus[0];
-            gameStateMainGame = (GameStateMainGame) menus[1];
+            gameStateMainGame = (GameStateMainGame)menus[1];
             gameStatePauseMenu = (GameStatePauseMenu)menus[2];
             gameStateLoadMenu = (GameStateLoadMenu)menus[3];
+            gameStateLoadingMenu = (GameStateLoadingGame)menus[4];
+            gameStateEndGame = (GameStateEndGame)menus[5];
         }
 
         #region MAIN MENU LOGIC
         public void LogicMenu()
         {
+            endGame = false;
             MouseState mouse;
             mouse = Mouse.GetState();
             MouseState oldMouseState = new MouseState();
@@ -102,7 +107,6 @@ namespace Cyber.CGameStateEngine
             }
         }
         #endregion
-
         #region PAUSE MENU LOGIC
 
         public void LogicPauseMenu()
@@ -158,7 +162,6 @@ namespace Cyber.CGameStateEngine
             }
         }
         #endregion
-
         #region LOAD MENU LOGIC
 
         public void LogicLoadMenu(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
@@ -173,6 +176,12 @@ namespace Cyber.CGameStateEngine
             currentKeyboardState = Keyboard.GetState();
             if (currentKeyboardState.IsKeyDown(Keys.D2) && oldState.IsKeyUp(Keys.D2))
             {
+                gameStateMainGame.level = Level.level1;
+                GameState.State = GameState.States.loadingGame;
+            }
+            if (currentKeyboardState.IsKeyDown(Keys.D3) && oldState.IsKeyUp(Keys.D3))
+            {
+                gameStateMainGame.level = Level.level2;
                 GameState.State = GameState.States.loadingGame;
             }
             if (currentKeyboardState.IsKeyDown(Keys.D1) && oldState.IsKeyUp(Keys.D1))
@@ -188,29 +197,52 @@ namespace Cyber.CGameStateEngine
 
         public void LogicChangeLevel(ContentManager theContentManager, GraphicsDevice device)
         {
-            if (gameStateMainGame.level == Level.level1)
-            {
-                gameStateMainGame.level = Level.level2;
-                gameStateMainGame.LoadContent(theContentManager, device);
-                gameStateMainGame.SetUpScene(device);
-                GameState.State = GameState.States.mainGame;
-            }
-            else
-            {
-                gameStateMainGame.level = Level.level1;
-                gameStateMainGame.LoadContent(theContentManager, device);
-                gameStateMainGame.SetUpScene(device);
-                GameState.State = GameState.States.mainGame;
-            }
+            //if (gameStateMainGame.level == Level.level1)
+            //{
+            //    gameStateMainGame.level = Level.level2;
+            //}
+            //else
+            //{
+            //    gameStateMainGame.level = Level.level1;
+            //}
+            gameStateMainGame.LoadContent(theContentManager, device);
+            gameStateMainGame.SetUpScene(device);
+            GameState.State = GameState.States.mainGame;
         }
 
         #endregion
-
         #region END GAME
         //Przygotować klikanie czy user chce zacząć poziom od nowa, czy wrócić do menu i zakończyć zabawę
         public void LogicEndGame(GraphicsDevice device, ContentManager theContentManager)
         {
-            
+            MouseState mouse;
+            mouse = Mouse.GetState();
+            //Debug.WriteLine(mouse.ToString());
+            MouseState oldMouseState = new MouseState();
+            for (int i = 0; i < gameStateEndGame.SpriteAnimationList.Length; i++)
+            {
+                if (new Rectangle(mouse.X, mouse.Y, 1, 1).Intersects(gameStateEndGame.SpriteAnimationList[i].GetFrameRectangle()))
+                {
+                    gameStateEndGame.SpriteAnimationList[i].UpdateAnimation();
+                    if (mouse.LeftButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                endGame = false;
+                                gameState.State = GameState.States.loadingGame;
+                                break;
+                            case 1:
+                                gameState.State = GameState.States.startMenu;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    gameStateEndGame.SpriteAnimationList[i].UpdateReverse();
+                }
+            }
         }
         #endregion
         public GameState.States GetState()

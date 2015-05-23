@@ -12,9 +12,6 @@ namespace Cyber.CGameStateEngine
 {
     class GameStateMainMenu : GameState
     {
-        /*TODO: http://stackoverflow.com/questions/3552707/xna-get-window-location
-         * Wypozycjonować wg tego gówna
-        */
         #region MODELVIEW
 
         private Sprite menuBackground;
@@ -50,7 +47,7 @@ namespace Cyber.CGameStateEngine
             menuBackground = new Sprite(0, 0);
             menuBackground.LoadContent(theContentManager, path + "menuBackground");
 
-            string[] textureList = new[] { "startAnimationButton", "loadAnimationButton", "settingsAnimationButton", "exitAnimationButton" };
+            string[] textureList = new[] { "startAnimationButton", "loadAnimationButton", "creditsAnimationButton", "exitAnimationButton" };
             spriteAnimationList = new SpriteAnimationDynamic[textureList.Length];
             for (int i = 0; i < textureList.Length; i++)
             {

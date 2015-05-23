@@ -70,9 +70,6 @@ namespace Cyber.CGameStateEngine
         public Vector3 Up { get; private set; }
         public Vector3 Right { get; private set; }
 
-        //TESTOWANE
-        private bool loaded = false;
-
         public void Unload()
         {
             theContentManager.Unload();
@@ -579,7 +576,6 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
             {
-                
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
@@ -693,8 +689,6 @@ namespace Cyber.CGameStateEngine
             oldState = newState;
 
             AI.Instance.MoveNPCs(null);
-
-            
         }
     }
 

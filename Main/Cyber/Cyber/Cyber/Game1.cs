@@ -279,12 +279,14 @@ namespace Cyber
             else if (LogicEngine.GetState() == GameState.States.loadingGame)
             {
                 loadingGame.Draw(spriteBatch);
+                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             #endregion
             #region rysowanie planszy powtórki poziomu w przypadku przegranej
             else if (LogicEngine.GetState() == GameState.States.endGame)
             {
                 endGame.Draw(spriteBatch);
+                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             #endregion
             #region rysowanie menu ³adowania poziomów

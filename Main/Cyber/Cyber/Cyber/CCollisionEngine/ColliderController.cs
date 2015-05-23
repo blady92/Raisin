@@ -77,18 +77,21 @@ namespace Cyber.CollisionEngine
                     if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                     {
                         ConsoleDetection = true;
+                        terminalNumber = i;
                         CollisionItemType = staticItemList[i].Type;
                         return staticItemList[i].Type;
                     }
                     else if (staticItemList[i].ColliderExternal.AABB.Intersects(item.ColliderInternal.AABB))
                     {
                         ConsoleDetection = true;
+                        terminalNumber = i;
                         staticItemList[i].OnOffBilboard = true;
                         CollisionItemType = StaticItemType.none;
                         return StaticItemType.none;
                     }
                     else
                     {
+                        terminalNumber = i;
                         staticItemList[i].OnOffBilboard = false;
                         ConsoleDetection = false;
                     }
@@ -156,6 +159,7 @@ namespace Cyber.CollisionEngine
                 else
                 {
                     staticItemList[terminalNumber].OnOffBilboard = true;
+                    return false;
                 }
                 
             }

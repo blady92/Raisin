@@ -51,7 +51,7 @@ namespace Cyber.CItems
 
         public void LoadContent(ContentManager theContentManager)
         {
-            Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false); //Ustawienie byle jak
+            Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false);
             Console.LoadAnimationHover(theContentManager);
             Console.SpritePosition = new Vector2(0, 768 - Console.TextureList[0].Height);
             font = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleFont");
