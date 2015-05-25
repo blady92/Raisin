@@ -65,6 +65,9 @@ namespace Cyber.CLogicEngine
                     break;
                 }
             }
+
+            //StageUtils.PrintPath(freeSpaceMap, moves);
+
             while (moves.Count != 0)
             {
                 result.Insert(0, StageUtils.BitmapCoordsToStageVector(moves.Pop()));

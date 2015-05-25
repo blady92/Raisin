@@ -64,38 +64,216 @@ namespace Cyber.CLogicEngine
         /// <returns>Modified free space map</returns>
         public static bool[,] MarkWallBordersAsForbidden(bool[,] freeSpaceMap)
         {
-            /*Debug.WriteLine("StageUtils.cs:67: implement the method");
-            Debug.WriteLine(freeSpaceMap.GetLength(0));
-            Debug.WriteLine(freeSpaceMap.GetLength(1));
+            PrintMap(freeSpaceMap);
+            bool[,] newMap = new bool[freeSpaceMap.GetLength(0), freeSpaceMap.GetLength(1)];
             //for each row besides last
-            for (int i = 0; i < freeSpaceMap.GetLength(1) - 1; i++)
+            for (int rowi = 0; rowi < freeSpaceMap.GetLength(0); rowi++)
             {
-                int j;
+                int coli;
                 //for each column besides last
-                for (j = 0; j < freeSpaceMap.GetLength(0) - 1; j++)
+                for (coli = 0; coli < freeSpaceMap.GetLength(1); coli++)
                 {
-                    //previous line
-                    if (freeSpaceMap[i, j])
-                    {
+                    newMap[rowi, coli] = true;
 
+                    //previous line
+
+                    /*
+                     * +---+---+---+
+                     * | ! |   |   |
+                     * +---+---+---+
+                     * |   | ? |   |
+                     * +---+---+---+    ? = !
+                     * |   |   |   |
+                     * +---+---+---+
+                     */
+                    if (rowi != 0 && coli != 0 && !freeSpaceMap[rowi - 1, coli - 1])
+                    {
+                        newMap[rowi, coli] = false;
                     }
+
+                    /*
+                     * +---+---+---+
+                     * |   | ! |   |
+                     * +---+---+---+
+                     * |   | ? |   |
+                     * +---+---+---+    ? = !
+                     * |   |   |   |
+                     * +---+---+---+
+                     */
+                    if (rowi != 0 && !freeSpaceMap[rowi - 1, coli])
+                    {
+                        newMap[rowi, coli] = false;
+                    }
+
+                    /*
+                     * +---+---+---+
+                     * |   |   | ! |
+                     * +---+---+---+
+                     * |   | ? |   |
+                     * +---+---+---+    ? = !
+                     * |   |   |   |
+                     * +---+---+---+
+                     */
+                    if (rowi != 0 && (coli != freeSpaceMap.GetLength(1) - 1) && !freeSpaceMap[rowi - 1, coli + 1])
+                    {
+                        newMap[rowi, coli] = false;
+                    }
+
                     //current line
-                    if (freeSpaceMap[i, j + 1])
+
+                    /*
+                     * +---+---+---+
+                     * |   |   |   |
+                     * +---+---+---+
+                     * | ! | ? |   |
+                     * +---+---+---+    ? = !
+                     * |   |   |   |
+                     * +---+---+---+
+                     */
+                    if (coli != 0 && !freeSpaceMap[rowi, coli - 1])
                     {
-                        freeSpaceMap[i, j] = true;
+                        newMap[rowi, coli] = false;
                     }
+
+                    /*
+                     * +---+---+---+
+                     * |   |   |   |
+                     * +---+---+---+
+                     * |   |? !|   |
+                     * +---+---+---+    ? = !
+                     * |   |   |   |
+                     * +---+---+---+
+                     */
+                    if (!freeSpaceMap[rowi, coli])
+                    {
+                        newMap[rowi, coli] = false;
+                    }
+
+                    /*
+                     * +---+---+---+
+                     * |   |   |   |
+                     * +---+---+---+
+                     * |   | ? | ! |
+                     * +---+---+---+    ? = !
+                     * |   |   |   |
+                     * +---+---+---+
+                     */
+                    if ((coli != freeSpaceMap.GetLength(1) - 1) && !freeSpaceMap[rowi, coli + 1])
+                    {
+                        newMap[rowi, coli] = false;
+                    }
+
                     //next line
-                    if (freeSpaceMap[i + 1, j])
+
+                    /*
+                     * +---+---+---+
+                     * |   |   |   |
+                     * +---+---+---+
+                     * |   | ? |   |
+                     * +---+---+---+    ? = !
+                     * | ! |   |   |
+                     * +---+---+---+
+                     */
+                    if ((rowi != freeSpaceMap.GetLength(0) - 1) && coli != 0 && !freeSpaceMap[rowi + 1, coli - 1])
                     {
-                        freeSpaceMap[i, j] = true;
+                        newMap[rowi, coli] = false;
+                    }
+
+                    /*
+                     * +---+---+---+
+                     * |   |   |   |
+                     * +---+---+---+
+                     * |   | ? |   |
+                     * +---+---+---+    ? = !
+                     * |   | ! |   |
+                     * +---+---+---+
+                     */
+                    if ((rowi != freeSpaceMap.GetLength(0) - 1) && !freeSpaceMap[rowi + 1, coli])
+                    {
+                        newMap[rowi, coli] = false;
+                    }
+
+                    /*
+                     * +---+---+---+
+                     * |   |   |   |
+                     * +---+---+---+
+                     * |   | ? |   |
+                     * +---+---+---+    ? = !
+                     * |   |   | ! |
+                     * +---+---+---+
+                     */
+                    if ((rowi != freeSpaceMap.GetLength(0) - 1) && (coli != freeSpaceMap.GetLength(1) - 1) && !freeSpaceMap[rowi + 1, coli + 1])
+                    {
+                        newMap[rowi, coli] = false;
                     }
                 }
-                if (freeSpaceMap[i,j])
+            }
+            PrintMap(newMap);
+            return newMap;
+        }
+
+        public static void PrintMap(bool[,] map)
+        {
+#if DEBUG
+            Debug.WriteLine("Started printing the map");
+            for (int row = 0; row < map.GetLength(1); row++)
+            {
+                for (int col = 0; col < map.GetLength(0); col++)
                 {
-                    freeSpaceMap[i, j + 1] = true;
+                    Debug.Write(map[col,row] ? " _ " : " # ");
                 }
-            }*/
-            return freeSpaceMap;
+                Debug.WriteLine("");
+            }
+            Debug.WriteLine("Finished printing the map");
+#endif
+        }
+
+        public static void PrintPath(bool[,] map, IEnumerable<Position> path)
+        {
+#if DEBUG
+            Debug.WriteLine("Started printing path on map");
+            for (int row = 0; row < map.GetLength(1); row++)
+            {
+                for (int col = 0; col < map.GetLength(0); col++)
+                {
+                    if (path.Any(o => o.X == col && o.Y == row))
+                    {
+                        Debug.Write(" $ ");
+                    }
+                    else if (!map[col,row])
+                    {
+                        Debug.Write(" # ");
+                    }
+                    else
+                    {
+                        Debug.Write(" _ ");
+                    }
+                }
+                Debug.WriteLine("");
+            }
+            Debug.WriteLine("Finished printing path on map");
+#endif
+        }
+
+        public class PositionComparer : IEqualityComparer<Position>
+        {
+            public bool Equals(Position x, Position y)
+            {
+                if (x != null)
+                {
+                    return x.Equals(y);
+                }
+                return false;
+            }
+
+            public int GetHashCode(Position obj)
+            {
+                if (obj != null)
+                {
+                    return obj.GetHashCode();
+                }
+                throw new ArgumentNullException();
+            }
         }
     }
 }

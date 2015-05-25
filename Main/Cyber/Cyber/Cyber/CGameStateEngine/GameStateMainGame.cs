@@ -510,9 +510,9 @@ namespace Cyber.CGameStateEngine
                                           Matrix.CreateTranslation(item.Position);
                 item.DrawItem(device, stageElementView, view, projection);
 
-                Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
-                item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
-                item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+                //Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
+                //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+                //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             }
             #endregion
             

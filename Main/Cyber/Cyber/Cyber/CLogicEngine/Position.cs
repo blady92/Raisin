@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cyber.CLogicEngine
 {
-    public class Position
+    public class Position : IEquatable<Position>
     {
         private int x, y;
 
@@ -32,9 +32,22 @@ namespace Cyber.CLogicEngine
             }
             else
             {
-                Position pos = (Position)obj;
-                return pos.X == this.X && pos.Y == this.Y;
+                return Equals((Position)obj);
             }
+        }
+
+        public bool Equals(Position other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return other.X == this.X && other.Y == this.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
