@@ -8,6 +8,7 @@ using Cyber.CAdditionalLibs;
 using Cyber.CItems;
 using Cyber.CItems.CStaticItem;
 using Cyber.CollisionEngine;
+using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +16,6 @@ using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Cyber.CStageParsing;
 using Cyber.CItems.CDynamicItem;
-using MyGame;
 
 namespace Cyber.CGameStateEngine
 {
@@ -65,10 +65,8 @@ namespace Cyber.CGameStateEngine
         float rotateSam = 0.0f;
         Matrix samPointingAtDirection = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(0));
         bool changedDirection = false;
-
-        //Wektory normalne do ukierunkowania bilboardu
-        public Vector3 Up { get; private set; }
-        public Vector3 Right { get; private set; }
+        
+        //Testowanie
 
         public void Unload()
         {
@@ -240,6 +238,10 @@ namespace Cyber.CGameStateEngine
                         new Vector2(60),
                         move + new Vector3(0, 0, 20)
                         ));
+                    ParticleEmitter emitter = new ParticleEmitter();
+                    emitter.LoadContent(device, theContentManager, "Assets/2D/yellowGlow",
+                        40, 20, 20, 100, move - new Vector3(15, 10, 10), 1, 0.005f);
+                    stageElements[i].particles = emitter;
                 }
                 else if (stage.Objects[j] is Column)
                 {
@@ -265,6 +267,9 @@ namespace Cyber.CGameStateEngine
             #region NPCs
             for (int j = 0; j < stage.NPCs.Count; j++)
             {
+                if (npcList[j].Type == StaticItemType.tank) { 
+                    Debug.WriteLine("Mamy tutaj przeciwnika typu: Tank");
+                }
                 Vector3 move = new Vector3(stage.NPCs[j].GetBlock().X * mnoznikPrzesunieciaOther,
                                         stage.NPCs[j].GetBlock().Y * mnoznikPrzesunieciaOther,
                                         0.0f);
@@ -273,6 +278,11 @@ namespace Cyber.CGameStateEngine
                 npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
                 npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
                 npcList[j].ID = IDGenerator.GenerateID();
+
+                ParticleEmitter emitter = new ParticleEmitter();
+                    emitter.LoadContent(device, theContentManager, "Assets/2D/redGlow",
+                        30, 20, 20, 100, move - new Vector3(15, 15, 10), 1, 0.005f);
+                npcList[j].particles = emitter;
             }
 
             #endregion
@@ -496,6 +506,10 @@ namespace Cyber.CGameStateEngine
                 else
                 {
                     stageElement.DrawItem(device, stageElementView, view, projection);
+                    if (stageElement.particles != null) { 
+                        stageElement.particles.Update();
+                        stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
+                    }
                 }
                 //Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
                 //stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
@@ -513,12 +527,18 @@ namespace Cyber.CGameStateEngine
                 //Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
                 //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
                 //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+
+                if (item.particles != null)
+                {
+                    item.particles.Update();
+                    item.particles.Draw(device, view, projection, cameraRotation, item.Position);
+                }
             }
             #endregion
             
+
             console.Draw(spriteBatch);
             #endregion
-
         }
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
@@ -687,8 +707,7 @@ namespace Cyber.CGameStateEngine
             }*/
             console.Update();
             oldState = newState;
-
-            AI.Instance.MoveNPCs(null);
+            //AI.Instance.MoveNPCs(null);
         }
     }
 

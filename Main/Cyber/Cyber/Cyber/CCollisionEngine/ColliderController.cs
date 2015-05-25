@@ -8,7 +8,6 @@ using Cyber.CItems.CStaticItem;
 using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MyGame;
 
 namespace Cyber.CollisionEngine
 {

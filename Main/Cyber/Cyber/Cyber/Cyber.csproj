@@ -132,6 +132,8 @@
     <Compile Include="GraphicsEngine\Bilboarding\BillboardSystem.cs" />
     <Compile Include="GraphicsEngine\Keyframe.cs" />
     <Compile Include="GraphicsEngine\ModelTest.cs" />
+    <Compile Include="GraphicsEngine\Bilboarding\ParticleEmitter.cs" />
+    <Compile Include="GraphicsEngine\Particle.cs" />
     <Compile Include="GraphicsEngine\SkinningAnimation.cs" />
     <Compile Include="GraphicsEngine\SkinningData.cs" />
     <Compile Include="GraphicsEngine\Sprite.cs" />

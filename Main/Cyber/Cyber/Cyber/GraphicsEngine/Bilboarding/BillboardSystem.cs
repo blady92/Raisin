@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace MyGame
+namespace Cyber
 {
     public class BillboardSystem
     {
@@ -97,11 +97,13 @@ namespace MyGame
             effect.Parameters["Side"].SetValue(Right);
         }
 
-        public void Draw(GraphicsDevice device, Matrix View, Matrix Projection, float cameraRotation)
+        public void Draw(GraphicsDevice device, Matrix View, Matrix Projection, float cameraRotation, 
+            Vector3 translation, float resizeX, float resizeY, float resizeZ)
         {
             Matrix rotation = Matrix.CreateFromYawPitchRoll(0, -80, 0); ;
-            rotation *= Matrix.CreateScale(1, 0.5f, 1);
+            rotation *= Matrix.CreateScale(resizeX, resizeY, resizeZ);
             rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(-cameraRotation));
+            rotation *= Matrix.CreateTranslation(translation);
             Vector3 up = Vector3.Transform(Vector3.Up, rotation);
             Vector3 right = Vector3.Cross(Vector3.Transform(Vector3.Forward, rotation), up);
 

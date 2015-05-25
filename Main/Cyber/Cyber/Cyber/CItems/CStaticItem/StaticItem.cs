@@ -5,7 +5,6 @@ using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MyGame;
 
 namespace Cyber.CItems.CStaticItem
 {
@@ -20,6 +19,7 @@ namespace Cyber.CItems.CStaticItem
         private StaticItemType type;
         public bool OnOffBilboard { get; set; }
         public List<BillboardSystem> bilboards { get; set; }
+        public ParticleEmitter particles { get; set; }
 
         public string ID { get; set; }
         public StaticItem(string path)
@@ -101,8 +101,8 @@ namespace Cyber.CItems.CStaticItem
             {
                 foreach (BillboardSystem bilboard in bilboards)
                 {
-                    bilboard.Draw(device, view, projection, cameraRotation);
-                }
+                    bilboard.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+                }   
             }
         }
 
@@ -110,7 +110,17 @@ namespace Cyber.CItems.CStaticItem
         {
             skinnedModel.DrawStaticModelWithShader(gameTime, device);
         }
-
+        public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
+        {
+            skinnedModel.DrawStaticModelWithShader(gameTime, device);
+            if (OnOffBilboard)
+            {
+                foreach (BillboardSystem bilboard in bilboards)
+                {
+                    bilboard.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+                }
+            }
+        }
         public void FixColliderExternal(Vector3 resize, Vector3 move)
         {
             colliderExternal.SetBoudings(skinnedModel.CurrentModel);
