@@ -36,7 +36,7 @@ namespace Cyber.CLogicEngine
                     //player can move there and algo have never been there
                     if (
                         currentNextPosToTargetDistance < bestNextPosToTargetDistance &&
-                        freeSpaceMap[GetNextPosition(peak, m).X, GetNextPosition(peak, m).Y] &&
+                        GetNextPositionIfFree(peak, m, freeSpaceMap) != null &&
                         ! closedNodes.Contains(GetNextPosition(peak, m))
                     )
                     {
@@ -72,6 +72,12 @@ namespace Cyber.CLogicEngine
             return result;
         }
 
+        /// <summary>
+        /// Get position coordinates after performing NEXTMOVE
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="nextMove"></param>
+        /// <returns></returns>
         public Position GetNextPosition(Position pos, Moves nextMove)
         {
             switch(nextMove)
@@ -95,6 +101,62 @@ namespace Cyber.CLogicEngine
                 default:
                     throw new ArgumentException("Expected one of enum fields");
             }
+        }
+
+        /// <summary>
+        /// Get next position coordinates only if there is no wall between current and next position
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="nextMove"></param>
+        /// <param name="freeSpaceMap"></param>
+        /// <returns></returns>
+        Position GetNextPositionIfFree(Position pos, Moves nextMove, bool[,] freeSpaceMap)
+        {
+            Position nextPosition = GetNextPosition(pos, nextMove);
+            switch(nextMove)
+            {
+                case Moves.DL:
+                    {
+                        Position left = GetNextPosition(pos, Moves.L);
+                        Position down = GetNextPosition(pos, Moves.D);
+                        if (!freeSpaceMap[left.X, left.Y] || !freeSpaceMap[down.X, down.Y])
+                        {
+                            return null;
+                        }
+                        break;
+                    }
+                case Moves.DR:
+                    {
+                        Position right = GetNextPosition(pos, Moves.R);
+                        Position down = GetNextPosition(pos, Moves.D);
+                        if (!freeSpaceMap[right.X, right.Y] || !freeSpaceMap[down.X, down.Y])
+                        {
+                            return null;
+                        }
+                        break;
+                    }
+                case Moves.UL:
+                    {
+                        Position left = GetNextPosition(pos, Moves.L);
+                        Position up = GetNextPosition(pos, Moves.U);
+                        if (!freeSpaceMap[left.X, left.Y] || !freeSpaceMap[up.X, up.Y])
+                        {
+                            return null;
+                        }
+                        break;
+                    }
+                case Moves.UR:
+                    {
+                        Position right = GetNextPosition(pos, Moves.R);
+                        Position up = GetNextPosition(pos, Moves.U);
+                        if (!freeSpaceMap[right.X, right.Y] || !freeSpaceMap[up.X, up.Y])
+                        {
+                            return null;
+                        }
+                        break;
+                    }
+            }
+            return freeSpaceMap[nextPosition.X, nextPosition.Y] ? nextPosition : null;
         }
     }
 }
