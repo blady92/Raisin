@@ -70,6 +70,10 @@ namespace Cyber.CGameStateEngine
         private ParticleEmitter escapeemitter;
         private StaticItem escapeCollider;
         public bool escaped;
+        public StaticItem podjazd;
+        private float podjazdStopPoint;
+        private float podjazdBefore;
+
 
         public void Unload()
         {
@@ -78,7 +82,6 @@ namespace Cyber.CGameStateEngine
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
-            Debug.WriteLine(level.ToString());
             this.theContentManager = theContentManager;
             #region Load 2D elements
             console = new ConsoleSprites(this, audio);
@@ -98,27 +101,38 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer = new DynamicItem("Assets/3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
-            
+
+            #region Ładowanie całego stuffu do wychodzenia ze sceny
+            escapeemitter = new ParticleEmitter();
+            escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-20, 270, 60), 1, 1);
+
+            escapeCollider = new StaticItem("Assets/3D/escapeBox");
+            escapeCollider.LoadItem(theContentManager);
+            escapeCollider.Position = new Vector3(0, 0, 0);
+            escapeCollider.FixColliderInternal(new Vector3(25, 25, 25), new Vector3(-10, 300, 30));
+
+            podjazd = new StaticItem("Assets/3d/podjazd");
+            podjazd.LoadItem(theContentManager);
+            podjazd.Position = new Vector3(0,0,0);
+            podjazd.FixColliderInternal(new Vector3(1,4,1), new Vector3(40,380,40));
+            podjazd.Position = new Vector3(40, 300, 45);
+            podjazdStopPoint = 26f;
+            #endregion
 
             stageElements = new List<StaticItem>();
             npcList = new List<StaticItem>();
+            npcList.Clear();
+            stageElements.Clear();
 
             stageParser = new StageParser();
             
             #region ustawianie leveli
             if (level == Level.level1) {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
-                escapeemitter = new ParticleEmitter();
-                escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(0, 270, 0), 1, 1);
-                
-                escapeCollider = new StaticItem("Assets/3D/escapeBox");
-                escapeCollider.LoadItem(theContentManager);
-                escapeCollider.Position = new Vector3(0,0,0);
-                escapeCollider.FixColliderInternal(new Vector3(25, 25, 25), new Vector3(-5, 300, 30));
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
             }
             else if (level == Level.level2)
             {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
             }
             else
             {
@@ -260,7 +274,7 @@ namespace Cyber.CGameStateEngine
                     z = terminalZ;
                     move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
                         stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                        z);
+                        0);
                     stageElements[j].Position = move;
                     stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8,-8, -50));
                 }
@@ -476,7 +490,14 @@ namespace Cyber.CGameStateEngine
             #region Przed bilboardingiem
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
-            
+
+            Matrix podjazdView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(podjazd.Position);
+            podjazd.DrawItem(device, podjazdView, view, projection);
+            Matrix podjazdColliderView = Matrix.CreateTranslation(podjazd.ColliderInternal.Position);
+            podjazd.ColliderInternal.DrawBouding(device, podjazdColliderView, view, projection);
+
+
+
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
@@ -519,9 +540,11 @@ namespace Cyber.CGameStateEngine
                         stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
                     }
                 }
-                //Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
-                //stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
-                //stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+                if (stageElement is Column) {
+                    Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
+                    stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+                    stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+                }
             }
             #endregion
             #region Rysowanie NPCów
@@ -619,6 +642,7 @@ namespace Cyber.CGameStateEngine
                 if (newState.IsKeyDown(Keys.W)) { 
                     move = new Vector3(0, 1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
+                    podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
                    //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -91.0f && rotateSam < 0.0f || rotateSam > 180.0f)
@@ -641,6 +665,7 @@ namespace Cyber.CGameStateEngine
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
+                    podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
                     //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if(rotateSam >= -6.8f && rotateSam <= 180.0f)
@@ -661,6 +686,7 @@ namespace Cyber.CGameStateEngine
                 if (newState.IsKeyDown(Keys.A)) { 
                     move = new Vector3(-1f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
+                    podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
                     //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -91.0f && rotateSam <= 90.0f)
@@ -681,6 +707,7 @@ namespace Cyber.CGameStateEngine
                     
                     move = new Vector3(1f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
+                    podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
                     //Debug.WriteLine("Rotate sam: " + rotateSam);  
                     if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
@@ -728,6 +755,25 @@ namespace Cyber.CGameStateEngine
             console.Update();
             oldState = newState;
             //AI.Instance.MoveNPCs(null);
+        }
+
+        public void podjazdCollision()
+        {
+            if (podjazd.ColliderInternal.AABB.Intersects(samanthaGhostController.ColliderInternal.AABB))
+            {
+                //Debug.WriteLine("Wlazłem na schody");
+                if (podjazdBefore < podjazdStopPoint - samanthaGhostController.Position.X)
+                {
+                    Debug.WriteLine("Wchodzę");
+                    samanthaGhostController.Position += new Vector3(0, 0, 0.5f);
+                }
+                else if (podjazdBefore > podjazdStopPoint - samanthaGhostController.Position.X)
+                {
+                    Debug.WriteLine("Schodzę");
+                    samanthaGhostController.Position += new Vector3(0, 0, -0.5f);
+                }
+                podjazdBefore = podjazdStopPoint - samanthaGhostController.Position.X;
+            }
         }
     }
 }
