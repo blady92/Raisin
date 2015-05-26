@@ -186,23 +186,35 @@ namespace Cyber.CGameStateEngine
         {
             gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
             currentKeyboardState = Keyboard.GetState();
-            if (currentKeyboardState.IsKeyDown(Keys.D2) && oldState.IsKeyUp(Keys.D2))
-            {
-                gameStateMainGame.level = Level.level1;
-                GameState.State = GameState.States.loadingGame;
-            }
-            if (currentKeyboardState.IsKeyDown(Keys.D3) && oldState.IsKeyUp(Keys.D3))
-            {
-                gameStateMainGame.level = Level.level2;
-                GameState.State = GameState.States.loadingGame;
-            }
-            if (currentKeyboardState.IsKeyDown(Keys.D1) && oldState.IsKeyUp(Keys.D1))
-            {
-                endGame = true;
-            }
+            //if (currentKeyboardState.IsKeyDown(Keys.D2) && oldState.IsKeyUp(Keys.D2))
+            //{
+            //    gameStateMainGame.level = Level.level1;
+            //    GameState.State = GameState.States.loadingGame;
+            //}
+            //if (currentKeyboardState.IsKeyDown(Keys.D3) && oldState.IsKeyUp(Keys.D3))
+            //{
+            //    gameStateMainGame.level = Level.level2;
+            //    GameState.State = GameState.States.loadingGame;
+            //}
+            //if (currentKeyboardState.IsKeyDown(Keys.D1) && oldState.IsKeyUp(Keys.D1))
+            //{
+            //    endGame = true;
+            //}
             if (endGame)
             {
                 GameState.State = GameState.States.endGame;
+            }
+            if (gameStateMainGame.escaped)
+            {
+                if (gameStateMainGame.level == Level.level1)
+                {
+                    gameStateMainGame.level = Level.level2;
+                }
+                else
+                {
+                    gameStateMainGame.level = Level.level1;
+                }
+                GameState.State = GameState.States.loadingGame;
             }
             oldState = currentKeyboardState;
         }
