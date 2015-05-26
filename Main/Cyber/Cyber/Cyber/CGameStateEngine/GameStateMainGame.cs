@@ -66,7 +66,10 @@ namespace Cyber.CGameStateEngine
         Matrix samPointingAtDirection = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(0));
         bool changedDirection = false;
         
-        //Testowanie
+        //Escape items
+        private ParticleEmitter escapeemitter;
+        private StaticItem escapeCollider;
+        public bool escaped;
 
         public void Unload()
         {
@@ -102,8 +105,15 @@ namespace Cyber.CGameStateEngine
             stageParser = new StageParser();
             
             #region ustawianie leveli
-            if (level == Level.level1) { 
+            if (level == Level.level1) {
                 stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+                escapeemitter = new ParticleEmitter();
+                escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(0, 270, 0), 1, 1);
+                
+                escapeCollider = new StaticItem("Assets/3D/escapeBox");
+                escapeCollider.LoadItem(theContentManager);
+                escapeCollider.Position = new Vector3(0,0,0);
+                escapeCollider.FixColliderInternal(new Vector3(25, 25, 25), new Vector3(-5, 300, 30));
             }
             else if (level == Level.level2)
             {
@@ -200,6 +210,7 @@ namespace Cyber.CGameStateEngine
 
         public void SetUpScene(GraphicsDevice device)
         {
+            escaped = false;
             ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region setups
             int i = 0;
@@ -339,7 +350,6 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersLowerRight
@@ -350,7 +360,6 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersUpperLeft
@@ -361,7 +370,6 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConcaveCornersUpperRight
@@ -372,7 +380,6 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
             }
             #endregion
             #region ConvexCornersLowerLeft
@@ -383,7 +390,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-25f, 5f, 15f));
             }
             #endregion
             #region ConvexCornersLowerRight
@@ -394,7 +401,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-7f, 5f, 15f));
             }
             #endregion
             #region ConvexCornersUpperLeft
@@ -405,7 +412,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-25f, -30f, 15f));
             }
             #endregion
             #region ConvexCornersUpperRight
@@ -465,7 +472,6 @@ namespace Cyber.CGameStateEngine
             ref float cameraRotation
             )
         {
-
             #region Przed bilboardingiem
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
@@ -476,73 +482,83 @@ namespace Cyber.CGameStateEngine
                       Matrix.CreateTranslation(samanthaGhostController.Position);
 
             Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
-            //   samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
-           
-            //samantha.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+
+            samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
-            //for (int i = 8; i < 9; i++)
-            //{
-            //    //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
-            //    Matrix stageElementView = Matrix.Identity *
-            //                        Matrix.CreateRotationZ(MathHelper.ToRadians(stageElements[i].Rotation)) *
-            //                        Matrix.CreateTranslation(stageElements[i].Position);
-            //    Matrix stageElementColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
-            //    stageElements[i].DrawItem(device, stageElementView, view, projection);
-            //    stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
-            //    stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
-            //}
-            #region Rysowanie elementów sceny
-            foreach (StaticItem stageElement in stageElements)
+            for (int i = 0; i < 125; i++)
             {
+                //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
                 Matrix stageElementView = Matrix.Identity *
-                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
-                    Matrix.CreateTranslation(stageElement.Position);
-                if (stageElement.OnOffBilboard)
-                {
-                    stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                }
-                else
-                {
-                    stageElement.DrawItem(device, stageElementView, view, projection);
-                    if (stageElement.particles != null) { 
-                        stageElement.particles.Update();
-                        stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
-                    }
-                }
-                //Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
+                                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElements[i].Rotation)) *
+                                    Matrix.CreateTranslation(stageElements[i].Position);
+                Matrix stageElementColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
+                stageElements[i].DrawItem(device, stageElementView, view, projection);
                 //stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
                 //stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
             }
+            #region Rysowanie elementów sceny
+            //foreach (StaticItem stageElement in stageElements)
+            //{
+            //    Matrix stageElementView = Matrix.Identity *
+            //        Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
+            //        Matrix.CreateTranslation(stageElement.Position);
+            //    if (stageElement.OnOffBilboard)
+            //    {
+            //        stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+            //    }
+            //    else
+            //    {
+            //        stageElement.DrawItem(device, stageElementView, view, projection);
+            //        if (stageElement.particles != null) { 
+            //            stageElement.particles.Update();
+            //            stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
+            //        }
+            //    }
+            //    //Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
+            //    //stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+            //    //stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+            //}
             #endregion
-            #region Rysowanie NPCów
-            foreach (StaticItem item in npcList)
-            {
-                Matrix stageElementView = Matrix.Identity *
-                                          Matrix.CreateRotationZ(MathHelper.ToRadians(item.Rotation)) *
-                                          Matrix.CreateTranslation(item.Position);
-                item.DrawItem(device, stageElementView, view, projection);
+            //#region Rysowanie NPCów
+            //foreach (StaticItem item in npcList)
+            //{
+            //    Matrix stageElementView = Matrix.Identity *
+            //                              Matrix.CreateRotationZ(MathHelper.ToRadians(item.Rotation)) *
+            //                              Matrix.CreateTranslation(item.Position);
+            //    item.DrawItem(device, stageElementView, view, projection);
 
-                //Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
-                //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
-                //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+            //    //Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
+            //    //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
+            //    //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
 
-                if (item.particles != null)
-                {
-                    item.particles.Update();
-                    item.particles.Draw(device, view, projection, cameraRotation, item.Position);
-                }
-            }
+            //    if (item.particles != null)
+            //    {
+            //        item.particles.Update();
+            //        item.particles.Draw(device, view, projection, cameraRotation, item.Position);
+            //    }
+            //}
             #endregion
             
 
             console.Draw(spriteBatch);
-            #endregion
+            if (level == Level.level1)
+            {
+                escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+                Matrix escapeColliderViewMatrix = Matrix.CreateTranslation(escapeCollider.Position);
+                escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderViewMatrix, view, projection);
+            }
         }
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
+            if (samanthaGhostController.ColliderInternal.AABB.Intersects(escapeCollider.ColliderInternal.AABB))
+            {
+                escaped = true;
+            }
+            escapeemitter.Update();
             console.Update();
             KeyboardState newState = currentKeyboardState;
 

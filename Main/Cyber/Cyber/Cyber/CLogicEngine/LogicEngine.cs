@@ -17,7 +17,7 @@ namespace Cyber.CGameStateEngine
 {
     class LogicEngine : Game
     {
-        private GameState gameState;
+        public GameState gameState;
         private GameStateMainMenu gameStateMainMenu;
         private GameStateMainGame gameStateMainGame;
         private GameStateLoadMenu gameStateLoadMenu;
@@ -193,6 +193,18 @@ namespace Cyber.CGameStateEngine
                 GameState.State = GameState.States.endGame;
             }
             oldState = currentKeyboardState;
+            if (gameStateMainGame.escaped)
+            {
+                if (gameStateMainGame.level == Level.level1)
+                {
+                    gameStateMainGame.level = Level.level2;
+                }
+                else
+                {
+                    gameStateMainGame.level = Level.level1;
+                }
+                GameState.State = GameState.States.loadingGame;
+            }
         }
 
         public void LogicChangeLevel(ContentManager theContentManager, GraphicsDevice device)
