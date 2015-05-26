@@ -10,7 +10,7 @@ namespace Cyber.CLogicEngine
     {
         private bool[,] freeSpaceMap;
 
-        private static readonly int safetyMargin = 10000;
+        private static readonly int safetyMargin = 1000;
         public BestFirstAlgorithm(bool[,] freeSpaceMap)
         {
             this.freeSpaceMap = freeSpaceMap;
@@ -19,6 +19,7 @@ namespace Cyber.CLogicEngine
         public List<Vector3> FindWayToPlace(Vector3 from, Vector3 to)
         {
             List<Vector3> result = new List<Vector3>();
+            Position initializer = new Position(-freeSpaceMap.GetLength(0), -freeSpaceMap.GetLength(1));
             Stack<Position> moves = new Stack<Position>();
             moves.Push(StageUtils.StageVectorToBitmapCoords(from));
             int safetySwitch = 0;
@@ -26,7 +27,7 @@ namespace Cyber.CLogicEngine
             while((StageUtils.BitmapCoordsToStageVector(moves.Peek()) - to).Length() > StageUtils.PRZESUNIECIE)
             {
                 Position peak = moves.Peek();
-                Position next = peak;
+                Position next = initializer;
                 //for every available move
                 foreach(Moves m in Enum.GetValues(typeof(Moves)))
                 {
@@ -45,9 +46,10 @@ namespace Cyber.CLogicEngine
                 }
                 //if there is at least one node we can go to
                 //do it, if it isn't go back
-                if (next != peak)
+                if (next != initializer)
                 {
                     moves.Push(next);
+                    closedNodes.Add(next);
                 }
                 else
                 {
@@ -65,6 +67,8 @@ namespace Cyber.CLogicEngine
                     break;
                 }
             }
+            
+            //moves.Push(StageUtils.StageVectorToBitmapCoords(to));
 
             //StageUtils.PrintPath(freeSpaceMap, moves);
 
