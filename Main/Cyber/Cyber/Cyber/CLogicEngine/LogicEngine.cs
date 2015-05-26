@@ -17,7 +17,7 @@ namespace Cyber.CGameStateEngine
 {
     class LogicEngine : Game
     {
-        public GameState gameState;
+        private GameState gameState;
         private GameStateMainMenu gameStateMainMenu;
         private GameStateMainGame gameStateMainGame;
         private GameStateLoadMenu gameStateLoadMenu;
@@ -76,7 +76,14 @@ namespace Cyber.CGameStateEngine
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
-                                    gameState.State = GameState.States.loadMenu;
+                                    gameStateMainGame.SetUpClock();
+                                    gameStateMainGame.SetUpScene(device);
+                                    gameState.State = GameState.States.mainGame;
+
+                                    //GameSerializer ser = new JSONSerializer();
+                                    //DataContainer data = ser.Deserialize("state.json");
+                                    //data.Apply(gameStateMainGame);
+                                    //gameState.State = GameState.States.loadMenu;
                                     break;
                                 case 2:
                                 //    base.StateGame = "settings";
@@ -130,6 +137,11 @@ namespace Cyber.CGameStateEngine
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
+                                    //save game
+                                    //DataContainer state = new DataContainer(gameStateMainGame);
+                                    //GameSerializer serializer = new JSONSerializer();
+                                    //serializer.Serialize(state, "state.json");
+                                    break;
                                 case 2:
                                 //    base.StateGame = "settings";
                                 //    break;
@@ -193,18 +205,6 @@ namespace Cyber.CGameStateEngine
                 GameState.State = GameState.States.endGame;
             }
             oldState = currentKeyboardState;
-            if (gameStateMainGame.escaped)
-            {
-                if (gameStateMainGame.level == Level.level1)
-                {
-                    gameStateMainGame.level = Level.level2;
-                }
-                else
-                {
-                    gameStateMainGame.level = Level.level1;
-                }
-                GameState.State = GameState.States.loadingGame;
-            }
         }
 
         public void LogicChangeLevel(ContentManager theContentManager, GraphicsDevice device)
