@@ -482,10 +482,10 @@ namespace Cyber.CGameStateEngine
                       Matrix.CreateTranslation(samanthaGhostController.Position);
 
             Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
-            samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
-            samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+           // samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
             for (int i = 0; i < 125; i++)
@@ -548,7 +548,7 @@ namespace Cyber.CGameStateEngine
             {
                 escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
                 Matrix escapeColliderViewMatrix = Matrix.CreateTranslation(escapeCollider.Position);
-                escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderViewMatrix, view, projection);
+              //  escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderViewMatrix, view, projection);
             }
         }
 
@@ -616,8 +616,8 @@ namespace Cyber.CGameStateEngine
                     move = new Vector3(0, 1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.Y = samanthaGhostController.Position.Y;
-                   //Debug.WriteLine("Rotate sam: " + rotateSam);
-                    if (rotateSam >= -91.0f && rotateSam < 0.0f || rotateSam > 180.0f)
+                   Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -179.9f && rotateSam < 0.0f || rotateSam > 180.0f)
                     {
                         rotateSam += time * 0.2f;
                       //  Debug.WriteLine("D wins");
@@ -638,12 +638,12 @@ namespace Cyber.CGameStateEngine
 	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.Y = samanthaGhostController.Position.Y;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);
+                    Debug.WriteLine("Rotate sam: " + rotateSam);
                     if(rotateSam >= -6.8f && rotateSam <= 180.0f)
                     {
                         rotateSam += time * 0.2f;
                     }
-                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -90.0f)
+                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -86.0f)
                     {
                         rotateSam -= time * 0.2f;
                         if(rotateSam <= -180.0f)
@@ -658,13 +658,13 @@ namespace Cyber.CGameStateEngine
                     move = new Vector3(-1f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.X = -samanthaGhostController.Position.X;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);
-                    if (rotateSam >= -91.0f && rotateSam <= 90.0f)
+                    Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -179.9f && rotateSam <= 90.0f)
                     {
                         rotateSam += time * 0.2f;
       
                     }
-                    if (rotateSam <= 180.0f && rotateSam > 90.0f)
+                    if (rotateSam <= 269.9f && rotateSam > 90.0f)
                     {
                         rotateSam -= time * 0.2f;
                     }
@@ -678,12 +678,12 @@ namespace Cyber.CGameStateEngine
                     move = new Vector3(1f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     cameraTarget.X = -samanthaGhostController.Position.X;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);  
+                    Debug.WriteLine("Rotate sam: " + rotateSam);  
                     if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
                     {
                         rotateSam -= time * 0.2f;
                     }
-                    if (rotateSam >= 170.0f)
+                    if (rotateSam >= 170.0f || rotateSam <= -90.0f || (rotateSam > 90.0f && rotateSam < 170.0f))
                     {
                         rotateSam += time * 0.2f;
                         if(rotateSam > 270.0f)
