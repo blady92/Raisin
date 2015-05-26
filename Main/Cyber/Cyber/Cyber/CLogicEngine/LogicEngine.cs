@@ -76,7 +76,14 @@ namespace Cyber.CGameStateEngine
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
-                                    gameState.State = GameState.States.loadMenu;
+                                    gameStateMainGame.SetUpClock();
+                                    gameStateMainGame.SetUpScene(device);
+                                    gameState.State = GameState.States.mainGame;
+
+                                    GameSerializer ser = new JSONSerializer();
+                                    DataContainer data = ser.Deserialize("state.json");
+                                    data.Apply(gameStateMainGame);
+                                    //gameState.State = GameState.States.loadMenu;
                                     break;
                                 case 2:
                                 //    base.StateGame = "settings";
@@ -130,6 +137,11 @@ namespace Cyber.CGameStateEngine
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
+                                    //save game
+                                    DataContainer state = new DataContainer(gameStateMainGame);
+                                    GameSerializer serializer = new JSONSerializer();
+                                    serializer.Serialize(state, "state.json");
+                                    break;
                                 case 2:
                                 //    base.StateGame = "settings";
                                 //    break;
