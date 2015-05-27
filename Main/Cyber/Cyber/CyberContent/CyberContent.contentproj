@@ -488,6 +488,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\3D\escapeBoxFBX.fbx">
+      <Name>escapeBoxFBX</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <Compile Include="Assets\3D\ship.x">
       <Name>ship</Name>
       <Importer>XImporter</Importer>
@@ -1017,16 +1022,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\3D\escapeBox.fbx">
-      <Name>escapeBox</Name>
+    <Compile Include="Assets\3D\podjazd.x">
+      <Name>podjazd</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Fan.FBX">
+      <Name>Interior_Fan</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Transformator.FBX">
+      <Name>Interior_Transformator</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\3D\podjazd.x">
-      <Name>podjazd</Name>
-      <Importer>XImporter</Importer>
+    <Compile Include="Assets\3D\podjazdFBX.fbx">
+      <Name>podjazdFBX</Name>
+      <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>

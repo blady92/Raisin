@@ -278,6 +278,7 @@ namespace Cyber
             #region rysowanie okna ³adowania poziomu
             else if (LogicEngine.GetState() == GameState.States.loadingGame)
             {
+                Debug.WriteLine("By³em tutaj!");
                 loadingGame.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }

@@ -195,11 +195,14 @@ namespace Cyber.CGameStateEngine
                 if (gameStateMainGame.level == Level.level1)
                 {
                     gameStateMainGame.level = Level.level2;
+                    GameState.State = GameState.States.loadingGame;
                 }
                 else
                 {
                     gameStateMainGame.level = Level.level1;
+                    GameState.State = GameState.States.loadingGame;
                 }
+                LogicChangeLevel(theContentManager, device);
             }
             oldState = currentKeyboardState;
         }

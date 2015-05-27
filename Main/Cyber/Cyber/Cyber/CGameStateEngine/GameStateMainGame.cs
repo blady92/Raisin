@@ -106,17 +106,16 @@ namespace Cyber.CGameStateEngine
             escapeemitter = new ParticleEmitter();
             escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-20, 270, 60), 1, 1);
 
-            escapeCollider = new StaticItem("Assets/3D/escapeBox");
+            escapeCollider = new StaticItem("Assets/3D/escapeBoxFBX");
             escapeCollider.LoadItem(theContentManager);
             escapeCollider.Position = new Vector3(0, 0, 0);
-            escapeCollider.FixColliderInternal(new Vector3(25, 25, 25), new Vector3(-10, 300, 30));
+            escapeCollider.FixColliderInternal(new Vector3(1, 1, 1), new Vector3(-50, 280, 40));
 
-            podjazd = new StaticItem("Assets/3d/podjazd");
+            podjazd = new StaticItem("Assets/3D/podjazdFBX");
             podjazd.LoadItem(theContentManager);
-            podjazd.Position = new Vector3(0,0,0);
-            podjazd.FixColliderInternal(new Vector3(1,4,1), new Vector3(40,380,40));
-            podjazd.Position = new Vector3(40, 300, 45);
-            podjazdStopPoint = 26f;
+            podjazd.Position = new Vector3(50, 300, 0);
+            podjazd.FixColliderInternal(new Vector3(2,2,2), new Vector3(50,0,0));
+
             #endregion
 
             stageElements = new List<StaticItem>();
@@ -128,11 +127,11 @@ namespace Cyber.CGameStateEngine
             
             #region ustawianie leveli
             if (level == Level.level1) {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
             }
             else if (level == Level.level2)
             {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
             }
             else
             {
@@ -214,8 +213,6 @@ namespace Cyber.CGameStateEngine
         {
             cameraTarget.X = -samanthaGhostController.Position.X;
             cameraTarget.Y = samanthaGhostController.Position.Y;
-            //Debug.WriteLine("ghost X: "+ samanthaGhostController.Position.X);
-            //Debug.WriteLine("ghost Y: " + samanthaGhostController.Position.Y);
         }
 
         public Vector3 returnSamanthaPosition()
@@ -491,21 +488,18 @@ namespace Cyber.CGameStateEngine
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
 
-            Matrix podjazdView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(podjazd.Position);
-            podjazd.DrawItem(device, podjazdView, view, projection);
-            Matrix podjazdColliderView = Matrix.CreateTranslation(podjazd.ColliderInternal.Position);
-            podjazd.ColliderInternal.DrawBouding(device, podjazdColliderView, view, projection);
-
-
-
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
+
+            Matrix samanthaGhostView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                      Matrix.CreateTranslation(samanthaGhostController.Position);
+
+            Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
+            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
-            //Matrix samanthaGhostView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-            //          Matrix.CreateTranslation(samanthaGhostController.Position);
+            samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
-            //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
-            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
 
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
             #endregion
@@ -540,7 +534,8 @@ namespace Cyber.CGameStateEngine
                         stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
                     }
                 }
-                if (stageElement is Column) {
+                if (stageElement is Column)
+                {
                     Matrix stageElementColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
                     stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
                     stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
@@ -566,17 +561,20 @@ namespace Cyber.CGameStateEngine
                 }
             }
             #endregion
-            
+
 
             console.Draw(spriteBatch);
-            //if (level == Level.level1)
-            //{
-            //    escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
-            //    //Matrix escapeColliderViewMatrix = Matrix.CreateTranslation(escapeCollider.Position);
-            //    //escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderViewMatrix, view, projection);
-            //}
             escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+            //Matrix escapeCollideModel = Matrix.CreateTranslation(escapeCollider.Position);
+            //escapeCollider.DrawItem(device, escapeCollideModel, view, projection);
+            //Matrix escapeColliderBox = Matrix.CreateTranslation(escapeCollider.ColliderInternal.Position);
+            //escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderBox, view, projection);
 
+            Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
+            podjazd.DrawItem(device, podjazdModel, view, projection);
+
+            //Matrix podjazdBox = Matrix.CreateTranslation(podjazd.ColliderInternal.Position);
+            //podjazd.ColliderInternal.DrawBouding(device, podjazdBox, view, projection);
         }
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
@@ -644,8 +642,8 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
-                   //Debug.WriteLine("Rotate sam: " + rotateSam);
-                    if (rotateSam >= -91.0f && rotateSam < 0.0f || rotateSam > 180.0f)
+                   Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -179.9f && rotateSam < 0.0f || rotateSam > 180.0f)
                     {
                         rotateSam += time * 0.2f;
                       //  Debug.WriteLine("D wins");
@@ -665,14 +663,14 @@ namespace Cyber.CGameStateEngine
                 if (newState.IsKeyDown(Keys.S)) { 
 	                move = new Vector3(0, -1f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
-                    podjazdCollision();
+                    podjazdCollision(); 
                     cameraTarget.Y = samanthaGhostController.Position.Y;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);
+                    Debug.WriteLine("Rotate sam: " + rotateSam);
                     if(rotateSam >= -6.8f && rotateSam <= 180.0f)
                     {
                         rotateSam += time * 0.2f;
                     }
-                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -90.0f)
+                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -86.0f)
                     {
                         rotateSam -= time * 0.2f;
                         if(rotateSam <= -180.0f)
@@ -688,13 +686,13 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);
-                    if (rotateSam >= -91.0f && rotateSam <= 90.0f)
+                    Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -179.9f && rotateSam <= 90.0f)
                     {
                         rotateSam += time * 0.2f;
       
                     }
-                    if (rotateSam <= 180.0f && rotateSam > 90.0f)
+                    if (rotateSam <= 269.9f && rotateSam > 90.0f)
                     {
                         rotateSam -= time * 0.2f;
                     }
@@ -709,12 +707,12 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);  
+                    Debug.WriteLine("Rotate sam: " + rotateSam);  
                     if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
                     {
                         rotateSam -= time * 0.2f;
                     }
-                    if (rotateSam >= 170.0f)
+                    if (rotateSam >= 170.0f || rotateSam <= -90.0f || (rotateSam > 90.0f && rotateSam < 170.0f))
                     {
                         rotateSam += time * 0.2f;
                         if(rotateSam > 270.0f)
@@ -746,12 +744,6 @@ namespace Cyber.CGameStateEngine
                 Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
                 //AI.Instance.AlertOthers(samanthaGhostController);
             }
-            /*else
-            {
-                //Debug.WriteLine("Uff jestem bezpieczna");
-            }
-                Debug.WriteLine("Uff jestem bezpieczna");
-            }*/
             console.Update();
             oldState = newState;
             //AI.Instance.MoveNPCs(null);
@@ -761,7 +753,7 @@ namespace Cyber.CGameStateEngine
         {
             if (podjazd.ColliderInternal.AABB.Intersects(samanthaGhostController.ColliderInternal.AABB))
             {
-                //Debug.WriteLine("Wlazłem na schody");
+                Debug.WriteLine("Wlazłem na schody");
                 if (podjazdBefore < podjazdStopPoint - samanthaGhostController.Position.X)
                 {
                     Debug.WriteLine("Wchodzę");
