@@ -742,11 +742,11 @@ namespace Cyber.CGameStateEngine
             {
                 //Debug.WriteLine("Weszłam w zasięg robota!");
                 Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
-                //AI.Instance.AlertOthers(samanthaGhostController);
+                AI.Instance.AlertOthers(samanthaGhostController);
             }
             console.Update();
             oldState = newState;
-            //AI.Instance.MoveNPCs(null);
+            AI.Instance.MoveNPCs(null);
         }
 
         public void podjazdCollision()
