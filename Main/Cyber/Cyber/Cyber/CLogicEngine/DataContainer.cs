@@ -27,6 +27,7 @@ namespace Cyber.CLogicEngine
             Debug.Print("DataContainer: nie działa wczytywanie do aktualnego levelu!");
             gameStateMainGame.level = this.level;
             gameStateMainGame.samanthaGhostController.Position = samGhostPosition;
+            gameStateMainGame.samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
             gameStateMainGame.samanthaActualPlayer.Position = samRealPosition;
         }
 

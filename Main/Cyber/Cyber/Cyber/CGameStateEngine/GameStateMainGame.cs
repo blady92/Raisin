@@ -45,8 +45,9 @@ namespace Cyber.CGameStateEngine
         private ConsoleSprites console;
 
         //3D elements
-        private StaticItem samanthaGhostController;
-        private DynamicItem samanthaActualPlayer;
+        // TODO: Refactor na private
+        public StaticItem samanthaGhostController;
+        public DynamicItem samanthaActualPlayer;
         //private StaticItem terminal;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
