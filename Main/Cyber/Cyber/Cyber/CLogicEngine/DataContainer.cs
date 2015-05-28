@@ -20,6 +20,11 @@ namespace Cyber.CLogicEngine
             this.level = state.level;
             this.samGhostPosition = state.samanthaGhostController.Position;
             this.samRealPosition = state.samanthaActualPlayer.Position;
+            npcPositions = new List<Vector3>();
+            foreach (var npc in gameStateMainGame.npcList)
+            {
+                npcPositions.Add(npc.Position);
+            }
         }
 
         public void Apply(GameStateMainGame gameStateMainGame)
@@ -29,6 +34,12 @@ namespace Cyber.CLogicEngine
             gameStateMainGame.samanthaGhostController.Position = samGhostPosition;
             gameStateMainGame.samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
             gameStateMainGame.samanthaActualPlayer.Position = samRealPosition;
+            for (int i = 0; i < npcPositions.Count; i++)
+            {
+                gameStateMainGame.npcList[i].Position = npcPositions[i];
+                gameStateMainGame.npcList[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+                gameStateMainGame.npcList[i].FixColliderExternal(new Vector3(2, 2, 2), new Vector3(-15f, -15f, 10f));
+            }
         }
 
         [DataMember]
@@ -39,5 +50,8 @@ namespace Cyber.CLogicEngine
 
         [DataMember]
         Vector3 samRealPosition { get; set; }
+
+        [DataMember]
+        List<Vector3> npcPositions { get; set; } 
     }
 }
