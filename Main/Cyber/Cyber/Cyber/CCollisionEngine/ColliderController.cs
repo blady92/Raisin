@@ -61,7 +61,11 @@ namespace Cyber.CollisionEngine
             foreach (StaticItem npc in npcItem)
             {
                 if (item.ColliderInternal.AABB.Intersects(npc.ColliderExternal.AABB))
+                {
+                    npc.OnOffBilboard = true;
                     return true;
+                }
+                npc.OnOffBilboard = false;
             }
             return false;
         }

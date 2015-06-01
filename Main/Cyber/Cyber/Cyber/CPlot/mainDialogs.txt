@@ -1,0 +1,22 @@
+Theo: Witaj Sam, cieszę się, że Cię widzę :) Przed Tobą przejście przez pierwszy sektor. Każda historia gdzieś musiała się zacząć...
+Samantha: Dla mnie ta historia już dawno się zaczęła.
+Theo: Jak to, co masz na myśli?
+Samantha: Czy mówi Ci coś kryptonim Spade?
+Theo: Tak.. To jeden z czołowych programistów odpowiadających za powołanie mnie do istnienia…
+Samantha: To nick jakiego zawsze używał mój ojciec przy swoich projektach. Ojciec, którego nigdy tak naprawdę nie poznałam.
+Theo: Nie może być… Intrygujące. Sam… Ruszajmy do akcji! Pozostała ilość tlenu na Ziemi kończy się, mamy coraz mniej czasu. Wykorzystaj terminal, wpisując komendę <GetTime()> uzyskasz czas, po którym Cyber2O zakończy całkowitą prywatyzację tlenu.
+Samantha: Tylko tyle?! Chyba zgłupiałeś Theo, jak mam niby to dokonać w tak krótkim czasie?
+Theo: Nie martw się, z moich obliczeń wynika, że ta misja ma minimalne szanse powodzenia.
+Samantha: To nie brzmi optymistycznie. Czemu sam nie możesz tego zrobić?
+Theo: Programiści nałożyli na mnie pewne ograniczenia. Ale nie powiedzieli, że nie mogę pomagać komuś z zewnątrz...
+Samantha: Rozumiem, no to do dzieła!
+Theo: Zacznijmy od najmniejszych porcji bitów, podbiegnij do bramy i odczytaj jej unikalny numer identyfikacyjny!
+Theo: Wspaniale, zapamiętałaś? Przygotuj się na użycie kolejnej z komend - <OpenGate(“id”)>. Jak słusznie zauważyłaś, należy podać parametr, w tym wypadku - zapamiętany identyfikator bramy.
+Theo: Przejście przez bramy poszło nam całkiem gładko, przyznałbym Ci maksymalną notę za styl!
+Samantha: Eh, laury będziemy sobie przyznawać po powodzeniu misji. Wierzę, że nam się uda!
+Theo: Doceniam to, bez wiary w powodzenie moglibyśmy o tym zapomnieć… Niestety, od tej pory, zagłębiasz się w sektory, które są pilniej strzeżone.
+Samantha: Strzeżone?
+Theo: Tak, przed nami zadanie uniknięcia spotkania z robotami patrolującymi laboratorium. Spójrz na tego gagatka…Może nie wydaje się największym twardzielem - ale uważaj na niego! Nie wolno lekceważyć przeciwnika. Z całą pewnością jego radary zauważają bardzo dużo.
+Samantha: Na pewno ma jakiś słaby punkt. Pozostaje mi go odkryć…
+Theo: Ha, znalazłaś na niego haka! Wspaniale, Sam! Teraz kiedy wiem o nim nieco więcej… Załatwimy go kolejną komendą! <AllySleep(“ID”)>. Zerojedynkowych snów, przerośnięta śrubko.
+Theo: Sektor zabezpieczony, dobra robota Sam. Pamiętasz o naszym wciąż kończącym się czasie? Możemy zdobyć jego zapas, uwalniając zgromadzony przez Cyber2O tlen w jednym z rozsianych po kompleksie generatorów. By dostać się do niego, należy użyć komedy <AccessGenerator()>, a następnie, gdy poznasz jego identyfikator, użyj <Free(“ID”)>, by oddać ludzkości skradziony tlen.

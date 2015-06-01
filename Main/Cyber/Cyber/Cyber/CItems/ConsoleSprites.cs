@@ -27,6 +27,9 @@ namespace Cyber.CItems
         public string LatestStoreCommand { get; set; }
         public string PrintedText { get; set; }
         public SpriteFont font { get; set; }
+        public SpriteFont ToProcessKey { get; set; }
+        public bool tabToExit { get; set; }
+
         private List<Keys> allKeys;
         private List<Keys> possibleKeys;
         private KeyboardState newPressKey;
@@ -43,6 +46,11 @@ namespace Cyber.CItems
         private Game game;
         private AudioController audioController;
 
+
+        //Kwestie fabularne
+        public PlotTwistClass plotAction { get; set; }
+
+
         public ConsoleSprites(Game game, AudioController audioController)
         {
             this.game = game;
@@ -58,18 +66,9 @@ namespace Cyber.CItems
 
             textBox = 270;
             Text = "";
-            PrintedText =
-
-            AddTheoLine() + "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis.";
-            PrintedText = parseText(PrintedText);
             lenght = Text.Length;
             SetupKeys();
             SetupGameConsole();
-
-            //consoleAdditional = new Sprite(0,0);
-            //consoleAdditional.LoadContent(theContentManager, "Assets/2D/consoleAdditional");
-            //pokazanie
-            //consoleAdditional.Position = new Vector2(console.SpriteAccessor.Width, console.Position.Y);
         }
 
         private void SetupGameConsole()
@@ -99,12 +98,21 @@ namespace Cyber.CItems
                 {
                     messageCharCounter = 0;
                 }
-                Debug.WriteLine("oT L: " +  "(" + oldText.Length + ")");
-                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 180 + messageCharCounter), new Color(121, 122, 125)));
+                //Debug.WriteLine("oT L: " +  "(" + oldText.Length + ")");
+                Color color = new Color(121, 122, 125);
+                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 180 + messageCharCounter), color));
                 //od tego momentu można zacząć pisać tekst
                 spriteBatch.Begin();
-                spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight-180), new Color(121,122,125));
-                spriteBatch.DrawString(font, ">_ "+Text, new Vector2(spaceFromEdge, Game1.maxHeight-29), new Color(121,122,125));
+                if (plotAction.action)
+                {
+                    spriteBatch.DrawString(font, "TAB to close", new Vector2(), new Color(255, 255, 255));
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, "ENTER to next", new Vector2(), new Color(255, 255, 255));
+                }
+                spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight - 180), color);
+                spriteBatch.DrawString(font, ">_ " + Text, new Vector2(spaceFromEdge, Game1.maxHeight - 29), color);
                 DrawMessages(spriteBatch);
                 spriteBatch.End();
             }
@@ -116,48 +124,77 @@ namespace Cyber.CItems
                 Console.UpdateAnimation();
                 allKeys = new List<Keys>(Keyboard.GetState().GetPressedKeys().ToArray());
                 newPressKey = Keyboard.GetState();
-                for (int i = 0; i < allKeys.Count; i++)
+                //Jeżeli jest akcja do wykonania
+                if (plotAction.action)
                 {
-                    if (newPressKey.IsKeyDown(allKeys[i]) && oldPressKey.IsKeyUp(allKeys[i]) && possibleKeys.Contains(allKeys[i]))
+                    #region sprawdzenie, czy wpisane są ()
+
+                    for (int i = 0; i < allKeys.Count; i++)
                     {
-                        if (Text.Length+1 < 27) { 
-                            if (allKeys.Contains(Keys.LeftShift) || allKeys.Contains(Keys.RightShift)){
-                                if (allKeys.Contains(Keys.D9))
-                                    Text += "(";
-                                else if (allKeys.Contains(Keys.D0))
-                                    Text += ")";
+                        if (newPressKey.IsKeyDown(allKeys[i]) && oldPressKey.IsKeyUp(allKeys[i]) &&
+                            possibleKeys.Contains(allKeys[i]))
+                        {
+                            if (Text.Length + 1 < 27)
+                            {
+                                if (allKeys.Contains(Keys.LeftShift) || allKeys.Contains(Keys.RightShift))
+                                {
+                                    if (allKeys.Contains(Keys.D9))
+                                        Text += "(";
+                                    else if (allKeys.Contains(Keys.D0))
+                                        Text += ")";
+                                    else
+                                        Text += ParseKey((allKeys[i]));
+                                }
                                 else
-                                    Text += ParseKey((allKeys[i]));
+                                    Text += ParseKey(allKeys[i]).ToLower();
                             }
-                            else
-                                Text += ParseKey(allKeys[i]).ToLower();
+                        }
+
+                        #endregion
+
+                        #region usunięcie znaku
+
+                        if (newPressKey.IsKeyDown(Keys.Back) && oldPressKey.IsKeyUp(Keys.Back))
+                        {
+                            if (Text.Length > lenght)
+                                Text = Text.Remove(Text.Length - 1);
+                        }
+
+                        #endregion
+                    }
+                    if (newPressKey.IsKeyDown(Keys.Enter) && oldPressKey.IsKeyUp(Keys.Enter))
+                    {
+                        if (Text.Length > 0)
+                        {
+                            //kuba edit
+                            string result = ProcessCommand(Text);
+                            PrintedText = "";
+                            messages.Clear();
+                            PrintedText += AddTheoLine() + result;
+                            PrintedText += "\n\n";
+                            PrintedText += plotAction.getActualDialog();
+                            PrintedText = parseText(PrintedText);
+                            LatestStoreCommand = Text;
+                            Text = "";
                         }
                     }
                 }
-                if (newPressKey.IsKeyDown(Keys.Back) && oldPressKey.IsKeyUp(Keys.Back))
+                else
                 {
-                    if (Text.Length > lenght)
-                        Text = Text.Remove(Text.Length - 1);
-                }
-                else if (newPressKey.IsKeyDown(Keys.Enter) && oldPressKey.IsKeyUp(Keys.Enter))
-                {
-                    if (Text.Length > 0) {
-                        //kuba edit
-                        string result = ProcessCommand(Text);
-
-                        oldText = PrintedText;
+                    if (newPressKey.IsKeyDown(Keys.Enter) && oldPressKey.IsKeyUp(Keys.Enter)) { 
+                        //oldText = PrintedText;
                         PrintedText = "";
                         messages.Clear();
-                        PrintedText += AddSamanthaLine() + Text;
-                        PrintedText += AddTheoLine() + result;
-                        PrintedText = parseText(PrintedText);
-                        LatestStoreCommand = Text;
-                        
-                        Text = "";
+                        PrintedText = (plotAction.dialogNumber < 2)
+                            ? parseText("\n" + plotAction.getActualDialog())
+                            : parseText(plotAction.getActualDialog());
+                        if (plotAction.BreakPoints.Contains(plotAction.dialogNumber))
+                        {
+                            plotAction.action = true;
+                        }
                     }
                 }
-                oldPressKey = newPressKey;
-                
+            oldPressKey = newPressKey;
             }
             else 
                 Console.UpdateReverse();
@@ -182,8 +219,7 @@ namespace Cyber.CItems
             messages.Clear();
             oldText = "";
             PrintedText = "";
-            PrintedText = parseText(AddTheoLine() +
-                      "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis.");
+            PrintedText = parseText(plotAction.getActualDialog());
 
         }
 
@@ -352,7 +388,7 @@ namespace Cyber.CItems
             command = paramss[0];
             if (!commands.ContainsKey(command))
             {
-                return "Polecenia nie znaleziono";
+                return "I know you're clever Sam, but it doesn't work";
             }
             if (paramss.Length == 1)
             {

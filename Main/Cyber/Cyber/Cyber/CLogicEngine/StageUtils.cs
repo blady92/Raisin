@@ -215,43 +215,43 @@ namespace Cyber.CLogicEngine
         public static void PrintMap(bool[,] map)
         {
 #if DEBUG
-            Debug.WriteLine("Started printing the map");
-            for (int row = 0; row < map.GetLength(1); row++)
-            {
-                for (int col = 0; col < map.GetLength(0); col++)
-                {
-                    Debug.Write(map[col,row] ? " _ " : " # ");
-                }
-                Debug.WriteLine("");
-            }
-            Debug.WriteLine("Finished printing the map");
+            //Debug.WriteLine("Started printing the map");
+            //for (int row = 0; row < map.GetLength(1); row++)
+            //{
+            //    for (int col = 0; col < map.GetLength(0); col++)
+            //    {
+            //        Debug.Write(map[col,row] ? " _ " : " # ");
+            //    }
+            //    Debug.WriteLine("");
+            //}
+            //Debug.WriteLine("Finished printing the map");
 #endif
         }
 
         public static void PrintPath(bool[,] map, IEnumerable<Position> path)
         {
 #if DEBUG
-            Debug.WriteLine("Started printing path on map");
-            for (int row = 0; row < map.GetLength(1); row++)
-            {
-                for (int col = 0; col < map.GetLength(0); col++)
-                {
-                    if (path.Any(o => o.X == col && o.Y == row))
-                    {
-                        Debug.Write(" $ ");
-                    }
-                    else if (!map[col,row])
-                    {
-                        Debug.Write(" # ");
-                    }
-                    else
-                    {
-                        Debug.Write(" _ ");
-                    }
-                }
-                Debug.WriteLine("");
-            }
-            Debug.WriteLine("Finished printing path on map");
+            //Debug.WriteLine("Started printing path on map");
+            //for (int row = 0; row < map.GetLength(1); row++)
+            //{
+            //    for (int col = 0; col < map.GetLength(0); col++)
+            //    {
+            //        if (path.Any(o => o.X == col && o.Y == row))
+            //        {
+            //            Debug.Write(" $ ");
+            //        }
+            //        else if (!map[col,row])
+            //        {
+            //            Debug.Write(" # ");
+            //        }
+            //        else
+            //        {
+            //            Debug.Write(" _ ");
+            //        }
+            //    }
+            //    Debug.WriteLine("");
+            //}
+            //Debug.WriteLine("Finished printing path on map");
 #endif
         }
 

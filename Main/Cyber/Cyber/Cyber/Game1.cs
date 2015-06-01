@@ -201,6 +201,10 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadingGame)
             {
+                Debug.WriteLine("By³em tutaj!");
+                loadingGame.Draw(spriteBatch);
+                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
+
                 LogicEngine.LogicChangeLevel(this.Content, this.GraphicsDevice);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
@@ -280,7 +284,7 @@ namespace Cyber
             {
                 Debug.WriteLine("By³em tutaj!");
                 loadingGame.Draw(spriteBatch);
-                mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
+                //mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             #endregion
             #region rysowanie planszy powtórki poziomu w przypadku przegranej

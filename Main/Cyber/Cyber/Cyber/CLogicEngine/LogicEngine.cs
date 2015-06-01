@@ -202,21 +202,12 @@ namespace Cyber.CGameStateEngine
                     gameStateMainGame.level = Level.level1;
                     GameState.State = GameState.States.loadingGame;
                 }
-                LogicChangeLevel(theContentManager, device);
             }
             oldState = currentKeyboardState;
         }
 
         public void LogicChangeLevel(ContentManager theContentManager, GraphicsDevice device)
         {
-            //if (gameStateMainGame.level == Level.level1)
-            //{
-            //    gameStateMainGame.level = Level.level2;
-            //}
-            //else
-            //{
-            //    gameStateMainGame.level = Level.level1;
-            //}
             GameState.State = GameState.States.loadingGame;
             Thread.Sleep(200);
             gameStateMainGame.LoadContent(theContentManager, device);

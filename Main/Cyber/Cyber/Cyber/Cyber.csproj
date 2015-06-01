@@ -138,6 +138,7 @@
     <Compile Include="GraphicsEngine\SkinningData.cs" />
     <Compile Include="GraphicsEngine\Sprite.cs" />
     <Compile Include="GraphicsEngine\SpriteAnimationDynamic.cs" />
+    <Compile Include="CPlot\PlotTwistClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

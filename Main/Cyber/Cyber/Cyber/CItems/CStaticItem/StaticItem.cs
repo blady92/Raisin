@@ -12,13 +12,19 @@ namespace Cyber.CItems.CStaticItem
     {
         private string pathToModel;
         private SkinningAnimation skinnedModel;
+        
         private Collider colliderInternal;
         private Collider colliderExternal;
+        private Collider ReadingIDCollider;
+
         private Vector3 position;
         private float rotation;
         private StaticItemType type;
+        public bool DrawBouding { get; set; }
         public bool OnOffBilboard { get; set; }
-        public List<BillboardSystem> bilboards { get; set; }
+        public bool DrawID { get; set; }
+        public BillboardSystem bilboards { get; set; }
+        public BillboardSystem MachineID { get; set; }
         public ParticleEmitter particles { get; set; }
 
         public string ID { get; set; }
@@ -94,15 +100,17 @@ namespace Cyber.CItems.CStaticItem
         {
             skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
         }
+
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
         {
             skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
             if (OnOffBilboard)
             {
-                foreach (BillboardSystem bilboard in bilboards)
-                {
-                    bilboard.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
-                }   
+                    bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+            }
+            if (DrawID && !OnOffBilboard)
+            {
+                MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
             }
         }
 
@@ -110,15 +118,17 @@ namespace Cyber.CItems.CStaticItem
         {
             skinnedModel.DrawStaticModelWithShader(gameTime, device);
         }
+
         public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
         {
             skinnedModel.DrawStaticModelWithShader(gameTime, device);
             if (OnOffBilboard)
             {
-                foreach (BillboardSystem bilboard in bilboards)
-                {
-                    bilboard.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
-                }
+                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+            }
+            if (DrawID)
+            {
+                MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
             }
         }
         public void FixColliderExternal(Vector3 resize, Vector3 move)
@@ -137,6 +147,12 @@ namespace Cyber.CItems.CStaticItem
             colliderInternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
             colliderInternal.MoveBoundingBox(move);
             colliderInternal.RecreateCage(position);
+        }
+
+        public void ApplyIDBilboard(GraphicsDevice device, ContentManager theContentManager, Vector3 position)
+        {
+            DrawID = true;
+            MachineID = new BillboardSystem(device, theContentManager, theContentManager.Load<Texture2D>("Assets/2D/IDs/" + ID), new Vector2(100), position + new Vector3(0, 0, 30));
         }
     }
 }

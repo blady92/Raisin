@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,23 +11,35 @@ namespace Cyber.CAdditionalLibs
 {
     class IDGenerator
     {
-        private static Random random = new Random();
-        private static Random characterOrNumber = new Random();
-        public static string GenerateID()
+        private Random random = new Random();
+        private Random characterOrNumber = new Random();
+        public List<string> IDs { get; set; }
+        
+        public void GenerateID()
         {
-            string id = "0x";
-             //dla określenia zakresu
-            for(int i=0; i<6; i++){
-                if (characterOrNumber.Next(0, 50)%2 == 0) //Tu losujemy liczbę jakąś
-                {
-                    id += random.Next(0, 10).ToString();
-                }
-                else
-                {
-                    id += Convert.ToChar(random.Next(65,71)).ToString();
-                }
+            IDs = new List<string>();
+            string[] filePaths = Directory.GetFiles(@"..//..//..//..//CyberContent//Assets//2D//IDs//");
+            foreach (string filePath in filePaths)
+            {
+                IDs.Add(filePath.Substring(filePath.Length - 12, 8).ToUpper());
             }
-            return id;
+            IDs = ShuffleList(IDs);
         }
+
+        public List<string> ShuffleList(List<string> inputList)
+        {
+            List<string> randomList = new List<string>();
+            Random r = new Random();
+            int randomIndex = 0;
+            while (inputList.Count > 0)
+            {
+                randomIndex = r.Next(0, inputList.Count); 
+                randomList.Add(inputList[randomIndex]);
+                inputList.RemoveAt(randomIndex);
+            }
+
+            return randomList;
+        }
+
     }
 }

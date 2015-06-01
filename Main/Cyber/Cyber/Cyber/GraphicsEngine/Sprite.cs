@@ -55,9 +55,7 @@ namespace Cyber
         //Ładowanie tekstur do sprite'a
         public void LoadContent(ContentManager theContentManager, string theAssetName)
         {
-            Debug.WriteLine(theAssetName);
             sprite = theContentManager.Load<Texture2D>(theAssetName);
-            Debug.WriteLine("Loaded");
         }
 
         //Rysowanie statyczne - najczęściej wykorzystywane do nieruchomych elementów UI
