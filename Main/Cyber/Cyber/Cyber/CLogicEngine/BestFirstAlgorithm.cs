@@ -120,6 +120,10 @@ namespace Cyber.CLogicEngine
         Position GetNextPositionIfFree(Position pos, Moves nextMove, bool[,] freeSpaceMap)
         {
             Position nextPosition = GetNextPosition(pos, nextMove);
+            if (nextPosition.X < 0 || nextPosition.Y < 0 || nextPosition.X >= freeSpaceMap.GetLength(0) || nextPosition.Y >= freeSpaceMap.GetLength(1))
+            {
+                return null;
+            }
             switch(nextMove)
             {
                 case Moves.DL:

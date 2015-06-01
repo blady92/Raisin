@@ -49,7 +49,8 @@ namespace Cyber.CGameStateEngine
         private DynamicItem samanthaActualPlayer;
         private ColliderController colliderController;
         private List<StaticItem> stageElements;
-        private List<StaticItem> npcList;
+        // TODO: Refactor na private
+        public List<StaticItem> npcList;
         private StageParser stageParser;
         private Stage stage;
 
