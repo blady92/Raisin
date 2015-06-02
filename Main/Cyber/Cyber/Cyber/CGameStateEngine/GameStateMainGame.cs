@@ -242,11 +242,12 @@ namespace Cyber.CGameStateEngine
             float wallOffset = 9.75f;
             float cornerOffset = 5.5f;
             #endregion
+            #region Samantha
             samanthaGhostController.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
             samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-
+            #endregion
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
             {
@@ -266,6 +267,7 @@ namespace Cyber.CGameStateEngine
                         new Vector2(60),
                         move + new Vector3(0, 0, 20)
                         );
+                    stageElements[i].BilboardHeight = new Vector3(0, 0, 20);
                 }
                 else if (stage.Objects[j] is Column)
                 {
@@ -302,12 +304,14 @@ namespace Cyber.CGameStateEngine
                 npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
                 npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
                 npcList[j].ID = generatedID.IDs[0];
+                npcList[j].MachineIDHeight = new Vector3(0,0, 60);
                 generatedID.IDs.RemoveAt(0);
                 npcList[j].ApplyIDBilboard(device, theContentManager, move);
                 //npcList[j].DrawID = true;
                 npcList[j].bilboards = new BillboardSystem(device, theContentManager, 
                     theContentManager.Load<Texture2D>("Assets/2D/warning"), new Vector2(80), 
                     move + new Vector3(0, 0, 100));
+                npcList[j].BilboardHeight = new Vector3(0,0, 100);
             }
 
             #endregion
@@ -560,8 +564,7 @@ namespace Cyber.CGameStateEngine
                     item.particles.Update();
                     item.particles.Draw(device, view, projection, cameraRotation, item.Position);
                 }
-
-                    item.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                item.DrawItem(device, stageElementView, view, projection, cameraRotation);
             }
             #endregion
 
@@ -640,7 +643,7 @@ namespace Cyber.CGameStateEngine
             if (!console.IsUsed)
             {
                 if (newState.IsKeyDown(Keys.W)) { 
-                    move = new Vector3(0, 2f, 0);
+                    move = new Vector3(0, 1.5f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
@@ -662,8 +665,8 @@ namespace Cyber.CGameStateEngine
                    
 
                 }
-                if (newState.IsKeyDown(Keys.S)) { 
-	                move = new Vector3(0, -2f, 0);
+                if (newState.IsKeyDown(Keys.S)) {
+                    move = new Vector3(0, -1.5f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision(); 
                     cameraTarget.Y = samanthaGhostController.Position.Y;
@@ -683,8 +686,8 @@ namespace Cyber.CGameStateEngine
                   //  changedDirection = true;
                    
                 }
-                if (newState.IsKeyDown(Keys.A)) { 
-                    move = new Vector3(-2f, 0, 0);
+                if (newState.IsKeyDown(Keys.A)) {
+                    move = new Vector3(-1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
@@ -704,8 +707,8 @@ namespace Cyber.CGameStateEngine
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
-                    
-                    move = new Vector3(2f, 0, 0);
+
+                    move = new Vector3(1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
@@ -745,7 +748,6 @@ namespace Cyber.CGameStateEngine
                 Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
-            console.Update();
             oldState = newState;
             AI.Instance.MoveNPCs(null);
         }

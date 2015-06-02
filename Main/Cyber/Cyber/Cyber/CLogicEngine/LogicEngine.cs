@@ -186,6 +186,10 @@ namespace Cyber.CGameStateEngine
         {
             gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
             currentKeyboardState = Keyboard.GetState();
+            if (currentKeyboardState.IsKeyDown(Keys.D1))
+            {
+                endGame = true;
+            }
             if (endGame)
             {
                 GameState.State = GameState.States.endGame;

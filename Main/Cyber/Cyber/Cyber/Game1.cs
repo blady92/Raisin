@@ -25,7 +25,7 @@ namespace Cyber
 
         public static float maxWidth = 1366;
         public static float maxHeight = 768;
-        private bool fullscreen = false;
+        private bool fullscreen = true;
         private bool mouseVisibility = false;
 
         private Sprite mousePointer;
@@ -33,8 +33,6 @@ namespace Cyber
         //Load Engines
         private AudioModel audioModel;
         private AudioController audioController;
-
-
 
         //Load Menu
         private LogicEngine LogicEngine;
@@ -201,7 +199,6 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.loadingGame)
             {
-                Debug.WriteLine("By³em tutaj!");
                 loadingGame.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
 

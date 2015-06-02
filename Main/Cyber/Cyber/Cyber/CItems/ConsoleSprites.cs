@@ -15,10 +15,6 @@ namespace Cyber.CItems
 {
     class ConsoleSprites
     {
-        /* Uwaga jedna, tutaj się używa tylko czciontów Monospaced Font (bo wiesz, kombo czionka + font = czciont)
-         * Inaczej na długość będzie serio kiepsko, a tak to...
-         * Pixelgasm and perfectionist paradise :v
-         */ 
         public bool IsUsed { get; set; }
         public SpriteAnimationDynamic Console { get; set; }
         public Sprite ConsoleAdditional { get; set; }
@@ -50,7 +46,6 @@ namespace Cyber.CItems
         //Kwestie fabularne
         public PlotTwistClass plotAction { get; set; }
 
-
         public ConsoleSprites(Game game, AudioController audioController)
         {
             this.game = game;
@@ -64,7 +59,7 @@ namespace Cyber.CItems
             Console.SpritePosition = new Vector2(0, 768 - Console.TextureList[0].Height);
             font = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleFont");
 
-            textBox = 270;
+            textBox = 360;
             Text = "";
             lenght = Text.Length;
             SetupKeys();
@@ -98,21 +93,19 @@ namespace Cyber.CItems
                 {
                     messageCharCounter = 0;
                 }
-                //Debug.WriteLine("oT L: " +  "(" + oldText.Length + ")");
                 Color color = new Color(121, 122, 125);
-                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 180 + messageCharCounter), color));
-                //od tego momentu można zacząć pisać tekst
+                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 220 + messageCharCounter), color));
                 spriteBatch.Begin();
                 if (plotAction.action)
                 {
-                    spriteBatch.DrawString(font, "TAB to close", new Vector2(), new Color(255, 255, 255));
+                    spriteBatch.DrawString(font, "Write or TAB to close", new Vector2(255, Game1.maxHeight-80), color);
                 }
                 else
                 {
-                    spriteBatch.DrawString(font, "ENTER to next", new Vector2(), new Color(255, 255, 255));
+                    spriteBatch.DrawString(font, "ENTER to next", new Vector2(315, Game1.maxHeight-80), color);
                 }
                 spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight - 180), color);
-                spriteBatch.DrawString(font, ">_ " + Text, new Vector2(spaceFromEdge, Game1.maxHeight - 29), color);
+                spriteBatch.DrawString(font, ">_ " + Text, new Vector2(spaceFromEdge, Game1.maxHeight - 35), color);
                 DrawMessages(spriteBatch);
                 spriteBatch.End();
             }
@@ -152,7 +145,7 @@ namespace Cyber.CItems
 
                         #endregion
 
-                        #region usunięcie znaku
+                    #region usunięcie znaku
 
                         if (newPressKey.IsKeyDown(Keys.Back) && oldPressKey.IsKeyUp(Keys.Back))
                         {
@@ -219,8 +212,9 @@ namespace Cyber.CItems
             messages.Clear();
             oldText = "";
             PrintedText = "";
+            if(!plotAction.BreakPoints.Contains(plotAction.dialogNumber))
+                plotAction.dialogNumber--;
             PrintedText = parseText(plotAction.getActualDialog());
-
         }
 
         public void SetupKeys()

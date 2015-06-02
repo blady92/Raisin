@@ -35,7 +35,7 @@ namespace Cyber
             generatorOn = false;
             allyHacked = false;
             levelCleared = false;
-            dialogNumber = 0;
+            dialogNumber = 1;
         }
 
         public void PrintStatus()

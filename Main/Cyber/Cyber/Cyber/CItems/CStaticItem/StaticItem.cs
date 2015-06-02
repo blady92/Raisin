@@ -24,7 +24,9 @@ namespace Cyber.CItems.CStaticItem
         public bool OnOffBilboard { get; set; }
         public bool DrawID { get; set; }
         public BillboardSystem bilboards { get; set; }
+        public Vector3 BilboardHeight { get; set; }
         public BillboardSystem MachineID { get; set; }
+        public Vector3 MachineIDHeight { get; set; }
         public ParticleEmitter particles { get; set; }
 
         public string ID { get; set; }
@@ -103,15 +105,19 @@ namespace Cyber.CItems.CStaticItem
 
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
         {
-            skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
             if (OnOffBilboard)
             {
-                    bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+                bilboards.positions = position;
+                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+                bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
             }
             if (DrawID && !OnOffBilboard)
             {
+                bilboards.positions = position;
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
+                MachineID.generateParticles(new Vector3[] { Position + MachineIDHeight });
             }
+            skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
         }
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device)
@@ -121,7 +127,6 @@ namespace Cyber.CItems.CStaticItem
 
         public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
         {
-            skinnedModel.DrawStaticModelWithShader(gameTime, device);
             if (OnOffBilboard)
             {
                 bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
@@ -130,6 +135,7 @@ namespace Cyber.CItems.CStaticItem
             {
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
             }
+            skinnedModel.DrawStaticModelWithShader(gameTime, device);
         }
         public void FixColliderExternal(Vector3 resize, Vector3 move)
         {

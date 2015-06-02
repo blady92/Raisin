@@ -50,7 +50,7 @@ namespace Cyber
             generateParticles(particlePositions);
         }
 
-        void generateParticles(Vector3[] particlePositions)
+        public void generateParticles(Vector3[] particlePositions)
         {
             particles = new VertexPositionTexture[nBillboards * 4];
             indices = new int[nBillboards * 6];
@@ -101,9 +101,10 @@ namespace Cyber
             Vector3 translation, float resizeX, float resizeY, float resizeZ)
         {
             Matrix rotation = Matrix.CreateFromYawPitchRoll(0, -80, 0); ;
-            rotation *= Matrix.CreateScale(resizeX, resizeY, resizeZ);
-            rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(-cameraRotation));
-            rotation *= Matrix.CreateTranslation(translation);
+            rotation *= Matrix.CreateScale(resizeX, resizeY, resizeZ) 
+                * Matrix.CreateRotationZ(MathHelper.ToRadians(-cameraRotation))
+                * Matrix.CreateTranslation(translation);
+
             Vector3 up = Vector3.Transform(Vector3.Up, rotation);
             Vector3 right = Vector3.Cross(Vector3.Transform(Vector3.Forward, rotation), up);
 
@@ -159,7 +160,6 @@ namespace Cyber
         void drawBillboards()
         {
             effect.CurrentTechnique.Passes[0].Apply();
-
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0,
                 4 * nBillboards, 0, nBillboards * 2);
         }

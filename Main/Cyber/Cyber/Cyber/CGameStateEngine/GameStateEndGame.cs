@@ -20,7 +20,7 @@ namespace Cyber.CGameStateEngine
             string path = "Assets/2D/";
             background = new Sprite(0,0);
             background.LoadContent(theContentManager, path + "menuBackground");
-            youHaveLost = new Sprite(400, 200);
+            youHaveLost = new Sprite(450, 300);
             youHaveLost.LoadContent(theContentManager, path + "youHaveLost");
 
             string[] textureList = { "yes", "no" };
@@ -31,8 +31,8 @@ namespace Cyber.CGameStateEngine
                 SpriteAnimationList[i] = new SpriteAnimationDynamic(path + textureList[i], false);
                 SpriteAnimationList[i].LoadAnimationHover(theContentManager);
             }
-            SpriteAnimationList[0].SpritePosition = new Vector2(450, 300);
-            SpriteAnimationList[1].SpritePosition = new Vector2(550, 300);
+            SpriteAnimationList[0].SpritePosition = new Vector2(460, 400);
+            SpriteAnimationList[1].SpritePosition = new Vector2(560, 400);
         }
 
         //A tu ofc rysowanko "You've lost..."
