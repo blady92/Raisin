@@ -107,8 +107,10 @@ namespace Cyber.CollisionEngine
 
             foreach (StaticItem npc in npcItem)
             {
-                if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB)) 
                     return npc.Type;
+                npc.DrawID = (samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB));
+
             }
 
             if (samantha != item && samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
@@ -121,11 +123,33 @@ namespace Cyber.CollisionEngine
         public void CheckCollision(StaticItem item, Vector3 move)
         {
             item.ColliderInternal.RecreateCage(move);
+            item.ColliderExternal.RecreateCage(move);
             if (IsCollidedType(item) == StaticItemType.none)
             {
-                //Debug.WriteLine("Nie skolidowano");
                 item.Position += move;
-                //icon.IconState = StaticIcon.none;
+                if (item.moveColliderExternal.X + move.X < 30 && item.moveColliderExternal.X + move.X > -30 &&
+                    item.moveColliderExternal.Y + move.Y < 30 && item.moveColliderExternal.Y + move.Y > -30)
+                {
+                    if (item.moveColliderExternal.Y > 0 && move.X > 0)
+                        move.Y = -move.X;
+                    if (item.moveColliderExternal.Y > 0 && move.X < 0)
+                        move.Y = move.X;
+                    if (item.moveColliderExternal.Y < 0 && move.X > 0)
+                        move.Y = move.X;
+                    if (item.moveColliderExternal.Y < 0 && move.X < 0)
+                        move.Y = -move.X;
+                    if (item.moveColliderExternal.X > 0 && move.Y > 0) 
+                        move.X = -move.Y;
+                    if (item.moveColliderExternal.X > 0 && move.Y < 0)
+                        move.X = move.Y;
+                    if (item.moveColliderExternal.X < 0 && move.Y > 0)
+                        move.X = move.Y;
+                    if (item.moveColliderExternal.X < 0 && move.Y < 0)
+                        move.X = -move.Y;
+
+                    item.moveColliderExternal += new Vector2(move.X, move.Y);
+                    item.ColliderExternal.RecreateCage(move + new Vector3(move.X, move.Y, 0));
+                }
                 if (ConsoleDetection)
                 {
                     staticItemList[terminalNumber].OnOffBilboard = false;
@@ -136,6 +160,7 @@ namespace Cyber.CollisionEngine
             {
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
                 item.ColliderInternal.RecreateCage(move);
+                item.ColliderExternal.RecreateCage(move);
                 //playAudio();
             }
 

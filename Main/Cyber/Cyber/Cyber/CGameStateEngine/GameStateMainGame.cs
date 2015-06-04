@@ -78,7 +78,6 @@ namespace Cyber.CGameStateEngine
         private float podjazdStopPoint;
         private float podjazdBefore;
 
-
         public void Unload()
         {
             theContentManager.Unload();
@@ -115,7 +114,7 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
 
-            #region Ładowanie całego stuffu do wychodzenia ze sceny
+            #region Wychodzenie ze sceny
             escapeemitter = new ParticleEmitter();
             escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-5, 270, 60), 1, 1);
 
@@ -247,6 +246,7 @@ namespace Cyber.CGameStateEngine
                                             stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
                                             0.0f);
             samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+            samanthaGhostController.FixColliderExternal(new Vector3(1.25f, 1.25f, 1.25f), new Vector3(-25f, -25f, 20f));
             #endregion
             #region Objects
             for (int j = 0; j < stage.Objects.Count; i++, j++)
@@ -293,9 +293,7 @@ namespace Cyber.CGameStateEngine
             #region NPCs
             for (int j = 0; j < stage.NPCs.Count; j++)
             {
-                if (npcList[j].Type == StaticItemType.tank) { 
-                    Debug.WriteLine("Mamy tutaj przeciwnika typu: Tank");
-                }
+                
                 Vector3 move = new Vector3(stage.NPCs[j].GetBlock().X * mnoznikPrzesunieciaOther,
                                         stage.NPCs[j].GetBlock().Y * mnoznikPrzesunieciaOther,
                                         0.0f);
@@ -304,16 +302,15 @@ namespace Cyber.CGameStateEngine
                 npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
                 npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
                 npcList[j].ID = generatedID.IDs[0];
-                npcList[j].MachineIDHeight = new Vector3(0,0, 60);
+                npcList[j].DrawID = false;
+                npcList[j].MachineIDHeight = new Vector3(0, 0, 60);
                 generatedID.IDs.RemoveAt(0);
                 npcList[j].ApplyIDBilboard(device, theContentManager, move);
-                //npcList[j].DrawID = true;
                 npcList[j].bilboards = new BillboardSystem(device, theContentManager, 
                     theContentManager.Load<Texture2D>("Assets/2D/warning"), new Vector2(80), 
                     move + new Vector3(0, 0, 100));
                 npcList[j].BilboardHeight = new Vector3(0,0, 100);
             }
-
             #endregion
             #region WallsUp
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
@@ -500,16 +497,18 @@ namespace Cyber.CGameStateEngine
 
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
 
-            Matrix samanthaGhostView = Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-                      Matrix.CreateTranslation(samanthaGhostController.Position);
+            Matrix samanthaGhostView = Matrix.Identity * 
+                                       Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                                       Matrix.CreateTranslation(samanthaGhostController.Position);
 
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
-            //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+            //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             #endregion
+            #region Testowane, zakomentowane
             //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
             //for (int i = 0; i < stageElements.Count; i++)
             //{
@@ -525,7 +524,7 @@ namespace Cyber.CGameStateEngine
             //        break;
             //    }
             //}
-
+            #endregion
             #region Rysowanie elementów sceny
             foreach (StaticItem stageElement in stageElements)
             {
@@ -555,9 +554,11 @@ namespace Cyber.CGameStateEngine
                                           Matrix.CreateTranslation(item.Position);
 
                 item.DrawItem(device, stageElementView, view, projection);
-                //Matrix stageElementColliderView = Matrix.CreateTranslation(item.ColliderInternal.Position);
-                //item.ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
-                //item.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
+                if (item.Type == StaticItemType.tank)
+                {
+                    //Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
+                    //item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
+                }
 
                 if (item.particles != null)
                 {
@@ -575,7 +576,6 @@ namespace Cyber.CGameStateEngine
             //escapeCollider.DrawItem(device, escapeCollideModel, view, projection);
             //Matrix escapeColliderBox = Matrix.CreateTranslation(escapeCollider.ColliderInternal.Position);
             //escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderBox, view, projection);
-
 
             //Matrix podjazdBox = Matrix.CreateTranslation(podjazd.ColliderInternal.Position);
             //podjazd.ColliderInternal.DrawBouding(device, podjazdBox, view, projection);
@@ -647,7 +647,8 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
-                   Debug.WriteLine("Rotate sam: " + rotateSam);
+
+                   //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -179.9f && rotateSam < 0.0f || rotateSam > 180.0f)
                     {
                         rotateSam += time * 0.2f;
@@ -668,9 +669,9 @@ namespace Cyber.CGameStateEngine
                 if (newState.IsKeyDown(Keys.S)) {
                     move = new Vector3(0, -1.5f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
-                    podjazdCollision(); 
+                    podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
-                    Debug.WriteLine("Rotate sam: " + rotateSam);
+                    //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if(rotateSam >= -6.8f && rotateSam <= 180.0f)
                     {
                         rotateSam += time * 0.2f;
@@ -682,16 +683,14 @@ namespace Cyber.CGameStateEngine
                         {
                             rotateSam = 180.0f;
                         }
-                    }
-                  //  changedDirection = true;
-                   
+                    }                   
                 }
                 if (newState.IsKeyDown(Keys.A)) {
                     move = new Vector3(-1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
-                    Debug.WriteLine("Rotate sam: " + rotateSam);
+                    //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -179.9f && rotateSam <= 90.0f)
                     {
                         rotateSam += time * 0.2f;
@@ -707,12 +706,11 @@ namespace Cyber.CGameStateEngine
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
-
                     move = new Vector3(1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
-                    Debug.WriteLine("Rotate sam: " + rotateSam);  
+                    //Debug.WriteLine("Rotate sam: " + rotateSam);  
                     if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
                     {
                         rotateSam -= time * 0.2f;
@@ -733,19 +731,13 @@ namespace Cyber.CGameStateEngine
                 console.Action();
             }
             #endregion
+            #region Zoom kamery
+            CameraZoom(colliderController.CallTerminalAfterCollision(samanthaGhostController), ref cameraZoom, 0.05f);
+            #endregion
 
-            if (colliderController.CallTerminalAfterCollision(samanthaGhostController))
-            {   
-                cameraZoom = 2.75f;
-            }
-            else
-            {
-                cameraZoom = 1.0f;
-            }
-           
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
-                Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
+                //Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
             oldState = newState;
@@ -767,6 +759,27 @@ namespace Cyber.CGameStateEngine
                 }
                 podjazdBefore = podjazdStopPoint - samanthaGhostController.Position.X;
             }
+        }
+        #endregion
+        #region Funkcje do zoomowania kamery
+        public void CameraZoom(bool collision, ref float actualPosition, float speed)
+        {
+            if(collision)
+                CameraZoomIn(ref actualPosition, speed);
+            else
+                CameraZoomOut(ref actualPosition, speed);
+        }
+
+        public void CameraZoomIn(ref float actualPosition, float speed)
+        {
+            if (actualPosition < 2.75f)
+                actualPosition += speed;
+        }
+
+        public void CameraZoomOut(ref float actualPosition, float speed)
+        {
+            if (actualPosition > 1.0f)
+                actualPosition -= speed;
         }
         #endregion
     }

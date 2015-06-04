@@ -15,7 +15,7 @@ namespace Cyber.CItems.CStaticItem
         
         private Collider colliderInternal;
         private Collider colliderExternal;
-        private Collider ReadingIDCollider;
+        public Vector2 moveColliderExternal { get; set; }
 
         private Vector3 position;
         private float rotation;
@@ -33,6 +33,7 @@ namespace Cyber.CItems.CStaticItem
         public StaticItem(string path)
         {
             rotation = 0;
+            moveColliderExternal = new Vector2(0, 0);
             skinnedModel = new SkinningAnimation();
             this.colliderExternal = new Collider();
             this.colliderInternal = new Collider();
@@ -42,6 +43,7 @@ namespace Cyber.CItems.CStaticItem
         public StaticItem(string path, Vector3 position)
         {
             rotation = 0;
+            moveColliderExternal = new Vector2(0, 0);
             this.skinnedModel = new SkinningAnimation();
             this.colliderExternal = new Collider();
             this.colliderInternal = new Collider();
@@ -73,6 +75,7 @@ namespace Cyber.CItems.CStaticItem
             get { return colliderInternal; }
             set { colliderInternal = value; }
         }
+
         public Vector3 Position
         {
             get { return position; }
@@ -157,7 +160,6 @@ namespace Cyber.CItems.CStaticItem
 
         public void ApplyIDBilboard(GraphicsDevice device, ContentManager theContentManager, Vector3 position)
         {
-            DrawID = true;
             MachineID = new BillboardSystem(device, theContentManager, theContentManager.Load<Texture2D>("Assets/2D/IDs/" + ID), new Vector2(100), position + new Vector3(0, 0, 30));
         }
     }
