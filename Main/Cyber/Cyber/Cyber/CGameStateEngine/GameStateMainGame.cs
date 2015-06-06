@@ -541,7 +541,7 @@ namespace Cyber.CGameStateEngine
             
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
-            samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+          //  samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             foreach (var gateHolder in gateList)
             {

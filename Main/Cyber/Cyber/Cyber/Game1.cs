@@ -137,7 +137,7 @@ namespace Cyber
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
             #region VIDEO
-            video = Content.Load<Video>("Assets/Video/test");
+            video = Content.Load<Video>("Assets/Video/intro_mm");
             videoRectangle = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             if (state == 0)
             videoPlayer.Play(video);
@@ -165,9 +165,8 @@ namespace Cyber
             switch(state)
             {
                 case 0:
-
                     if (videoPlayer.State == MediaState.Stopped)
-                        state = 1;
+                        state = 1;    
                     break;
                 case 1:
                     break;
@@ -187,6 +186,7 @@ namespace Cyber
 
                 if(state == 1)
                 {
+                    videoPlayer.Pause();
                     LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
                 }
                 
