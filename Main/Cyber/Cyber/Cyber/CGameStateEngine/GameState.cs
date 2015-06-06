@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CGameStateEngine
 {
-    class GameState : Game
+    public class GameState : Game
     {
-        internal enum States
+        public enum States
         {
             startMenu,
             pauseMenu,

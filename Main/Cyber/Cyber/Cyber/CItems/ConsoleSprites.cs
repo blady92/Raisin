@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Cyber.CConsoleEngine;
 using Cyber.AudioEngine;
+using Cyber.CGameStateEngine;
 
 namespace Cyber.CItems
 {
@@ -39,14 +40,14 @@ namespace Cyber.CItems
         float spaceFromEdge = 20;
 
         private Dictionary<string, GameConsoleCommand> commands = new Dictionary<string,GameConsoleCommand>();
-        private Game game;
+        private GameStateMainGame game;
         private AudioController audioController;
 
 
         //Kwestie fabularne
         public PlotTwistClass plotAction { get; set; }
 
-        public ConsoleSprites(Game game, AudioController audioController)
+        public ConsoleSprites(GameStateMainGame game, AudioController audioController)
         {
             this.game = game;
             this.audioController = audioController;
@@ -70,6 +71,7 @@ namespace Cyber.CItems
         {
             PutCommand(new GameConsoleCommand(new SayHelloCommand()));
             PutCommand(new GameConsoleCommand(new AudioCommand(game, audioController)));
+            PutCommand(new GameConsoleCommand(new OpenCommand(game)));
         }
         private void PutCommand(GameConsoleCommand gameConsoleCommand)
         {

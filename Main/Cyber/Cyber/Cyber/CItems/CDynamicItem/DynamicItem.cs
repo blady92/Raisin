@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CItems
 {
-    class DynamicItem : _3DObjects
+    public class DynamicItem : _3DObjects
     {
         private string pathToModel;
         public string animationClipName { get; set; }

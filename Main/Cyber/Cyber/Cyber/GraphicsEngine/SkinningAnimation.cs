@@ -7,8 +7,7 @@ using System.Diagnostics;
 
 namespace Cyber.GraphicsEngine
 {
-
-    class SkinningAnimation
+    public class SkinningAnimation
     {
         #region FIELDS
         Model currentModel;

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.GraphicsEngine
 {
-    class ParticleEmitter
+    public class ParticleEmitter
     {
         private List<Particle> particles;
         private Random frequency;
