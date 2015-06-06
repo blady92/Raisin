@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Cyber.CItems.CStaticItem;
 using Cyber.CollisionEngine;
 using Microsoft.Xna.Framework;
@@ -19,6 +20,7 @@ namespace Cyber.CStageParsing
         public StageObject SecondItem { get; set; }
         public Collider Collider { get; set; }
         public bool IsActive { get; private set; }
+        public string ID { get; set; }
 
         public void SetUpCollider(StaticItem template)
         {

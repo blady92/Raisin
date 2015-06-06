@@ -111,11 +111,16 @@ Operation not permitted!";
         }
         public string Execute(string[] arguments)
         {
-            foreach (var gateHolder in gameStateMainGame.gateList)
+            if (arguments == null || arguments.Length != 1)
+            {
+                return "Command open takes onsly 1 argument";
+            }
+            foreach (var gateHolder in gameStateMainGame.gateList.Where(gateHolder => gateHolder.ID.Equals(arguments[0])))
             {
                 gateHolder.Open();
+                return "Gate opened";
             }
-            return "All gates opened";
+            return "Gate not found";
         }
 
         public string Name

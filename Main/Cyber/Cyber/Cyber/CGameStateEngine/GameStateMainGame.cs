@@ -327,6 +327,7 @@ namespace Cyber.CGameStateEngine
             foreach (var gateHolder in gateList)
             {
                 gateHolder.SetUpCollider(samanthaGhostController);
+                gateHolder.ID = IDGenerator.GenerateID();
             }
             #endregion
             #region NPCs
