@@ -26,8 +26,10 @@ namespace Cyber.CStageParsing
             dict.Add(Color.FromArgb(255, 0, 98), new Spy(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(139, 19, 47), new Tank(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(21, 95, 107), new Terminal(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(255, 255, 0), new OxygenGenerator(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(25, 212, 216), new PlayerPosition(bitmap.Height, bitmap.Width));
             dict.Add(Color.FromArgb(88, 11, 29), new NPCDirection(bitmap.Height, bitmap.Width));
+            dict.Add(Color.FromArgb(0, 255, 0), new Gate(bitmap.Height, bitmap.Width));
 
 
             bool[,] hashTable = new bool[bitmap.Height, bitmap.Width];
@@ -61,7 +63,7 @@ namespace Cyber.CStageParsing
                                 if (generable.Structure[j, i] == true)
                                 {
                                     Color newColor = bitmap.GetPixel(j, i);
-                                    if (!(dict.ContainsKey(newColor) && dict[newColor].IsSingleBlock()))
+                                    if (!(dict.ContainsKey(newColor) && (dict[newColor].IsSingleBlock() || (dict[newColor] is Gate && !(generable is Gate)))))
                                     {
                                         hashTable[i, j] |= generable.Structure[j, i];
                                     }
@@ -120,6 +122,10 @@ namespace Cyber.CStageParsing
             {
                 stage.Rooms.Add(generable as Room);
             }
+            else if (generable is Gate)
+            {
+                stage.Gates.Add(generable as Gate);
+            }
             else if (generable is StageNPC)
             {
                 stage.NPCs.Add(generable as StageNPC);
@@ -162,7 +168,7 @@ namespace Cyber.CStageParsing
                     continue; // lecimy dalej
                 }
                 if (newColor.Equals(color) ||  // jeżeli pole ma kolor taki jak ten co go uzupełniamy, albo to jest pole wewnątrz pokoju/korytarza
-                    (dict.ContainsKey(newColor) && dict[newColor].IsSingleBlock()))
+                    (dict.ContainsKey(newColor) && (dict[newColor].IsSingleBlock() || dict[newColor] is Gate)))
                 {
                     representative.Structure[coords.X, coords.Y] = true;
                     if (coords.X > 1)

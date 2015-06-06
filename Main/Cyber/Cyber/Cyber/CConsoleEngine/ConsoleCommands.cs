@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cyber.CGameStateEngine;
 using XNAGameConsole;
 
 namespace Cyber.CConsoleEngine
@@ -99,5 +100,32 @@ Operation not permitted!";
             get { return "audio"; }
         }
     }
- 
+
+    public class OpenCommand : IConsoleCommand
+    {
+        private GameStateMainGame gameStateMainGame;
+
+        public OpenCommand(GameStateMainGame gameStateMainGame)
+        {
+            this.gameStateMainGame = gameStateMainGame;
+        }
+        public string Execute(string[] arguments)
+        {
+            foreach (var gateHolder in gameStateMainGame.gateList)
+            {
+                gateHolder.Open();
+            }
+            return "All gates opened";
+        }
+
+        public string Name
+        {
+            get { return "open"; }
+        }
+
+        public string Description
+        {
+            get { return "Opens all gates"; }
+        }
+    }
 }

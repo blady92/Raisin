@@ -13,6 +13,7 @@ namespace Cyber.CStageParsing
         public List<Corridor> Corridors { get; set; }
         public List<StageObject> Objects { get; set; }
         public List<StageNPC> NPCs { get; set; }
+        public List<Gate> Gates { get; set; } 
         public Pair<int, int> PlayerPosition { get; set; }
 
         public Stage()
@@ -21,6 +22,7 @@ namespace Cyber.CStageParsing
             Corridors = new List<Corridor>();
             Objects = new List<StageObject>();
             NPCs = new List<StageNPC>();
+            Gates = new List<Gate>();
             PlayerPosition = new Pair<int, int>(0, 0);
         }
 

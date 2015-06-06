@@ -19,7 +19,7 @@ using Cyber.CItems.CDynamicItem;
 
 namespace Cyber.CGameStateEngine
 {
-    class GameStateMainGame : GameState
+    public class GameStateMainGame : GameState
     {
         private int i = 0;
         private int angle = 0;
@@ -53,6 +53,7 @@ namespace Cyber.CGameStateEngine
         private List<StaticItem> stageElements;
         // TODO: Refactor na private
         public List<StaticItem> npcList;
+        public List<GateHolder> gateList; 
         private StageParser stageParser;
         private Stage stage;
 
@@ -129,7 +130,7 @@ namespace Cyber.CGameStateEngine
             
             #region ustawianie leveli
             if (level == Level.level1) {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             }
             else if (level == Level.level2)
             {
@@ -162,6 +163,23 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
 
+            #endregion
+
+            #region Gates
+            gateList = new List<GateHolder>();
+            foreach (var gate in stage.Gates)
+            {
+                GateHolder gateHolder = new GateHolder(gate);
+                gateList.Add(gateHolder);
+                StaticItem staticItem = new StaticItem(gateHolder.FirstItem.StaticObjectAsset);
+                staticItem.LoadItem(theContentManager);
+                staticItem.Type = StaticItemType.decoration;
+                stageElements.Add(staticItem);
+                staticItem = new StaticItem(gateHolder.SecondItem.StaticObjectAsset);
+                staticItem.LoadItem(theContentManager);
+                staticItem.Type = StaticItemType.decoration;
+                stageElements.Add(staticItem);
+            }
             #endregion
             #region NPCs
             foreach (StageNPC stageNPC in stage.NPCs)
@@ -287,6 +305,28 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Rotation = stage.Objects[j].Rotation;
                 }
                 
+            }
+            #endregion
+            #region Gates
+            for (int j = 0; j < gateList.Count; j++)
+            {
+                Vector3 move;
+                move = new Vector3(gateList[j].FirstItem.GetBlock().X * mnoznikPrzesunieciaOther,
+                                            gateList[j].FirstItem.GetBlock().Y * mnoznikPrzesunieciaOther,
+                                            objectZ);
+                stageElements[i].Position = move;
+                stageElements[i].Rotation = stage.Gates[j].Rotation;
+                i++;
+                move = new Vector3(gateList[j].SecondItem.GetBlock().X * mnoznikPrzesunieciaOther,
+                                            gateList[j].SecondItem.GetBlock().Y * mnoznikPrzesunieciaOther,
+                                            objectZ);
+                stageElements[i].Position = move;
+                stageElements[i].Rotation = stage.Gates[j].Rotation;
+                i++;
+            }
+            foreach (var gateHolder in gateList)
+            {
+                gateHolder.SetUpCollider(samanthaGhostController);
             }
             #endregion
             #region NPCs
@@ -501,6 +541,14 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
             samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+
+            foreach (var gateHolder in gateList)
+            {
+                if (gateHolder.Collider != null)
+                {
+                    gateHolder.Collider.DrawBouding(device, Matrix.CreateTranslation(gateHolder.Collider.Position), view, projection);
+                }
+            }
 
 
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);

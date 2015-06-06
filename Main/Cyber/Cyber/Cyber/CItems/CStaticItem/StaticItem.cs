@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CItems.CStaticItem
 {
-    class StaticItem : _3DObjects
+    public class StaticItem : _3DObjects
     {
         private string pathToModel;
-        private SkinningAnimation skinnedModel;
+        public SkinningAnimation skinnedModel { get; set; }
         private Collider colliderInternal;
         private Collider colliderExternal;
         private Vector3 position;

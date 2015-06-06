@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyber.CollisionEngine
 {
-    class Collider
+    public class Collider
     {
         private BoundingBox aabb; //Sama klatka
 

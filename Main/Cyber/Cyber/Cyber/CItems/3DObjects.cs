@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cyber.CItems
 {
-    class _3DObjects
+    public class _3DObjects
     {
     }
 }
