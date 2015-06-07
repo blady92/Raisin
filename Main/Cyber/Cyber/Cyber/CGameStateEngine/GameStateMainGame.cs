@@ -79,6 +79,19 @@ namespace Cyber.CGameStateEngine
         private float podjazdStopPoint;
         private float podjazdBefore;
 
+        //Effect shader
+        Texture2D m_texture;
+        Effect celShader;
+        Texture2D celMap;
+        Vector4 lightDirection = new Vector4(0.0f, 0.0f, 1.0f, 0.0f);
+        //shader outline
+        Effect outlineShader;
+        float defaultThickness = 0.20f;
+        float defaultThreshold = 0.20f;
+        float outlineThickness = 0.13f;
+        float outlineThreshold = 0.20f;
+        RenderTarget2D celTarget;
+
         public void Unload()
         {
             theContentManager.Unload();
@@ -93,6 +106,7 @@ namespace Cyber.CGameStateEngine
             {
                 plot = new PlotTwistClass();
             }
+
             #region Load Dialogs
             if (!plot.loaded)
             {
@@ -101,6 +115,24 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             this.theContentManager = theContentManager;
+
+            #region Load Shaders
+            //CellShading
+            celShader = theContentManager.Load<Effect>("Assets/ShadersFX/CelShader");
+            m_texture = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/terminalUVv1");
+            celMap = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMap");
+            celShader.Parameters["LightDirection"].SetValue(lightDirection);
+            celShader.Parameters["ColorMap"].SetValue(m_texture);
+            celShader.Parameters["CelMap"].SetValue(celMap);
+            //Outline
+            outlineShader = theContentManager.Load<Effect>("Assets/ShadersFX/OutlineShader");
+            outlineShader.Parameters["Thickness"].SetValue(outlineThickness);
+            outlineShader.Parameters["Threshold"].SetValue(outlineThreshold);
+            outlineShader.Parameters["ScreenSize"].SetValue(new Vector2(device.Viewport.Bounds.Width, device.Viewport.Bounds.Height));
+
+            celTarget = new RenderTarget2D(device, device.Viewport.Width, device.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            #endregion
+
             #region Load 2D elements
             console = new ConsoleSprites(this, audio);
             console.plotAction = plot;
@@ -534,6 +566,11 @@ namespace Cyber.CGameStateEngine
             #region Przed bilboardingiem
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
+            device.RasterizerState = RasterizerState.CullCounterClockwise;
+            device.SamplerStates[0] = SamplerState.LinearWrap;
+
+            celShader.Parameters["Projection"].SetValue(projection);
+            celShader.Parameters["View"].SetValue(view);
 
             Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
             podjazd.DrawItem(device, podjazdModel, view, projection);
@@ -542,7 +579,10 @@ namespace Cyber.CGameStateEngine
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
             Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
-            
+
+            device.SetRenderTarget(celTarget);
+            device.Clear(Color.Black);
+
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
           //  samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
@@ -627,6 +667,10 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
+            device.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, outlineShader);
+            spriteBatch.Draw(celTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
 
             escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
             console.Draw(spriteBatch);
