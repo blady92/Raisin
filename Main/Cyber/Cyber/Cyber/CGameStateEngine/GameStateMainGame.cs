@@ -641,7 +641,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else
                 {
-                    stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                    stageElement.DrawItem(device, stageElementView, view, projection);
                     if (stageElement.particles != null)
                     {
                         stageElement.particles.Update();
