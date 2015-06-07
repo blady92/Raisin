@@ -140,7 +140,7 @@ namespace Cyber.CGameStateEngine
             
             #region ustawianie leveli
             if (level == Level.level1) {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage5.bmp");
                 //Do czasu 100% działającej bramy, zakomentowane na potrzeby safe merge'a
                 //stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             }
