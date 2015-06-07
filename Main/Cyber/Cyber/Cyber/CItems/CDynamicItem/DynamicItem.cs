@@ -4,6 +4,7 @@ using Cyber.GraphicsEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Cyber.CItems
 {
@@ -97,6 +98,11 @@ namespace Cyber.CItems
         public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
             skinnedModel.DrawSkinnedModelWithSkinnedEffect(gameTime, device, world, view, projection);
+        }
+
+        public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, Effect celShader)
+        {
+            skinnedModel.DrawSkinnedModelWithShader(device, world, view, projection, celShader);
         }
 
         public void MoveItem(Vector3 vec)

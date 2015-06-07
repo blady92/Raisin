@@ -82,6 +82,7 @@ namespace Cyber.CGameStateEngine
         //Effect shader
         Texture2D m_texture;
         Effect celShader;
+        Effect celShaderDynamic;
         Texture2D celMap;
         Vector4 lightDirection = new Vector4(0.0f, 0.0f, 1.0f, 0.0f);
         //shader outline
@@ -119,11 +120,15 @@ namespace Cyber.CGameStateEngine
             #region Load Shaders
             //CellShading
             celShader = theContentManager.Load<Effect>("Assets/ShadersFX/CelShader");
+            celShaderDynamic = theContentManager.Load<Effect>("Assets/ShadersFX/CelShaderDynamic");
             m_texture = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/terminalUVv1");
             celMap = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMap");
             celShader.Parameters["LightDirection"].SetValue(lightDirection);
+            celShaderDynamic.Parameters["LightDirection"].SetValue(lightDirection);
             celShader.Parameters["ColorMap"].SetValue(m_texture);
+            celShaderDynamic.Parameters["ColorMap"].SetValue(m_texture);
             celShader.Parameters["CelMap"].SetValue(celMap);
+            celShaderDynamic.Parameters["CelMap"].SetValue(celMap);
             //Outline
             outlineShader = theContentManager.Load<Effect>("Assets/ShadersFX/OutlineShader");
             outlineShader.Parameters["Thickness"].SetValue(outlineThickness);
@@ -583,7 +588,7 @@ namespace Cyber.CGameStateEngine
             device.SetRenderTarget(celTarget);
             device.Clear(Color.Black);
 
-            samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
+            //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
 
           //  samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
 
@@ -599,6 +604,7 @@ namespace Cyber.CGameStateEngine
                                        Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
                                        Matrix.CreateTranslation(samanthaGhostController.Position);
 
+           
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
@@ -635,7 +641,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else
                 {
-                    stageElement.DrawItem(device, stageElementView, view, projection);
+                    stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     if (stageElement.particles != null)
                     {
                         stageElement.particles.Update();

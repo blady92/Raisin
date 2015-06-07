@@ -122,12 +122,12 @@ namespace Cyber.CItems.CStaticItem
             skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
         }
 
-        public void DrawItem(GameTime gameTime, GraphicsDevice device)
+        public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, Effect celShader)
         {
-            skinnedModel.DrawStaticModelWithShader(gameTime, device);
+            skinnedModel.DrawStaticModelWithShader(device, world, view, projection, celShader);
         }
 
-        public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
+        public void DrawItem(GameTime gameTime, GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation, Effect celShader)
         {
             if (OnOffBilboard)
             {
@@ -137,7 +137,7 @@ namespace Cyber.CItems.CStaticItem
             {
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
             }
-            skinnedModel.DrawStaticModelWithShader(gameTime, device);
+            skinnedModel.DrawStaticModelWithShader(device, world, view, projection, celShader);
         }
         public void FixColliderExternal(Vector3 resize, Vector3 move)
         {

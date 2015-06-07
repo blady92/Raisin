@@ -105,39 +105,49 @@ namespace Cyber.GraphicsEngine
                 mesh.Draw();
             }
         }
-        public void DrawSkinnedModelWithShader(GameTime gameTime, GraphicsDevice device)
+        public void DrawSkinnedModelWithShader(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, Effect celShader)
         {
-            float cameraArc = 0;
-            float cameraRotation = 0;
-            float cameraDistance = 500;
             Matrix[] bones = animationPlayer.GetSkinTransforms();
 
             Matrix[] transforms = new Matrix[currentModel.Bones.Count];
             currentModel.CopyAbsoluteBoneTransformsTo(transforms);
 
-            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
+            ////Render zeskinowany mesh
+            //foreach (ModelMesh mesh in currentModel.Meshes)
+            //{
+            //    // <-- WŁASNY EFEKT .FX -->
 
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                              new Vector3(0, 30, 100), Vector3.Up);
-
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
-
-            //Render zeskinowany mesh
+            //    foreach (ModelMeshPart meshpart in mesh.MeshParts)
+            //    {
+            //        meshpart.Effect = myEffect;
+            //        myEffect.Parameters["Bones"].SetValue(bones);
+            //        myEffect.Parameters["View"].SetValue(view);
+            //        myEffect.Parameters["Projection"].SetValue(projection);
+            //        myEffect.Parameters["Tekstura"].SetValue(texture);
+            //    }  
+            //    mesh.Draw();
+            //}
             foreach (ModelMesh mesh in currentModel.Meshes)
             {
                 // <-- WŁASNY EFEKT .FX -->
+                celShader.Parameters["World"].SetValue(world);
+                celShader.Parameters["InverseWorld"].SetValue(Matrix.Invert(world));
+                celShader.Parameters["Bones"].SetValue(bones);
+
 
                 foreach (ModelMeshPart meshpart in mesh.MeshParts)
                 {
-                    meshpart.Effect = myEffect;
-                    myEffect.Parameters["Bones"].SetValue(bones);
-                    myEffect.Parameters["View"].SetValue(view);
-                    myEffect.Parameters["Projection"].SetValue(projection);
-                    myEffect.Parameters["Tekstura"].SetValue(texture);
-                }  
+                    device.SetVertexBuffer(meshpart.VertexBuffer, meshpart.VertexOffset);
+                    device.Indices = meshpart.IndexBuffer;
+                    celShader.CurrentTechnique = celShader.Techniques["ToonShader"];
+
+                    foreach (EffectPass effectPass in celShader.CurrentTechnique.Passes)
+                    {
+                        effectPass.Apply();
+
+                        device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, meshpart.NumVertices, meshpart.StartIndex, meshpart.PrimitiveCount);
+                    }
+                }
                 mesh.Draw();
             }
         }
@@ -165,42 +175,32 @@ namespace Cyber.GraphicsEngine
             }
         }
 
-         public void DrawStaticModelWithShader(GameTime gameTime, GraphicsDevice device)
-        {
-            float cameraArc = 0;
-            float cameraRotation = 0;
-            float cameraDistance = 500;
-            Matrix[] transforms = new Matrix[currentModel.Bones.Count];
-            currentModel.CopyAbsoluteBoneTransformsTo(transforms);
+         public void DrawStaticModelWithShader(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, Effect celShader)
+         {
 
-            Matrix world = transforms[currentModel.Meshes[0].ParentBone.Index];
+             foreach (ModelMesh mesh in currentModel.Meshes)
+             {
+                 // <-- WŁASNY EFEKT .FX -->
+                 celShader.Parameters["World"].SetValue(world);
+                 celShader.Parameters["InverseWorld"].SetValue(Matrix.Invert(world));
 
-            Matrix view = Matrix.CreateTranslation(0, -40, 0) *
-                          Matrix.CreateRotationY(MathHelper.ToRadians(cameraRotation)) *
-                          Matrix.CreateRotationX(MathHelper.ToRadians(cameraArc)) *
-                          Matrix.CreateLookAt(new Vector3(0, 0, -cameraDistance),
-                                              new Vector3(0, 30, 100), Vector3.Up);
 
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1, 100000);
+                 foreach (ModelMeshPart meshpart in mesh.MeshParts)
+                 {
+                     device.SetVertexBuffer(meshpart.VertexBuffer, meshpart.VertexOffset);
+                     device.Indices = meshpart.IndexBuffer;
+                     celShader.CurrentTechnique = celShader.Techniques["ToonShader"];
 
-            //Render zeskinowany mesh
-            foreach(ModelMesh mesh in currentModel.Meshes)
-            {
-                // <-- WŁASNY EFEKT .FX -->
+                     foreach (EffectPass effectPass in celShader.CurrentTechnique.Passes)
+                     {
+                         effectPass.Apply();
 
-                foreach (ModelMeshPart meshpart in mesh.MeshParts)
-                {
-                    meshpart.Effect = myEffect;
-                  //  myEffect.Parameters["Bones"].SetValue(bones);
-                    myEffect.Parameters["View"].SetValue(view);
-                    myEffect.Parameters["Projection"].SetValue(projection);
-                    myEffect.Parameters["Tekstura"].SetValue(texture);
-                }  
-                
-                    
-                mesh.Draw();
-            }
-        }
+                         device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, meshpart.NumVertices, meshpart.StartIndex, meshpart.PrimitiveCount);
+                     }
+                 }
+                 mesh.Draw();
+             }
+         }
 
 
          public void UpdateCamera(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance)
