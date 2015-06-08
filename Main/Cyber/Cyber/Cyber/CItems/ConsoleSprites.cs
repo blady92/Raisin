@@ -71,7 +71,11 @@ namespace Cyber.CItems
         {
             PutCommand(new GameConsoleCommand(new SayHelloCommand()));
             PutCommand(new GameConsoleCommand(new AudioCommand(game, audioController)));
-            PutCommand(new GameConsoleCommand(new OpenCommand(game)));
+            PutCommand(new GameConsoleCommand(new OpenGateCommand(game)));
+            PutCommand(new GameConsoleCommand(new AccessGeneratorCommand(game)));
+            PutCommand(new GameConsoleCommand(new AllySleepCommand(game)));
+            PutCommand(new GameConsoleCommand(new FreeCommand(game)));
+            PutCommand(new GameConsoleCommand(new GetTimeCommand(game)));
         }
         private void PutCommand(GameConsoleCommand gameConsoleCommand)
         {

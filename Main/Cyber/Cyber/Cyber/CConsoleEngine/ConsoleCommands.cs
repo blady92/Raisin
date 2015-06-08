@@ -101,11 +101,11 @@ Operation not permitted!";
         }
     }
 
-    public class OpenCommand : IConsoleCommand
+    public class OpenGateCommand : IConsoleCommand
     {
         private GameStateMainGame gameStateMainGame;
 
-        public OpenCommand(GameStateMainGame gameStateMainGame)
+        public OpenGateCommand(GameStateMainGame gameStateMainGame)
         {
             this.gameStateMainGame = gameStateMainGame;
         }
@@ -113,7 +113,7 @@ Operation not permitted!";
         {
             if (arguments == null || arguments.Length != 1)
             {
-                return "Command open takes onsly 1 argument";
+                return "Command open takes only 1 argument";
             }
             foreach (var gateHolder in gameStateMainGame.gateList.Where(gateHolder => gateHolder.ID.Equals(arguments[0])))
             {
@@ -125,12 +125,129 @@ Operation not permitted!";
 
         public string Name
         {
-            get { return "open"; }
+            get { return "OpenGate"; }
         }
 
         public string Description
         {
             get { return "Opens all gates"; }
+        }
+    }
+
+    public class GetTimeCommand : IConsoleCommand
+    {
+        private GameStateMainGame gameStateMainGame;
+
+        public GetTimeCommand(GameStateMainGame gameStateMainGame)
+        {
+            this.gameStateMainGame = gameStateMainGame;
+        }
+
+        public string Execute(string[] arguments)
+        {
+            if (arguments != null && arguments.Length > 0)
+            {
+                return "Command open takes onsly 1 argument";
+            }
+            return "X time left";
+        }
+
+        public string Name
+        {
+            get { return "GetTime"; }
+        }
+
+        public string Description
+        {
+            get { return "Returns amount of time until Earth is airless."; }
+        }
+    }
+
+    public class AllySleepCommand : IConsoleCommand
+    {
+        private GameStateMainGame gameStateMainGame;
+
+        public AllySleepCommand(GameStateMainGame gameStateMainGame)
+        {
+            this.gameStateMainGame = gameStateMainGame;
+        }
+
+        public string Execute(string[] arguments)
+        {
+            if (arguments == null || arguments.Length != 1)
+            {
+                return "Command takes only 1 argument";
+            }
+            string robotId = arguments[0];
+            return "Robot " + robotId + " screwed";
+        }
+
+        public string Name
+        {
+            get { return "AllySleep"; }
+        }
+
+        public string Description
+        {
+            get { return "Puts given robot to a temporal comma."; }
+        }
+    }
+
+    public class AccessGeneratorCommand : IConsoleCommand
+    {
+        private GameStateMainGame gameStateMainGame;
+
+        public AccessGeneratorCommand(GameStateMainGame gameStateMainGame)
+        {
+            this.gameStateMainGame = gameStateMainGame;
+        }
+
+        public string Execute(string[] arguments)
+        {
+            if (arguments != null || arguments.Length != 1)
+            {
+                return "Command takes no arguments";
+            }
+            return "someId";
+        }
+
+        public string Name
+        {
+            get { return "AccessGenerator"; }
+        }
+
+        public string Description
+        {
+            get { return "Receives generator ID"; }
+        }
+    }
+    public class FreeCommand : IConsoleCommand
+    {
+        private GameStateMainGame gameStateMainGame;
+
+        public FreeCommand(GameStateMainGame gameStateMainGame)
+        {
+            this.gameStateMainGame = gameStateMainGame;
+        }
+
+        public string Execute(string[] arguments)
+        {
+            if (arguments == null || arguments.Length != 1)
+            {
+                return "Command takes only 1 argument";
+            }
+            string generatorId = arguments[0];
+            return "Oxygen from " + generatorId + " released";
+        }
+
+        public string Name
+        {
+            get { return "Free"; }
+        }
+
+        public string Description
+        {
+            get { return "Frees oxygen from a generator"; }
         }
     }
 }
