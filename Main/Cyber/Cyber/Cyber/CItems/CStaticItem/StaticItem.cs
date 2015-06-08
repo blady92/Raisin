@@ -131,11 +131,15 @@ namespace Cyber.CItems.CStaticItem
         {
             if (OnOffBilboard)
             {
+                bilboards.positions = position;
                 bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+                bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
             }
-            if (DrawID)
+            if (DrawID && !OnOffBilboard)
             {
+                MachineID.positions = position;
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
+                MachineID.generateParticles(new Vector3[] { Position + MachineIDHeight });
             }
             skinnedModel.DrawStaticModelWithShader(device, world, view, projection, celShader);
         }

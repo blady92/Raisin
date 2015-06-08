@@ -108,7 +108,12 @@ namespace Cyber.CollisionEngine
                 {
                     if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                         return staticItemList[i].Type;
-                    staticItemList[i].DrawID = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB) && !plot.Gate1Opened);
+                    staticItemList[i].DrawID = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB));
+                }
+
+                if (staticItemList[i].Type == StaticItemType.oxygenGenerator && item.Type == StaticItemType.samantha)
+                {
+                    staticItemList[i].DrawID = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB));
                 }
                 if(staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 {

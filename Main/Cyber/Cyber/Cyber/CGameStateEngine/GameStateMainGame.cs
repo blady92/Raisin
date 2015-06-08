@@ -277,7 +277,8 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-            gate = new StaticItem("Assets/3D/exampleGate");
+            //gate = new StaticItem("Assets/3D/exampleGate");
+            gate = new StaticItem("Assets/3D/Interior/Interior_Gate_NoTexture");
             gate.LoadItem(theContentManager);
             gate.Type = StaticItemType.gate;
             gate.Rotation = 0;
@@ -313,8 +314,6 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(gate);
             }
             #endregion
-
-            ////Setup them position on the world at the start, then recreate cage. Order is necessary!
             #region setups
             int i = 0;
             float mnoznikPrzesuniecaSciany = 19.5f;
@@ -360,6 +359,22 @@ namespace Cyber.CGameStateEngine
                         0);
                     stageElements[j].Position = move;
                     stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8,-8, -50));
+                }
+                else if (stage.Objects[j] is OxygenGenerator)
+                {
+                    z = terminalZ;
+                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
+                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
+                        -50);
+                    stageElements[j].Type = StaticItemType.oxygenGenerator;
+                    stageElements[j].Position = move;
+                    stageElements[j].Rotation = 270;
+                    stageElements[j].FixColliderInternal(new Vector3(0.52f, 0.2f, 0.5f), new Vector3(-42, 6, 60));
+                    stageElements[j].ID = generatedID.IDs[0];
+                    stageElements[j].DrawID = false;
+                    stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
+                    generatedID.IDs.RemoveAt(0);
+                    stageElements[j].ApplyIDBilboard(device, theContentManager, move);
                 }
                 else
                 {
@@ -550,7 +565,6 @@ namespace Cyber.CGameStateEngine
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(0f, -25, 15f));
             }
             #endregion
-
             #region Floor setups
             float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
             for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
@@ -563,12 +577,13 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            //stageSurroundingsList.Add(terminal);
+            #region Spięcie wszystkiego do koliderów
             colliderController = new ColliderController(console);
             colliderController.samantha = samanthaGhostController;
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
             colliderController.plot = plot;
+            #endregion
             #region Inicjalizacja AI
             AI ai = AI.Instance;
             ai.ColliderController = colliderController;
@@ -613,7 +628,7 @@ namespace Cyber.CGameStateEngine
             //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
 
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
-            samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
+            //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
             device.SetRenderTarget(celTarget);
             device.Clear(Color.Black);
 
@@ -633,23 +648,6 @@ namespace Cyber.CGameStateEngine
             //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             #endregion
-            #region Testowane, zakomentowane
-            //Przyda się do testowania pojedynczych elementów, ale foreach coś wydaje się być wydajniejszy, dunno why O.o
-            //for (int i = 0; i < stageElements.Count; i++)
-            //{
-            //    //TUTEJ SIĘ MNOŻY MACIERZE W ZALEŻNOŚCI OD OBROTU
-            //    Matrix stageElementView = Matrix.Identity *
-            //                        Matrix.CreateRotationZ(MathHelper.ToRadians(stageElements[i].Rotation)) *
-            //                        Matrix.CreateTranslation(stageElements[i].Position);
-            //    Matrix stageElementColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
-            //    stageElements[i].DrawItem(device, stageElementView, view, projection);
-            //    if (stageElements[i].DrawBouding) { 
-            //        stageElements[i].ColliderExternal.DrawBouding(device, stageElementColliderView, view, projection);
-            //        stageElements[i].ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
-            //        break;
-            //    }
-            //}
-            #endregion
             #region Rysowanie elementów sceny
             //foreach (var gateHolder in gateList)
             //{
@@ -664,7 +662,7 @@ namespace Cyber.CGameStateEngine
                 Matrix stageElementView = Matrix.Identity *
                     Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
                     Matrix.CreateTranslation(stageElement.Position);
-                //if (stageElement.Type == StaticItemType.gate)
+                //if (stageElement.Type == StaticItemType.oxygenGenerator)
                 //{
                 //    Matrix stageElementColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
                 //    stageElement.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
@@ -737,7 +735,6 @@ namespace Cyber.CGameStateEngine
             console.Update();
             KeyboardState newState = currentKeyboardState;
 
-            //Kuba edit:
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             samanthaGhostController.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
@@ -882,7 +879,6 @@ namespace Cyber.CGameStateEngine
 
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
-                //Debug.WriteLine("Sam zlokalizowana w " + samanthaGhostController.Position.ToString());
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
             oldState = newState;

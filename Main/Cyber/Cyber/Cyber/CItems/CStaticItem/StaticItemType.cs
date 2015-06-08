@@ -12,6 +12,7 @@ namespace Cyber.CItems.CStaticItem
         decoration,
         floor,
         gate,
+        oxygenGenerator,
         none,
         //tymczasowo
         tank,
