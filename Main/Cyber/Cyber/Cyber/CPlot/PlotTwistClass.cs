@@ -27,6 +27,46 @@ namespace Cyber
         //Czy wykonujemy zadanie, czy opowiadamy fabułę
         public bool action { get; set; }
 
+
+        #region Aksesory do elementów fabuły
+        public bool GetTime1
+        {
+            get { return getTime; }
+            set { getTime = value; }
+        }
+
+        public bool Gate1Opened
+        {
+            get { return gate1Opened; }
+            set { gate1Opened = value; }
+        }
+
+        public bool LevelCleared
+        {
+            get { return levelCleared; }
+            set { levelCleared = value; }
+        }
+
+        public bool GeneratorAccess
+        {
+            get { return generatorAccess; }
+            set { generatorAccess = value; }
+        }
+
+        public bool GeneratorOn
+        {
+            get { return generatorOn; }
+            set { generatorOn = value; }
+        }
+
+        public bool AllyHacked
+        {
+            get { return allyHacked; }
+            set { allyHacked = value; }
+        }
+
+        #endregion
+
         public PlotTwistClass()
         {
             loaded = false;

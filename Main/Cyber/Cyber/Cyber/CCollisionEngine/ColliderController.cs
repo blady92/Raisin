@@ -45,6 +45,8 @@ namespace Cyber.CollisionEngine
         }
         public int terminalNumber { get; set; }
 
+        public PlotTwistClass plot { get; set; }
+
         #region ACCESSORS
 
         public Action PlayAudio
@@ -70,11 +72,12 @@ namespace Cyber.CollisionEngine
             return false;
         }
 
-        //Zwraca z czym się zderzyło z bliska. Od wykrywania zasięgu są metody powyżej
+        //Zwraca z czym się zderzyło z bliska.
         public StaticItemType IsCollidedType(StaticItem item)
         {
             for(int i=0; i<staticItemList.Count; i++)
             {
+                #region Obsługa konsoli
                 if (staticItemList[i].Type == StaticItemType.terminal && item.Type == StaticItemType.samantha)
                 {
                     if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
@@ -99,7 +102,15 @@ namespace Cyber.CollisionEngine
                         ConsoleDetection = false;
                     }
                 }
-                else if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                #endregion
+
+                if (staticItemList[i].Type == StaticItemType.gate && item.Type == StaticItemType.samantha && !plot.Gate1Opened)
+                {
+                    if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                        return staticItemList[i].Type;
+                    staticItemList[i].DrawID = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB) && !plot.Gate1Opened);
+                }
+                if(staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 {
                     return staticItemList[i].Type;
                 }
@@ -110,7 +121,6 @@ namespace Cyber.CollisionEngine
                 if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB)) 
                     return npc.Type;
                 npc.DrawID = (samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB));
-
             }
 
             if (samantha != item && samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
@@ -127,8 +137,9 @@ namespace Cyber.CollisionEngine
             if (IsCollidedType(item) == StaticItemType.none)
             {
                 item.Position += move;
-                if (item.moveColliderExternal.X + move.X < 30 && item.moveColliderExternal.X + move.X > -30 &&
-                    item.moveColliderExternal.Y + move.Y < 30 && item.moveColliderExternal.Y + move.Y > -30)
+                #region Obracanie kolidera
+                if (item.moveColliderExternal.X + move.X < 20 && item.moveColliderExternal.X + move.X > -20 &&
+                    item.moveColliderExternal.Y + move.Y < 20 && item.moveColliderExternal.Y + move.Y > -20)
                 {
                     if (item.moveColliderExternal.Y > 0 && move.X > 0)
                         move.Y = -move.X;
@@ -150,12 +161,15 @@ namespace Cyber.CollisionEngine
                     item.moveColliderExternal += new Vector2(move.X, move.Y);
                     item.ColliderExternal.RecreateCage(move + new Vector3(move.X, move.Y, 0));
                 }
+                #endregion
+
                 if (ConsoleDetection)
                 {
                     staticItemList[terminalNumber].OnOffBilboard = false;
                     console.IsUsed = false;
                 }
             }
+            
             else
             {
                 move = new Vector3(move.X * (-1), move.Y * (-1), move.Z * (-1));
@@ -170,7 +184,6 @@ namespace Cyber.CollisionEngine
         {
             if (ConsoleDetection)
             {
-               
                 KeyboardState newState = Keyboard.GetState();
                 if (newState.IsKeyDown(Keys.Tab) && oldstate.IsKeyUp(Keys.Tab))
                 {

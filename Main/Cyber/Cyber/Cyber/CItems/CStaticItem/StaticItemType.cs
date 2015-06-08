@@ -11,6 +11,7 @@ namespace Cyber.CItems.CStaticItem
         terminal,
         decoration,
         floor,
+        gate,
         none,
         //tymczasowo
         tank,

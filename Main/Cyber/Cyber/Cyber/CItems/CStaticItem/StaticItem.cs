@@ -115,7 +115,7 @@ namespace Cyber.CItems.CStaticItem
             }
             if (DrawID && !OnOffBilboard)
             {
-                bilboards.positions = position;
+                MachineID.positions = position;
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
                 MachineID.generateParticles(new Vector3[] { Position + MachineIDHeight });
             }
