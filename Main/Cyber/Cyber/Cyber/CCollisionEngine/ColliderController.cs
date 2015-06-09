@@ -104,6 +104,11 @@ namespace Cyber.CollisionEngine
                 }
                 #endregion
 
+                if (staticItemList[i].ColliderInternal == null)
+                {
+                    continue;
+                }
+
                 if (staticItemList[i].Type == StaticItemType.gate && item.Type == StaticItemType.samantha && !plot.Gate1Opened)
                 {
                     if (staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))

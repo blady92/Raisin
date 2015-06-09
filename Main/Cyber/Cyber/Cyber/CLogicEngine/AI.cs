@@ -17,7 +17,7 @@ namespace Cyber
         private static volatile AI instance;
         private static object syncRoot = new Object();
 
-        private static List<NPC> robots = new List<NPC>();
+        public static List<NPC> Robots = new List<NPC>();
 
         private const int chasingTime = 20;
 
@@ -81,7 +81,7 @@ namespace Cyber
         /// <param name="r"></param>
         public void AddRobot(NPC r)
         {
-            robots.Add(r);
+            Robots.Add(r);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Cyber
             if (!StageUtils.StageVectorToBitmapCoords(target.Position).Equals(lastSamPosition))
             {
                 lastSamPosition = StageUtils.StageVectorToBitmapCoords(target.Position);
-                foreach (NPC npc in robots)
+                foreach (NPC npc in Robots)
                 {
                     npc.Chase(pathfindingAlgorithm.FindWayToPlace(npc.Position, target.Position));
                 }
@@ -108,7 +108,7 @@ namespace Cyber
 
         private void StopChase(object sender, int time)
         {
-            foreach(NPC r in robots)
+            foreach(NPC r in Robots)
             {
                 r.StopChasing();
             }
@@ -122,7 +122,7 @@ namespace Cyber
         /// </summary>
         public void MoveNPCs(object obj)
         {
-            foreach (var npc in robots)
+            foreach (var npc in Robots)
             {
                 if (npc.GetNextWaypoint() != Vector3.Zero)
                 {
@@ -146,7 +146,7 @@ namespace Cyber
 
         public static void Destroy()
         {
-            foreach (var robot in robots)
+            foreach (var robot in Robots)
             {
                 robot.StopChasing();
             }
