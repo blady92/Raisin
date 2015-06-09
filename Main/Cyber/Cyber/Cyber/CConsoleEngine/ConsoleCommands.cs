@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cyber.CGameStateEngine;
+using Cyber.CItems.CStaticItem;
+using Cyber.CLogicEngine;
+using Cyber.CStageParsing;
 using XNAGameConsole;
 
 namespace Cyber.CConsoleEngine
@@ -115,11 +118,18 @@ Operation not permitted!";
             {
                 return "Command open takes only 1 argument";
             }
-            foreach (var gateHolder in gameStateMainGame.gateList.Where(gateHolder => gateHolder.ID.Equals(arguments[0])))
+//            foreach (var gateHolder in gameStateMainGame.gateList.Where(gateHolder => gateHolder.ID.Equals(arguments[0])))
+//            {
+//                gateHolder.Open();
+//                return "Gate opened";
+//            }
+            foreach (var gate in gameStateMainGame.stageElements.Where(x => arguments[0].Equals(x.ID)))
             {
-                gateHolder.Open();
+                gate.ColliderInternal = null;
+                gameStateMainGame.plot.OpenGate1();
                 return "Gate opened";
             }
+            
             return "Gate not found";
         }
 
@@ -130,7 +140,7 @@ Operation not permitted!";
 
         public string Description
         {
-            get { return "Opens all gates"; }
+            get { return "Opens a gate"; }
         }
     }
 
@@ -149,7 +159,8 @@ Operation not permitted!";
             {
                 return "Command open takes onsly 1 argument";
             }
-            return "X time left";
+            gameStateMainGame.plot.GetTime();
+            return Clock.Instance.RemainingSeconds + " seconds left";
         }
 
         public string Name
@@ -179,7 +190,14 @@ Operation not permitted!";
                 return "Command takes only 1 argument";
             }
             string robotId = arguments[0];
-            return "Robot " + robotId + " screwed";
+            NPC robot = AI.Robots.Find(x => x.ID == robotId);
+            if (robot != null)
+            {
+                AI.Robots.Remove(robot);
+                gameStateMainGame.plot.HackAlly();
+                return "Robot " + robotId + " screwed";
+            }
+            return "Robot " + robotId + " not found or already disabled";
         }
 
         public string Name
@@ -204,11 +222,16 @@ Operation not permitted!";
 
         public string Execute(string[] arguments)
         {
-            if (arguments != null || arguments.Length != 1)
+            if (arguments != null && arguments.Length > 0)
             {
                 return "Command takes no arguments";
             }
-            return "someId";
+            foreach (var oxygenGenerator in gameStateMainGame.stageElements.Where(x => x.Type == StaticItemType.oxygenGenerator))
+            {
+                gameStateMainGame.plot.AccessGenerator();
+                return oxygenGenerator.ID;
+            }
+            return "Oxygen generator not found";
         }
 
         public string Name
@@ -236,8 +259,18 @@ Operation not permitted!";
             {
                 return "Command takes only 1 argument";
             }
-            string generatorId = arguments[0];
-            return "Oxygen from " + generatorId + " released";
+            foreach (
+                var oxygenGenerator in
+                    gameStateMainGame.stageElements.Where(
+                    x => 
+                        x.Type == StaticItemType.oxygenGenerator &&
+                        arguments[0].Equals(x.ID)
+                    ))
+            {
+                gameStateMainGame.plot.RunGenerator();
+                return "Game should end here!";
+            }
+            return "No such generator";
         }
 
         public string Name

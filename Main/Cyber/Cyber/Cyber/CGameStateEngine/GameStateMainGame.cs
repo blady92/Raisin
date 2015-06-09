@@ -48,7 +48,7 @@ namespace Cyber.CGameStateEngine
         public StaticItem samanthaGhostController { get; set; }
         public DynamicItem samanthaActualPlayer { get; set; }
         private ColliderController colliderController;
-        private List<StaticItem> stageElements;
+        public List<StaticItem> stageElements;
         // TODO: Refactor na private
         public List<StaticItem> npcList;
         public List<GateHolder> gateList; 
@@ -60,7 +60,7 @@ namespace Cyber.CGameStateEngine
         
         //Plot elements
         private IDGenerator generatedID;
-        private PlotTwistClass plot;
+        public PlotTwistClass plot { get; set; }
 
         //Barriers for clock manipulation
         Boolean addPushed = false;
@@ -220,20 +220,20 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             #region Gates
-            //gateList = new List<GateHolder>();
-            //foreach (var gate in stage.Gates)
-            //{
-            //    GateHolder gateHolder = new GateHolder(gate);
-            //    gateList.Add(gateHolder);
-            //    StaticItem staticItem = new StaticItem(gateHolder.FirstItem.StaticObjectAsset);
-            //    staticItem.LoadItem(theContentManager);
-            //    staticItem.Type = StaticItemType.gate;
-            //    stageElements.Add(staticItem);
-            //    //staticItem = new StaticItem(gateHolder.SecondItem.StaticObjectAsset);
-            //    //staticItem.LoadItem(theContentManager);
-            //    //staticItem.Type = StaticItemType.decoration;
-            //    //stageElements.Add(staticItem);
-            //}
+            gateList = new List<GateHolder>();
+            foreach (var stageGate in stage.Gates)
+            {
+                GateHolder gateHolder = new GateHolder(stageGate);
+                gateList.Add(gateHolder);
+                StaticItem staticItem = new StaticItem(gateHolder.FirstItem.StaticObjectAsset);
+                staticItem.LoadItem(theContentManager);
+                staticItem.Type = StaticItemType.gate;
+                stageElements.Add(staticItem);
+                staticItem = new StaticItem(gateHolder.SecondItem.StaticObjectAsset);
+                staticItem.LoadItem(theContentManager);
+                staticItem.Type = StaticItemType.decoration;
+                stageElements.Add(staticItem);
+            }
             #endregion
             #region NPCs
             foreach (StageNPC stageNPC in stage.NPCs)

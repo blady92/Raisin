@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Cyber
 {
-    class PlotTwistClass
+    public class PlotTwistClass
     {
         public bool loaded { get; set; }
         private List<string> dialogsList;
@@ -130,6 +130,11 @@ namespace Cyber
         public void RunGenerator()
         {
             generatorOn = true;
+        }
+
+        public void HackAlly()
+        {
+            allyHacked = true;
         }
 
         public void ClearedStage()
