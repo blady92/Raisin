@@ -12,7 +12,7 @@ using XNAGameConsole;
 
 namespace Cyber.CConsoleEngine
 {
-    public class SayHelloCommand : IConsoleCommand
+    public class SayHelloCommand : IConsoleCommand 
     {
         public string Description
         {
@@ -118,11 +118,7 @@ Operation not permitted!";
             {
                 return "Command open takes only 1 argument";
             }
-//            foreach (var gateHolder in gameStateMainGame.gateList.Where(gateHolder => gateHolder.ID.Equals(arguments[0])))
-//            {
-//                gateHolder.Open();
-//                return "Gate opened";
-//            }
+
             foreach (var gate in gameStateMainGame.stageElements.Where(x => arguments[0].Equals(x.ID)))
             {
                 gate.ColliderInternal = null;

@@ -180,15 +180,22 @@ namespace Cyber.CGameStateEngine
             stageParser = new StageParser();
             
             #region ustawianie leveli
-            if (level == Level.level1) {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
+            if (level == Level.level1)
+            {
+                //plot.dialogNumber = 13;
+                //plot.Gate1Opened = false;
+                //plot.GeneratorAccess = false;
+                //plot.GeneratorOn = false;
+                //plot.AllyChecked = false;
+                //plot.AllyHacked = false;
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
 
                 //Do czasu 100% działającej bramy, zakomentowane na potrzeby safe merge'a
                 //stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             }
             else if (level == Level.level2)
             {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
+                stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             }
             else
             {
@@ -220,20 +227,20 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             #region Gates
-            gateList = new List<GateHolder>();
-            foreach (var stageGate in stage.Gates)
-            {
-                GateHolder gateHolder = new GateHolder(stageGate);
-                gateList.Add(gateHolder);
-                StaticItem staticItem = new StaticItem(gateHolder.FirstItem.StaticObjectAsset);
-                staticItem.LoadItem(theContentManager);
-                staticItem.Type = StaticItemType.gate;
-                stageElements.Add(staticItem);
-                staticItem = new StaticItem(gateHolder.SecondItem.StaticObjectAsset);
-                staticItem.LoadItem(theContentManager);
-                staticItem.Type = StaticItemType.decoration;
-                stageElements.Add(staticItem);
-            }
+            //gateList = new List<GateHolder>();
+            //foreach (var stageGate in stage.Gates)
+            //{
+            //    GateHolder gateHolder = new GateHolder(stageGate);
+            //    gateList.Add(gateHolder);
+            //    StaticItem staticItem = new StaticItem(gateHolder.FirstItem.StaticObjectAsset);
+            //    staticItem.LoadItem(theContentManager);
+            //    staticItem.Type = StaticItemType.gate;
+            //    stageElements.Add(staticItem);
+            //    staticItem = new StaticItem(gateHolder.SecondItem.StaticObjectAsset);
+            //    staticItem.LoadItem(theContentManager);
+            //    staticItem.Type = StaticItemType.decoration;
+            //    stageElements.Add(staticItem);
+            //}
             #endregion
             #region NPCs
             foreach (StageNPC stageNPC in stage.NPCs)
@@ -278,10 +285,14 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             //gate = new StaticItem("Assets/3D/exampleGate");
-            gate = new StaticItem("Assets/3D/Interior/Interior_Gate_NoTexture");
-            gate.LoadItem(theContentManager);
-            gate.Type = StaticItemType.gate;
-            gate.Rotation = 0;
+            if (level == Level.level2)
+            {
+                plot.ThroughGate();
+                gate = new StaticItem("Assets/3D/Interior/Interior_Gate_NoTexture");
+                gate.LoadItem(theContentManager);
+                gate.Type = StaticItemType.gate;
+                gate.Rotation = 0;
+            }
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -301,14 +312,14 @@ namespace Cyber.CGameStateEngine
 
             #region Ładowanie bramy
 
-            if (level == Level.level1) { 
-                Vector3 moveGate = new Vector3(400, 250, 0);
+            if (level == Level.level2) {
+                Vector3 moveGate = new Vector3(400, 150, 0);
                 gate.Position = moveGate;
                 gate.FixColliderInternal(new Vector3(1, 1, 1), new Vector3(0, 0, 0));
                 gate.ID = generatedID.IDs[0];
                 gate.DrawID = false;
                 gate.OnOffBilboard = false;
-                gate.MachineIDHeight = new Vector3(0, 0, 120);
+                gate.MachineIDHeight = new Vector3(0, 90, 130);
                 generatedID.IDs.RemoveAt(0);
                 gate.ApplyIDBilboard(device, theContentManager, moveGate);
                 stageElements.Add(gate);
@@ -707,7 +718,7 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
-            Matrix gateModel = Matrix.CreateTranslation(gate.Position);
+            //Matrix gateModel = Matrix.CreateTranslation(gate.Position);
 
             device.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, outlineShader);
@@ -881,6 +892,12 @@ namespace Cyber.CGameStateEngine
             {
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
+
+            if (plot.GeneratorOn)
+            {
+                base.State = GameState.States.endGame;
+            }
+
             oldState = newState;
             AI.Instance.MoveNPCs(null);
         }
@@ -892,11 +909,11 @@ namespace Cyber.CGameStateEngine
             {
                 if (podjazdBefore < podjazdStopPoint - samanthaGhostController.Position.X)
                 {
-                    samanthaGhostController.Position += new Vector3(0, 0, 0.5f);
+                    samanthaGhostController.Position += new Vector3(0, 0, 0.6f);
                 }
                 else if (podjazdBefore > podjazdStopPoint - samanthaGhostController.Position.X)
                 {
-                    samanthaGhostController.Position += new Vector3(0, 0, -0.5f);
+                    samanthaGhostController.Position += new Vector3(0, 0, -0.6f);
                 }
                 podjazdBefore = podjazdStopPoint - samanthaGhostController.Position.X;
             }
@@ -923,5 +940,7 @@ namespace Cyber.CGameStateEngine
                 actualPosition -= speed;
         }
         #endregion
+
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Cyber.CGameStateEngine;
 using Cyber.CItems;
 using Cyber.CItems.CStaticItem;
 using Cyber.GraphicsEngine;
@@ -119,6 +120,10 @@ namespace Cyber.CollisionEngine
                 if (staticItemList[i].Type == StaticItemType.oxygenGenerator && item.Type == StaticItemType.samantha)
                 {
                     staticItemList[i].DrawID = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB));
+                    if (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB)) { 
+                        Debug.WriteLine("Generator znaleziony");
+                        plot.FoundGenerator();
+                    }
                 }
                 if(staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 {
@@ -130,7 +135,12 @@ namespace Cyber.CollisionEngine
             {
                 if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB)) 
                     return npc.Type;
-                npc.DrawID = (samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB));
+                npc.DrawID = samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB);
+                if (samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB))
+                {
+                    plot.CheckAlly();
+                }
+
             }
 
             if (samantha != item && samantha.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
@@ -212,7 +222,6 @@ namespace Cyber.CollisionEngine
                     staticItemList[terminalNumber].OnOffBilboard = true;
                     return false;
                 }
-                
             }
             return false;
         }
