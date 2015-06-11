@@ -343,7 +343,6 @@ namespace Cyber.CItems
         }
 
 
-        // Kuba edit
         public void UpdateMessages(GameTime gameTime)
         {
             if(messages.Count > 0)

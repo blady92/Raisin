@@ -2,23 +2,24 @@
 Theo: Hello Samantha, I'm glad to see you :) In the back of you is entrance to first sector. Every history has own beginning.
 Samantha: My story has begun long ago.
 Theo: Well, what do you mean?
-Samantha: Do you know kryptonim "Spade"?
+Samantha: Do you know codename "Spade"?
 Theo: Yeah. It's one of the lead programmers who make me alive.
 Samantha: It's my father's nickname. He used it in his projects. Father I've never met.
-Theo: I know what do you feel, Sam. But here is more important thing for us all. The amount of oxygens on the Earth sharply fall down and we don't have a time. Use terminal typing a command GetTime() to find out when Cyber2O will finish complex oxygen privatization.
+Theo: I know what do you feel, Sam. But here is more important thing for us all. The amount of oxygen on the Earth sharply fall down and we don't have a time. Use terminal typing a command 'GetTime' to find out when Cyber2O will finish complex oxygen privatization.
 Samantha: Just... Theo, you mad? How I do it in that short time?!
 Theo: Don't worry. Based on my computing result they don't do it fast.
 Samantha: But it's still not optimistic. Why you can't do it alone?
-Theo: Programmers laid restrictions on me, but they didn't tell me I'm not able collaborate with others :)
+Theo: Programmers laid restrictions on me, but they didn't tell me I'm not able collaborate with others :) Now, quickly leave this place. Go through the teleporter behind you.
 Samantha: I see. So, let's go!
 Theo: Let's start by the youngest bit portions. Go to the gate and read its ID.
-Theo: Great, I hope you remember it. And now - use next command - OpenGate(ID). As you've seen - parameter is neccessary. In this case - the gate ID.
+Theo: I hope you remember it. And now - use next command - 'OpenGate ID ' As you've seen - parameter is necessary. In this case - the gate ID.
 Theo: Okay, passing through the gate was a piece of cake. 10/10, would appreciated.
 Samantha: Okay, okay, don't make me blush. I hope we'll manage to the end the mission.
 Theo: I appreciate your enthusiasm, but now... The deepest you go, the better sectors are protected.
 Samantha: Protected?
 Theo: Literally. Now you should avoid a contact with robots which patrols an laboratory. See at him. Maybe he is not strongest one, but don't underestimate him! His radars are really vigilant.
 Samantha: He must have got any weakness... I check him out.
-Theo: You did it! Awesome! Now Sam, when I know about him more... Screw him up by using AllySleep(ID) command. Zero-one dreams, Ally.
-Theo: Fine, sector is clear, good job Samantha. Don't forget about time! We need to free up gathered by Cyber2O oxygen in one of the many generators. To get access to oxygen generator just use AccessGenerator()
-Theo: Okay, now use Free(ID) setting as parameter machine ID.
+Theo: You did it! Awesome! Now Sam, when I know about him more... Screw him up by using 'AllySleep ID' command. Zero-one dreams, Ally. 
+Theo: With that, we should leave rest. Look for a generator, it might be somewhere near.
+Theo: We need to free up gathered by Cyber2O oxygen in one of the many generators. To get access to oxygen generator just use 'AccessGenerator'
+Theo: Okay, now use 'Free ID' setting as parameter machine ID.

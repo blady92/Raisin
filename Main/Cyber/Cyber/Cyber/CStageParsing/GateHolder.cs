@@ -24,22 +24,22 @@ namespace Cyber.CStageParsing
 
         public void SetUpCollider(StaticItem template)
         {
-            Collider = new Collider();
-            Collider.SetBoudings(template.SkinnedModel.CurrentModel);
-            Collider.CreateColliderBoudingBox();
-            Pair<int, int> firstPosition = FirstItem.GetBlock();
-            Pair<int, int> secondPosition = SecondItem.GetBlock();
-            Collider.BoudingBoxResizeOnce(secondPosition.X - firstPosition.X, secondPosition.Y - firstPosition.Y, 1);
-            Collider.MoveBoundingBox(new Vector3(firstPosition.X, firstPosition.Y, 0.0f));
-            Collider.RecreateCage(new Vector3(firstPosition.X, firstPosition.Y, 0.0f));
-            if (Orientation.Equals(Orientation.Vertical))
-            {
-                Collider.Position = new Vector3(firstPosition.X*19.5f, (firstPosition.Y - 2)*19.5f, 0.0f);
-            }
-            else
-            {
-                Collider.Position = new Vector3((firstPosition.X - 2) * 19.5f, firstPosition.Y * 19.5f, 0.0f);
-            }
+            //Collider = new Collider();
+            //Collider.SetBoudings(template.SkinnedModel.CurrentModel);
+            //Collider.CreateColliderBoudingBox();
+            //Pair<int, int> firstPosition = FirstItem.GetBlock();
+            //Pair<int, int> secondPosition = SecondItem.GetBlock();
+            //Collider.BoudingBoxResizeOnce(secondPosition.X - firstPosition.X, secondPosition.Y - firstPosition.Y, 1);
+            //Collider.MoveBoundingBox(new Vector3(firstPosition.X, firstPosition.Y, 0.0f));
+            //Collider.RecreateCage(new Vector3(firstPosition.X, firstPosition.Y, 0.0f));
+            //if (Orientation.Equals(Orientation.Vertical))
+            //{
+            //    Collider.Position = new Vector3(firstPosition.X*19.5f, (firstPosition.Y - 2)*19.5f, 0.0f);
+            //}
+            //else
+            //{
+            //    Collider.Position = new Vector3((firstPosition.X - 2) * 19.5f, firstPosition.Y * 19.5f, 0.0f);
+            //}
         }
 
         private Orientation GetOrientation(GenerableStructureImplementation gate)
