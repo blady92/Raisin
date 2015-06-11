@@ -32,12 +32,15 @@ namespace Cyber.CollisionEngine
         public List<StaticItem> staticItemList { get; set; }
         public List<StaticItem> npcItem { get; set; }
         public StaticItem samantha { get; set; }
+        public StaticItem exit { get; set; }
+
         private Action playAudio;
         private ConsoleSprites console;
         //private Icon icon;
         private KeyboardState newState, oldstate;
         public StaticItemType CollisionItemType { get; set; }
         public bool ConsoleDetection { get; set; }
+
 
         public ColliderController(ConsoleSprites console)
         {
@@ -121,13 +124,17 @@ namespace Cyber.CollisionEngine
                 {
                     staticItemList[i].DrawID = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB));
                     if (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB)) { 
-                        Debug.WriteLine("Generator znaleziony");
                         plot.FoundGenerator();
                     }
                 }
                 if(staticItemList[i].ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 {
                     return staticItemList[i].Type;
+                }
+
+                if (staticItemList[i].Type == StaticItemType.teleporter && item.Type == StaticItemType.samantha)
+                {
+                    staticItemList[i].OnOffBilboard = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB));
                 }
             }
 

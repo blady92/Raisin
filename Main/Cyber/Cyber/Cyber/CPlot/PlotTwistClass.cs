@@ -28,6 +28,7 @@ namespace Cyber
         private bool generatorFound;
         private bool generatorAccess;
         private bool generatorOn;
+        private bool possibleEscaping;
 
         //Czy wykonujemy zadanie, czy opowiadamy fabułę
         public bool action { get; set; }
@@ -82,6 +83,12 @@ namespace Cyber
             get { return generatorFound; }
             set { generatorFound = value; }
         }
+
+        public bool PossibleEscape
+        {
+            get { return possibleEscaping; }
+            set { possibleEscaping = value; }
+        }
         #endregion
 
         public PlotTwistClass()
@@ -127,24 +134,24 @@ namespace Cyber
 
             BreakPointsText = new List<string>();
             //Dla linijki 7
-            BreakPointsText.Add("Use 'GetTime' to know up how much time you have to finish operation.");
+            BreakPointsText.Add("Theo: Use 'GetTime' to know up how much time you have to finish operation.");
             //Dla linijki 13
             BreakPointsText.Add("Samantha: Well... It's hard to don't know where is teleporter here...");
 
             //Druga plansza
             //Dla linijki 15
-            BreakPointsText.Add("Use 'OpenGate ID' where ID is id of gate to open them.");
+            BreakPointsText.Add("Theo: Use 'OpenGate ID' where ID is id of gate to open them.");
 
             //Dla linijki 21
             BreakPointsText.Add("Samantha: I should do something quickly. Let's see those robots.");
             //Dla linijki 22
-            BreakPointsText.Add("Use 'AllySleep ID' to screw the corpo-robot up. ID is his unique identifier.");
+            BreakPointsText.Add("Theo: Use 'AllySleep ID' to screw the corpo-robot up. ID is his unique identifier.");
             //Dla linijki 23
-            BreakPointsText.Add("Find the generator here.");
+            BreakPointsText.Add("Theo: Find the generator here.");
             //Dla linijki 24
-            BreakPointsText.Add("Use 'AccessGenerator' to get the generator ID.");
+            BreakPointsText.Add("Theo: Use 'AccessGenerator' to get the generator ID.");
             //Dla linijki 25
-            BreakPointsText.Add("Use 'Free ID to release oxygen.");
+            BreakPointsText.Add("Theo: Use 'Free ID to release oxygen.");
 
 
             file.Close();
@@ -252,8 +259,10 @@ namespace Cyber
                 dialogNumber++;
                 if (allyChecked)
                     dialogNumber++;
+                if (dialogNumber > 11)
+                    possibleEscaping = true;
                 if(dialogNumber < 25)
-                return dialogsList[dialogNumber];
+                    return dialogsList[dialogNumber];
             }
             return "";
         }

@@ -31,6 +31,7 @@ namespace Cyber.CGameStateEngine
         private KeyboardState oldState;
         private KeyboardState currentKeyboardState;
         public bool endGame { get; set; }
+        public bool lostGame { get; set; }
 
         public GameState GameState
         {
@@ -73,6 +74,7 @@ namespace Cyber.CGameStateEngine
                                 case 0:
                                     gameStateMainGame.SetUpClock();
                                     gameStateMainGame.SetUpScene(device);
+                                    gameStateMainGame.level = Level.level1;
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:
@@ -186,11 +188,12 @@ namespace Cyber.CGameStateEngine
         {
             gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
             currentKeyboardState = Keyboard.GetState();
-            if (currentKeyboardState.IsKeyDown(Keys.NumPad9))
-            {
-                endGame = true;
-            }
-            if (endGame)
+            //Dla pozytywnego zakończenia gry
+            lostGame = (gameStateMainGame.lostGame);
+            
+            //
+            
+            if (lostGame)
             {
                 GameState.State = GameState.States.endGame;
             }
@@ -218,15 +221,13 @@ namespace Cyber.CGameStateEngine
             gameStateMainGame.SetUpScene(device);
             GameState.State = GameState.States.mainGame;
         }
-
+        
         #endregion
         #region END GAME
-        //Przygotować klikanie czy user chce zacząć poziom od nowa, czy wrócić do menu i zakończyć zabawę
         public void LogicEndGame(GraphicsDevice device, ContentManager theContentManager)
         {
             MouseState mouse;
             mouse = Mouse.GetState();
-            //Debug.WriteLine(mouse.ToString());
             MouseState oldMouseState = new MouseState();
             for (int i = 0; i < gameStateEndGame.SpriteAnimationList.Length; i++)
             {

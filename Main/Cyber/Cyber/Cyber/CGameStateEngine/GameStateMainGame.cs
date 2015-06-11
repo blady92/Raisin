@@ -29,6 +29,9 @@ namespace Cyber.CGameStateEngine
         SpriteBatch spriteBatch;
         ContentManager theContentManager;
 
+        public bool endGame;
+        public bool lostGame;
+
         public Level level { get; set; }
 
         private KeyboardState oldState;
@@ -74,6 +77,7 @@ namespace Cyber.CGameStateEngine
         //Escape items
         private ParticleEmitter escapeemitter;
         private StaticItem escapeCollider;
+        
         public bool escaped;
         public StaticItem podjazd;
         private float podjazdStopPoint;
@@ -163,7 +167,16 @@ namespace Cyber.CGameStateEngine
             escapeCollider = new StaticItem("Assets/3D/escapeBoxFBX");
             escapeCollider.LoadItem(theContentManager);
             escapeCollider.Position = new Vector3(0, 0, 0);
-            escapeCollider.FixColliderInternal(new Vector3(1, 1, 1), new Vector3(-50, 280, 40));
+            escapeCollider.FixColliderInternal(new Vector3(1, 1, 1), new Vector3(-40, 280, 40));
+            escapeCollider.Type = StaticItemType.teleporter;
+            escapeCollider.bilboards = new BillboardSystem(device, theContentManager,
+                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/TerminalBack"),
+                new Vector2(120), new Vector3(0, 0, 0)
+            );
+
+            escapeCollider.OnOffBilboard = false;
+            escapeCollider.BilboardHeight = new Vector3(-60, 280, 180);
+
 
             podjazd = new StaticItem("Assets/3D/podjazdFBX");
             podjazd.LoadItem(theContentManager);
@@ -182,16 +195,7 @@ namespace Cyber.CGameStateEngine
             #region ustawianie leveli
             if (level == Level.level1)
             {
-                //plot.dialogNumber = 13;
-                //plot.Gate1Opened = false;
-                //plot.GeneratorAccess = false;
-                //plot.GeneratorOn = false;
-                //plot.AllyChecked = false;
-                //plot.AllyHacked = false;
                 stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
-
-                //Do czasu 100% działającej bramy, zakomentowane na potrzeby safe merge'a
-                //stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
             }
             else if (level == Level.level2)
             {
@@ -309,6 +313,7 @@ namespace Cyber.CGameStateEngine
         public void SetUpScene(GraphicsDevice device)
         {
             escaped = false;
+            stageElements.Add(escapeCollider);
 
             #region Ładowanie bramy
 
@@ -594,6 +599,7 @@ namespace Cyber.CGameStateEngine
             colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
             colliderController.plot = plot;
+            colliderController.exit = escapeCollider;
             #endregion
             #region Inicjalizacja AI
             AI ai = AI.Instance;
@@ -667,32 +673,33 @@ namespace Cyber.CGameStateEngine
             //        gateHolder.Collider.DrawBouding(device, Matrix.CreateTranslation(gateHolder.Collider.Position), view, projection);
             //    }
             //}
+            escapeCollider.DrawOnlyBilboard(device, view, projection, cameraRotation);
 
             foreach (StaticItem stageElement in stageElements)
             {
                 Matrix stageElementView = Matrix.Identity *
                     Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
                     Matrix.CreateTranslation(stageElement.Position);
-                //if (stageElement.Type == StaticItemType.oxygenGenerator)
-                //{
-                //    Matrix stageElementColliderView = Matrix.CreateTranslation(stageElements[i].ColliderInternal.Position);
-                //    stageElement.ColliderInternal.DrawBouding(device, stageElementColliderView, view, projection);
-                //}
-                if (stageElement.OnOffBilboard)
-                {
-                    stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                }
-                else
-                {
-                    stageElement.DrawItem(device, stageElementView, view, projection);
-                    if (stageElement.particles != null)
+                if (stageElement.Type != StaticItemType.teleporter) { 
+                    if (stageElement.OnOffBilboard)
                     {
-                        stageElement.particles.Update();
-                        stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
+                        stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
                     }
-                    stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                    else
+                    {
+                        stageElement.DrawItem(device, stageElementView, view, projection);
+                        if (stageElement.particles != null)
+                        {
+                            stageElement.particles.Update();
+                            stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
+                        }
+                        stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                    }
                 }
             }
+
+            escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+
             #endregion
             #region Rysowanie NPCów
             foreach (StaticItem item in npcList)
@@ -717,7 +724,6 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
             //Matrix gateModel = Matrix.CreateTranslation(gate.Position);
 
             device.SetRenderTarget(null);
@@ -737,10 +743,13 @@ namespace Cyber.CGameStateEngine
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
-            if (samanthaGhostController.ColliderInternal.AABB.Intersects(escapeCollider.ColliderInternal.AABB))
+            if (samanthaGhostController.ColliderExternal.AABB.Intersects(escapeCollider.ColliderInternal.AABB))
             {
-                base.State = GameState.States.loadingGame;
-                escaped = true;
+                if (plot.PossibleEscape)
+                {
+                    base.State = GameState.States.loadingGame;
+                    escaped = true;
+                }
             }
             escapeemitter.Update();
             console.Update();
@@ -893,13 +902,14 @@ namespace Cyber.CGameStateEngine
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
 
-            if (plot.GeneratorOn)
-            {
-                base.State = GameState.States.endGame;
-            }
-
             oldState = newState;
             AI.Instance.MoveNPCs(null);
+
+
+            if (plot.GeneratorOn)
+            {
+                endGame = true;
+            }
         }
 
         #region Wejście i zejśćie
