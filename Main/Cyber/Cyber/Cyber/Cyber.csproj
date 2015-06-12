@@ -94,6 +94,7 @@
     <Compile Include="CGameStateEngine\GameStateMainGame.cs" />
     <Compile Include="CGameStateEngine\GameStateMainMenu.cs" />
     <Compile Include="CGameStateEngine\GameStatePauseMenu.cs" />
+    <Compile Include="CGameStateEngine\GameStateWinGame.cs" />
     <Compile Include="CItems\3DObjects.cs" />
     <Compile Include="CItems\CDynamicItem\DynamicItemType.cs" />
     <Compile Include="CItems\ConsoleSprites.cs" />

@@ -78,6 +78,7 @@ namespace Cyber
             set { allyHacked = value; }
         }
 
+        public bool SamChecked { get; set; }
         public bool GeneratorFound
         {
             get { return generatorFound; }

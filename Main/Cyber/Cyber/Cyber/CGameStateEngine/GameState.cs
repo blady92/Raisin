@@ -21,6 +21,7 @@ namespace Cyber.CGameStateEngine
             settingsMenu,
             exit,
             endGame,
+            winGame,
             loadingGame
         }
 

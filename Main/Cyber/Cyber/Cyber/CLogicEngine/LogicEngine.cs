@@ -24,6 +24,7 @@ namespace Cyber.CGameStateEngine
         private GameStatePauseMenu gameStatePauseMenu;
         private GameStateLoadingGame gameStateLoadingMenu;
         private GameStateEndGame gameStateEndGame;
+        private GameStateWinGame gameStateWinGame;
 
         private ContentManager theContentManager;
         private GraphicsDevice device;
@@ -51,6 +52,7 @@ namespace Cyber.CGameStateEngine
             gameStateLoadMenu = (GameStateLoadMenu)menus[3];
             gameStateLoadingMenu = (GameStateLoadingGame)menus[4];
             gameStateEndGame = (GameStateEndGame)menus[5];
+            gameStateWinGame = (GameStateWinGame)menus[6];
         }
 
         #region MAIN MENU LOGIC
@@ -72,6 +74,7 @@ namespace Cyber.CGameStateEngine
                             switch (i)
                             {
                                 case 0:
+                                    gameStateMainGame.LoadContent(theContentManager, device);
                                     gameStateMainGame.SetUpClock();
                                     gameStateMainGame.SetUpScene(device);
                                     gameStateMainGame.level = Level.level1;
@@ -187,16 +190,22 @@ namespace Cyber.CGameStateEngine
         public void LogicGame(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
             gameStateMainGame.Update(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
-            currentKeyboardState = Keyboard.GetState();
             //Dla pozytywnego zakończenia gry
             lostGame = (gameStateMainGame.lostGame);
-            
+            endGame = (gameStateMainGame.endGame);
             //
             
+            //Przegrana i koniec gry
             if (lostGame)
             {
                 GameState.State = GameState.States.endGame;
             }
+            //if (currentKeyboardState.IsKeyDown(Keys.NumPad9) || endGame)
+            if (endGame)
+            {
+                GameState.State = GameState.States.winGame;
+            }
+
             if (gameStateMainGame.escaped)
             {
                 if (gameStateMainGame.level == Level.level1)
@@ -221,8 +230,8 @@ namespace Cyber.CGameStateEngine
             gameStateMainGame.SetUpScene(device);
             GameState.State = GameState.States.mainGame;
         }
-        
         #endregion
+        
         #region END GAME
         public void LogicEndGame(GraphicsDevice device, ContentManager theContentManager)
         {
@@ -255,6 +264,18 @@ namespace Cyber.CGameStateEngine
             }
         }
         #endregion
+
+        #region WIN GAME
+        public void LogicWinGame()
+        {
+            KeyboardState keys = Keyboard.GetState();
+            if (keys.IsKeyDown(Keys.NumPad9))
+            { 
+                GameState.State = GameState.States.startMenu;
+            }
+        }
+        #endregion
+
         public GameState.States GetState()
         {
             return gameState.State;

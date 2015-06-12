@@ -28,6 +28,9 @@ namespace Cyber.CItems.CStaticItem
         public Vector3 MachineIDHeight { get; set; }
         public ParticleEmitter particles { get; set; }
 
+        //Nie podlega serializacji
+        public bool EnemySawSam { get; set; }
+
         public string ID { get; set; }
         public StaticItem(string path)
         {

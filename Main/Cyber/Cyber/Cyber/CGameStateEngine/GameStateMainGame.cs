@@ -108,6 +108,8 @@ namespace Cyber.CGameStateEngine
 
         public void LoadContent(ContentManager theContentManager, GraphicsDevice device)
         {
+            endGame = false;
+            lostGame = false;
             generatedID = new IDGenerator();
             generatedID.GenerateID();
             
@@ -252,6 +254,7 @@ namespace Cyber.CGameStateEngine
                 NPC npc = new NPC(stageNPC.StaticObjectAsset);
                 npc.LoadItem(theContentManager);
                 npc.Type = StaticItemType.tank;
+                npc.EnemySawSam = false;
                 npcList.Add(npc);
                 AI.Instance.AddRobot(npc);
             }
@@ -905,11 +908,17 @@ namespace Cyber.CGameStateEngine
             oldState = newState;
             AI.Instance.MoveNPCs(null);
 
-
-            if (plot.GeneratorOn)
+            KeyboardState first = Keyboard.GetState();
+            KeyboardState second = new KeyboardState();
+            if((first.IsKeyDown(Keys.NumPad9) && second.IsKeyUp(Keys.NumPad9)) || plot.GeneratorOn)
             {
                 endGame = true;
             }
+            if (plot.SamChecked)
+            {
+                lostGame = true;
+            }
+            second = first;
         }
 
         #region Wejście i zejśćie

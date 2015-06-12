@@ -42,6 +42,7 @@ namespace Cyber
         private GameStateLoadMenu loadMenu;
         private GameStateEndGame endGame;
         private GameStateLoadingGame loadingGame;
+        private GameStateWinGame winGame;
         private List<GameState> menus;
 
         //Input Readings
@@ -98,6 +99,7 @@ namespace Cyber
             loadMenu = new GameStateLoadMenu();
             loadingGame = new GameStateLoadingGame();
             endGame = new GameStateEndGame();
+            winGame = new GameStateWinGame();
             mainGame.Audio = audioController;
 
             menus = new List<GameState>();
@@ -107,6 +109,7 @@ namespace Cyber
             menus.Add(loadMenu);
             menus.Add(loadingGame);
             menus.Add(endGame);
+            menus.Add(winGame);
             #endregion INITIALIZE GAMESTATES            
 
             #region INITIALIZE LOGIC ENGINE
@@ -131,6 +134,7 @@ namespace Cyber
             loadMenu.LoadContent(this.Content);
             loadingGame.LoadContent(this.Content);
             endGame.LoadContent(this.Content);
+            winGame.LoadContent(this.Content);
             mousePointer = new Sprite(40, 40);
             mousePointer.LoadContent(this.Content, "Assets/2D/mousePointer");
 
@@ -187,7 +191,11 @@ namespace Cyber
                     videoPlayer.Pause();
                     LogicEngine.LogicGame(this.GraphicsDevice, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance, ref cameraTarget, ref cameraZoom);
                 }
-                
+
+            }
+            else if (LogicEngine.GetState() == GameState.States.winGame)
+            {
+                LogicEngine.LogicWinGame();
             }
             else if (LogicEngine.GetState() == GameState.States.startMenu)
             {
@@ -201,7 +209,6 @@ namespace Cyber
             {
                 loadingGame.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
-
                 LogicEngine.LogicChangeLevel(this.Content, this.GraphicsDevice);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
@@ -291,6 +298,10 @@ namespace Cyber
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
             #endregion
+            else if (LogicEngine.GetState() == GameState.States.winGame)
+            {
+                winGame.Draw(spriteBatch);
+            }
             #region rysowanie menu ³adowania poziomów
             else if (LogicEngine.GetState() == GameState.States.loadMenu)
             {
