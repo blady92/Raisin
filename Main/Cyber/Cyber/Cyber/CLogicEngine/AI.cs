@@ -6,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 
 namespace Cyber
 {
+    [DataContract]
     class AI
     {
         //TODO: unit tests ???
@@ -28,7 +30,8 @@ namespace Cyber
 
         private IPathfindingAlgorithm pathfindingAlgorithm = null;
 
-        private Position lastSamPosition = null;
+        [DataMember]
+        public Position lastSamPosition = null;
 
         #region ACCESSORS
         internal ColliderController ColliderController
@@ -94,20 +97,37 @@ namespace Cyber
             {
                 throw new Exception("You should set collider controller before beeing able to steer NPC's");
             }
-            if (!StageUtils.StageVectorToBitmapCoords(target.Position).Equals(lastSamPosition))
-            {
-                lastSamPosition = StageUtils.StageVectorToBitmapCoords(target.Position);
-                foreach (NPC npc in Robots)
-                {
-                    npc.Chase(pathfindingAlgorithm.FindWayToPlace(npc.Position, target.Position));
-                }
-            }
             Clock clock = Clock.Instance;
             clock.AddEvent(Clock.FROMNOW, chasingTime, StopChase);
+            if (StageUtils.StageVectorToBitmapCoords(target.Position).Equals(lastSamPosition))
+            {
+                return; 
+            }
+            lastSamPosition = StageUtils.StageVectorToBitmapCoords(target.Position);
+            foreach (NPC npc in Robots)
+            {
+                npc.Chase(pathfindingAlgorithm.FindWayToPlace(npc.Position, target.Position));
+            }
+        }
+
+        /// <summary>
+        /// Used to resume the chase after the game state is loaded
+        /// </summary>
+        public void ResumeChase()
+        {
+            if (colliderController == null)
+            {
+                throw new Exception("You should set collider controller before beeing able to steer NPC's");
+            }
+            foreach (NPC npc in Robots)
+            {
+                npc.Chase(pathfindingAlgorithm.FindWayToPlace(npc.Position, StageUtils.BitmapCoordsToStageVector(lastSamPosition)));
+            }
         }
 
         private void StopChase(object sender, int time)
         {
+            lastSamPosition = null;
             foreach(NPC r in Robots)
             {
                 r.StopChasing();

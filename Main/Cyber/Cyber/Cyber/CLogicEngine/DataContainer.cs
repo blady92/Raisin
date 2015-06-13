@@ -26,6 +26,7 @@ namespace Cyber.CLogicEngine
                 npcPositions.Add(npc.Position);
             }
             this.plot = gameStateMainGame.plot;
+            this.Ai = AI.Instance;
         }
 
         public void Apply(GameStateMainGame gameStateMainGame, LogicEngine logicEngine)
@@ -43,6 +44,8 @@ namespace Cyber.CLogicEngine
                 gameStateMainGame.npcList[i].FixColliderExternal(new Vector3(2, 2, 2), new Vector3(-15f, -15f, 10f));
             }
             gameStateMainGame.plot = plot;
+            AI.Instance.lastSamPosition = Ai.lastSamPosition;
+            AI.Instance.ResumeChase();
         }
 
         [DataMember]
@@ -59,5 +62,8 @@ namespace Cyber.CLogicEngine
 
         [DataMember]
         PlotTwistClass plot { get; set; }
+
+        [DataMember]
+        AI Ai { get; set; }
     }
 }
