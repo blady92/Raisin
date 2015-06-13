@@ -17,6 +17,7 @@ namespace Cyber.CGameStateEngine
 {
     class LogicEngine : Game
     {
+        private Game1 game;
         private GameState gameState;
         private GameStateMainMenu gameStateMainMenu;
         private GameStateMainGame gameStateMainGame;
@@ -26,8 +27,8 @@ namespace Cyber.CGameStateEngine
         private GameStateEndGame gameStateEndGame;
         private GameStateWinGame gameStateWinGame;
 
-        private ContentManager theContentManager;
-        private GraphicsDevice device;
+        public ContentManager theContentManager;
+        public GraphicsDevice device;
         private List<GameState> menus;
         private KeyboardState oldState;
         private KeyboardState currentKeyboardState;
@@ -39,9 +40,15 @@ namespace Cyber.CGameStateEngine
             get { return gameState; }
             set { gameState = value; }
         }
-
-        public LogicEngine(List<GameState> menus, ContentManager theContentManager, GraphicsDevice device)
+        public Level level
         {
+            get { return gameStateMainGame.level; }
+            set { GameState.State = GameState.States.loadingGame; gameStateMainGame.level = value; }
+        }
+
+        public LogicEngine(List<GameState> menus, ContentManager theContentManager, GraphicsDevice device, Game1 game)
+        {
+            this.game = game;
             this.theContentManager = theContentManager;
             this.device = device;
             this.menus = menus;
@@ -83,11 +90,12 @@ namespace Cyber.CGameStateEngine
                                 case 1:
                                     gameStateMainGame.SetUpClock();
                                     gameStateMainGame.SetUpScene(device);
+                                    game.state = 1;
                                     gameState.State = GameState.States.mainGame;
 
                                     GameSerializer ser = new JSONSerializer();
                                     DataContainer data = ser.Deserialize("state.json");
-                                    data.Apply(gameStateMainGame);
+                                    data.Apply(gameStateMainGame, this);
                                     //gameState.State = GameState.States.loadMenu;
                                     break;
                                 case 2:

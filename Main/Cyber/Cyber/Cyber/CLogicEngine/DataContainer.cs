@@ -27,10 +27,12 @@ namespace Cyber.CLogicEngine
             }
         }
 
-        public void Apply(GameStateMainGame gameStateMainGame)
+        public void Apply(GameStateMainGame gameStateMainGame, LogicEngine logicEngine)
         {
             Debug.Print("DataContainer: nie działa wczytywanie do aktualnego levelu!");
-            gameStateMainGame.level = this.level;
+            logicEngine.level = this.level;
+            logicEngine.LogicChangeLevel(logicEngine.theContentManager, logicEngine.device);
+            //TODO: autoskip intro
             gameStateMainGame.samanthaGhostController.Position = samGhostPosition;
             gameStateMainGame.samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
             gameStateMainGame.samanthaActualPlayer.Position = samRealPosition;

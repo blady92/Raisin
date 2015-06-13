@@ -66,7 +66,7 @@ namespace Cyber
         VideoPlayer videoPlayer;
         Texture2D videoTexture;
         Rectangle videoRectangle;
-        int state = 0;
+        public int state = 0;
     
 
         public Game1()
@@ -113,7 +113,7 @@ namespace Cyber
             #endregion INITIALIZE GAMESTATES            
 
             #region INITIALIZE LOGIC ENGINE
-            LogicEngine = new LogicEngine(menus, this.Content, this.GraphicsDevice);
+            LogicEngine = new LogicEngine(menus, this.Content, this.GraphicsDevice, this);
             #endregion INITIALIZE LOGIC ENGINE
 
             #region INITIALIZE VIDEO CUTSCENE

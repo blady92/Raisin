@@ -32,7 +32,8 @@ namespace Cyber.CGameStateEngine
         public bool endGame;
         public bool lostGame;
 
-        public Level level { get; set; }
+        public Level level
+        { get; set; }
 
         private KeyboardState oldState;
         private KeyboardState newState;
