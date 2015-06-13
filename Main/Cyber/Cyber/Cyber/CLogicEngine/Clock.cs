@@ -2,34 +2,47 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 
 namespace Cyber.CLogicEngine
 {
     [Serializable]
+    [DataContract]
     public class Clock
     {
+        [DataMember]
         private DateTime startTime;
+        [DataMember]
         private DateTime gameOverTime;
+        [DataMember]
         private TimeSpan pausedState = new TimeSpan(0);
-        private DateTime pauseTime = DateTime.MinValue;
+        [DataMember]
+        //NOTE: this will probably work only on GMT+x and fail serializing when time to the left of Greenwich
+        private DateTime pauseTime = DateTime.MaxValue;
 
         private const int length = 48;
 
+        [DataMember]
         private TimeSpan gameLength = new TimeSpan(length,0,0);
 
         public const int AFTERSTART = 0;
         public const int BEFOREOVER = 1;
         public const int FROMNOW = 2;
 
+        [DataMember]
         private static volatile Clock instance;
         private static object syncRoot = new Object();
 
+        [DataMember]
         int secAfterStart, secTillEnd;
 
+        [DataMember]
         SortedDictionary<int, TickEventHandler> startQueue;
+        [DataMember]
         SortedDictionary<int, TickEventHandler> endQueue;
+        [DataMember]
         SortedDictionary<DateTime, TickEventHandler> actualQueue;
 
         public delegate void TickEventHandler(object sender, int time);
@@ -50,9 +63,14 @@ namespace Cyber.CLogicEngine
             endQueue = new SortedDictionary<int, TickEventHandler>();
             actualQueue = new SortedDictionary<DateTime, TickEventHandler>();
 
+            ConstructThread();
+        }
+
+        public void ConstructThread()
+        {
             t = new Thread(new ParameterizedThreadStart(EventLoop));
             t.Start();
-            while(!t.IsAlive);
+            while (!t.IsAlive) ;
         }
 
         private void EventLoop(object obj)
@@ -191,7 +209,7 @@ namespace Cyber.CLogicEngine
                 newQueue.Add(DateTime.Now + remainingTime, item.Value);
             }
             actualQueue = newQueue;
-            pauseTime = DateTime.MinValue;
+            pauseTime = DateTime.MaxValue;
         }
 
         public bool CanResume()
@@ -235,6 +253,11 @@ namespace Cyber.CLogicEngine
                 }
 
                 return instance;
+            }
+            set
+            {
+                Debug.WriteLine("Restoring clock state from game save...");
+                instance = value;
             }
         }
     }

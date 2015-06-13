@@ -27,6 +27,7 @@ namespace Cyber.CLogicEngine
             }
             this.plot = gameStateMainGame.plot;
             this.Ai = AI.Instance;
+            this.clock = Clock.Instance;
         }
 
         public void Apply(GameStateMainGame gameStateMainGame, LogicEngine logicEngine)
@@ -46,6 +47,8 @@ namespace Cyber.CLogicEngine
             gameStateMainGame.plot = plot;
             AI.Instance.lastSamPosition = Ai.lastSamPosition;
             AI.Instance.ResumeChase();
+            Clock.Instance = clock;
+            clock.ConstructThread();
         }
 
         [DataMember]
@@ -65,5 +68,7 @@ namespace Cyber.CLogicEngine
 
         [DataMember]
         AI Ai { get; set; }
+        [DataMember]
+        Clock clock { get; set; }
     }
 }
