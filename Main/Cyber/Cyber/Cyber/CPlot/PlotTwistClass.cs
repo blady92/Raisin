@@ -7,84 +7,113 @@ using System.Linq;
 using System.Text;
 using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.Serialization;
 
 namespace Cyber
 {
+    [DataContract]
     public class PlotTwistClass
     {
+        [DataMember]
         public bool loaded { get; set; }
+        [DataMember]
         private List<string> dialogsList;
+        [DataMember]
         public List<int> BreakPoints { get; set; }
+        [DataMember]
         public int dialogNumber { get; set; }
+        [DataMember]
         public List<string> BreakPointsText { get; set; }
         private string line;
 
+        [DataMember]
         private bool getTime;
+        [DataMember]
         private bool passedThroughGate;
+        [DataMember]
         private bool gate1Opened;
+        [DataMember]
         private bool allyChecked;
+        [DataMember]
         private bool allyHacked;
+        [DataMember]
         private bool levelCleared;
+        [DataMember]
         private bool generatorFound;
+        [DataMember]
         private bool generatorAccess;
+        [DataMember]
         private bool generatorOn;
+        [DataMember]
         private bool possibleEscaping;
 
         //Czy wykonujemy zadanie, czy opowiadamy fabułę
+        [DataMember]
         public bool action { get; set; }
 
 
         #region Aksesory do elementów fabuły
+        [DataMember]
         public bool GetTime1
         {
             get { return getTime; }
             set { getTime = value; }
         }
 
+        [DataMember]
         public bool PassedThroughGate
         {
             get { return passedThroughGate; }
             set { passedThroughGate = value; }
         }
 
+        [DataMember]
         public bool AllyChecked
         {
             get { return allyChecked; }
             set { allyChecked = value; }
         }
+        [DataMember]
         public bool Gate1Opened
         {
             get { return gate1Opened; }
             set { gate1Opened = value; }
         }
+        [DataMember]
         public bool LevelCleared
         {
             get { return levelCleared; }
             set { levelCleared = value; }
         }
+        [DataMember]
         public bool GeneratorAccess
         {
             get { return generatorAccess; }
             set { generatorAccess = value; }
         }
+        [DataMember]
         public bool GeneratorOn
         {
             get { return generatorOn; }
             set { generatorOn = value; }
         }
+        [DataMember]
         public bool AllyHacked
         {
             get { return allyHacked; }
             set { allyHacked = value; }
         }
 
+        [DataMember]
         public bool SamChecked { get; set; }
+        [DataMember]
         public bool GeneratorFound
         {
             get { return generatorFound; }
             set { generatorFound = value; }
         }
 
+        [DataMember]
         public bool PossibleEscape
         {
             get { return possibleEscaping; }

@@ -25,6 +25,7 @@ namespace Cyber.CLogicEngine
             {
                 npcPositions.Add(npc.Position);
             }
+            this.plot = gameStateMainGame.plot;
         }
 
         public void Apply(GameStateMainGame gameStateMainGame, LogicEngine logicEngine)
@@ -32,7 +33,6 @@ namespace Cyber.CLogicEngine
             Debug.Print("DataContainer: nie działa wczytywanie do aktualnego levelu!");
             logicEngine.level = this.level;
             logicEngine.LogicChangeLevel(logicEngine.theContentManager, logicEngine.device);
-            //TODO: autoskip intro
             gameStateMainGame.samanthaGhostController.Position = samGhostPosition;
             gameStateMainGame.samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
             gameStateMainGame.samanthaActualPlayer.Position = samRealPosition;
@@ -42,6 +42,7 @@ namespace Cyber.CLogicEngine
                 gameStateMainGame.npcList[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
                 gameStateMainGame.npcList[i].FixColliderExternal(new Vector3(2, 2, 2), new Vector3(-15f, -15f, 10f));
             }
+            gameStateMainGame.plot = plot;
         }
 
         [DataMember]
@@ -54,6 +55,9 @@ namespace Cyber.CLogicEngine
         Vector3 samRealPosition { get; set; }
 
         [DataMember]
-        List<Vector3> npcPositions { get; set; } 
+        List<Vector3> npcPositions { get; set; }
+
+        [DataMember]
+        PlotTwistClass plot { get; set; }
     }
 }
