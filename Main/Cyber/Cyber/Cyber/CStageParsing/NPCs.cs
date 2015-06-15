@@ -10,7 +10,7 @@ namespace Cyber.CStageParsing
         public Tank(int height, int width) : base(height, width) { }
         public override string StaticObjectAsset
         {
-            get { return "Assets/3D/Characters/samantha"; }
+            get { return "Assets/3D/Characters/Ally_Bunker"; }
         }
 
         public override IGenerable clone()
@@ -26,7 +26,7 @@ namespace Cyber.CStageParsing
         public Spy(int height, int width) : base(height, width) { }
         public override string StaticObjectAsset
         {
-            get { return "Assets/3D/Characters/Ally_Bunker"; }
+            get { return "Assets/3D/Characters/Ally_Spy"; }
         }
 
         public override IGenerable clone()
@@ -42,7 +42,7 @@ namespace Cyber.CStageParsing
         public Flyer(int height, int width) : base(height, width) { }
         public override string StaticObjectAsset
         {
-            get { return "Assets/3D/Characters/Ally_Bunker"; }
+            get { return "Assets/3D/Characters/Ally_Ship"; }
         }
 
         public override IGenerable clone()
