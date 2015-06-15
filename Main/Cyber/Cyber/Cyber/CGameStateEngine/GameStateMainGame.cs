@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Cyber.AudioEngine;
 using Cyber.CAdditionalLibs;
 using Cyber.CItems;
@@ -931,6 +932,7 @@ namespace Cyber.CGameStateEngine
             KeyboardState second = new KeyboardState();
             if((first.IsKeyDown(Keys.NumPad9) && second.IsKeyUp(Keys.NumPad9)) || plot.GeneratorOn)
             {
+                Thread.Sleep(2000);
                 endGame = true;
             }
             if (plot.SamChecked)
@@ -940,7 +942,7 @@ namespace Cyber.CGameStateEngine
             second = first;
         }
 
-        #region Wejście i zejśćie
+        #region Wejście i zejście (poprawione, kurde bele)
         public void podjazdCollision()
         {
             if (podjazd.ColliderInternal.AABB.Intersects(samanthaGhostController.ColliderInternal.AABB))
@@ -956,7 +958,7 @@ namespace Cyber.CGameStateEngine
                 podjazdBefore = podjazdStopPoint - samanthaGhostController.Position.X;
             }
         }
-        #endregion
+        #endregion 
         #region Funkcje do zoomowania kamery
         public void CameraZoom(bool collision, ref float actualPosition, float speed)
         {
