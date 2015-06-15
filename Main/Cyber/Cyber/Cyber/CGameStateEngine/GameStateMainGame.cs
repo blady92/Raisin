@@ -461,8 +461,8 @@ namespace Cyber.CGameStateEngine
                 else if (npcList[j].Type == StaticItemType.flyer)
                 {
                     Debug.WriteLine("Ustawiam Flyera");
-                    npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-10f, -10f, 10f));
-                    npcList[j].FixColliderExternal(new Vector3(2, 2, 2), new Vector3(-5f, -30f, 10f));
+                    npcList[j].FixColliderInternal(new Vector3(0.5f, 0.5f, 1f), new Vector3(-10f, -10f, 10f));
+                    npcList[j].FixColliderExternal(new Vector3(1, 1, 1), new Vector3(-5f, -30f, 10f));
                 }
                 npcList[j].ID = generatedID.IDs[0];
                 npcList[j].DrawID = false;
@@ -732,11 +732,11 @@ namespace Cyber.CGameStateEngine
                                           Matrix.CreateTranslation(item.Position);
 
                 item.DrawItem(device, stageElementView, view, projection);
-                if (item.Type == StaticItemType.flyer)
-                {
-                    Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
-                    item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
-                }
+                //if (item.Type == StaticItemType.flyer)
+                //{
+                //    Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
+                //    item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
+                //}
 
                 if (item.particles != null)
                 {
@@ -932,7 +932,7 @@ namespace Cyber.CGameStateEngine
             KeyboardState second = new KeyboardState();
             if((first.IsKeyDown(Keys.NumPad9) && second.IsKeyUp(Keys.NumPad9)) || plot.GeneratorOn)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
                 endGame = true;
             }
             if (plot.SamChecked)

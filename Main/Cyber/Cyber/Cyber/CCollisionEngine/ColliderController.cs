@@ -154,7 +154,7 @@ namespace Cyber.CollisionEngine
             {
                 if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
                 {
-                    plot.SamChecked = true;
+                    //plot.SamChecked = true;
                     return npc.Type;
                 }
                 else
