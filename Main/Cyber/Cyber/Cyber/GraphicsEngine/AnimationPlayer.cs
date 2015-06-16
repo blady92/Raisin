@@ -8,7 +8,7 @@ namespace Cyber.GraphicsEngine
 {
     /* Klasa, której zadaniem jest odczytywać macierze pozycji kości z klipu animacji */
 
-    class AnimationPlayer
+    public class AnimationPlayer
     {
         #region FIELDS
 
@@ -40,6 +40,12 @@ namespace Cyber.GraphicsEngine
             worldTransforms = new Matrix[skinningData.BindPose.Count];
             skinTransforms = new Matrix[skinningData.BindPose.Count];
 
+        }
+
+        public int CurrentKeyFrame
+        {
+            set { currentKeyFrame = value; }
+            get { return currentKeyFrame; }
         }
 
         //Dekoder określonego AnimationClip

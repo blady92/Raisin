@@ -177,5 +177,16 @@ namespace Cyber.CItems.CStaticItem
         {
             MachineID = new BillboardSystem(device, theContentManager, theContentManager.Load<Texture2D>("Assets/2D/IDs/" + ID), new Vector2(100), position + new Vector3(0, 0, 30));
         }
+        public void DrawOnlyTab(GraphicsDevice device, Matrix view, Matrix projection, float cameraRotation)
+        {
+            if (OnOffBilboard)
+            {
+                view = view * Matrix.CreateTranslation(new Vector3(0.0f, 40.0f, 90.0f));
+
+                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 0.6f, 1.0f);
+                bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
+            }
+        }
+
     }
 }

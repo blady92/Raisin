@@ -51,6 +51,7 @@ namespace Cyber.CGameStateEngine
         //3D elements
         public StaticItem samanthaGhostController { get; set; }
         public DynamicItem samanthaActualPlayer { get; set; }
+        public DynamicItem terminalActualModel { get; set; }
         private ColliderController colliderController;
         public List<StaticItem> stageElements;
         // TODO: Refactor na private
@@ -98,6 +99,13 @@ namespace Cyber.CGameStateEngine
         float outlineThreshold = 0.20f;
         RenderTarget2D celTarget;
 
+        //Terminal Animation
+        AnimationPlayer terminalPlayer;
+        AnimationClip terminalClip;
+        KeyboardState OldKeyState;
+        bool playTerminalAnimation;
+        int clickedTab = 0;
+        bool timeToHide = false;
 
         //GateTest
         private StaticItem gate;
@@ -159,9 +167,16 @@ namespace Cyber.CGameStateEngine
             samanthaGhostController.LoadItem(theContentManager);
             samanthaGhostController.Type = StaticItemType.samantha;
 
-            samanthaActualPlayer = new DynamicItem("Assets/3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
+            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
+
+            terminalActualModel = new DynamicItem("Assets//3D/Interior/terminal_animated_inv", "Take 001", new Vector3(100, 100, 50));
+            terminalActualModel.LoadItem(theContentManager);
+            terminalActualModel.Type = DynamicItemType.none;
+
+            terminalPlayer = terminalActualModel.SkinnedModel.AnimationPlayer;
+            terminalClip = terminalActualModel.SkinnedModel.Clip;
 
             #region Wychodzenie ze sceny
             escapeemitter = new ParticleEmitter();
@@ -644,6 +659,7 @@ namespace Cyber.CGameStateEngine
 
 
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
+          
             Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
@@ -660,9 +676,12 @@ namespace Cyber.CGameStateEngine
 
            
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
+
             Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
             podjazd.DrawItem(device, podjazdModel, view, projection);
 
+
+            
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
@@ -684,21 +703,33 @@ namespace Cyber.CGameStateEngine
                 Matrix stageElementView = Matrix.Identity *
                     Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
                     Matrix.CreateTranslation(stageElement.Position);
-                if (stageElement.Type != StaticItemType.teleporter) { 
-                    if (stageElement.OnOffBilboard)
+                if (stageElement.Type != StaticItemType.teleporter) {
+                    if ((stageElement.Type == StaticItemType.terminal))
                     {
-                        stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                        //do shit 
+                        stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView;
+                        terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
+                        stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
+                        //stageElement.DrawItem(device, stageElementView, view, projection);
                     }
                     else
                     {
-                        stageElement.DrawItem(device, stageElementView, view, projection);
-                        if (stageElement.particles != null)
-                        {
-                            stageElement.particles.Update();
-                            stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
-                        }
-                        stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                    }
+                      if (stageElement.OnOffBilboard)
+                       {
+                         stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                       }
+                       else
+                      {
+                          stageElement.DrawItem(device, stageElementView, view, projection);
+                          if (stageElement.particles != null)
+                          {
+                                stageElement.particles.Update();
+                                stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
+                          }
+                          stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                       }
+                    } //end else
+                 
                 }
             }
 
@@ -765,6 +796,52 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
 
+            terminalPlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
+
+            #region Animacja Terminala
+            KeyboardState NewKeyState = Keyboard.GetState();
+            if(console.IsUsed)
+            {
+                if (NewKeyState.IsKeyDown(Keys.Tab) && OldKeyState.IsKeyUp(Keys.Tab) && (playTerminalAnimation == false) || playTerminalAnimation == false)
+                {
+                    clickedTab += 1;
+                    playTerminalAnimation = true;
+                    timeToHide = true;
+                }
+                else if (NewKeyState.IsKeyDown(Keys.Tab) && OldKeyState.IsKeyUp(Keys.Tab) && (playTerminalAnimation == true) && (terminalPlayer.CurrentKeyFrame == 160))
+                {
+                    playTerminalAnimation = false;
+                }
+
+                OldKeyState = NewKeyState;
+
+                if (playTerminalAnimation && (clickedTab % 2 == 1))
+                {
+                    terminalPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
+                    if (terminalPlayer.CurrentKeyFrame == 160)
+                    {
+                        playTerminalAnimation = false;
+                    }
+
+                }
+                else
+                {
+                    terminalPlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
+                }
+            }
+            else if (!console.IsUsed)
+            {
+                if (terminalPlayer.CurrentKeyFrame == 2)
+                {
+                    playTerminalAnimation = false;
+                    timeToHide = false;
+                }
+                else
+                {
+                    terminalPlayer.Update(-gameTime.ElapsedGameTime, true, Matrix.Identity);
+                }
+            }
+            #endregion
             #region Sterowanie zegarem
             //if (newState.IsKeyDown(Keys.T))
             //{
@@ -895,6 +972,8 @@ namespace Cyber.CGameStateEngine
             else
             {
                 console.Action();
+
+                
             }
             #endregion
             #region Zoom kamery

@@ -15,6 +15,7 @@ namespace Cyber.GraphicsEngine
         AnimationPlayer animationPlayer;
         Texture2D texture;
         MouseState prevMouseState;
+        AnimationClip clip;
 
         //float cameraArc = 0;
         //float cameraRotation = 0;
@@ -22,11 +23,25 @@ namespace Cyber.GraphicsEngine
 
         #endregion
 
+        #region getters and setters
+        public AnimationPlayer AnimationPlayer
+        {
+            get { return animationPlayer; }
+        }
+
+        public AnimationClip Clip
+        {
+            get { return clip; }
+        }
         public Model CurrentModel
         {
             get { return currentModel; }
             set { currentModel = value; }
         }
+
+
+        #endregion
+       
 
         #region INITIALIZATION
 
@@ -45,7 +60,7 @@ namespace Cyber.GraphicsEngine
 
             //Tworzy animation player i zaczyna dekodować animation clip
             animationPlayer = new AnimationPlayer(skinningData);
-            AnimationClip clip = skinningData.AnimationClips[animationClipName];
+            clip = skinningData.AnimationClips[animationClipName];
             animationPlayer.StartClip(clip);
         }
 
@@ -350,6 +365,8 @@ namespace Cyber.GraphicsEngine
          }
                 
         #endregion
+
+      
 
     }
 
