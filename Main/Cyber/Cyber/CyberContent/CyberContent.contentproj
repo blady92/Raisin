@@ -1213,6 +1213,7 @@
   <ItemGroup>
     <Compile Include="Assets\terminalUVv2_0.jpg">
       <Name>terminalUVv2_0</Name>
+	</Compile>
     <Compile Include="Assets\3D\Characters\Ally_Ship.FBX">
       <Name>Ally_Ship</Name>
       <Importer>FbxImporter</Importer>
