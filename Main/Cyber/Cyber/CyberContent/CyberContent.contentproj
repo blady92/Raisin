@@ -1211,14 +1211,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\terminalUVv2_0.jpg">
-      <Name>terminalUVv2_0</Name>
-	</Compile>
     <Compile Include="Assets\3D\Characters\Ally_Ship.FBX">
       <Name>Ally_Ship</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\3D\Characters\Ally_Spy.FBX">
       <Name>Ally_Spy</Name>
       <Importer>FbxImporter</Importer>
@@ -1228,6 +1227,13 @@
   <ItemGroup>
     <Compile Include="Assets\2D\endGameText.png">
       <Name>endGameText</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\terminalUVv2_0.jpg">
+      <Name>terminalUVv2_0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
