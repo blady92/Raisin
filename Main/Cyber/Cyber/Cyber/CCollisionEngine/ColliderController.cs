@@ -137,27 +137,13 @@ namespace Cyber.CollisionEngine
                     staticItemList[i].OnOffBilboard = (item.ColliderExternal.AABB.Intersects(staticItemList[i].ColliderInternal.AABB));
                 }
             }
-            //Sprawdzenie czy przegrana. Na początku zakładamy, że znaleziona.
-            //Później dopiero sprawdzamy, czy faktycznie  i jeżeli tak - zmieniamy.
-            if (npcItem.Count > 0) {
-                plot.SamChecked = true;
-
-                foreach (StaticItem npc in npcItem)
-                {
-                    if (!npc.EnemySawSam)
-                        plot.SamChecked = false;
-                }
-                Debug.WriteLine(plot.SamChecked);
-            }
             foreach (StaticItem npc in npcItem)
             {
-                if (npc != item && npc.ColliderInternal.AABB.Intersects(item.ColliderInternal.AABB))
+                if (npc != item && npc.ColliderInternal.AABB.Intersects(samantha.ColliderInternal.AABB))
                 {
-                    npc.EnemySawSam = true;
+                    plot.SamChecked = true;
                     return npc.Type;
                 }
-                else
-                    npc.EnemySawSam = false;
                 npc.DrawID = samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB);
                 if (samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB))
                 {

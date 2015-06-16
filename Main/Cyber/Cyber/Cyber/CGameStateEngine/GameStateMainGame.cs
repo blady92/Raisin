@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Cyber.AudioEngine;
 using Cyber.CAdditionalLibs;
 using Cyber.CItems;
@@ -269,7 +270,12 @@ namespace Cyber.CGameStateEngine
             {
                 NPC npc = new NPC(stageNPC.StaticObjectAsset);
                 npc.LoadItem(theContentManager);
-                npc.Type = StaticItemType.tank;
+                if(stageNPC is Tank)
+                    npc.Type = StaticItemType.tank;
+                if(stageNPC is Spy)
+                    npc.Type = StaticItemType.spy;
+                if (stageNPC is Flyer)
+                    npc.Type = StaticItemType.flyer;
                 npc.EnemySawSam = false;
                 npcList.Add(npc);
                 AI.Instance.AddRobot(npc);
@@ -458,8 +464,21 @@ namespace Cyber.CGameStateEngine
                                         0.0f);
                 npcList[j].Position = move;
                 npcList[j].Rotation = stage.NPCs[j].Rotation;
-                npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-                npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
+                if (npcList[j].Type == StaticItemType.tank) { 
+                    npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+                    npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
+                }
+                else if (npcList[j].Type == StaticItemType.spy)
+                {
+                    npcList[j].FixColliderInternal(new Vector3(0.4f, 0.4f, 1f), new Vector3(-25f, -5f, 10f));
+                    npcList[j].FixColliderExternal(new Vector3(1, 1, 1), new Vector3(-25f, -5f, 10f));
+                }
+                else if (npcList[j].Type == StaticItemType.flyer)
+                {
+                    Debug.WriteLine("Ustawiam Flyera");
+                    npcList[j].FixColliderInternal(new Vector3(0.5f, 0.5f, 1f), new Vector3(-10f, -10f, 10f));
+                    npcList[j].FixColliderExternal(new Vector3(1, 1, 1), new Vector3(-5f, -30f, 10f));
+                }
                 npcList[j].ID = generatedID.IDs[0];
                 npcList[j].DrawID = false;
                 npcList[j].MachineIDHeight = new Vector3(0, 0, 60);
@@ -744,11 +763,11 @@ namespace Cyber.CGameStateEngine
                                           Matrix.CreateTranslation(item.Position);
 
                 item.DrawItem(device, stageElementView, view, projection);
-                if (item.Type == StaticItemType.tank)
-                {
-                    //Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
-                    //item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
-                }
+                //if (item.Type == StaticItemType.flyer)
+                //{
+                //    Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
+                //    item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
+                //}
 
                 if (item.particles != null)
                 {
@@ -992,6 +1011,7 @@ namespace Cyber.CGameStateEngine
             KeyboardState second = new KeyboardState();
             if((first.IsKeyDown(Keys.NumPad9) && second.IsKeyUp(Keys.NumPad9)) || plot.GeneratorOn)
             {
+                Thread.Sleep(3000);
                 endGame = true;
             }
             if (plot.SamChecked)
@@ -1001,7 +1021,7 @@ namespace Cyber.CGameStateEngine
             second = first;
         }
 
-        #region Wejście i zejśćie
+        #region Wejście i zejście (poprawione, kurde bele)
         public void podjazdCollision()
         {
             if (podjazd.ColliderInternal.AABB.Intersects(samanthaGhostController.ColliderInternal.AABB))
@@ -1017,7 +1037,7 @@ namespace Cyber.CGameStateEngine
                 podjazdBefore = podjazdStopPoint - samanthaGhostController.Position.X;
             }
         }
-        #endregion
+        #endregion 
         #region Funkcje do zoomowania kamery
         public void CameraZoom(bool collision, ref float actualPosition, float speed)
         {

@@ -16,7 +16,9 @@ namespace Cyber.CGameStateEngine
         {
             string path = "Assets/2D/";
             background = new Sprite(0, 0);
-            background.LoadContent(theContentManager, path + "endGameScreen");
+            winText = new Sprite(450, 350);
+            background.LoadContent(theContentManager, path + "menuBackground");
+            winText.LoadContent(theContentManager, path + "endGameText");
 
             //winText = new Sprite(460, 400);
             //winText.LoadContent(theContentManager, path+"win");
@@ -25,6 +27,7 @@ namespace Cyber.CGameStateEngine
         public void Draw(SpriteBatch spriteBatch)
         {
             background.DrawByRectangle(spriteBatch);
+            winText.DrawByRectangle(spriteBatch);
         }
     }
 }

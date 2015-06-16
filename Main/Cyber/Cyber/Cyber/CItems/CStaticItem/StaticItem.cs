@@ -134,6 +134,15 @@ namespace Cyber.CItems.CStaticItem
             } 
         }
 
+        public void DrawOnlyTab(GraphicsDevice device, Matrix view, Matrix projection, float cameraRotation)
+        {
+            if (OnOffBilboard)
+            {
+                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
+                bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
+            }
+        }
+
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, Effect celShader)
         {
             skinnedModel.DrawStaticModelWithShader(device, world, view, projection, celShader);
