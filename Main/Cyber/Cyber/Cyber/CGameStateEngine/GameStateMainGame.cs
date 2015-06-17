@@ -166,15 +166,10 @@ namespace Cyber.CGameStateEngine
             #region Load 3D elements
             samanthaGhostController = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samanthaGhostController.LoadItem(theContentManager);
-<<<<<<< HEAD
             samanthaGhostController.Type = StaticItemType.samantha;
 
             samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/SAM_X_KURWA", "Anim1", new Vector3(100, 100, 50));
-=======
-            samanthaGhostController.Type = StaticItemType.samantha;
 
-            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
->>>>>>> daf32de7f98917428975aa07ba03f775b349564e
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
 
