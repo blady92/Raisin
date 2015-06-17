@@ -556,6 +556,10 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #region WallsLeft
+            StaticItem colliderConnectedAlllWallLeft = new StaticItem(stageElements[i].PathToModel); ;
+            float positionX = 0;
+
+
             for (int j = 0; j < stageStructure.Walls.WallsLeft.Count; i++, j++)
             {
                 stageElements[i].Rotation = 180;
@@ -565,11 +569,24 @@ namespace Cyber.CGameStateEngine
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
                 ConnectedColliders.Add(stageElements[i]);
+                float coordX = move.X;
+                if (positionX == coordX)
+                {
+                    colliderConnectedAlllWallLeft.ColliderInternal.AABB = JoinToFirstCollider(colliderConnectedAlllWallLeft.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
+                }
+                else
+                {
+                    positionX = coordX;
+                    colliderConnectedAlllWallLeft = new StaticItem(stageElements[i].PathToModel);
+                    colliderConnectedAlllWallLeft.Position = stageElements[i].Position;
+                    colliderConnectedAlllWallLeft.ColliderInternal = stageElements[i].ColliderInternal;
+                    ConnectedColliders.Add(colliderConnectedAlllWallLeft);
+                }
             }
             #endregion
             #region WallsRight
             StaticItem colliderConnectedAlllWallRight = new StaticItem(stageElements[i].PathToModel); ;
-            float positionX = 0;
+            positionX = 0;
 
             for (int j = 0; j < stageStructure.Walls.WallsRight.Count; i++, j++)
             {
