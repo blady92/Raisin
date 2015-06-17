@@ -342,8 +342,8 @@ namespace Cyber.CGameStateEngine
         public void SetUpScene(GraphicsDevice device)
         {
             escaped = false;
-            //stageElements.Add(escapeCollider);
             ConnectedColliders = new List<StaticItem>();
+            stageElements.Add(escapeCollider);
             ConnectedColliders.Add(escapeCollider);
 
             #region Ładowanie bramy
