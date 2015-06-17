@@ -103,10 +103,7 @@ namespace Cyber.CItems.CStaticItem
             skinnedModel.LoadContent_StaticModel(theContentManager, pathToModel);
         }
 
-        public void JoinToFirstCollider(BoundingBox box)
-        {
-            ColliderInternal.AABB = BoundingBox.CreateMerged(colliderInternal.AABB, box);
-        }
+        
 
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {

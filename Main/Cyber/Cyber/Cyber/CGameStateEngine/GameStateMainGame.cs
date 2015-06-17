@@ -108,8 +108,11 @@ namespace Cyber.CGameStateEngine
         int clickedTab = 0;
         bool timeToHide = false;
 
-        //GateTest
+        //Gate
         private StaticItem gate;
+
+        //New Collider
+        private List<StaticItem> ConnectedColliders;
 
         public void Unload()
         {
@@ -340,6 +343,7 @@ namespace Cyber.CGameStateEngine
         {
             escaped = false;
             stageElements.Add(escapeCollider);
+            ConnectedColliders = new List<StaticItem>();
 
             #region Ładowanie bramy
 
@@ -492,26 +496,61 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
             #region WallsUp
+
+            StaticItem colliderConnectedAlllWallsUp = new StaticItem(stageElements[i].PathToModel);;
+            float positionY = 0;
+
             for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
             {
-            stageElements[i].Rotation = -90;
-            Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
-                                        stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
-                                        0.0f);
-            stageElements[i].Position = move;
-            stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+                stageElements[i].Rotation = -90;
+                Debug.WriteLine("X:" + (stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany) + " Y: " + (stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset));
+                Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
+                                            stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
+                                            0.0f);
+                stageElements[i].Position = move;
+                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
+
+                float coordY = stageStructure.Walls.WallsUp[j].Y*mnoznikPrzesuniecaSciany - wallOffset;
+                if (positionY == coordY)
+                {
+                    colliderConnectedAlllWallsUp.ColliderInternal.AABB = JoinToFirstCollider(colliderConnectedAlllWallsUp.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
+                }
+                else
+                {
+                    positionY = coordY;
+                    colliderConnectedAlllWallsUp = new StaticItem(stageElements[i].PathToModel);
+                    colliderConnectedAlllWallsUp.Position = stageElements[i].Position;
+                    colliderConnectedAlllWallsUp.ColliderInternal = stageElements[i].ColliderInternal;
+                    ConnectedColliders.Add(colliderConnectedAlllWallsUp);
+                }
             }
+
+            StaticItem colliderConnectedAlllWallsDown = new StaticItem(stageElements[i].PathToModel); ;
 
             #endregion
             #region WallsDown
             for (int j = 0; j < stageStructure.Walls.WallsDown.Count; i++, j++)
             {
+                float coordY = stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany - wallOffset;
                 stageElements[i].Rotation = 90;
                 Vector3 move = new Vector3(stageStructure.Walls.WallsDown[j].X * mnoznikPrzesuniecaSciany,
                                             stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset, 
                                             0.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
+
+                if (positionY == coordY)
+                {
+                    colliderConnectedAlllWallsDown.ColliderInternal.AABB = JoinToFirstCollider(colliderConnectedAlllWallsDown.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
+                }
+                else
+                {
+                    positionY = coordY;
+                    colliderConnectedAlllWallsDown = new StaticItem(stageElements[i].PathToModel);
+                    colliderConnectedAlllWallsDown.Position = stageElements[i].Position;
+                    colliderConnectedAlllWallsDown.ColliderInternal = stageElements[i].ColliderInternal;
+                    ConnectedColliders.Add(colliderConnectedAlllWallsDown);
+                }
             }
             #endregion
             #region WallsLeft
@@ -523,9 +562,13 @@ namespace Cyber.CGameStateEngine
                                             0.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region WallsRight
+            StaticItem colliderConnectedAlllWallRight = new StaticItem(stageElements[i].PathToModel); ;
+            float positionX = 0;
+
             for (int j = 0; j < stageStructure.Walls.WallsRight.Count; i++, j++)
             {
                 stageElements[i].Rotation = 0;
@@ -534,6 +577,20 @@ namespace Cyber.CGameStateEngine
                                             2.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
+
+                float coordX = stageStructure.Walls.WallsRight[j].X * mnoznikPrzesuniecaSciany + wallOffset;
+                if (positionX == coordX)
+                {
+                    colliderConnectedAlllWallRight.ColliderInternal.AABB = JoinToFirstCollider(colliderConnectedAlllWallRight.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
+                }
+                else
+                {
+                    positionX = coordX;
+                    colliderConnectedAlllWallRight = new StaticItem(stageElements[i].PathToModel);
+                    colliderConnectedAlllWallRight.Position = stageElements[i].Position;
+                    colliderConnectedAlllWallRight.ColliderInternal = stageElements[i].ColliderInternal;
+                    ConnectedColliders.Add(colliderConnectedAlllWallRight);
+                }
             }
             #endregion
             #region ConcaveCornersLowerLeft
@@ -635,7 +692,7 @@ namespace Cyber.CGameStateEngine
             #region Spięcie wszystkiego do koliderów
             colliderController = new ColliderController(console);
             colliderController.samantha = samanthaGhostController;
-            colliderController.staticItemList = stageElements;
+            colliderController.staticItemList = ConnectedColliders;
             colliderController.npcItem = npcList;
             colliderController.plot = plot;
             colliderController.exit = escapeCollider;
@@ -667,6 +724,7 @@ namespace Cyber.CGameStateEngine
             ref float cameraRotation
             )
         {
+
             #region Przed bilboardingiem
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
@@ -675,7 +733,6 @@ namespace Cyber.CGameStateEngine
 
             celShader.Parameters["Projection"].SetValue(projection);
             celShader.Parameters["View"].SetValue(view);
-
 
 
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
@@ -787,6 +844,13 @@ namespace Cyber.CGameStateEngine
             spriteBatch.End();
 
             console.Draw(spriteBatch);
+
+            //foreach (var collider in ConnectedColliders)
+            //{
+            //    Matrix ColliderTest = Matrix.CreateTranslation(collider.ColliderInternal.Position);
+            //    collider.ColliderInternal.DrawBouding(device, ColliderTest, view, projection);
+            //}
+
             //Matrix escapeCollideModel = Matrix.CreateTranslation(escapeCollider.Position);
             //escapeCollider.DrawItem(device, escapeCollideModel, view, projection);
             //Matrix escapeColliderBox = Matrix.CreateTranslation(escapeCollider.ColliderInternal.Position);
@@ -1060,7 +1124,11 @@ namespace Cyber.CGameStateEngine
                 actualPosition -= speed;
         }
         #endregion
-
-
+        #region Złączenie kolizji
+        public BoundingBox JoinToFirstCollider(BoundingBox box1, BoundingBox box2)
+        {
+            return BoundingBox.CreateMerged(box1, box2);
+        }
+        #endregion
     }
 }
