@@ -168,7 +168,7 @@ namespace Cyber.CGameStateEngine
             samanthaGhostController.LoadItem(theContentManager);
             samanthaGhostController.Type = StaticItemType.samantha;
 
-            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/dude", "Take 001", new Vector3(100, 100, 50));
+            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/SAM_X_KURWA", "Anim1", new Vector3(100, 100, 50));
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
 
