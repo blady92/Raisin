@@ -52,6 +52,9 @@ namespace Cyber.CGameStateEngine
         //3D elements
         public StaticItem samanthaGhostController { get; set; }
         public DynamicItem samanthaActualPlayer { get; set; }
+        public DynamicItem samanthaActualPlayerCopy { get; set; }
+        public DynamicItem samanthaActualPlayerRun { get; set; }
+
         public DynamicItem terminalActualModel { get; set; }
         private ColliderController colliderController;
         public List<StaticItem> stageElements;
@@ -171,10 +174,21 @@ namespace Cyber.CGameStateEngine
             samanthaGhostController.LoadItem(theContentManager);
             samanthaGhostController.Type = StaticItemType.samantha;
 
-            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/sammy_running2", "Anim1", new Vector3(100, 100, 50));
+            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/sammy_idle", "Anim1", new Vector3(100, 100, 50));
 
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
+
+            samanthaActualPlayerCopy = new DynamicItem("Assets//3D/Characters/sammy_idle", "Anim1", new Vector3(100, 100, 50));
+
+            samanthaActualPlayerCopy.LoadItem(theContentManager);
+            samanthaActualPlayerCopy.Type = DynamicItemType.samantha;
+
+
+            samanthaActualPlayerRun = new DynamicItem("Assets//3D/Characters/sammy_running2", "Anim1", new Vector3(100, 100, 50));
+
+            samanthaActualPlayerRun.LoadItem(theContentManager);
+            samanthaActualPlayerRun.Type = DynamicItemType.samantha;
 
             terminalActualModel = new DynamicItem("Assets//3D/Interior/terminal_animated_inv", "Take 001", new Vector3(100, 100, 50));
             terminalActualModel.LoadItem(theContentManager);
@@ -969,18 +983,46 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
             {
-                if (newState.IsKeyDown(Keys.W)) { 
+                if (newState.IsKeyDown(Keys.S))
+                {
+                    move = new Vector3(0, -1.5f, 0);
+                    colliderController.CheckCollision(samanthaGhostController, move);
+                    podjazdCollision();
+                    cameraTarget.Y = samanthaGhostController.Position.Y;
+
+                    samanthaActualPlayer = samanthaActualPlayerRun;
+
+                    //Debug.WriteLine("Rotate sam: " + rotateSam);
+                    if (rotateSam >= -6.8f && rotateSam <= 180.0f)
+                    {
+                        rotateSam += time * 0.2f;
+                    }
+                    if (rotateSam > 180.0f && rotateSam <= 270.0f || rotateSam <= -86.0f)
+                    {
+                        rotateSam -= time * 0.2f;
+                        if (rotateSam <= -180.0f)
+                        {
+                            rotateSam = 180.0f;
+                        }
+                    }
+                }
+                else samanthaActualPlayer = samanthaActualPlayerCopy;
+
+                if (newState.IsKeyDown(Keys.W))
+                {
                     move = new Vector3(0, 1.5f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.Y = samanthaGhostController.Position.Y;
 
-                   //Debug.WriteLine("Rotate sam: " + rotateSam);
+                    samanthaActualPlayer = samanthaActualPlayerRun;
+
+                    //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -179.9f && rotateSam < 0.0f || rotateSam > 180.0f)
                     {
                         rotateSam += time * 0.2f;
-                      //  Debug.WriteLine("D wins");
-                        if(rotateSam >= 360.0f)
+                        //  Debug.WriteLine("D wins");
+                        if (rotateSam >= 360.0f)
                         {
                             rotateSam = 0.0f;
                         }
@@ -988,35 +1030,18 @@ namespace Cyber.CGameStateEngine
                     else if (rotateSam > 0.0f && rotateSam <= 180.0f)
                     {
                         rotateSam -= time * 0.2f;
-                      //  Debug.WriteLine("A wins");
+                        //  Debug.WriteLine("A wins");
                     }
-                   
 
                 }
-                if (newState.IsKeyDown(Keys.S)) {
-                    move = new Vector3(0, -1.5f, 0);
-                    colliderController.CheckCollision(samanthaGhostController, move);
-                    podjazdCollision();
-                    cameraTarget.Y = samanthaGhostController.Position.Y;
-                    //Debug.WriteLine("Rotate sam: " + rotateSam);
-                    if(rotateSam >= -6.8f && rotateSam <= 180.0f)
-                    {
-                        rotateSam += time * 0.2f;
-                    }
-                    if(rotateSam > 180.0f && rotateSam <= 270.0f  || rotateSam <= -86.0f)
-                    {
-                        rotateSam -= time * 0.2f;
-                        if(rotateSam <= -180.0f)
-                        {
-                            rotateSam = 180.0f;
-                        }
-                    }                   
-                }
+
                 if (newState.IsKeyDown(Keys.A)) {
                     move = new Vector3(-1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
+
+                    samanthaActualPlayer = samanthaActualPlayerRun;
                     //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -179.9f && rotateSam <= 90.0f)
                     {
@@ -1037,6 +1062,8 @@ namespace Cyber.CGameStateEngine
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
                     cameraTarget.X = -samanthaGhostController.Position.X;
+
+                    samanthaActualPlayer = samanthaActualPlayerRun;
                     //Debug.WriteLine("Rotate sam: " + rotateSam);  
                     if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
                     {
