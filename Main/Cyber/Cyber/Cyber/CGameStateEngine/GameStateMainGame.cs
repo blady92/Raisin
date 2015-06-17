@@ -342,8 +342,9 @@ namespace Cyber.CGameStateEngine
         public void SetUpScene(GraphicsDevice device)
         {
             escaped = false;
-            stageElements.Add(escapeCollider);
+            //stageElements.Add(escapeCollider);
             ConnectedColliders = new List<StaticItem>();
+            ConnectedColliders.Add(escapeCollider);
 
             #region Ładowanie bramy
 
@@ -357,6 +358,7 @@ namespace Cyber.CGameStateEngine
                 gate.MachineIDHeight = new Vector3(0, 90, 130);
                 generatedID.IDs.RemoveAt(0);
                 gate.ApplyIDBilboard(device, theContentManager, moveGate);
+                ConnectedColliders.Add(gate);
                 stageElements.Add(gate);
             }
             #endregion
@@ -431,7 +433,7 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Position = move;
                     stageElements[i].Rotation = stage.Objects[j].Rotation;
                 }
-                
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region Gates
@@ -601,6 +603,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConcaveCornersLowerRight
@@ -611,6 +614,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConcaveCornersUpperLeft
@@ -621,6 +625,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConcaveCornersUpperRight
@@ -631,6 +636,7 @@ namespace Cyber.CGameStateEngine
                                             stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
                                             2.0f);
                 stageElements[i].Position = move;
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConvexCornersLowerLeft
@@ -642,6 +648,7 @@ namespace Cyber.CGameStateEngine
                                             2.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-25f, 5f, 15f));
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConvexCornersLowerRight
@@ -653,6 +660,7 @@ namespace Cyber.CGameStateEngine
                                             2.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(0f, 5, 15f));
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConvexCornersUpperLeft
@@ -664,6 +672,7 @@ namespace Cyber.CGameStateEngine
                                             2.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-25f, -25f, 15f));
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region ConvexCornersUpperRight
@@ -675,6 +684,7 @@ namespace Cyber.CGameStateEngine
                                             2.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(0f, -25, 15f));
+                ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
             #region Floor setups
@@ -692,7 +702,7 @@ namespace Cyber.CGameStateEngine
             #region Spięcie wszystkiego do koliderów
             colliderController = new ColliderController(console);
             colliderController.samantha = samanthaGhostController;
-            colliderController.staticItemList = ConnectedColliders;
+            colliderController.staticItemList = stageElements;
             colliderController.npcItem = npcList;
             colliderController.plot = plot;
             colliderController.exit = escapeCollider;
