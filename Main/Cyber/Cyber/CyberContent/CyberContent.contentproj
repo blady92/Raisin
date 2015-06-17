@@ -1245,6 +1245,87 @@
       <Processor>SkinnedModelProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\3D\Interior\terminalUVv2_0.jpg">
+      <Name>terminalUVv2_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\3D\Interior\Interior_Collumn.fbm\TexWierza.jpg">
+      <Name>TexWierza</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Lamp.fbm\TexLampaStojaca.jpg">
+      <Name>TexLampaStojaca</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Oxygen_Generator.fbm\GeneratorUVv2Malowane.png">
+      <Name>GeneratorUVv2Malowane</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Oxygen_Generator.fbm\GeneratorUVv2specular.png">
+      <Name>GeneratorUVv2specular</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Terminal.fbm\terminalUVOpticaly.jpg">
+      <Name>terminalUVOpticaly</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Terminal.fbm\terminalUVv1.jpg">
+      <Name>terminalUVv1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Wall_Base.fbm\TexScianaB.jpg">
+      <Name>TexScianaB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Interior_Wall_Lasers.fbm\TexScianaLaser.jpg">
+      <Name>TexScianaLaser</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\terminal_animated_inv.fbm\terminalUVOpticaly.jpg">
+      <Name>terminalUVOpticaly</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\terminal_animated_inv.fbm\terminalUVv1.jpg">
+      <Name>terminalUVv1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\terminal_animated_inv.fbm\terminalUVv2_0.jpg">
+      <Name>terminalUVv2_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVOpticaly.jpg">
+      <Name>terminalUVOpticaly</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVv1.jpg">
+      <Name>terminalUVv1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVv2_0.jpg">
+      <Name>terminalUVv2_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
