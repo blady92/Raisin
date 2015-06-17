@@ -19,9 +19,6 @@ namespace Cyber.CGameStateEngine
             winText = new Sprite(450, 350);
             background.LoadContent(theContentManager, path + "menuBackground");
             winText.LoadContent(theContentManager, path + "endGameText");
-
-            //winText = new Sprite(460, 400);
-            //winText.LoadContent(theContentManager, path+"win");
         }
 
         public void Draw(SpriteBatch spriteBatch)

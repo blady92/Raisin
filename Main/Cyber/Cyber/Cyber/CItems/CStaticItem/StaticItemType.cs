@@ -15,7 +15,6 @@ namespace Cyber.CItems.CStaticItem
         oxygenGenerator,
         teleporter,
         none,
-        //tymczasowo
         tank,
         spy,
         flyer,
