@@ -112,10 +112,12 @@ namespace Cyber.GraphicsEngine
                     effect.Projection = projection;
 
                     // effect.Texture = texture;
-                    effect.EnableDefaultLighting();
+                   effect.EnableDefaultLighting();
 
-                    effect.SpecularColor = new Vector3(0.25f);
-                    effect.SpecularPower = 16;
+                    effect.AmbientLightColor = new Vector3(1.0f, 1.0f, 1.0f);
+                    effect.SpecularColor = new Vector3(0.15f);
+                  //  effect.DiffuseColor = new Vector3(0.95f, 0.96f, 1.0f);
+                    effect.SpecularPower = 3;
                 }
                 mesh.Draw();
             }
@@ -181,9 +183,11 @@ namespace Cyber.GraphicsEngine
 
                     effect.LightingEnabled = true;
                     // <-- Światło ogólne -->
+                   // effect.AmbientLightColor = new Vector3(0.9f, 0.97f, 1.0f);
+                    effect.EmissiveColor = new Vector3(1.0f);
+                    effect.DiffuseColor = new Vector3(1.0f, 1.0f, 1.0f);
                     effect.AmbientLightColor = new Vector3(1.0f, 1.0f, 1.0f);
-                    effect.DiffuseColor = new Vector3(0.65f, 0.65f, 0.65f);
-                    effect.EmissiveColor = new Vector3(0.0f, 0.0f, 0.25f);
+                    effect.EmissiveColor = new Vector3(0.0f, 0.0f, 0.9f);
                 }
                     
                 mesh.Draw();

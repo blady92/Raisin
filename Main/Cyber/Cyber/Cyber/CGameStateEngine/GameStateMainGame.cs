@@ -1157,7 +1157,7 @@ namespace Cyber.CGameStateEngine
 
         public void CameraZoomOut(ref float actualPosition, float speed)
         {
-            if (actualPosition > 1.0f)
+            if (actualPosition > 1.6f)
                 actualPosition -= speed;
         }
         #endregion
