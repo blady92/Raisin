@@ -169,6 +169,15 @@ namespace Cyber.CItems.CStaticItem
 
         public void FixColliderInternal(Vector3 resize, Vector3 move)
         {
+            if (colliderInternal == null)
+            {
+                /**
+                 * FIXME: Po otwarciu bramy i wczytaniu stanu gry (włączeniu nowej gry też?)
+                 * sypie NullPointerem bo otwarcie bramy powoduje przypisanie "collider = null"
+                 */
+                Debug.WriteLine("StaticItem: bug workaround here!!! Fix ASAP!!!!!!!!!!!!!!!!!!!!!");
+                return;
+            }
             colliderInternal.SetBoudings(skinnedModel.CurrentModel);
             colliderInternal.CreateColliderBoudingBox();
             colliderInternal.BoudingBoxResizeOnce(resize.X, resize.Y, resize.Z);
