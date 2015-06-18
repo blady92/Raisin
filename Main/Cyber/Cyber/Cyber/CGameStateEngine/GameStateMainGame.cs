@@ -846,13 +846,20 @@ namespace Cyber.CGameStateEngine
             colliderController.plot = plot;
             colliderController.exit = escapeCollider;
             #endregion
+
+            #region Sortowanie elementów planszy wg położenia
+            stageElements = new List<StaticItem>(stageElements.OrderBy(p => p.Position.X).ThenBy(q => q.Position.Y));
+            foreach (StaticItem stageItem in stageElements)
+            {
+                Debug.WriteLine(stageItem.Position.X + " : " + stageItem.Position.Y);
+            }
+            #endregion
             #region Inicjalizacja AI
             AI ai = AI.Instance;
             ai.ColliderController = colliderController;
             ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(stage.Rooms);
             #endregion
         }
-
 
         public void SetUpClock()
         {
@@ -883,8 +890,6 @@ namespace Cyber.CGameStateEngine
             celShader.Parameters["Projection"].SetValue(projection);
             celShader.Parameters["View"].SetValue(view);
 
-
-       
             device.SetRenderTarget(celTarget);
             device.Clear(Color.Black);
 
