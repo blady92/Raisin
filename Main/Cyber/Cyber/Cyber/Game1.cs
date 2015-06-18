@@ -55,11 +55,11 @@ namespace Cyber
 
         //Camera Parameters
         float cameraArc = 35.0f;
-        float cameraRotation = -360.0f;
+        float cameraRotation = -300.0f;
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
         Vector3 cameraTarget = new Vector3(0, 0, 0);
-        float cameraZoom = 1.0f;
+        float cameraZoom = 2.5f;
 
         //Video Stuff
         Video video;

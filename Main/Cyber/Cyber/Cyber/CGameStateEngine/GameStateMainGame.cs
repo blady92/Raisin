@@ -638,6 +638,7 @@ namespace Cyber.CGameStateEngine
                                             0.0f);
                 stageElements[i].Position = move;
                 stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
+
                 if (coordX.Contains(move.X))
                 {
                     //Wyciągnij ten element, co ma te współrzędne
@@ -883,24 +884,22 @@ namespace Cyber.CGameStateEngine
             celShader.Parameters["View"].SetValue(view);
 
 
-            Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
-          
-            //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
-            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
-            //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
-
-            //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
-            //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
+       
             device.SetRenderTarget(celTarget);
             device.Clear(Color.Black);
 
-            
-            //Matrix samanthaGhostView = Matrix.Identity * 
-            //                           Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
-            //                           Matrix.CreateTranslation(samanthaGhostController.Position);
+            Matrix samanthaGhostView = Matrix.Identity *
+                           Matrix.CreateRotationZ(MathHelper.ToRadians(angle)) *
+                           Matrix.CreateTranslation(samanthaGhostController.Position);
 
-           
+            Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
+
+            //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
+            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
+            //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+            //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
             podjazd.DrawItem(device, podjazdModel, view, projection);
@@ -1271,7 +1270,7 @@ namespace Cyber.CGameStateEngine
 
         public void CameraZoomOut(ref float actualPosition, float speed)
         {
-            if (actualPosition > 1.0f)
+            if (actualPosition > 1.6f)
                 actualPosition -= speed;
         }
         #endregion
