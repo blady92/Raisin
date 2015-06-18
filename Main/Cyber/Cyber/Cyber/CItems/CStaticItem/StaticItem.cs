@@ -190,6 +190,5 @@ namespace Cyber.CItems.CStaticItem
                 bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
             }
         }
-
     }
 }
