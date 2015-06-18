@@ -1310,17 +1310,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVOpticaly.jpg">
+    <Compile Include="Assets\FBX\49803015\terminal_animated_inv.fbm\terminalUVOpticaly.jpg">
       <Name>terminalUVOpticaly</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVv1.jpg">
+    <Compile Include="Assets\FBX\49803015\terminal_animated_inv.fbm\terminalUVv1.jpg">
       <Name>terminalUVv1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVv2_0.jpg">
+    <Compile Include="Assets\FBX\49803015\terminal_animated_inv.fbm\terminalUVv2_0.jpg">
       <Name>terminalUVv2_0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
