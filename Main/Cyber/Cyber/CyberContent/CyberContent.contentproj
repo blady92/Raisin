@@ -1239,13 +1239,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\3D\Characters\SAM_X_KURWA.X">
-      <Name>SAM_X_KURWA</Name>
-      <Importer>XImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Assets\3D\Interior\terminalUVv2_0.jpg">
       <Name>terminalUVv2_0</Name>
       <Importer>TextureImporter</Importer>
@@ -1343,6 +1336,13 @@
   <ItemGroup>
     <Compile Include="Assets\3D\Characters\sammy_idle.X">
       <Name>sammy_idle</Name>
+      <Importer>XImporter</Importer>
+      <Processor>SkinnedModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\3D\Characters\sammy_idle2.X">
+      <Name>sammy_idle2</Name>
       <Importer>XImporter</Importer>
       <Processor>SkinnedModelProcessor</Processor>
     </Compile>

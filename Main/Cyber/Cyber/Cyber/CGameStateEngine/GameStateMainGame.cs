@@ -174,12 +174,12 @@ namespace Cyber.CGameStateEngine
             samanthaGhostController.LoadItem(theContentManager);
             samanthaGhostController.Type = StaticItemType.samantha;
 
-            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/sammy_idle", "Anim1", new Vector3(100, 100, 50));
+            samanthaActualPlayer = new DynamicItem("Assets//3D/Characters/sammy_idle2", "Anim1", new Vector3(100, 100, 50));
 
             samanthaActualPlayer.LoadItem(theContentManager);
             samanthaActualPlayer.Type = DynamicItemType.samantha;
 
-            samanthaActualPlayerCopy = new DynamicItem("Assets//3D/Characters/sammy_idle", "Anim1", new Vector3(100, 100, 50));
+            samanthaActualPlayerCopy = new DynamicItem("Assets//3D/Characters/sammy_idle2", "Anim1", new Vector3(100, 100, 50));
 
             samanthaActualPlayerCopy.LoadItem(theContentManager);
             samanthaActualPlayerCopy.Type = DynamicItemType.samantha;
@@ -772,8 +772,8 @@ namespace Cyber.CGameStateEngine
 
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
-            samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
-            samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
+            //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+            //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
             podjazd.DrawItem(device, podjazdModel, view, projection);
@@ -789,7 +789,7 @@ namespace Cyber.CGameStateEngine
             #region Rysowanie elementów sceny
             //foreach (var gateHolder in gateList)
             //{
-            //    if (gateHolder.Collider != null)
+            //    if (gateHolder.Collider != null)  
             //    {
             //        gateHolder.Collider.DrawBouding(device, Matrix.CreateTranslation(gateHolder.Collider.Position), view, projection);
             //    }
@@ -804,8 +804,8 @@ namespace Cyber.CGameStateEngine
                 if (stageElement.Type != StaticItemType.teleporter) {
                     if ((stageElement.Type == StaticItemType.terminal))
                     {
-                        //do shit 
-                        stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView;
+                        //do shit it 
+                        stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -50.0f));
                         terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
                         stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
                         //stageElement.DrawItem(device, stageElementView, view, projection);

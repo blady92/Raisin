@@ -54,7 +54,7 @@ namespace Cyber
         private GameConsole console;
 
         //Camera Parameters
-        float cameraArc = 35.0f;
+        float cameraArc = 47.0f;
         float cameraRotation = -300.0f;
         float cameraDistance = 6000;
         float cameraFarBuffer = 30000;
@@ -254,6 +254,7 @@ namespace Cyber
                         break;
                     case 1:
                         GraphicsDevice.Clear(Color.Black);
+                        videoPlayer.IsMuted = true;
                         break;
                 }
 
@@ -320,6 +321,17 @@ namespace Cyber
         private void UpdateInputs()
         {
             KeyboardState newState = Keyboard.GetState();
+
+            //if (newState.IsKeyDown(Keys.O))
+            //{
+            //    cameraArc += 0.1f;
+            //    Debug.WriteLine("Camera Arc is: " + cameraArc);
+            //}
+            //if (newState.IsKeyDown(Keys.I))
+            //{
+            //    cameraArc -= 0.1f;
+            //    Debug.WriteLine("Camera Arc is: " + cameraArc);
+            //}
 
             if (CheckKeyPressed(ref newState, Keys.Escape))
             {
