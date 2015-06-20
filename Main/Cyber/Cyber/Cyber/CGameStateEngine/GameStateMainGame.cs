@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,6 +18,8 @@ using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Cyber.CStageParsing;
 using Cyber.CItems.CDynamicItem;
+using Color = Microsoft.Xna.Framework.Color;
+using Point = Microsoft.Xna.Framework.Point;
 
 namespace Cyber.CGameStateEngine
 {
@@ -30,8 +33,10 @@ namespace Cyber.CGameStateEngine
         SpriteBatch spriteBatch;
         ContentManager theContentManager;
 
-        public bool endGame;
-        public bool lostGame;
+        public bool endGame { get; set; } 
+        public bool lostGame { get; set; }
+        public bool firstStart { get; set; }
+    
 
         public Level level
         { get; set; }
@@ -117,6 +122,12 @@ namespace Cyber.CGameStateEngine
         //New Collider
         private List<StaticItem> ConnectedColliders;
 
+        //Variables for shrinking view position
+        //Min and moax describes vertex of 2D box by its diagonal
+        private SceneSplitter sceneSplitter;
+        private PointF rangeMin;
+        private PointF rangeMax;
+
         public void Unload()
         {
             theContentManager.Unload();
@@ -129,9 +140,10 @@ namespace Cyber.CGameStateEngine
             generatedID = new IDGenerator();
             generatedID.GenerateID();
             
-            if (plot == null)
+            if (plot == null || firstStart)
             {
                 plot = new PlotTwistClass();
+                firstStart = false;
             }
 
             #region Load Dialogs
@@ -169,7 +181,7 @@ namespace Cyber.CGameStateEngine
             console.plotAction = plot;
             console.LoadContent(theContentManager);
             #endregion
-            #region Load 3D elements
+            #region Samantha's animation 
             samanthaGhostController = new StaticItem("Assets/3D/Characters/Ally_Bunker");
             samanthaGhostController.LoadItem(theContentManager);
             samanthaGhostController.Type = StaticItemType.samantha;
@@ -189,15 +201,16 @@ namespace Cyber.CGameStateEngine
 
             samanthaActualPlayerRun.LoadItem(theContentManager);
             samanthaActualPlayerRun.Type = DynamicItemType.samantha;
-
+            #endregion
+            #region Terminal's animations
             terminalActualModel = new DynamicItem("Assets//3D/Interior/terminal_animated_inv", "Take 001", new Vector3(100, 100, 50));
             terminalActualModel.LoadItem(theContentManager);
             terminalActualModel.Type = DynamicItemType.none;
 
             terminalPlayer = terminalActualModel.SkinnedModel.AnimationPlayer;
             terminalClip = terminalActualModel.SkinnedModel.Clip;
-
-            #region Wychodzenie ze sceny
+            #endregion
+            #region Scene escaping
             escapeemitter = new ParticleEmitter();
             escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-5, 270, 60), 1, 1);
 
@@ -223,13 +236,14 @@ namespace Cyber.CGameStateEngine
             #endregion
 
             stageElements = new List<StaticItem>();
+            ConnectedColliders = new List<StaticItem>();
             npcList = new List<StaticItem>();
             npcList.Clear();
             stageElements.Clear();
-
+            ConnectedColliders.Clear();
             stageParser = new StageParser();
             
-            #region ustawianie leveli
+            #region Setting stage to parse
             if (level == Level.level1)
             {
                 stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
@@ -243,7 +257,7 @@ namespace Cyber.CGameStateEngine
                 stage = stageParser.ParseBitmap("../../../CStageParsing/stage2.bmp");
             }
             #endregion
-
+            #region Objects
             stageStructure = new StageStructure(stage, StageStructureGenerationStrategy.GENEROUS);
 
             foreach (StageObject stageObj in stage.Objects)
@@ -266,8 +280,15 @@ namespace Cyber.CGameStateEngine
             }
 
             #endregion
-
             #region Gates
+            if (level == Level.level2)
+            {
+                plot.ThroughGate();
+                gate = new StaticItem("Assets/3D/Interior/Interior_Gate_NoTexture");
+                gate.LoadItem(theContentManager);
+                gate.Type = StaticItemType.gate;
+                gate.Rotation = 0;
+            }
             //gateList = new List<GateHolder>();
             //foreach (var stageGate in stage.Gates)
             //{
@@ -299,7 +320,7 @@ namespace Cyber.CGameStateEngine
                 AI.Instance.AddRobot(npc);
             }
             #endregion
-            #region Ładowanie ścian
+            #region Loading walls
             for (int i = 0; i < stageStructure.Walls.Count; i++)
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Base");
@@ -322,7 +343,7 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-            #region Ładowanie podłóg
+            #region Loading floor tiles
             foreach (Pair<int, int> point in stageStructure.Floor.Floors)
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
@@ -331,15 +352,6 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(item);
             }
             #endregion
-            //gate = new StaticItem("Assets/3D/exampleGate");
-            if (level == Level.level2)
-            {
-                plot.ThroughGate();
-                gate = new StaticItem("Assets/3D/Interior/Interior_Gate_NoTexture");
-                gate.LoadItem(theContentManager);
-                gate.Type = StaticItemType.gate;
-                gate.Rotation = 0;
-            }
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -356,12 +368,15 @@ namespace Cyber.CGameStateEngine
         public void SetUpScene(GraphicsDevice device)
         {
             escaped = false;
-            ConnectedColliders = new List<StaticItem>();
+            
             stageElements.Add(escapeCollider);
-            //ConnectedColliders.Add(escapeCollider);
-
-            #region Ładowanie bramy
-
+            ConnectedColliders.Add(escapeCollider);
+            #region Setting plot
+            plot.SamChecked = false;
+            lostGame = false;
+            endGame = false;
+            #endregion
+            #region Setting gate
             if (level == Level.level2) {
                 Vector3 moveGate = new Vector3(400, 150, 0);
                 gate.Position = moveGate;
@@ -376,7 +391,7 @@ namespace Cyber.CGameStateEngine
                 stageElements.Add(gate);
             }
             #endregion
-            #region setups
+            #region setups data initials
             int i = 0;
             float mnoznikPrzesuniecaSciany = 19.5f;
             float mnoznikPrzesunieciaOther = mnoznikPrzesuniecaSciany;
@@ -837,7 +852,7 @@ namespace Cyber.CGameStateEngine
             }
             #endregion
 
-            #region Spięcie wszystkiego do koliderów
+            #region Setting 'em all to colliders
             colliderController = new ColliderController(console);
             colliderController.samantha = samanthaGhostController;
             //colliderController.staticItemList = stageElements;
@@ -846,19 +861,31 @@ namespace Cyber.CGameStateEngine
             colliderController.plot = plot;
             colliderController.exit = escapeCollider;
             #endregion
-
-            #region Sortowanie elementów planszy wg położenia
+            #region Setting scene splitter points
+            sceneSplitter = new SceneSplitter(samanthaGhostController, new PointF(500.0f, 550.0f));
+            #endregion
+            #region Sort elements by position
             stageElements = new List<StaticItem>(stageElements.OrderBy(p => p.Position.X).ThenBy(q => q.Position.Y));
             foreach (StaticItem stageItem in stageElements)
             {
                 Debug.WriteLine(stageItem.Position.X + " : " + stageItem.Position.Y);
             }
             #endregion
-            #region Inicjalizacja AI
+            #region Initialize AI
             AI ai = AI.Instance;
             ai.ColliderController = colliderController;
             ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(stage.Rooms);
             #endregion
+
+            foreach (StaticItem item in stageElements)
+            {
+                if (IsWithin(item, rangeMin, rangeMax))
+                {
+                    Debug.WriteLine("Item position ("+item.Position.X+":"+item.Position.Y+")\t\t\t is within (" + 
+                        rangeMin.X+":"+rangeMin.Y+") <-> ("+rangeMax.X+":"+rangeMax.Y+")"
+                        );
+                }
+            }
         }
 
         public void SetUpClock()
@@ -920,35 +947,37 @@ namespace Cyber.CGameStateEngine
 
             foreach (StaticItem stageElement in stageElements)
             {
-                Matrix stageElementView = Matrix.Identity *
-                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
-                    Matrix.CreateTranslation(stageElement.Position);
-                if (stageElement.Type != StaticItemType.teleporter) {
-                    if ((stageElement.Type == StaticItemType.terminal))
-                    {
-                        //do shit 
-                        stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView;
-                        terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
-                        stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
-                        //stageElement.DrawItem(device, stageElementView, view, projection);
-                    }
-                    else
-                    {
-                      if (stageElement.OnOffBilboard)
-                       {
-                         stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                       }
-                       else
-                      {
-                          stageElement.DrawItem(device, stageElementView, view, projection);
-                          if (stageElement.particles != null)
+                if(sceneSplitter.IsItemWithin(stageElement)){
+                    Matrix stageElementView = Matrix.Identity *
+                        Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
+                        Matrix.CreateTranslation(stageElement.Position);
+                    if (stageElement.Type != StaticItemType.teleporter) {
+                        if ((stageElement.Type == StaticItemType.terminal))
+                        {
+                            //do shit 
+                            stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView;
+                            terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
+                            stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
+                            //stageElement.DrawItem(device, stageElementView, view, projection);
+                        }
+                        else
+                        {
+                          if (stageElement.OnOffBilboard)
+                           {
+                             stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                           }
+                           else
                           {
-                                stageElement.particles.Update();
-                                stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
-                          }
-                          stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                       }
-                    } //end else
+                              stageElement.DrawItem(device, stageElementView, view, projection);
+                              if (stageElement.particles != null)
+                              {
+                                    stageElement.particles.Update();
+                                    stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
+                              }
+                              stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                           }
+                        } //end else
+                    }
                 }
             }
 
@@ -992,14 +1021,6 @@ namespace Cyber.CGameStateEngine
             //    Matrix ColliderTest = Matrix.CreateTranslation(collider.ColliderInternal.Position);
             //    collider.ColliderInternal.DrawBouding(device, ColliderTest, view, projection);
             //}
-
-            //Matrix escapeCollideModel = Matrix.CreateTranslation(escapeCollider.Position);
-            //escapeCollider.DrawItem(device, escapeCollideModel, view, projection);
-            //Matrix escapeColliderBox = Matrix.CreateTranslation(escapeCollider.ColliderInternal.Position);
-            //escapeCollider.ColliderInternal.DrawBouding(device, escapeColliderBox, view, projection);
-
-            //Matrix podjazdBox = Matrix.CreateTranslation(podjazd.ColliderInternal.Position);
-            //podjazd.ColliderInternal.DrawBouding(device, podjazdBox, view, projection);
         }
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
@@ -1119,6 +1140,7 @@ namespace Cyber.CGameStateEngine
                     cameraTarget.Y = samanthaGhostController.Position.Y;
 
                     samanthaActualPlayer = samanthaActualPlayerRun;
+                    sceneSplitter.SetSplitterSceneView(samanthaGhostController);
 
                     //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -6.8f && rotateSam <= 180.0f)
@@ -1144,6 +1166,7 @@ namespace Cyber.CGameStateEngine
                     cameraTarget.Y = samanthaGhostController.Position.Y;
 
                     samanthaActualPlayer = samanthaActualPlayerRun;
+                    sceneSplitter.SetSplitterSceneView(samanthaGhostController);
 
                     //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -179.9f && rotateSam < 0.0f || rotateSam > 180.0f)
@@ -1170,6 +1193,8 @@ namespace Cyber.CGameStateEngine
                     cameraTarget.X = -samanthaGhostController.Position.X;
 
                     samanthaActualPlayer = samanthaActualPlayerRun;
+                    sceneSplitter.SetSplitterSceneView(samanthaGhostController);
+
                     //Debug.WriteLine("Rotate sam: " + rotateSam);
                     if (rotateSam >= -179.9f && rotateSam <= 90.0f)
                     {
@@ -1192,6 +1217,8 @@ namespace Cyber.CGameStateEngine
                     cameraTarget.X = -samanthaGhostController.Position.X;
 
                     samanthaActualPlayer = samanthaActualPlayerRun;
+                    sceneSplitter.SetSplitterSceneView(samanthaGhostController);
+
                     //Debug.WriteLine("Rotate sam: " + rotateSam);  
                     if ((rotateSam <= 90.0f) && (rotateSam > -90.0f))
                     {
@@ -1211,8 +1238,6 @@ namespace Cyber.CGameStateEngine
             else
             {
                 console.Action();
-
-                
             }
             #endregion
             #region Zoom kamery
@@ -1283,6 +1308,15 @@ namespace Cyber.CGameStateEngine
         public BoundingBox JoinToFirstCollider(BoundingBox box1, BoundingBox box2)
         {
             return BoundingBox.CreateMerged(box1, box2);
+        }
+        #endregion
+        #region Checking if item is in the view
+        public bool IsWithin(StaticItem item, PointF pointMin, PointF pointMax)
+        {
+            return (item.Position.X > pointMin.X && 
+                    item.Position.Y > pointMin.Y && 
+                    item.Position.X < pointMax.X &&
+                    item.Position.Y < pointMax.Y);
         }
         #endregion
     }

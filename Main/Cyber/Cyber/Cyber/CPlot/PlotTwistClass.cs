@@ -188,6 +188,7 @@ namespace Cyber
             loaded = true;
         }
 
+        #region ACCESSORS
         public void GetTime()
         {
             BreakPoints.RemoveAt(0);
@@ -266,7 +267,7 @@ namespace Cyber
             action = true;
             generatorOn = true;
         }
-        
+        #endregion
 
         public string getActualDialog()
         {
@@ -295,6 +296,19 @@ namespace Cyber
                     return dialogsList[dialogNumber];
             }
             return "";
+        }
+
+        public void Reset()
+        {
+            loaded = false;
+            passedThroughGate = false;
+            gate1Opened = false;
+            allyChecked = false;
+            allyHacked = false;
+            generatorFound = false;
+            generatorAccess = false;
+            generatorOn = false;
+            dialogNumber = 1;
         }
     }
 }
