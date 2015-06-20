@@ -121,7 +121,7 @@ namespace Cyber.CItems.CStaticItem
             if (DrawID && !OnOffBilboard)
             {
                 MachineID.positions = position;
-                MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1, 1);
+                MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 1.1f, 0.7f);
                 MachineID.generateParticles(new Vector3[] { Position + MachineIDHeight });
             }
             skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
@@ -193,9 +193,9 @@ namespace Cyber.CItems.CStaticItem
         {
             if (OnOffBilboard)
             {
-                view = view * Matrix.CreateTranslation(new Vector3(0.0f, 40.0f, 90.0f));
+                view = view * Matrix.CreateTranslation(new Vector3(0.0f, 20.0f, 50.0f));
 
-                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 0.6f, 1.0f);
+                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 0.8f, 0.6f);
                 bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
             }
         }

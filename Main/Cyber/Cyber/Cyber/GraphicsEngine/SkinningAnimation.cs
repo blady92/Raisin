@@ -334,13 +334,13 @@ namespace Cyber.GraphicsEngine
              {
                  cameraRotation -= time * cameraSpeed;
                  prevMouseState = currentMouseState;
-                 Debug.WriteLine("cr: " + cameraRotation);
+                // Debug.WriteLine("cr: " + cameraRotation);
              }
              if ((currentMouseState.X != prevMouseState.X || currentMouseState.Y != prevMouseState.Y) && (currentMouseState.X > prevMouseState.X) && (currentMouseState.X > 0) && (currentMouseState.X < device.Viewport.Width) && (currentMouseState.LeftButton == ButtonState.Pressed))
              {
                  cameraRotation += time * cameraSpeed;
                  prevMouseState = currentMouseState;
-                 Debug.WriteLine("cr: " + cameraRotation);
+                // Debug.WriteLine("cr: " + cameraRotation);
              }
              //if ((currentMouseState.Y != prevMouseState.Y || currentMouseState.X != prevMouseState.X) && (currentMouseState.Y > prevMouseState.Y) && (currentMouseState.Y > 0) && (currentMouseState.Y < device.Viewport.Height) && (currentMouseState.LeftButton == ButtonState.Pressed))
              //{
@@ -354,9 +354,22 @@ namespace Cyber.GraphicsEngine
              //}
              if(currentMouseState.RightButton == ButtonState.Pressed)
              {
-                  cameraArc = 35.0f;
-                  cameraRotation = -360.0f;
+                 // cameraArc = 47.0f;
+                 // cameraRotation = -360.0f;
                   cameraDistance = 6000;
+
+                 if(cameraArc < 47.0f)
+                 {
+                     cameraArc += 0.2f;
+                 }
+                 if(cameraRotation > -320.0f)
+                 {
+                     cameraRotation -= 0.5f;
+                 }
+                 else if (cameraRotation < -320.0f)
+                 {
+                     cameraRotation += 0.5f;
+                 }
              }
              #endregion
 
