@@ -62,6 +62,7 @@ namespace Cyber.CGameStateEngine
             this.menus = menus;
             this.audioModel = new AudioModel("CyberBank");
             audioController = new AudioController(audioModel);
+            audioController.setAudio();
             gameState = new GameState();
             gameStateMainMenu = (GameStateMainMenu)menus[0];
             gameStateMainGame = (GameStateMainGame)menus[1];
@@ -85,7 +86,8 @@ namespace Cyber.CGameStateEngine
                 {
                     if(!played)
                     {
-                        audioController.CueMusicController("menuhover", "Play");
+                        audioController.menuHoverController("Play");
+                       
                         played = true;
                     }
                  

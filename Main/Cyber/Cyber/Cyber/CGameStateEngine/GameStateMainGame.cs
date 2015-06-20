@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Cyber.Audio;
 using Cyber.AudioEngine;
 using Cyber.CAdditionalLibs;
 using Cyber.CItems;
@@ -136,6 +137,14 @@ namespace Cyber.CGameStateEngine
         private PointF rangeMin;
         private PointF rangeMax;
 
+        //AudioEffects
+        private AudioModel audioModel =  new AudioModel("CyberBank");
+        private AudioController audioController;
+        bool terminalOpenPlayed = false;
+        bool terminalClosePlayed = false;
+
+    
+
         public void Unload()
         {
             theContentManager.Unload();
@@ -147,6 +156,9 @@ namespace Cyber.CGameStateEngine
             lostGame = false;
             generatedID = new IDGenerator();
             generatedID.GenerateID();
+
+            audioController = new AudioController(audioModel);
+            audioController.setAudio();
             
             if (plot == null || firstStart)
             {
@@ -1113,6 +1125,7 @@ namespace Cyber.CGameStateEngine
                     clickedTab += 1;
                     playTerminalAnimation = true;
                     timeToHide = true;
+                    terminalOpenPlayed = false;
                 }
                 else if (NewKeyState.IsKeyDown(Keys.Tab) && OldKeyState.IsKeyUp(Keys.Tab) && (playTerminalAnimation == true) && (terminalPlayer.CurrentKeyFrame == 160))
                 {
@@ -1124,6 +1137,13 @@ namespace Cyber.CGameStateEngine
                 if (playTerminalAnimation && (clickedTab % 2 == 1))
                 {
                     terminalPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
+                  
+                    if(!terminalOpenPlayed)
+                    {
+                        audioController.terminalSoundEffect("Play");
+                        terminalOpenPlayed = true;
+                    }
+
                     if (terminalPlayer.CurrentKeyFrame == 160)
                     {
                         playTerminalAnimation = false;
@@ -1141,9 +1161,15 @@ namespace Cyber.CGameStateEngine
                 {
                     playTerminalAnimation = false;
                     timeToHide = false;
+                    terminalClosePlayed = false;
                 }
                 else
                 {
+                    if (!terminalClosePlayed)
+                    {
+                        audioController.terminalSoundEffect("PlayInvert");
+                        terminalClosePlayed = true;
+                    }
                     terminalPlayer.Update(-gameTime.ElapsedGameTime, true, Matrix.Identity);
                 }
             }

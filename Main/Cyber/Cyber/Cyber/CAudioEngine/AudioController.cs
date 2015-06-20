@@ -72,29 +72,28 @@ namespace Cyber.AudioEngine
             }
         }
 
-        public void CueMusicController(string CueTitle, string command)
+        public void menuHoverController(string command)
         {
             if (command == "Play")
             {
-                if(audio.SoundBank.GetCue(CueTitle).IsPlaying == false)
-                {
-                    audio.SoundBank.GetCue(CueTitle).Play();
-                }
-                
+                audio.SoundBank.GetCue("menuhover").Play();
             }
-            else if (command == "Stop")
+            else
             {
-                audio.SoundBank.GetCue(CueTitle).Stop(AudioStopOptions.Immediate);
+                audio.SoundBank.GetCue("menuhover").Stop(AudioStopOptions.Immediate);
             }
-            else if (command == "Pause")
-            {
-                audio.SoundBank.GetCue(CueTitle).Pause();
-            }
-            else if (command == "Resume")
-            {
-                audio.SoundBank.GetCue(CueTitle).Resume();
-            }
+        }
 
+        public void terminalSoundEffect(string command)
+        {
+            if(command == "Play")
+            {
+                audio.SoundBank.GetCue("terminalMove").Play();
+            }
+            else if (command == "PlayInvert")
+            {
+                audio.SoundBank.GetCue("terminalMoveDown").Play();
+            }
         }
        
 
