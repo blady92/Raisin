@@ -1346,7 +1346,7 @@
       <Importer>XImporter</Importer>
       <Processor>SkinnedModelProcessor</Processor>
     </Compile>
-</ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVOpticaly.jpg">
       <Name>terminalUVOpticaly</Name>
@@ -1364,6 +1364,27 @@
   <ItemGroup>
     <Compile Include="Assets\FBX\61942E1A\terminal_animated_inv.fbm\terminalUVv2_0.jpg">
       <Name>terminalUVv2_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\tex_brama_0.jpg">
+      <Name>tex_brama_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\3D\Interior\Interior_Gate_Anim.FBX">
+      <Name>Interior_Gate_Anim</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\tex_brama_1.jpg">
+      <Name>tex_brama_1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

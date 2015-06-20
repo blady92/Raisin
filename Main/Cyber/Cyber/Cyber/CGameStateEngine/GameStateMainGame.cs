@@ -56,6 +56,7 @@ namespace Cyber.CGameStateEngine
         public DynamicItem samanthaActualPlayerRun { get; set; }
 
         public DynamicItem terminalActualModel { get; set; }
+        public DynamicItem gateActualModel { get; set; }
         private ColliderController colliderController;
         public List<StaticItem> stageElements;
         // TODO: Refactor na private
@@ -110,6 +111,13 @@ namespace Cyber.CGameStateEngine
         bool playTerminalAnimation;
         int clickedTab = 0;
         bool timeToHide = false;
+
+        //Gate Animation
+        AnimationPlayer gatePlayer;
+        AnimationClip gateClip;
+        float gateX = 600.0f;
+        float gateY = 810.0f;
+        float gateZ = -292.0f;
 
         //Gate
         private StaticItem gate;
@@ -196,6 +204,13 @@ namespace Cyber.CGameStateEngine
 
             terminalPlayer = terminalActualModel.SkinnedModel.AnimationPlayer;
             terminalClip = terminalActualModel.SkinnedModel.Clip;
+
+            gateActualModel = new DynamicItem("Assets//3D/Interior/Interior_Gate_Anim", "Take 001", new Vector3(100, 100, 50));
+            gateActualModel.LoadItem(theContentManager);
+            gateActualModel.Type = DynamicItemType.none;
+
+            gatePlayer = gateActualModel.SkinnedModel.AnimationPlayer;
+            gateClip = gateActualModel.SkinnedModel.Clip;
 
             #region Wychodzenie ze sceny
             escapeemitter = new ParticleEmitter();
@@ -369,7 +384,7 @@ namespace Cyber.CGameStateEngine
                 gate.ID = generatedID.IDs[0];
                 gate.DrawID = false;
                 gate.OnOffBilboard = false;
-                gate.MachineIDHeight = new Vector3(0, 90, 130);
+                gate.MachineIDHeight = new Vector3(0, 90, 170);
                 generatedID.IDs.RemoveAt(0);
                 gate.ApplyIDBilboard(device, theContentManager, moveGate);
                 ConnectedColliders.Add(gate);
@@ -919,11 +934,12 @@ namespace Cyber.CGameStateEngine
 
             //foreach (var gateHolder in gateList)
             //{
-            //    if (gateHolder.Collider != null)  
+            //    if (gateHolder.Collider != null)
             //    {
             //        gateHolder.Collider.DrawBouding(device, Matrix.CreateTranslation(gateHolder.Collider.Position), view, projection);
             //    }
             //}
+
 
             escapeCollider.DrawOnlyBilboard(device, view, projection, cameraRotation);
 
@@ -935,11 +951,24 @@ namespace Cyber.CGameStateEngine
                 if (stageElement.Type != StaticItemType.teleporter) {
                     if ((stageElement.Type == StaticItemType.terminal))
                     {
-                        //do shit it 
+                       
                         stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -50.0f));
                         terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
                         stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
+
                         //stageElement.DrawItem(device, stageElementView, view, projection);
+                    }
+                    else if(stageElement.Type == StaticItemType.gate)
+                    {
+                        stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -292.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
+                        gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
+                       
+                        
+                        if(!plot.Gate1Opened)
+                        {
+                            stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                        }
+
                     }
                     else
                     {
@@ -1033,6 +1062,23 @@ namespace Cyber.CGameStateEngine
 
             terminalPlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
 
+            if(plot.Gate1Opened)
+            {
+               if(gatePlayer.CurrentKeyFrame < 240)
+               {
+                   gatePlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
+               }
+               else
+               {
+                   gatePlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
+               }
+                
+            }
+            else
+            {
+                gatePlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
+            }
+
             #region Animacja Terminala
             KeyboardState NewKeyState = Keyboard.GetState();
             if(console.IsUsed)
@@ -1077,6 +1123,44 @@ namespace Cyber.CGameStateEngine
                 }
             }
             #endregion
+
+            if(newState.IsKeyDown(Keys.Up))
+            {
+                gateY += 1.0f;
+                Debug.WriteLine("gateY: " + gateY);
+            }
+            if (newState.IsKeyDown(Keys.Down))
+            {
+                gateY -= 1.0f;
+                Debug.WriteLine("gateY: " + gateY);
+            }
+            if (newState.IsKeyDown(Keys.Left))
+            {
+                gateX += 1.0f;
+                Debug.WriteLine("gateX: " + gateX);
+            }
+            if (newState.IsKeyDown(Keys.Right))
+            {
+                gateX -= 1.0f;
+                Debug.WriteLine("gateX: " + gateX);
+            }
+            if (newState.IsKeyDown(Keys.Z))
+            {
+                gateZ += 1.0f;
+                Debug.WriteLine("gateZ: " + gateZ);
+            }
+            if (newState.IsKeyDown(Keys.X))
+            {
+                gateZ -= 1.0f;
+                Debug.WriteLine("gateZ: " + gateZ);
+            }
+            if (newState.IsKeyDown(Keys.Enter))
+            {
+                Debug.WriteLine("gateX: " + gateX);
+                Debug.WriteLine("gateY: " + gateY);
+                Debug.WriteLine("gateZ: " + gateZ);
+            }
+
             #region Sterowanie zegarem
             //if (newState.IsKeyDown(Keys.T))
             //{
