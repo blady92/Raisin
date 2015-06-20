@@ -951,101 +951,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE0.png">
-      <Name>BIGGERCONSOLE0</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE1.png">
-      <Name>BIGGERCONSOLE1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE10.png">
-      <Name>BIGGERCONSOLE10</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE11.png">
-      <Name>BIGGERCONSOLE11</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE12.png">
-      <Name>BIGGERCONSOLE12</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE13.png">
-      <Name>BIGGERCONSOLE13</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE14.png">
-      <Name>BIGGERCONSOLE14</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE15.png">
-      <Name>BIGGERCONSOLE15</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE16.png">
-      <Name>BIGGERCONSOLE16</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE17.png">
-      <Name>BIGGERCONSOLE17</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE18.png">
-      <Name>BIGGERCONSOLE18</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE2.png">
-      <Name>BIGGERCONSOLE2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE3.png">
-      <Name>BIGGERCONSOLE3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE4.png">
-      <Name>BIGGERCONSOLE4</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE5.png">
-      <Name>BIGGERCONSOLE5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE6.png">
-      <Name>BIGGERCONSOLE6</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE7.png">
-      <Name>BIGGERCONSOLE7</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE8.png">
-      <Name>BIGGERCONSOLE8</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE9.png">
-      <Name>BIGGERCONSOLE9</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Assets\Video\intro_mm.wmv">
       <Name>intro_mm</Name>
       <Importer>WmvImporter</Importer>
@@ -1397,6 +1302,225 @@
     </Compile>
     <Compile Include="Assets\2D\IDs\0XF41E.png">
       <Name>0XF41E</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation00.png">
+      <Name>BIGGERCONSOLE_animation00</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation01.png">
+      <Name>BIGGERCONSOLE_animation01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation02.png">
+      <Name>BIGGERCONSOLE_animation02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation03.png">
+      <Name>BIGGERCONSOLE_animation03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation04.png">
+      <Name>BIGGERCONSOLE_animation04</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation05.png">
+      <Name>BIGGERCONSOLE_animation05</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation06.png">
+      <Name>BIGGERCONSOLE_animation06</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation07.png">
+      <Name>BIGGERCONSOLE_animation07</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation08.png">
+      <Name>BIGGERCONSOLE_animation08</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation09.png">
+      <Name>BIGGERCONSOLE_animation09</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation10.png">
+      <Name>BIGGERCONSOLE_animation10</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation11.png">
+      <Name>BIGGERCONSOLE_animation11</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation12.png">
+      <Name>BIGGERCONSOLE_animation12</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation13.png">
+      <Name>BIGGERCONSOLE_animation13</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation14.png">
+      <Name>BIGGERCONSOLE_animation14</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation15.png">
+      <Name>BIGGERCONSOLE_animation15</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation16.png">
+      <Name>BIGGERCONSOLE_animation16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation17.png">
+      <Name>BIGGERCONSOLE_animation17</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation18.png">
+      <Name>BIGGERCONSOLE_animation18</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation19.png">
+      <Name>BIGGERCONSOLE_animation19</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation20.png">
+      <Name>BIGGERCONSOLE_animation20</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation21.png">
+      <Name>BIGGERCONSOLE_animation21</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation22.png">
+      <Name>BIGGERCONSOLE_animation22</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation23.png">
+      <Name>BIGGERCONSOLE_animation23</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation24.png">
+      <Name>BIGGERCONSOLE_animation24</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation25.png">
+      <Name>BIGGERCONSOLE_animation25</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation26.png">
+      <Name>BIGGERCONSOLE_animation26</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation27.png">
+      <Name>BIGGERCONSOLE_animation27</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation28.png">
+      <Name>BIGGERCONSOLE_animation28</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation29.png">
+      <Name>BIGGERCONSOLE_animation29</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation30.png">
+      <Name>BIGGERCONSOLE_animation30</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation31.png">
+      <Name>BIGGERCONSOLE_animation31</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation32.png">
+      <Name>BIGGERCONSOLE_animation32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation33.png">
+      <Name>BIGGERCONSOLE_animation33</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation34.png">
+      <Name>BIGGERCONSOLE_animation34</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation35.png">
+      <Name>BIGGERCONSOLE_animation35</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation36.png">
+      <Name>BIGGERCONSOLE_animation36</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation37.png">
+      <Name>BIGGERCONSOLE_animation37</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation38.png">
+      <Name>BIGGERCONSOLE_animation38</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation39.png">
+      <Name>BIGGERCONSOLE_animation39</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation40.png">
+      <Name>BIGGERCONSOLE_animation40</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation41.png">
+      <Name>BIGGERCONSOLE_animation41</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\consoleAnimation\BIGGERCONSOLE_animation42.png">
+      <Name>BIGGERCONSOLE_animation42</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

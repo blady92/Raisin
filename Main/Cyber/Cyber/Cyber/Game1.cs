@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cyber.Audio;
 using Cyber.AudioEngine;
 using Cyber.CAdditionalLibs;
@@ -211,6 +212,7 @@ namespace Cyber
                 loadingGame.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
                 LogicEngine.LogicChangeLevel(this.Content, this.GraphicsDevice);
+                Thread.Sleep(1500);
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
