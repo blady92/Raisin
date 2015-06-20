@@ -81,6 +81,7 @@ namespace Cyber.CGameStateEngine
                             switch (i)
                             {
                                 case 0:
+                                    gameStateMainGame.firstStart = true;
                                     gameStateMainGame.LoadContent(theContentManager, device);
                                     gameStateMainGame.SetUpClock();
                                     gameStateMainGame.SetUpScene(device);
