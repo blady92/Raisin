@@ -115,6 +115,10 @@ namespace Cyber
         /// </summary>
         public void ResumeChase()
         {
+            if (lastSamPosition == null)
+            {
+                return;
+            }
             if (colliderController == null)
             {
                 throw new Exception("You should set collider controller before beeing able to steer NPC's");
