@@ -31,33 +31,62 @@ namespace Cyber.AudioEngine
         public void setAudio()
         {
             audio.CueList.Clear();
-            audio.CueList.Add(audio.SoundBank.GetCue("vrag"));
-            audio.CueList.Add(audio.SoundBank.GetCue("pierwaja"));
-            audio.CueList.Add(audio.SoundBank.GetCue("edgeSound"));            
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic 2"));
+            audio.CueList.Add(audio.SoundBank.GetCue("menuhover"));
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove"));
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown"));      
         }
 
         public void runAudio()
         {
-            newState = Keyboard.GetState();
-            if (newState.IsKeyDown(Keys.NumPad1) && oldState.IsKeyUp(Keys.NumPad1))
+            //newState = Keyboard.GetState();
+            //if (newState.IsKeyDown(Keys.NumPad1) && oldState.IsKeyUp(Keys.NumPad1))
+            //{
+            //    audio.CueList[0].Play();
+            //}
+            //if (newState.IsKeyDown(Keys.NumPad2) && oldState.IsKeyUp(Keys.NumPad2))
+            //{
+            //    audio.SoundBank.GetCue("menuhover").Play();
+            //}
+            //if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
+            //{
+            //    audio.CueList[2].Play();
+            //}
+            //if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
+            //{
+            //    resetAudio();
+            //}
+
+            //oldState = newState;
+        }
+
+
+
+        public void CueMusicController(string CueTitle, string command)
+        {
+            if (command == "Play")
             {
-                audio.CueList[0].Play();
+                if(audio.SoundBank.GetCue(CueTitle).IsPlaying == false)
+                {
+                    audio.SoundBank.GetCue(CueTitle).Play();
+                }
+                
             }
-            if (newState.IsKeyDown(Keys.NumPad2) && oldState.IsKeyUp(Keys.NumPad2))
+            else if (command == "Stop")
             {
-                audio.CueList[1].Play();
+                audio.SoundBank.GetCue(CueTitle).Stop(AudioStopOptions.Immediate);
             }
-            if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
+            else if (command == "Pause")
             {
-                audio.CueList[2].Play();
+                audio.SoundBank.GetCue(CueTitle).Pause();
             }
-            if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
+            else if (command == "Resume")
             {
-                resetAudio();
+                audio.SoundBank.GetCue(CueTitle).Resume();
             }
 
-            oldState = newState;
         }
+       
 
         public void playAudio(int i)
         {

@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework.Graphics;
+using Cyber.Audio;
+using Cyber.AudioEngine;
 
 namespace Cyber.CGameStateEngine
 {
@@ -32,8 +34,14 @@ namespace Cyber.CGameStateEngine
         private List<GameState> menus;
         private KeyboardState oldState;
         private KeyboardState currentKeyboardState;
+
+        private AudioModel audioModel;
+        private AudioController audioController;
+
         public bool endGame { get; set; }
         public bool lostGame { get; set; }
+
+        bool played = false;
 
         public GameState GameState
         {
@@ -52,6 +60,8 @@ namespace Cyber.CGameStateEngine
             this.theContentManager = theContentManager;
             this.device = device;
             this.menus = menus;
+            this.audioModel = new AudioModel("CyberBank");
+            audioController = new AudioController(audioModel);
             gameState = new GameState();
             gameStateMainMenu = (GameStateMainMenu)menus[0];
             gameStateMainGame = (GameStateMainGame)menus[1];
@@ -73,6 +83,12 @@ namespace Cyber.CGameStateEngine
             {
                 if (new Rectangle(mouse.X, mouse.Y, 1, 1).Intersects(gameStateMainMenu.SpriteAnimationList[i].GetFrameRectangle()))
                 {
+                    if(!played)
+                    {
+                        audioController.CueMusicController("menuhover", "Play");
+                        played = true;
+                    }
+                 
                     if (gameStateMainMenu.SpriteAnimationList[i].Clicked)
                     {
                         gameStateMainMenu.SpriteAnimationList[i].UpdateClickFrame();
@@ -124,6 +140,7 @@ namespace Cyber.CGameStateEngine
                     gameStateMainMenu.SpriteAnimationList[i].UpdateReverse();
                     gameStateMainMenu.SpriteAnimationList[i].ResetClickFrame();
                     gameStateMainMenu.SpriteAnimationList[i].UpdateClickAnimation(false);
+
                 }
             }
         }

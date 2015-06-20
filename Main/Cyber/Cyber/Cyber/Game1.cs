@@ -67,6 +67,8 @@ namespace Cyber
         Texture2D videoTexture;
         Rectangle videoRectangle;
         public int state = 0;
+
+        bool BGisPlaying = false;
     
 
         public Game1()
@@ -86,7 +88,7 @@ namespace Cyber
             #endregion
 
             #region INITIALIZE AUDIO ENGINE
-            audioModel = new AudioModel("standard");
+            audioModel = new AudioModel("CyberBank");
             audioController = new AudioController(audioModel);
             audioController.setAudio();
             #endregion
@@ -174,7 +176,6 @@ namespace Cyber
                     break;
             }
 
-            audioController.runAudio();
             currentKeyboardState = Keyboard.GetState();
             currentMouseState = Mouse.GetState();
 
@@ -233,6 +234,12 @@ namespace Cyber
             { 
                 mainMenu.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
+                if(!BGisPlaying)
+                {
+                    audioController.CueMusicController("bgmusic 2", "Play");
+                    BGisPlaying = true;
+                }
+                
             }
             #endregion
             #region rysowanie menu pauzy
