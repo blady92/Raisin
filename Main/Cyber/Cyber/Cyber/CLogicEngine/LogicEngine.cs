@@ -82,10 +82,10 @@ namespace Cyber.CGameStateEngine
                             {
                                 case 0:
                                     gameStateMainGame.firstStart = true;
+                                    gameStateMainGame.level = Level.level1;
                                     gameStateMainGame.LoadContent(theContentManager, device);
                                     gameStateMainGame.SetUpClock();
                                     gameStateMainGame.SetUpScene(device);
-                                    gameStateMainGame.level = Level.level1;
                                     gameState.State = GameState.States.mainGame;
                                     break;
                                 case 1:

@@ -21,7 +21,8 @@ namespace Cyber.CAdditionalLibs
             string[] filePaths = Directory.GetFiles(@"..//..//..//..//CyberContent//Assets//2D//IDs//");
             foreach (string filePath in filePaths)
             {
-                IDs.Add(filePath.Substring(filePath.Length - 12, 8).ToUpper());
+                Debug.WriteLine(filePath.Substring(filePath.Length - 10, 6).ToUpper());
+                IDs.Add(filePath.Substring(filePath.Length - 10, 6).ToUpper());
             }
             IDs = ShuffleList(IDs);
         }
