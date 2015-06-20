@@ -60,7 +60,17 @@ namespace Cyber.AudioEngine
             //oldState = newState;
         }
 
-
+        public void BGMusicController(string command)
+        {
+            if(command == "Play")
+            {
+                audio.CueList[0].Play();
+            }
+            else
+            {
+                audio.CueList[0].Stop(AudioStopOptions.Immediate);
+            }
+        }
 
         public void CueMusicController(string CueTitle, string command)
         {

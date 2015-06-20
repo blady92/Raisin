@@ -236,7 +236,7 @@ namespace Cyber
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
                 if(!BGisPlaying)
                 {
-                    audioController.CueMusicController("bgmusic 2", "Play");
+                    audioController.BGMusicController("Play");
                     BGisPlaying = true;
                 }
                 
@@ -252,6 +252,7 @@ namespace Cyber
             #region rysowanie g³ównej gry
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
+                audioController.BGMusicController("Stop");
                 videoTexture = videoPlayer.GetTexture();
                 spriteBatch.Begin();
                 switch (state)
