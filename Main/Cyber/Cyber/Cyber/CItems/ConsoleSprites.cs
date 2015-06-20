@@ -58,9 +58,10 @@ namespace Cyber.CItems
             Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false);
             Console.LoadAnimationHover(theContentManager);
             Console.SpritePosition = new Vector2(0, 768 - Console.TextureList[0].Height);
+            //font = theContentManager.Load<SpriteFont>("Assets/Fonts/courbd");
             font = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleFont");
 
-            textBox = 360;
+            textBox = 400;
             Text = "";
             lenght = Text.Length;
             SetupKeys();
@@ -100,18 +101,18 @@ namespace Cyber.CItems
                     messageCharCounter = 0;
                 }
                 Color color = new Color(121, 122, 125);
-                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 220 + messageCharCounter), color));
+                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 240 + messageCharCounter), color));
                 spriteBatch.Begin();
                 if (plotAction.action)
                 {
-                    spriteBatch.DrawString(font, "Write or TAB to close", new Vector2(255, Game1.maxHeight-80), color);
+                    spriteBatch.DrawString(font, "Write or TAB to close", new Vector2(275, Game1.maxHeight-100), color);
                 }
                 else
                 {
-                    spriteBatch.DrawString(font, "ENTER to next", new Vector2(315, Game1.maxHeight-80), color);
+                    spriteBatch.DrawString(font, "ENTER to next", new Vector2(335, Game1.maxHeight-100), color);
                 }
-                spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight - 180), color);
-                spriteBatch.DrawString(font, ">_ " + Text, new Vector2(spaceFromEdge, Game1.maxHeight - 35), color);
+                spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight - 240), color);
+                spriteBatch.DrawString(font, ">_ " + Text, new Vector2(spaceFromEdge, Game1.maxHeight - 45), color);
                 DrawMessages(spriteBatch);
                 spriteBatch.End();
             }
