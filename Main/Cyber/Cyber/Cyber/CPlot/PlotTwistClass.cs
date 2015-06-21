@@ -310,5 +310,11 @@ namespace Cyber
             generatorOn = false;
             dialogNumber = 1;
         }
+
+        public void TeleportToGenerator()
+        {
+            allyHacked = allyChecked = gate1Opened = passedThroughGate = loaded = true;
+            dialogNumber = 22;
+        }
     }
 }
