@@ -149,7 +149,7 @@ namespace Cyber.CGameStateEngine
 
         //Radary
         private StaticItem radar;
-        private float opacityOfRadar = 0.2f;
+        private float opacityOfRadar = 0.4f;
     
 
         public void Unload()
@@ -1055,12 +1055,11 @@ namespace Cyber.CGameStateEngine
                                           Matrix.CreateTranslation(item.Position);
 
                 item.DrawItem(device, stageElementView, view, projection);
-                if (item.Type == StaticItemType.spy)
-                {
-                    Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
-                    item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
-                    item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 1.5f, device, view, projection, opacityOfRadar);
-                }
+                //if (item.Type == StaticItemType.spy)
+                //{
+                //    Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
+                //    item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
+                //}
                 if (item.Type == StaticItemType.flyer)
                 {
                     item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 0.5f, device, view, projection, opacityOfRadar);
@@ -1071,7 +1070,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else if (item.Type == StaticItemType.spy)
                 {
-                    
+                    item.DrawRadar(item.Position + new Vector3(-35, -12, 0), item.moveColliderExternal, 2f, 1.2f, device, view, projection, opacityOfRadar);
                 }
 
                 if (item.particles != null)
