@@ -231,6 +231,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.endGame)
             {
+                audioController.walkingController("Pause");
                 LogicEngine.LogicEndGame(this.GraphicsDevice, this.Content);
             }
             base.Update(gameTime);

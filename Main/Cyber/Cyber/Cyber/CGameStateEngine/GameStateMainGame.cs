@@ -146,10 +146,10 @@ namespace Cyber.CGameStateEngine
         bool samIsWalking = false;
         bool clickedPositivePlayed = false;
         bool alerted = false;
-        bool oxygenFreed = false;
 
         //Radary
         private StaticItem radar;
+        private float opacityOfRadar = 0.2f;
     
 
         public void Unload()
@@ -1059,11 +1059,11 @@ namespace Cyber.CGameStateEngine
                 {
                     Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
                     item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
-                    item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 1.5f, device, view, projection);
+                    item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 1.5f, device, view, projection, opacityOfRadar);
                 }
                 if (item.Type == StaticItemType.flyer)
                 {
-                    item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 0.5f, device, view, projection);
+                    item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 0.5f, device, view, projection, opacityOfRadar);
                 }
                 //else if (item.Type == StaticItemType.tank)
                 //{

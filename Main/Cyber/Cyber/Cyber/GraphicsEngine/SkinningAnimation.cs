@@ -194,6 +194,33 @@ namespace Cyber.GraphicsEngine
             }
         }
 
+         public void DrawRadarWithBasicEffect(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float opacity)
+         {
+             device.BlendState = BlendState.AlphaBlend;
+             //Render zeskinowany mesh
+             foreach (ModelMesh mesh in currentModel.Meshes)
+             {
+                 //BasicEffect
+                 foreach (BasicEffect effect in mesh.Effects)
+                 {
+                     effect.World = world;
+                     effect.View = view;
+                     effect.Projection = projection;
+
+                     effect.Alpha = opacity;
+                     effect.LightingEnabled = true;
+                     // <-- Światło ogólne -->
+                     // effect.AmbientLightColor = new Vector3(0.9f, 0.97f, 1.0f);
+                     effect.EmissiveColor = new Vector3(1.0f);
+                     effect.DiffuseColor = new Vector3(1.0f, 1.0f, 1.0f);
+                     effect.AmbientLightColor = new Vector3(1.0f, 1.0f, 1.0f);
+                     effect.EmissiveColor = new Vector3(0.0f, 0.0f, 0.9f);
+                 }
+
+                 mesh.Draw();
+             }
+         }
+
          public void DrawStaticModelWithShader(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, Effect celShader)
          {
 

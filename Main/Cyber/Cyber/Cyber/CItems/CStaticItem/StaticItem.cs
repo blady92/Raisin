@@ -106,11 +106,17 @@ namespace Cyber.CItems.CStaticItem
         }
 
         public void DrawRadar(Vector3 position, Vector2 moveExternalCollider, float moveFactor, float scale,
-            GraphicsDevice device, Matrix view, Matrix projection)
+            GraphicsDevice device, Matrix view, Matrix projection, float opacity)
         {
             Matrix radarModel = Matrix.CreateScale(scale) * Matrix.CreateTranslation(position + new Vector3(moveExternalCollider.X, moveExternalCollider.Y, 0) * moveFactor);
-            Radar.DrawItem(device, radarModel, view, projection);
+            Radar.DrawRItem(device, radarModel, view, projection, opacity);
         }
+
+        public void DrawRItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float opacity)
+        {
+            skinnedModel.DrawRadarWithBasicEffect(device, world, view, projection, opacity);
+        }
+
 
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
