@@ -910,18 +910,9 @@ namespace Cyber.CGameStateEngine
             ai.ColliderController = colliderController;
             ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(stage.Rooms);
             #endregion
-
-            foreach (StaticItem item in stageElements)
-            {
-                if (IsWithin(item, rangeMin, rangeMax))
-                {
-                    Debug.WriteLine("Item position ("+item.Position.X+":"+item.Position.Y+")\t\t\t is within (" + 
-                        rangeMin.X+":"+rangeMin.Y+") <-> ("+rangeMax.X+":"+rangeMax.Y+")"
-                        );
-                }
-            }
         }
 
+        #region Setup clock
         public void SetUpClock()
         {
             //Clock clock = Clock.Instance;
@@ -929,6 +920,7 @@ namespace Cyber.CGameStateEngine
             //clock.AddEvent(Clock.BEFOREOVER, 0, TimePassed);
             //clock.Pause();
         }
+        #endregion 
 
         private void TimePassed(object sender, int time)
         {
@@ -942,7 +934,7 @@ namespace Cyber.CGameStateEngine
             )
         {
 
-            #region Przed bilboardingiem
+            #region Before billboards
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
             device.RasterizerState = RasterizerState.CullCounterClockwise;
@@ -961,11 +953,11 @@ namespace Cyber.CGameStateEngine
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
-            //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
-            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
-            //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
-            //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
-            //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
+            Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
+            samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
+            samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
+            samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
             Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
             podjazd.DrawItem(device, podjazdModel, view, projection);
@@ -1072,12 +1064,13 @@ namespace Cyber.CGameStateEngine
             spriteBatch.End();
 
             console.Draw(spriteBatch);
-
+            #region Draw Colliders for static Items
             //foreach (var collider in ConnectedColliders)
             //{
             //    Matrix ColliderTest = Matrix.CreateTranslation(collider.ColliderInternal.Position);
             //    collider.ColliderInternal.DrawBouding(device, ColliderTest, view, projection);
             //}
+            #endregion
         }
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
@@ -1100,6 +1093,7 @@ namespace Cyber.CGameStateEngine
             samanthaGhostController.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
+
 
             if(!walkingPlayed)
             {
@@ -1199,44 +1193,6 @@ namespace Cyber.CGameStateEngine
                 }
             }
             #endregion
-
-            if(newState.IsKeyDown(Keys.Up))
-            {
-                gateY += 1.0f;
-                Debug.WriteLine("gateY: " + gateY);
-            }
-            if (newState.IsKeyDown(Keys.Down))
-            {
-                gateY -= 1.0f;
-                Debug.WriteLine("gateY: " + gateY);
-            }
-            if (newState.IsKeyDown(Keys.Left))
-            {
-                gateX += 1.0f;
-                Debug.WriteLine("gateX: " + gateX);
-            }
-            if (newState.IsKeyDown(Keys.Right))
-            {
-                gateX -= 1.0f;
-                Debug.WriteLine("gateX: " + gateX);
-            }
-            if (newState.IsKeyDown(Keys.Z))
-            {
-                gateZ += 1.0f;
-                Debug.WriteLine("gateZ: " + gateZ);
-            }
-            if (newState.IsKeyDown(Keys.X))
-            {
-                gateZ -= 1.0f;
-                Debug.WriteLine("gateZ: " + gateZ);
-            }
-            if (newState.IsKeyDown(Keys.Enter))
-            {
-                Debug.WriteLine("gateX: " + gateX);
-                Debug.WriteLine("gateY: " + gateY);
-                Debug.WriteLine("gateZ: " + gateZ);
-            }
-
             #region Sterowanie zegarem
             //if (newState.IsKeyDown(Keys.T))
             //{
@@ -1401,27 +1357,44 @@ namespace Cyber.CGameStateEngine
             #region Zoom kamery
             CameraZoom(colliderController.CallTerminalAfterCollision(samanthaGhostController), ref cameraZoom, 0.05f);
             #endregion
-
+            #region AI
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
-
+            #endregion
             oldState = newState;
             AI.Instance.MoveNPCs(null);
 
+            #region End game conditions
             KeyboardState first = Keyboard.GetState();
             KeyboardState second = new KeyboardState();
-            if((first.IsKeyDown(Keys.NumPad9) && second.IsKeyUp(Keys.NumPad9)) || plot.GeneratorOn)
+            if ((first.IsKeyDown(Keys.NumPad9) && second.IsKeyUp(Keys.NumPad9)) || plot.GeneratorOn)
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(1500);
                 endGame = true;
             }
             if (plot.SamChecked)
             {
                 lostGame = true;
+            }            
+            #endregion
+            #region Teleporting Sam near to generator
+            Debug.WriteLine("ghostController: " + samanthaGhostController.Position.X + "," + samanthaGhostController.Position.Y + " SamActualPlayer" + samanthaActualPlayerCopy.Position.X + "," + samanthaActualPlayerCopy.Position.Y);
+            if (first.IsKeyDown(Keys.T) && second.IsKeyUp(Keys.T) && level == Level.level2)
+            {
+                Vector3 replace = new Vector3(1501.5f, 702.0f, 0);
+                samanthaActualPlayer.Position = replace;
+                samanthaActualPlayerCopy.Position = replace;
+                samanthaActualPlayerRun.Position = replace;
+                samanthaGhostController.Position = replace;
+                samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
+                samanthaGhostController.FixColliderExternal(new Vector3(1.25f, 1.25f, 1.25f), new Vector3(-25f, -25f, 20f));
+                sceneSplitter.SetSplitterSceneView(samanthaGhostController);
+                plot.TeleportToGenerator();
             }
             second = first;
+            #endregion
         }
 
         #region Wejście i zejście (poprawione, kurde bele)
@@ -1466,15 +1439,6 @@ namespace Cyber.CGameStateEngine
         public BoundingBox JoinToFirstCollider(BoundingBox box1, BoundingBox box2)
         {
             return BoundingBox.CreateMerged(box1, box2);
-        }
-        #endregion
-        #region Checking if item is in the view
-        public bool IsWithin(StaticItem item, PointF pointMin, PointF pointMax)
-        {
-            return (item.Position.X > pointMin.X && 
-                    item.Position.Y > pointMin.Y && 
-                    item.Position.X < pointMax.X &&
-                    item.Position.Y < pointMax.Y);
         }
         #endregion
     }
