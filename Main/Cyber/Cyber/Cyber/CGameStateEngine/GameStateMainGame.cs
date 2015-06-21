@@ -142,6 +142,7 @@ namespace Cyber.CGameStateEngine
         private AudioController audioController;
         bool terminalOpenPlayed = false;
         bool terminalClosePlayed = false;
+        bool gateOpeningPlayed = false;
 
     
 
@@ -1010,7 +1011,7 @@ namespace Cyber.CGameStateEngine
                         
                         if(!plot.Gate1Opened)
                         {
-                            stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                            stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);      
                         }
 
                     }
@@ -1101,6 +1102,12 @@ namespace Cyber.CGameStateEngine
 
             if(plot.Gate1Opened)
             {
+                if (!gateOpeningPlayed)
+                {
+                    audioController.gateOpeningController("Play");
+                    gateOpeningPlayed = true;
+                } 
+
                if(gatePlayer.CurrentKeyFrame < 240)
                {
                    gatePlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);

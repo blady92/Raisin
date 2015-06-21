@@ -379,6 +379,7 @@ namespace Cyber
 
         public void Quit()
         {
+            audioController.BGMusicDramaticController("Stop");
             audioController.resetAudio();
             this.Exit();
         }

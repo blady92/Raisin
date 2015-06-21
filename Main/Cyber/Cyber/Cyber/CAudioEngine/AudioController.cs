@@ -35,7 +35,8 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("menuhover"));
             audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2"));
             audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));  
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));
+            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening"));  
         }
 
         public void runAudio()
@@ -97,6 +98,26 @@ namespace Cyber.AudioEngine
             else if (command == "Pause")
             {
                 audio.CueList[4].Pause();
+            }
+        }
+
+        public void gateOpeningController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[5].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[5].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[5].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[5].Pause();
             }
         }
 
