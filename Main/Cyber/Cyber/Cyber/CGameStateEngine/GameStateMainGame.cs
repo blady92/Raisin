@@ -38,7 +38,6 @@ namespace Cyber.CGameStateEngine
         public bool lostGame { get; set; }
         public bool firstStart { get; set; }
     
-
         public Level level
         { get; set; }
 
@@ -145,6 +144,9 @@ namespace Cyber.CGameStateEngine
         bool gateOpeningPlayed = false;
         bool walkingPlayed = false;
         bool samIsWalking = false;
+        bool clickedPositivePlayed = false;
+        bool alerted = false;
+        bool oxygenFreed = false;
 
         //Radary
         private StaticItem radar;
@@ -200,7 +202,6 @@ namespace Cyber.CGameStateEngine
 
             celTarget = new RenderTarget2D(device, device.Viewport.Width, device.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             #endregion
-
             #region Load 2D elements
             console = new ConsoleSprites(this, audio);
             console.plotAction = plot;
@@ -236,7 +237,7 @@ namespace Cyber.CGameStateEngine
             terminalClip = terminalActualModel.SkinnedModel.Clip;
 
 
-            gateActualModel = new DynamicItem("Assets//3D/Interior/Interior_Gate_Anim", "Take 001", new Vector3(100, 100, 50));
+            gateActualModel = new DynamicItem("Assets//3D/Interior/Interior_Gate_AnimBigger", "Take 001", new Vector3(100, 100, 50));
             gateActualModel.LoadItem(theContentManager);
             gateActualModel.Type = DynamicItemType.none;
 
@@ -957,9 +958,15 @@ namespace Cyber.CGameStateEngine
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
+<<<<<<< HEAD
             //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
+=======
+            Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
+          //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
+>>>>>>> aec5aea5a39785bd2cef7d20056f63fc0102daf2
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
             //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
@@ -1009,13 +1016,13 @@ namespace Cyber.CGameStateEngine
                     }
                     else if(stageElement.Type == StaticItemType.gate)
                     {
-                        stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -292.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
+                        stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -322.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
                         gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
                        
                         
                         if(!plot.Gate1Opened)
                         {
-                            stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);      
+                            stageElement.DrawItem(device, stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -30.0f)), view, projection, cameraRotation);      
                         }
 
                     }
@@ -1158,6 +1165,20 @@ namespace Cyber.CGameStateEngine
             KeyboardState NewKeyState = Keyboard.GetState();
             if(console.IsUsed)
             {
+                if (NewKeyState.IsKeyDown(Keys.Enter) && OldKeyState.IsKeyUp(Keys.Enter))
+                {
+                    if(!clickedPositivePlayed)
+                    {
+                        audioController.clickedPositiveController("Play");
+                        clickedPositivePlayed = true;
+                    }
+                   
+                }
+                else if (NewKeyState.IsKeyDown(Keys.Enter) && OldKeyState.IsKeyUp(Keys.Tab))
+                {
+                    clickedPositivePlayed = false;
+                }
+
                 if (NewKeyState.IsKeyDown(Keys.Tab) && OldKeyState.IsKeyUp(Keys.Tab) && (playTerminalAnimation == false) || playTerminalAnimation == false)
                 {
                     clickedTab += 1;
@@ -1379,9 +1400,22 @@ namespace Cyber.CGameStateEngine
             #region AI
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
+                if(!alerted)
+                {
+                    audioController.alertSamController("Play");
+                    alerted = true;
+                }
+              
                 AI.Instance.AlertOthers(samanthaGhostController);
             }
+            else
+            {
+                alerted = false;
+            }
+
+
             #endregion
+
             oldState = newState;
             AI.Instance.MoveNPCs(null);
 
@@ -1399,7 +1433,12 @@ namespace Cyber.CGameStateEngine
             }            
             #endregion
             #region Teleporting Sam near to generator
+<<<<<<< HEAD
             if (first.IsKeyDown(Keys.T) && second.IsKeyUp(Keys.T) && level == Level.level2)
+=======
+            Debug.WriteLine("ghostController: " + samanthaGhostController.Position.X + "," + samanthaGhostController.Position.Y + " SamActualPlayer" + samanthaActualPlayerCopy.Position.X + "," + samanthaActualPlayerCopy.Position.Y);
+            if (first.IsKeyDown(Keys.F1) && second.IsKeyUp(Keys.F1) && level == Level.level2)
+>>>>>>> aec5aea5a39785bd2cef7d20056f63fc0102daf2
             {
                 Vector3 replace = new Vector3(1501.5f, 702.0f, 0);
                 samanthaActualPlayer.Position = replace;

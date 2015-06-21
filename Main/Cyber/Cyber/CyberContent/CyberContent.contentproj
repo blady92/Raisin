@@ -1526,6 +1526,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="Assets\3D\radar.fbx">
       <Name>radar</Name>
       <Importer>FbxImporter</Importer>
@@ -1538,6 +1539,26 @@
       <Name>radarX</Name>
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
+=======
+    <Compile Include="Assets\3D\Interior\Interior_Gate_AnimBigger.FBX">
+      <Name>Interior_Gate_AnimBigger</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\TexBrama_0.png">
+      <Name>TexBrama_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\TexBrama_1.jpg">
+      <Name>TexBrama_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+>>>>>>> aec5aea5a39785bd2cef7d20056f63fc0102daf2
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

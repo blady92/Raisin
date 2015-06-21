@@ -37,7 +37,11 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2"));
             audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));
             audio.CueList.Add(audio.SoundBank.GetCue("gateOpening"));
-            audio.CueList.Add(audio.SoundBank.GetCue("walking"));  
+            audio.CueList.Add(audio.SoundBank.GetCue("walking"));
+            audio.CueList.Add(audio.SoundBank.GetCue("clickedPositive"));
+            audio.CueList.Add(audio.SoundBank.GetCue("alertSam"));
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicFree"));
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit")); 
         }
 
         public void runAudio()
@@ -141,6 +145,86 @@ namespace Cyber.AudioEngine
                 audio.CueList[6].Pause();
             }
         }
+
+        public void clickedPositiveController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.SoundBank.GetCue("clickedPositive").Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[6].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[6].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[6].Pause();
+            }
+        }
+
+        public void alertSamController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.SoundBank.GetCue("alertSam").Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[6].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[6].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[6].Pause();
+            }
+        }
+
+        public void cinematicFreeController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[7].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[7].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[7].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[7].Pause();
+            }
+        }
+        public void cinematicExitController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.SoundBank.GetCue("cinematicExit").Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[8].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[8].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[8].Pause();
+            }
+        }
+
 
         public void menuHoverController(string command)
         {
