@@ -33,8 +33,9 @@ namespace Cyber.AudioEngine
             audio.CueList.Clear();
             audio.CueList.Add(audio.SoundBank.GetCue("bgmusic 2"));
             audio.CueList.Add(audio.SoundBank.GetCue("menuhover"));
-            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove"));
-            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown"));      
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2"));
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2"));
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));  
         }
 
         public void runAudio()
@@ -66,9 +67,36 @@ namespace Cyber.AudioEngine
             {
                 audio.CueList[0].Play();
             }
-            else
+            else if(command == "Stop")
             {
                 audio.CueList[0].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[0].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[0].Pause();
+            }
+        }
+        public void BGMusicDramaticController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[4].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[4].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[4].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[4].Pause();
             }
         }
 
@@ -88,11 +116,11 @@ namespace Cyber.AudioEngine
         {
             if(command == "Play")
             {
-                audio.SoundBank.GetCue("terminalMove").Play();
+                audio.SoundBank.GetCue("terminalMove2").Play();
             }
             else if (command == "PlayInvert")
             {
-                audio.SoundBank.GetCue("terminalMoveDown").Play();
+                audio.SoundBank.GetCue("terminalMoveDown2").Play();
             }
         }
        

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Cyber.CConsoleEngine;
 using Cyber.AudioEngine;
+using Cyber.Audio;
 using Cyber.CGameStateEngine;
 
 namespace Cyber.CItems
@@ -42,7 +43,8 @@ namespace Cyber.CItems
         private Dictionary<string, GameConsoleCommand> commands = new Dictionary<string,GameConsoleCommand>();
         private GameStateMainGame game;
         private AudioController audioController;
-
+        private AudioModel audioModel = new AudioModel("CyberBank");
+        bool textPlayed = false;
 
         //Kwestie fabularne
         public PlotTwistClass plotAction { get; set; }
@@ -60,6 +62,9 @@ namespace Cyber.CItems
             Console.SpritePosition = new Vector2(0, 768 - Console.TextureList[0].Height);
             //font = theContentManager.Load<SpriteFont>("Assets/Fonts/courbd");
             font = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleFont");
+
+            audioController = new AudioController(audioModel);
+            audioController.setAudio();
 
             textBox = 400;
             Text = "";
@@ -368,6 +373,11 @@ namespace Cyber.CItems
         {
             if(messages.Count > 0)
             {
+                //if(!textPlayed)
+                //{
+                //    audioController.menuHoverController("Play");
+                //    textPlayed = true;
+                //}
                 for(int i = 0; i < messages.Count; i++)
                 {
                     DisplayMessage dm = messages[i];
@@ -377,6 +387,7 @@ namespace Cyber.CItems
                     {
                         dm.CurrentIndex++;
                         messages[i] = dm;
+
                     }
                 }
             }

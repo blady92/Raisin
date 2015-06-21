@@ -69,6 +69,7 @@ namespace Cyber
         Rectangle videoRectangle;
         public int state = 0;
 
+        bool BGDramaticisPlaying = false;
         bool BGisPlaying = false;
     
 
@@ -255,6 +256,7 @@ namespace Cyber
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
                 audioController.BGMusicController("Stop");
+                
                 videoTexture = videoPlayer.GetTexture();
                 spriteBatch.Begin();
                 switch (state)
@@ -265,6 +267,12 @@ namespace Cyber
                     case 1:
                         GraphicsDevice.Clear(Color.Black);
                         videoPlayer.IsMuted = true;
+                        if (!BGDramaticisPlaying)
+                        {
+                            audioController.BGMusicDramaticController("Play");
+                            BGDramaticisPlaying = true;
+                        }
+                        
                         break;
                 }
 
