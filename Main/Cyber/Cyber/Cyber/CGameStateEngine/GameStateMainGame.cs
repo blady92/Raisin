@@ -143,6 +143,8 @@ namespace Cyber.CGameStateEngine
         bool terminalOpenPlayed = false;
         bool terminalClosePlayed = false;
         bool gateOpeningPlayed = false;
+        bool walkingPlayed = false;
+        bool samIsWalking = false;
 
     
 
@@ -1084,6 +1086,7 @@ namespace Cyber.CGameStateEngine
             {
                 if (plot.PossibleEscape)
                 {
+                    samIsWalking = false;
                     base.State = GameState.States.loadingGame;
                     escaped = true;
                 }
@@ -1097,6 +1100,21 @@ namespace Cyber.CGameStateEngine
             samanthaGhostController.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
+
+            if(!walkingPlayed)
+            {
+                audio.walkingController("Play");
+                walkingPlayed = true;
+                
+            }
+            if(!samIsWalking)
+            {
+                audio.walkingController("Pause");
+            }
+            else if(samIsWalking)
+            {
+                audio.walkingController("Resume");
+            }
 
             terminalPlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
 
@@ -1262,8 +1280,11 @@ namespace Cyber.CGameStateEngine
             colliderController.PlayAudio = audio.Play0;
             if (!console.IsUsed)
             {
+                samIsWalking = false;
                 if (newState.IsKeyDown(Keys.S))
                 {
+                    samIsWalking = true;
+                   
                     move = new Vector3(0, -1.5f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
@@ -1290,6 +1311,8 @@ namespace Cyber.CGameStateEngine
 
                 if (newState.IsKeyDown(Keys.W))
                 {
+                    samIsWalking = true;
+
                     move = new Vector3(0, 1.5f, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
@@ -1317,6 +1340,9 @@ namespace Cyber.CGameStateEngine
                 }
 
                 if (newState.IsKeyDown(Keys.A)) {
+
+                    samIsWalking = true;
+
                     move = new Vector3(-1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();
@@ -1341,6 +1367,8 @@ namespace Cyber.CGameStateEngine
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
+                    samIsWalking = true;
+
                     move = new Vector3(1.5f, 0, 0);
                     colliderController.CheckCollision(samanthaGhostController, move);
                     podjazdCollision();

@@ -36,7 +36,8 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2"));
             audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2"));
             audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));
-            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening"));  
+            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening"));
+            audio.CueList.Add(audio.SoundBank.GetCue("walking"));  
         }
 
         public void runAudio()
@@ -118,6 +119,26 @@ namespace Cyber.AudioEngine
             else if (command == "Pause")
             {
                 audio.CueList[5].Pause();
+            }
+        }
+
+        public void walkingController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[6].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[6].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[6].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[6].Pause();
             }
         }
 
