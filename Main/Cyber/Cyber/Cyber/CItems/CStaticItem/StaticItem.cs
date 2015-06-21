@@ -12,6 +12,8 @@ namespace Cyber.CItems.CStaticItem
     {
         private string pathToModel;
         public SkinningAnimation skinnedModel { get; set; }
+        public StaticItem Radar { get; set; }
+
         private Collider colliderInternal;
         private Collider colliderExternal;
         public Vector2 moveColliderExternal { get; set; }
@@ -103,7 +105,12 @@ namespace Cyber.CItems.CStaticItem
             skinnedModel.LoadContent_StaticModel(theContentManager, pathToModel);
         }
 
-        
+        public void DrawRadar(Vector3 position, Vector2 moveExternalCollider, float moveFactor, float scale,
+            GraphicsDevice device, Matrix view, Matrix projection)
+        {
+            Matrix radarModel = Matrix.CreateScale(scale) * Matrix.CreateTranslation(position + new Vector3(moveExternalCollider.X, moveExternalCollider.Y, 0) * moveFactor);
+            Radar.DrawItem(device, radarModel, view, projection);
+        }
 
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection)
         {
