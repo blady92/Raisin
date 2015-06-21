@@ -71,6 +71,8 @@ namespace Cyber
 
         bool BGDramaticisPlaying = false;
         bool BGisPlaying = false;
+        bool exitPlayed = false;
+        bool backFromMenu = false;
     
 
         public Game1()
@@ -198,6 +200,13 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.winGame)
             {
+                audioController.BGMusicDramaticController("Stop");
+                if (!exitPlayed)
+                {
+                    audioController.cinematicExitController("Play");
+                    exitPlayed = true;
+                }
+               
                 LogicEngine.LogicWinGame();
             }
             else if (LogicEngine.GetState() == GameState.States.startMenu)
@@ -217,6 +226,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
+                audioController.BGMusicDramaticController("Pause");
                 LogicEngine.LogicPauseMenu();
             }
             else if (LogicEngine.GetState() == GameState.States.endGame)
@@ -234,7 +244,8 @@ namespace Cyber
             // TODO: Add your drawing code here
             #region rysowanie menu g³ównego
             if (LogicEngine.GetState() == GameState.States.startMenu)
-            { 
+            {
+              
                 mainMenu.Draw(spriteBatch);
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
                 if(!BGisPlaying)
@@ -242,12 +253,16 @@ namespace Cyber
                     audioController.BGMusicController("Play");
                     BGisPlaying = true;
                 }
-                
+              
             }
             #endregion
             #region rysowanie menu pauzy
             else if (LogicEngine.GetState() == GameState.States.pauseMenu)
             {
+               
+                    audioController.BGMusicController("Resume");
+                
+                
                 pauseMenu.Draw(spriteBatch); 
                 mousePointer.DrawByVector(spriteBatch, Mouse.GetState());
             }
@@ -255,7 +270,8 @@ namespace Cyber
             #region rysowanie g³ównej gry
             else if (LogicEngine.GetState() == GameState.States.mainGame)
             {
-                audioController.BGMusicController("Stop");
+                backFromMenu = true;
+                audioController.BGMusicController("Pause");
                 
                 videoTexture = videoPlayer.GetTexture();
                 spriteBatch.Begin();
@@ -271,6 +287,11 @@ namespace Cyber
                         {
                             audioController.BGMusicDramaticController("Play");
                             BGDramaticisPlaying = true;
+                        }
+                        if(backFromMenu)
+                        {
+                            audioController.BGMusicDramaticController("Resume");
+                            audioController.BGMusicController("Pause");
                         }
                         
                         break;

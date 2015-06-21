@@ -38,7 +38,6 @@ namespace Cyber.CGameStateEngine
         public bool lostGame { get; set; }
         public bool firstStart { get; set; }
     
-
         public Level level
         { get; set; }
 
@@ -145,6 +144,9 @@ namespace Cyber.CGameStateEngine
         bool gateOpeningPlayed = false;
         bool walkingPlayed = false;
         bool samIsWalking = false;
+        bool clickedPositivePlayed = false;
+        bool alerted = false;
+        bool oxygenFreed = false;
 
     
 
@@ -198,7 +200,6 @@ namespace Cyber.CGameStateEngine
 
             celTarget = new RenderTarget2D(device, device.Viewport.Width, device.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             #endregion
-
             #region Load 2D elements
             console = new ConsoleSprites(this, audio);
             console.plotAction = plot;
@@ -1145,6 +1146,20 @@ namespace Cyber.CGameStateEngine
             KeyboardState NewKeyState = Keyboard.GetState();
             if(console.IsUsed)
             {
+                if (NewKeyState.IsKeyDown(Keys.Enter) && OldKeyState.IsKeyUp(Keys.Enter))
+                {
+                    if(!clickedPositivePlayed)
+                    {
+                        audioController.clickedPositiveController("Play");
+                        clickedPositivePlayed = true;
+                    }
+                   
+                }
+                else if (NewKeyState.IsKeyDown(Keys.Enter) && OldKeyState.IsKeyUp(Keys.Tab))
+                {
+                    clickedPositivePlayed = false;
+                }
+
                 if (NewKeyState.IsKeyDown(Keys.Tab) && OldKeyState.IsKeyUp(Keys.Tab) && (playTerminalAnimation == false) || playTerminalAnimation == false)
                 {
                     clickedTab += 1;
@@ -1404,7 +1419,17 @@ namespace Cyber.CGameStateEngine
 
             if (colliderController.EnemyCollision(samanthaGhostController))
             {
+                if(!alerted)
+                {
+                    audioController.alertSamController("Play");
+                    alerted = true;
+                }
+              
                 AI.Instance.AlertOthers(samanthaGhostController);
+            }
+            else
+            {
+                alerted = false;
             }
 
             oldState = newState;
