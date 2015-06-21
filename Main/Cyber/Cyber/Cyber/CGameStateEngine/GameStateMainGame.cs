@@ -235,7 +235,7 @@ namespace Cyber.CGameStateEngine
             terminalClip = terminalActualModel.SkinnedModel.Clip;
 
 
-            gateActualModel = new DynamicItem("Assets//3D/Interior/Interior_Gate_Anim", "Take 001", new Vector3(100, 100, 50));
+            gateActualModel = new DynamicItem("Assets//3D/Interior/Interior_Gate_AnimBigger", "Take 001", new Vector3(100, 100, 50));
             gateActualModel.LoadItem(theContentManager);
             gateActualModel.Type = DynamicItemType.none;
 
@@ -1000,13 +1000,13 @@ namespace Cyber.CGameStateEngine
                     }
                     else if(stageElement.Type == StaticItemType.gate)
                     {
-                        stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -292.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
+                        stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -322.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
                         gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
                        
                         
                         if(!plot.Gate1Opened)
                         {
-                            stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);      
+                            stageElement.DrawItem(device, stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -30.0f)), view, projection, cameraRotation);      
                         }
 
                     }
@@ -1409,7 +1409,7 @@ namespace Cyber.CGameStateEngine
             #endregion
             #region Teleporting Sam near to generator
             Debug.WriteLine("ghostController: " + samanthaGhostController.Position.X + "," + samanthaGhostController.Position.Y + " SamActualPlayer" + samanthaActualPlayerCopy.Position.X + "," + samanthaActualPlayerCopy.Position.Y);
-            if (first.IsKeyDown(Keys.T) && second.IsKeyUp(Keys.T) && level == Level.level2)
+            if (first.IsKeyDown(Keys.F1) && second.IsKeyUp(Keys.F1) && level == Level.level2)
             {
                 Vector3 replace = new Vector3(1501.5f, 702.0f, 0);
                 samanthaActualPlayer.Position = replace;
