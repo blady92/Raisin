@@ -16,8 +16,8 @@ Global Settings
     Header File = CyberBank.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1904149859;
-    Last Modified High = 30452763;
+    Last Modified Low = 2651929934;
+    Last Modified High = 30452767;
 
     Category
     {
@@ -225,7 +225,11 @@ Wave Bank
     Windows Bank Path Edited = 1;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 2145241559;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 2781367477;
+    PC Bank Last Modified High = 30452767;
+    Bank Last Revised Low = 2651989927;
     Bank Last Revised High = 30452767;
 
     Wave
@@ -489,6 +493,10 @@ Sound Bank
     Windows File = Win\CyberSoundBank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Bank Last Modified Low = 2788012430;
+    Bank Last Modified High = 30452767;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
