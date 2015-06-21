@@ -1055,7 +1055,7 @@ namespace Cyber.CGameStateEngine
                                           Matrix.CreateTranslation(item.Position);
 
                 item.DrawItem(device, stageElementView, view, projection);
-                if (item.Type == StaticItemType.tank)
+                if (item.Type == StaticItemType.spy)
                 {
                     Matrix itemColliderView = Matrix.CreateTranslation(item.ColliderExternal.Position);
                     item.ColliderExternal.DrawBouding(device, itemColliderView, view, projection);
@@ -1065,10 +1065,14 @@ namespace Cyber.CGameStateEngine
                 {
                     item.DrawRadar(item.Position + new Vector3(0, -20, 0), item.moveColliderExternal, 2f, 0.5f, device, view, projection, opacityOfRadar);
                 }
-                //else if (item.Type == StaticItemType.tank)
-                //{
-                //                    if (item.Type == StaticItemType.flyer)
-                //}
+                else if (item.Type == StaticItemType.tank)
+                {
+                    item.DrawRadar(item.Position + new Vector3(20, 20, 0), item.moveColliderExternal, 2f, 1.5f, device, view, projection, opacityOfRadar);
+                }
+                else if (item.Type == StaticItemType.spy)
+                {
+                    
+                }
 
                 if (item.particles != null)
                 {
