@@ -958,15 +958,12 @@ namespace Cyber.CGameStateEngine
             Matrix samanthaActualPlayerView = Matrix.CreateRotationY(MathHelper.ToRadians(rotateSam)) * samPointingAtDirection * Matrix.CreateTranslation(samanthaGhostController.Position);
             samanthaActualPlayer.DrawItem(gameTime, device, samanthaActualPlayerView, view, projection);
 
-<<<<<<< HEAD
             //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
-=======
             Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
           //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
->>>>>>> aec5aea5a39785bd2cef7d20056f63fc0102daf2
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
             //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
 
@@ -1433,12 +1430,7 @@ namespace Cyber.CGameStateEngine
             }            
             #endregion
             #region Teleporting Sam near to generator
-<<<<<<< HEAD
-            if (first.IsKeyDown(Keys.T) && second.IsKeyUp(Keys.T) && level == Level.level2)
-=======
-            Debug.WriteLine("ghostController: " + samanthaGhostController.Position.X + "," + samanthaGhostController.Position.Y + " SamActualPlayer" + samanthaActualPlayerCopy.Position.X + "," + samanthaActualPlayerCopy.Position.Y);
             if (first.IsKeyDown(Keys.F1) && second.IsKeyUp(Keys.F1) && level == Level.level2)
->>>>>>> aec5aea5a39785bd2cef7d20056f63fc0102daf2
             {
                 Vector3 replace = new Vector3(1501.5f, 702.0f, 0);
                 samanthaActualPlayer.Position = replace;

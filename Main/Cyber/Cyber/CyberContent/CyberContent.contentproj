@@ -1538,6 +1538,9 @@
       <Name>radarX</Name>
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\3D\Interior\Interior_Gate_AnimBigger.FBX">
       <Name>Interior_Gate_AnimBigger</Name>
       <Importer>FbxImporter</Importer>
