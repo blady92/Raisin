@@ -12,6 +12,7 @@ namespace Cyber.CLogicEngine
         private List<Waypoint> waypoints;
 
         private static readonly int safetyMargin = 1000;
+        private static readonly float MIN_FIND_DISTANCE = 200f;
         public WaypointedBestFirstAlgorithm()
         {
             this.waypoints = new Level2Waypoints().Waypoints;
@@ -26,6 +27,11 @@ namespace Cyber.CLogicEngine
             moves.Push(initializer);
             int safetySwitch = 0;
             List<Waypoint> closedNodes = new List<Waypoint>();
+            if ((from - to).Length() < MIN_FIND_DISTANCE)
+            {
+                result.Add(to);
+                return result;
+            }
             while(true)
             {
                 Waypoint peak = moves.Peek();
@@ -91,6 +97,7 @@ namespace Cyber.CLogicEngine
             {
                 result.Insert(0, StageUtils.BitmapCoordsToStageVector(moves.Pop().Position));
             }
+            result.Add(to);
             return result;
         }
 
