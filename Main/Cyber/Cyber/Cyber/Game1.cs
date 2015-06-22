@@ -158,6 +158,7 @@ namespace Cyber
             console.AddCommand(new SayHelloCommand());
             console.AddCommand(new SudoCommand());
             console.AddCommand(new AudioCommand(this, audioController));
+            console.AddCommand(new PositonCommand(mainGame));
             #endregion
 
         }

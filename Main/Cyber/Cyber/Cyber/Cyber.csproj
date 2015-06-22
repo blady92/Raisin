@@ -105,6 +105,7 @@
     <Compile Include="CItems\CStaticItem\StaticItem.cs" />
     <Compile Include="CItems\CStaticItem\StaticItemType.cs" />
     <Compile Include="CItems\DisplayMessage.cs" />
+    <Compile Include="CItems\Waypoint.cs" />
     <Compile Include="CLogicEngine\AI.cs" />
     <Compile Include="CLogicEngine\Pathfinding\BestFirstAlgorithm.cs" />
     <Compile Include="CLogicEngine\CannotResumeException.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="CItems\CStaticItem\NPC.cs" />
     <Compile Include="CLogicEngine\Moves.cs" />
     <Compile Include="CLogicEngine\Pathfinding\PathfindingAlgorithm.cs" />
+    <Compile Include="CLogicEngine\Pathfinding\WaypointedBestFirstAlgorithm.cs" />
     <Compile Include="CLogicEngine\Position.cs" />
     <Compile Include="CLogicEngine\StageUtils.cs" />
     <Compile Include="CLogicEngine\Pathfinding\StraightWayAlgorithm.cs" />

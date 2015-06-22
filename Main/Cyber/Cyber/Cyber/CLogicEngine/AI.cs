@@ -46,7 +46,7 @@ namespace Cyber
             set 
             {
                 freeSpaceMap = value; 
-                pathfindingAlgorithm = new BestFirstAlgorithm(freeSpaceMap);
+                pathfindingAlgorithm = new WaypointedBestFirstAlgorithm();
             }
         }
 

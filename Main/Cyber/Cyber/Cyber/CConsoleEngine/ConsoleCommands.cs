@@ -55,6 +55,30 @@ Operation not permitted!";
         }
     }
 
+    public class PositonCommand : IConsoleCommand
+    {
+        GameStateMainGame gameState;
+        public PositonCommand(GameStateMainGame gameState)
+        {
+            this.gameState = gameState;
+        }
+        public string Description
+        {
+            get { return "Get player position"; }
+        }
+
+        public string Execute(string[] arguments)
+        {
+            Vector3 pos = gameState.samanthaGhostController.Position;
+            return "[" + pos.X + ";" + pos.Y + ";" + pos.Z + "]";
+        }
+
+        public string Name
+        {
+            get { return "position"; }
+        }
+    }
+
     public class AudioCommand : IConsoleCommand
     {
         private Game game;
