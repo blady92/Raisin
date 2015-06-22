@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework;
 
 namespace Cyber.CItems
 {
     public class Waypoint
     {
-        public Vector3 Position { get; private set; }
+        public Position Position { get; private set; }
         public List<Waypoint> Neighbours { get; private set; }
 
-        public Waypoint(float x, float y)
+        public Waypoint(int x, int y)
         {
             Neighbours = new List<Waypoint>();
-            Position = new Vector3(x, y, 0f);
+            Position = new Position(x, y);
         }
     }
 
