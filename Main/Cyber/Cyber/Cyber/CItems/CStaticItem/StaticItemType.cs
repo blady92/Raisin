@@ -18,6 +18,7 @@ namespace Cyber.CItems.CStaticItem
         tank,
         spy,
         flyer,
-        samantha
+        samantha,
+        column
     }
 }

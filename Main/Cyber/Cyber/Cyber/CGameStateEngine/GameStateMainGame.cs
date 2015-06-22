@@ -97,17 +97,20 @@ namespace Cyber.CGameStateEngine
 
         //Effect shader
         Texture2D m_texture;
+        Texture2D m_texture_wall;
+        Texture2D m_texture_column;
         Effect celShader;
         Effect celShaderDynamic;
         Texture2D celMap;
-        Vector4 lightDirection = new Vector4(0.0f, 0.0f, 1.0f, 0.0f);
+        Vector4 lightDirection = new Vector4(-0.3333333f, 0.6666667f, 0.6666667f, 0.0f);
         //shader outline
         Effect outlineShader;
         float defaultThickness = 0.20f;
         float defaultThreshold = 0.20f;
-        float outlineThickness = 0.13f;
-        float outlineThreshold = 0.20f;
+        float outlineThickness = 0.5f;
+        float outlineThreshold = 0.47f;
         RenderTarget2D celTarget;
+        StaticItem TerminalBillboardHelper;
 
         //Terminal Animation
         AnimationPlayer terminalPlayer;
@@ -209,6 +212,8 @@ namespace Cyber.CGameStateEngine
             celShader = theContentManager.Load<Effect>("Assets/ShadersFX/CelShader");
             celShaderDynamic = theContentManager.Load<Effect>("Assets/ShadersFX/CelShaderDynamic");
             m_texture = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/terminalUVv1");
+            m_texture_wall = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexScianaB");
+            m_texture_column = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexWierza");
             celMap = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMap");
             celShader.Parameters["LightDirection"].SetValue(lightDirection);
             celShaderDynamic.Parameters["LightDirection"].SetValue(lightDirection);
@@ -329,7 +334,7 @@ namespace Cyber.CGameStateEngine
                 }
                 else if (stageObj is Column)
                 {
-                    item.Type = StaticItemType.wall;
+                    item.Type = StaticItemType.column;
                 }
                 else
                 {
@@ -408,7 +413,7 @@ namespace Cyber.CGameStateEngine
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
                 item.LoadItem(theContentManager);
-                item.Type = StaticItemType.none; // TODO: dodać typ floor Dobrotek: Dodane
+                item.Type = StaticItemType.floor; // TODO: dodać typ floor Dobrotek: Dodane
                 stageElements.Add(item);
             }
             #endregion
@@ -1045,7 +1050,8 @@ namespace Cyber.CGameStateEngine
                         //stageTerminalView = Matrix.CreateRotationX(MathHelper.ToRadians(-89.0f)) * stageTerminalView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, 80.0f));
 
                        terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
-                        stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
+                       TerminalBillboardHelper = stageElement;
+                       // stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
                         //stageElement.DrawItem(device, stageElementView, view, projection);
                     }
                     else if(stageElement.Type == StaticItemType.gate)
@@ -1060,8 +1066,18 @@ namespace Cyber.CGameStateEngine
                         }
 
                     }
-                    else
+                    else if (stageElement.Type == StaticItemType.wall)
                     {
+                        celShader.Parameters["ColorMap"].SetValue(m_texture_wall);
+                        stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                    }
+                    else if (stageElement.Type == StaticItemType.column)
+                    {
+                        celShader.Parameters["ColorMap"].SetValue(m_texture_column);
+                        stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                    }
+                    else
+                    { 
                       if (stageElement.OnOffBilboard)
                        {
                          stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
@@ -1125,6 +1141,7 @@ namespace Cyber.CGameStateEngine
             spriteBatch.Draw(celTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
+            TerminalBillboardHelper.DrawOnlyTab(device, view, projection, cameraRotation);
 
             console.Draw(spriteBatch);
             #region Draw Colliders for static Items
@@ -1140,6 +1157,9 @@ namespace Cyber.CGameStateEngine
 
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
+
+            outlineShader.Parameters["Thickness"].SetValue(outlineThickness);
+            outlineShader.Parameters["Threshold"].SetValue(outlineThreshold);
 
             if (samanthaGhostController.ColliderExternal.AABB.Intersects(escapeCollider.ColliderInternal.AABB))
             {
@@ -1206,14 +1226,24 @@ namespace Cyber.CGameStateEngine
 
             if (NewKeyState.IsKeyDown(Keys.F2) && OldKeyState.IsKeyUp(Keys.F2))
             {
-                terminalWoop += 1.0f;
-                Debug.WriteLine("Woop: " + terminalWoop);
+                outlineThreshold += 0.01f;
+                Debug.WriteLine("TRESZOLD: " + outlineThreshold);
 
             }
             if (NewKeyState.IsKeyDown(Keys.F3) && OldKeyState.IsKeyUp(Keys.F3))
             {
-                terminalWoop -= 1.0f;
-                Debug.WriteLine("Woop: " + terminalWoop);
+                outlineThreshold -= 0.01f;
+                Debug.WriteLine("TRESZOLD: " + outlineThreshold);
+            }
+            if (NewKeyState.IsKeyDown(Keys.F4) && OldKeyState.IsKeyUp(Keys.F4))
+            {
+                outlineThickness += 0.01f;
+                Debug.WriteLine("FYKNES: " + outlineThickness);
+            }
+            if (NewKeyState.IsKeyDown(Keys.F5) && OldKeyState.IsKeyUp(Keys.F5))
+            {
+                outlineThickness -= 0.01f;
+                Debug.WriteLine("FYKNES: " + outlineThickness);
             }
 
 
