@@ -191,10 +191,12 @@ namespace Cyber
         #region ACCESSORS
         public void GetTime()
         {
-            BreakPoints.RemoveAt(0);
-            BreakPointsText.RemoveAt(0);
-            action = false;
-            getTime = true;
+            if (!getTime) { 
+                BreakPoints.RemoveAt(0);
+                BreakPointsText.RemoveAt(0);
+                action = false;
+                getTime = true;
+            }
         }
 
         public void ThroughGate()
@@ -210,15 +212,17 @@ namespace Cyber
 
         public void OpenGate1()
         {
-            BreakPoints.RemoveAt(0);
-            BreakPointsText.RemoveAt(0);
-            action = false;
-            gate1Opened = true;
+            if (!gate1Opened) { 
+                BreakPoints.RemoveAt(0);
+                BreakPointsText.RemoveAt(0);
+                action = false;
+                gate1Opened = true;
+            }
         }
 
         public void CheckAlly()
         {
-            if (!AllyChecked) {
+            if (!AllyChecked && Gate1Opened) {
                 BreakPoints.RemoveAt(0);
                 BreakPointsText.RemoveAt(0);
                 action = true;
@@ -226,20 +230,9 @@ namespace Cyber
             }
         }
 
-        public void FoundGenerator()
-        {
-            if (!generatorFound)
-            {
-                BreakPoints.RemoveAt(0);
-                BreakPointsText.RemoveAt(0);
-                action = true;
-                generatorFound = true;
-            }
-        }
-
         public void HackAlly()
         {
-            if (!allyHacked)
+            if (!allyHacked && allyChecked)
             {
                 dialogNumber--;
                 BreakPoints.RemoveAt(0);
@@ -249,9 +242,22 @@ namespace Cyber
             }
         }
 
+        public void FoundGenerator()
+        {
+            if (!generatorFound && AllyHacked)
+            {
+                BreakPoints.RemoveAt(0);
+                BreakPointsText.RemoveAt(0);
+                action = true;
+                generatorFound = true;
+            }
+        }
+
+        
+
         public void AccessGenerator()
         {
-            if (!generatorAccess) {
+            if (!generatorAccess && generatorFound) {
                 BreakPoints.RemoveAt(0);
                 BreakPointsText.RemoveAt(0);
                 action = true;
@@ -262,10 +268,13 @@ namespace Cyber
 
         public void RunGenerator()
         {
-            BreakPoints.RemoveAt(0);
-            BreakPointsText.RemoveAt(0);
-            action = true;
-            generatorOn = true;
+            if (generatorAccess && generatorFound)
+            {
+                BreakPoints.RemoveAt(0);
+                BreakPointsText.RemoveAt(0);
+                action = true;
+                generatorOn = true;
+            }
         }
         #endregion
 
