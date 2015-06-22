@@ -224,8 +224,10 @@ Operation not permitted!";
             }
             foreach (var oxygenGenerator in gameStateMainGame.stageElements.Where(x => x.Type == StaticItemType.oxygenGenerator))
             {
-                gameStateMainGame.plot.AccessGenerator();
-                return oxygenGenerator.ID;
+                if (gameStateMainGame.plot.GeneratorFound) { 
+                    gameStateMainGame.plot.AccessGenerator();
+                    return oxygenGenerator.ID;
+                }
             }
             return "Oxygen generator not found";
         }
