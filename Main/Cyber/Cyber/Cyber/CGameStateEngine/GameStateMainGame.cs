@@ -531,11 +531,11 @@ namespace Cyber.CGameStateEngine
                     stageElements[j].Position = move;
                     stageElements[j].Rotation = 270;
                     stageElements[j].FixColliderInternal(new Vector3(0.52f, 0.2f, 0.5f), new Vector3(-42, 6, 60));
-                    //stageElements[j].ID = generatedID.IDs[0];
-                    //stageElements[j].DrawID = false;
-                    //stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
-                    //generatedID.IDs.RemoveAt(0);
-                    //stageElements[j].ApplyIDBilboard(device, theContentManager, move);
+                    stageElements[j].ID = generatedID.IDs[0];
+                    stageElements[j].DrawID = false;
+                    stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
+                    generatedID.IDs.RemoveAt(0);
+                    stageElements[j].ApplyIDBilboard(device, theContentManager, move);
                 }
                 #endregion
                 #region Rest Things
@@ -1092,6 +1092,10 @@ namespace Cyber.CGameStateEngine
                     {
                         celShader.Parameters["ColorMap"].SetValue(m_texture_column);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                    }
+                    else if (stageElement.Type == StaticItemType.oxygenGenerator)
+                    {
+                        stageElement.DrawItem(device, stageElementView, view, projection);
                     }
                     else
                     { 
