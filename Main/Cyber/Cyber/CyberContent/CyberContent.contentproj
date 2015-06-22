@@ -688,8 +688,8 @@
     <Compile Include="Assets\3D\Interior\Interior_Terminal.FBX">
       <Name>Interior_Terminal</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_Scale>0.56</ProcessorParameters_Scale>
+      <Processor>CustomEffectModelProcessor</Processor>
+      <ProcessorParameters_CustomEffect>DrawModel.fx</ProcessorParameters_CustomEffect>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1573,6 +1573,34 @@
       <Name>TexBrama_0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\ShadersFX\DrawModel.fx">
+      <Name>DrawModel</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\grid.fbx">
+      <Name>grid</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>CustomEffectModelProcessor</Processor>
+      <ProcessorParameters_CustomEffect>DrawModel.fx</ProcessorParameters_CustomEffect>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CustomEffectPipeline\CustomEffectPipeline.csproj">
+      <Project>{54478695-083c-4ad4-b10a-08179b1e7e58}</Project>
+      <Name>CustomEffectPipeline</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\3D\Interior\DrawModel.fx">
+      <Name>DrawModel</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
