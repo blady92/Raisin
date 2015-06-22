@@ -131,7 +131,7 @@ namespace Cyber.CItems.CStaticItem
                 bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
                 bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
             }
-            if (DrawID && !OnOffBilboard)
+            if (DrawID && !OnOffBilboard && ID != null)
             {
                 MachineID.positions = position;
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 1.2f, 0.7f);
