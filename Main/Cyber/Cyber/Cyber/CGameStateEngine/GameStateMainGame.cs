@@ -90,6 +90,9 @@ namespace Cyber.CGameStateEngine
         private ParticleEmitter escapeemitter;
         private StaticItem escapeCollider;
         
+        //Generator Particles
+        private ParticleEmitter generatorParticles;
+
         public bool escaped;
         public StaticItem podjazd;
         private float podjazdStopPoint;
@@ -272,7 +275,7 @@ namespace Cyber.CGameStateEngine
 
             escapeemitter = new ParticleEmitter();
             escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-5, 270, 60), 1, 1);
-
+           
             escapeCollider = new StaticItem("Assets/3D/escapeBoxFBX");
             escapeCollider.LoadItem(theContentManager);
             escapeCollider.Position = new Vector3(0, 0, 0);
@@ -286,6 +289,8 @@ namespace Cyber.CGameStateEngine
             escapeCollider.OnOffBilboard = false;
             escapeCollider.BilboardHeight = new Vector3(-60, 280, 180);
 
+            generatorParticles = new ParticleEmitter();
+            generatorParticles.LoadContent(device, theContentManager, "Assets/2D/yellowGlow", 40, 70, 70, 100, new Vector3(1390, 600, 0), 1, 1);
 
             podjazd = new StaticItem("Assets/3D/podjazdFBX");
             podjazd.LoadItem(theContentManager);
@@ -480,6 +485,7 @@ namespace Cyber.CGameStateEngine
             {
                 float z;
                 Vector3 move = new Vector3();
+                #region Terminals
                 if (stage.Objects[j] is Terminal)
                 {
                     z = terminalZ;
@@ -488,7 +494,7 @@ namespace Cyber.CGameStateEngine
                                         z);
                     stageElements[i].Position = move;
                     stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
-                    stageElements[i].FixColliderInternal(new Vector3(0.75f, 0.75f, 0.75f), new Vector3(10, 10, 0));
+                    stageElements[i].FixColliderInternal(new Vector3(0.5f, 0.5f, 0.5f), new Vector3(8, 8, 0));
                     stageElements[i].bilboards = new BillboardSystem(device, theContentManager,
                         theContentManager.Load<Texture2D>("Assets/2D/buttonTab"),
                         new Vector2(60),
@@ -496,6 +502,8 @@ namespace Cyber.CGameStateEngine
                         );
                     stageElements[i].BilboardHeight = new Vector3(0, 0, 20);
                 }
+                #endregion
+                #region Columns
                 else if (stage.Objects[j] is Column)
                 {
                     z = terminalZ;
@@ -505,22 +513,27 @@ namespace Cyber.CGameStateEngine
                     stageElements[j].Position = move;
                     stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8,-8, -50));
                 }
+                #endregion
+                #region Generator
                 else if (stage.Objects[j] is OxygenGenerator)
                 {
                     z = terminalZ;
                     move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
                         stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
                         -50);
+                    Debug.WriteLine("Generator position " + move);
                     stageElements[j].Type = StaticItemType.oxygenGenerator;
                     stageElements[j].Position = move;
                     stageElements[j].Rotation = 270;
                     stageElements[j].FixColliderInternal(new Vector3(0.52f, 0.2f, 0.5f), new Vector3(-42, 6, 60));
-                    stageElements[j].ID = generatedID.IDs[0];
-                    stageElements[j].DrawID = false;
-                    stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
-                    generatedID.IDs.RemoveAt(0);
-                    stageElements[j].ApplyIDBilboard(device, theContentManager, move);
+                    //stageElements[j].ID = generatedID.IDs[0];
+                    //stageElements[j].DrawID = false;
+                    //stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
+                    //generatedID.IDs.RemoveAt(0);
+                    //stageElements[j].ApplyIDBilboard(device, theContentManager, move);
                 }
+                #endregion
+                #region Rest Things
                 else
                 {
                     z = objectZ;
@@ -530,6 +543,7 @@ namespace Cyber.CGameStateEngine
                     stageElements[i].Position = move;
                     stageElements[i].Rotation = stage.Objects[j].Rotation;
                 }
+                #endregion
                 ConnectedColliders.Add(stageElements[i]);
             }
             #endregion
@@ -997,7 +1011,7 @@ namespace Cyber.CGameStateEngine
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
             Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
-          //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
+            //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             samanthaActualPlayer.DrawItem(device, samanthaActualPlayerView, view, projection, celShaderDynamic);
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
             //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
@@ -1030,29 +1044,32 @@ namespace Cyber.CGameStateEngine
 
             foreach (StaticItem stageElement in stageElements)
             {
-   
-    if(sceneSplitter.IsItemWithin(stageElement)){
-                Matrix stageElementView = Matrix.Identity *
-                    Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
-                    Matrix.CreateTranslation(stageElement.Position);
-                if (stageElement.Type != StaticItemType.teleporter) {
-                    if ((stageElement.Type == StaticItemType.terminal))
-                    {
+                if(sceneSplitter.IsItemWithin(stageElement)){
+                    Matrix stageElementView = Matrix.Identity *
+                        Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
+                        Matrix.CreateTranslation(stageElement.Position);
+                    //if (stageElement.Type == StaticItemType.terminal)
+                    //{
+                    //    Matrix terminalColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
+                    //    stageElement.ColliderInternal.DrawBouding(device, terminalColliderView, view, projection);
+                    //}
+                    if (stageElement.Type != StaticItemType.teleporter) {
+                        if ((stageElement.Type == StaticItemType.terminal))
+                        {
                         
-                        stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -50.0f));
-                        //ShadowMap <ODKOMENTOWAC W CELU CIENIOWANIA>
-                        //stageTerminalView = stageElementView;
-                        //stageTerminalView = Matrix.CreateRotationX(MathHelper.ToRadians(-89.0f)) * stageTerminalView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, 80.0f));
+                            stageElementView = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -50.0f));
+                            //ShadowMap <ODKOMENTOWAC W CELU CIENIOWANIA>
+                            //stageTerminalView = stageElementView;
+                            //stageTerminalView = Matrix.CreateRotationX(MathHelper.ToRadians(-89.0f)) * stageTerminalView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, 80.0f));
 
-                       terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
-                        stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
-                        //stageElement.DrawItem(device, stageElementView, view, projection);
-                    }
-                    else if(stageElement.Type == StaticItemType.gate)
-                    {
-                        stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -322.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
-                        gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
-                       
+                            terminalActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
+                            stageElement.DrawOnlyTab(device, view, projection, cameraRotation);
+                            //stageElement.DrawItem(device, stageElementView, view, projection);
+                        }
+                        else if(stageElement.Type == StaticItemType.gate)
+                        {
+                            stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -322.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
+                            gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);                      
                         
                         if(!plot.Gate1Opened)
                         {
@@ -1062,25 +1079,29 @@ namespace Cyber.CGameStateEngine
                     }
                     else
                     {
-                      if (stageElement.OnOffBilboard)
-                       {
-                         stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                       }
-                       else
-                      {
-                          stageElement.DrawItem(device, stageElementView, view, projection);
-                          if (stageElement.particles != null)
-                              {
+                           
+                        if (stageElement.OnOffBilboard)
+                        {
+                            stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                        }
+                        else
+                        {
+                            stageElement.DrawItem(device, stageElementView, view, projection);
+                            if (stageElement.particles != null)
+                                {
                                     stageElement.particles.Update();
                                     stageElement.particles.Draw(device, view, projection, cameraRotation, stageElement.Position);
-                              }
-                              stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
-                           }
+                                }
+                                stageElement.DrawItem(device, stageElementView, view, projection, cameraRotation);
+                            }
                         } //end else
                     }
                 }
             }
+            
             escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+            if(!plot.GeneratorFound)
+                generatorParticles.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
 
             #endregion
             #region Rysowanie NPCów
@@ -1137,7 +1158,6 @@ namespace Cyber.CGameStateEngine
         }
 
    
-
         public override void Update(GraphicsDevice device, GameTime gameTime, KeyboardState currentKeyboardState, MouseState currentMouseState, ref float cameraArc, ref float cameraRotation, ref float cameraDistance, ref Vector3 cameraTarget, ref float cameraZoom)
         {
 
@@ -1150,6 +1170,7 @@ namespace Cyber.CGameStateEngine
                     escaped = true;
                 }
             }
+
             escapeemitter.Update();
             console.Update();
             KeyboardState newState = currentKeyboardState;
@@ -1160,6 +1181,8 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.SkinnedModel.UpdateCamera(device, gameTime, currentKeyboardState, currentMouseState, ref cameraArc, ref cameraRotation, ref cameraDistance);
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
 
+            if (!plot.GeneratorFound)
+                generatorParticles.Update();
 
             if(!walkingPlayed)
             {
