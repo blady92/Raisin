@@ -1048,11 +1048,11 @@ namespace Cyber.CGameStateEngine
                     Matrix stageElementView = Matrix.Identity *
                         Matrix.CreateRotationZ(MathHelper.ToRadians(stageElement.Rotation)) *
                         Matrix.CreateTranslation(stageElement.Position);
-                    if (stageElement.Type == StaticItemType.terminal)
-                    {
-                        Matrix terminalColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
-                        stageElement.ColliderInternal.DrawBouding(device, terminalColliderView, view, projection);
-                    }
+                    //if (stageElement.Type == StaticItemType.terminal)
+                    //{
+                    //    Matrix terminalColliderView = Matrix.CreateTranslation(stageElement.ColliderInternal.Position);
+                    //    stageElement.ColliderInternal.DrawBouding(device, terminalColliderView, view, projection);
+                    //}
                     if (stageElement.Type != StaticItemType.teleporter) {
                         if ((stageElement.Type == StaticItemType.terminal))
                         {
