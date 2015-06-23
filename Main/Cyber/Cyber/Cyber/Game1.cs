@@ -164,7 +164,10 @@ namespace Cyber
         }
 
         protected override void UnloadContent()
-        { }
+        {
+            audioController.BGMusicDramaticController("Stop");
+            audioController.cinematicExitController("Stop");
+        }
 
         protected override void Update(GameTime gameTime)
         {

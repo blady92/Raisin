@@ -209,19 +209,19 @@ namespace Cyber.AudioEngine
         {
             if (command == "Play")
             {
-                audio.SoundBank.GetCue("cinematicExit").Play();
+                audio.CueList[10].Play();
             }
             else if (command == "Stop")
             {
-                audio.CueList[8].Stop(AudioStopOptions.Immediate);
+                audio.CueList[10].Stop(AudioStopOptions.Immediate);
             }
             else if (command == "Resume")
             {
-                audio.CueList[8].Resume();
+                audio.CueList[10].Resume();
             }
             else if (command == "Pause")
             {
-                audio.CueList[8].Pause();
+                audio.CueList[10].Pause();
             }
         }
 
