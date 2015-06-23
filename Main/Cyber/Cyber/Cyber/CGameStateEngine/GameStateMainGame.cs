@@ -101,7 +101,10 @@ namespace Cyber.CGameStateEngine
         //Effect shader
         Texture2D m_texture;
         Texture2D m_texture_wall;
+        Texture2D m_texture_concave;
+        Texture2D m_texture_convex;
         Texture2D m_texture_column;
+        Texture2D m_texture_floor_alert;
         Effect celShader;
         Effect celShaderDynamic;
         Texture2D celMap;
@@ -156,6 +159,7 @@ namespace Cyber.CGameStateEngine
         //Radary
         private StaticItem radar;
         private float opacityOfRadar = 0.4f;
+        bool systemIsAlerted = false;
 
         #region ShadowMapping
         //ShadowMapping
@@ -216,7 +220,10 @@ namespace Cyber.CGameStateEngine
             celShaderDynamic = theContentManager.Load<Effect>("Assets/ShadersFX/CelShaderDynamic");
             m_texture = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/terminalUVv1");
             m_texture_wall = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexScianaB");
+            m_texture_concave = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexConcave");
+            m_texture_convex = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexConvex");
             m_texture_column = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexWierza");
+            m_texture_floor_alert = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexPodloga_Alert");
             celMap = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMap");
             celShader.Parameters["LightDirection"].SetValue(lightDirection);
             celShaderDynamic.Parameters["LightDirection"].SetValue(lightDirection);
@@ -402,14 +409,14 @@ namespace Cyber.CGameStateEngine
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Concave");
                 item.LoadItem(theContentManager);
-                item.Type = StaticItemType.wall;
+                item.Type = StaticItemType.concave;
                 stageElements.Add(item);
             }
             for (int i = 0; i < stageStructure.ConvexCorners.Count; i++)
             {
                 StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Convex");
                 item.LoadItem(theContentManager);
-                item.Type = StaticItemType.wall;
+                item.Type = StaticItemType.convex;
                 stageElements.Add(item);
             }
             #endregion
@@ -1088,6 +1095,16 @@ namespace Cyber.CGameStateEngine
                         celShader.Parameters["ColorMap"].SetValue(m_texture_wall);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
+                    else if (stageElement.Type == StaticItemType.concave)
+                    {
+                        celShader.Parameters["ColorMap"].SetValue(m_texture_concave);
+                        stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                    }
+                    else if (stageElement.Type == StaticItemType.convex)
+                    {
+                        celShader.Parameters["ColorMap"].SetValue(m_texture_convex);
+                        stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                    }
                     else if (stageElement.Type == StaticItemType.column)
                     {
                         celShader.Parameters["ColorMap"].SetValue(m_texture_column);
@@ -1096,6 +1113,19 @@ namespace Cyber.CGameStateEngine
                     else if (stageElement.Type == StaticItemType.oxygenGenerator)
                     {
                         stageElement.DrawItem(device, stageElementView, view, projection);
+                    }
+                    else if (stageElement.Type == StaticItemType.floor)
+                    {
+                        if(systemIsAlerted)
+                        {
+                            celShader.Parameters["ColorMap"].SetValue(m_texture_floor_alert);
+                            stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                        }
+                        else
+                        {
+                            stageElement.DrawItem(device, stageElementView, view, projection);
+                        }
+                        
                     }
                     else
                     { 
@@ -1515,6 +1545,7 @@ namespace Cyber.CGameStateEngine
                 {
                     audioController.alertSamController("Play");
                     alerted = true;
+                    systemIsAlerted = true;
                 }
               
                 AI.Instance.AlertOthers(samanthaGhostController);
@@ -1522,6 +1553,7 @@ namespace Cyber.CGameStateEngine
             else
             {
                 alerted = false;
+                systemIsAlerted = false;
             }
 
 
