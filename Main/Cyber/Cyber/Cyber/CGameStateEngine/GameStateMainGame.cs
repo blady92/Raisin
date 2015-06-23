@@ -1573,6 +1573,7 @@ namespace Cyber.CGameStateEngine
             if (plot.SamChecked)
             {
                 lostGame = true;
+                plot.Gate1Opened = false;
             }            
             #endregion
             #region Teleporting Sam near to generator
