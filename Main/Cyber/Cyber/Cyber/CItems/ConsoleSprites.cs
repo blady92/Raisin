@@ -35,7 +35,7 @@ namespace Cyber.CItems
         private int lenght;
         private float textBox;
 
-        List<DisplayMessage> messages = new List<DisplayMessage>();
+        public List<DisplayMessage> messages = new List<DisplayMessage>(); 
         private string oldText = "";
         int messageCharCounter = 0;
         float spaceFromEdge = 20;
@@ -45,6 +45,7 @@ namespace Cyber.CItems
         private AudioController audioController;
         private AudioModel audioModel = new AudioModel("CyberBank");
         bool textPlayed = false;
+        private Dictionary<string, CommandType> possibleCommands;
 
         //Kwestie fabularne
         public PlotTwistClass plotAction { get; set; }
@@ -75,13 +76,26 @@ namespace Cyber.CItems
 
         private void SetupGameConsole()
         {
+            switchColor = false;
+            possibleCommands = new Dictionary<string, CommandType>();
             PutCommand(new GameConsoleCommand(new SayHelloCommand()));
+            //possibleCommands.Add("Hello");
             PutCommand(new GameConsoleCommand(new AudioCommand(game, audioController)));
+            //possibleCommands.Add("Hello");
             PutCommand(new GameConsoleCommand(new OpenGateCommand(game)));
+            possibleCommands.Add("OpenGate", CommandType.normal);
             PutCommand(new GameConsoleCommand(new AccessGeneratorCommand(game)));
+            possibleCommands.Add("AccessGenerator", CommandType.normal);
             PutCommand(new GameConsoleCommand(new AllySleepCommand(game)));
+            possibleCommands.Add("AllySleep", CommandType.defense);
             PutCommand(new GameConsoleCommand(new FreeCommand(game)));
+            possibleCommands.Add("Free", CommandType.normal);
             PutCommand(new GameConsoleCommand(new GetTimeCommand(game)));
+            possibleCommands.Add("GetTime", CommandType.normal);
+            //PutCommand(new GameConsoleCommand(new DestroyEnemy(game)));
+            possibleCommands.Add("DestroyEnemy", CommandType.attack);
+            //PutCommand(new GameConsoleCommand(new ScanEnemies(game)));
+            possibleCommands.Add("ScanEnemies", CommandType.defense);
         }
         private void PutCommand(GameConsoleCommand gameConsoleCommand)
         {
@@ -106,8 +120,12 @@ namespace Cyber.CItems
                     messageCharCounter = 0;
                 }
                 Color color = new Color(121, 122, 125);
-                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 240 + messageCharCounter), color));
+                
                 spriteBatch.Begin();
+                
+                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 240 + messageCharCounter), color));
+                messages.Add(new DisplayMessage(PrintedText, TimeSpan.FromSeconds(5.0), new Vector2(spaceFromEdge, Game1.maxHeight - 240 + messageCharCounter), color));
+                //UX hint
                 if (plotAction.action)
                 {
                     spriteBatch.DrawString(font, "Write or TAB to close", new Vector2(275, Game1.maxHeight-100), color);
@@ -116,7 +134,7 @@ namespace Cyber.CItems
                 {
                     spriteBatch.DrawString(font, "ENTER to next", new Vector2(335, Game1.maxHeight-100), color);
                 }
-                spriteBatch.DrawString(font, oldText, new Vector2(spaceFromEdge, Game1.maxHeight - 240), color);
+                //User command
                 spriteBatch.DrawString(font, ">_ " + Text, new Vector2(spaceFromEdge, Game1.maxHeight - 45), color);
                 DrawMessages(spriteBatch);
                 spriteBatch.End();
@@ -213,12 +231,10 @@ namespace Cyber.CItems
         {
             return "\nTheo:  ";
         }
-
         public void ResetConsole()
         {
             Text = "";
         }
-
         public void SetDefault()
         {
             messages.Clear();
@@ -228,7 +244,6 @@ namespace Cyber.CItems
                 plotAction.dialogNumber--;
             PrintedText = parseText(plotAction.getActualDialog());
         }
-
         public void SetupKeys()
         {
             possibleKeys = new List<Keys>();
@@ -287,7 +302,6 @@ namespace Cyber.CItems
             possibleKeys.Add(Keys.NumPad8);
             possibleKeys.Add(Keys.NumPad9);
         }
-
         public string ParseKey(Keys k)
         {
             switch (k)
@@ -310,12 +324,10 @@ namespace Cyber.CItems
             }
             return k.ToString();
         }
-
         public void HideConsole()
         {
             Console.UpdateReverse();
         }
-
         public void ShowConsole()
         {
             Console.UpdateTillEnd();
@@ -341,55 +353,69 @@ namespace Cyber.CItems
             return returnString + line;
         }
 
-
         //A po chuj to ja nie wie :v
         public void Action()
         {
             
         }
 
-
-        public void UpdateMessages(GameTime gameTime)
-        {
-            if(messages.Count > 0)
-            {
-                for (int i = 0; i < messages.Count; i++)
-                {
-                    DisplayMessage dm = messages[i];
-                    dm.DisplayTime -= gameTime.ElapsedGameTime;
-                    if(dm.DisplayTime <= TimeSpan.Zero)
-                    {
-                        messages.RemoveAt(i);
-                    }
-                    else
-                    {
-                        messages[i] = dm;
-                    }
-                }
-            }
-        }
-
+        public bool switchColor { get; set; }
         public void DrawMessages(SpriteBatch spriteBatch)
         {
-            if(messages.Count > 0)
+            if (messages.Count > 0 && messages[0].DrawnMessage.Length < PrintedText.Length)
             {
                 //if(!textPlayed)
                 //{
                 //    audioController.menuHoverController("Play");
                 //    textPlayed = true;
-                //}
-                for(int i = 0; i < messages.Count; i++)
-                {
-                    DisplayMessage dm = messages[i];
-                    dm.DrawnMessage += dm.Message[dm.CurrentIndex].ToString();
-                    spriteBatch.DrawString(font, dm.DrawnMessage, dm.Position, dm.DrawColor);
-                    if(dm.CurrentIndex != dm.Message.Length - 1)
-                    {
-                        dm.CurrentIndex++;
-                        messages[i] = dm;
+                ////}
+                DisplayMessage dm = messages[0];
+                DisplayMessage displayCode = messages[1];
 
+                spriteBatch.DrawString(font, dm.DrawnMessage, dm.Position, dm.DrawColor);
+                spriteBatch.DrawString(font, displayCode.DrawnMessage, displayCode.Position, displayCode.DrawColor);
+
+                dm.DrawnMessage += dm.Message[dm.CurrentIndex].ToString();
+                foreach (KeyValuePair<string, CommandType> possibleCommand in possibleCommands)
+                {
+                    KeyValuePair<string, CommandType> commandKeyValue = possibleCommand;
+                    if (dm.DrawnMessage.Split(' ').Last() == commandKeyValue.Key || dm.DrawnMessage.Split(' ').Last() == "\n" + commandKeyValue.Key)
+                    {
+                        #region Define color to command
+                        //if (commandKeyValue.Value == CommandType.normal) displayCode.DrawColor = new Color(0, 0, 0);
+                        if (commandKeyValue.Value == CommandType.normal) displayCode.DrawColor = new Color(0, 156, 11);
+                        else if (commandKeyValue.Value == CommandType.defense) displayCode.DrawColor = new Color(21, 95, 107);
+                        else if (commandKeyValue.Value == CommandType.attack) displayCode.DrawColor = new Color(255, 0, 98);
+                        #endregion
+
+                        string command;
+                        command = (dm.DrawnMessage.Split(' ').Last() == commandKeyValue.Key) ? commandKeyValue.Key : "\n" + commandKeyValue.Key;
+                        displayCode.DrawnMessage =
+                            displayCode.DrawnMessage.Remove(displayCode.DrawnMessage.Length - command.Length);
+                        displayCode.DrawnMessage += " " +command;
+                        Debug.WriteLine(displayCode.DrawnMessage);
                     }
                 }
+                if (dm.DrawnMessage[dm.CurrentIndex].ToString() == "\n" )
+                {
+                    displayCode.DrawnMessage += " \n";
+                }
+                else
+                {
+                    displayCode.DrawnMessage += " ";
+                }
+
+                if (dm.CurrentIndex != dm.Message.Length - 1)
+                {
+                    dm.CurrentIndex++;
+                    messages[0] = dm;
+                    messages[1] = displayCode;
+                }
+            }
+            else
+            {
+                spriteBatch.DrawString(font, messages[0].DrawnMessage, messages[0].Position, messages[0].DrawColor);
+                spriteBatch.DrawString(font, messages[1].DrawnMessage, messages[1].Position, messages[1].DrawColor);
             }
         }
 
@@ -408,6 +434,28 @@ namespace Cyber.CItems
             string[] args = new string[paramss.Length - 1];
             Array.Copy(paramss, 1, args, 0, paramss.Length - 1);
             return commands[command].Execute(args);
+        }
+
+        private string ConvertToWhiteSpacesExceptCommand(string command)
+        {
+            string newWord = null;
+            string[] words = PrintedText.Split(' ');
+            foreach (string word in words)
+            {
+                if (word != command)
+                {
+                    foreach (char c in word)
+                    {
+                        newWord += ' '; //Każdy znak na spacje
+                    }
+                    newWord += ' '; //Na końcu wyrazu
+                }
+                else
+                {
+                    newWord += command;
+                }
+            }
+            return newWord;
         }
     }
 }

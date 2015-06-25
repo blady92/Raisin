@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -15,13 +16,18 @@ namespace Cyber.CItems
         public string Message;
         public TimeSpan DisplayTime;
         public int CurrentIndex;
-        public Vector2 Position;
+        public Vector2 Position { get; set; }
         public string DrawnMessage;
         public Color DrawColor;
         
-        
+        public string[] Tokens;
+        public int WordNumber;
+
         public DisplayMessage(string message, TimeSpan displayTime, Vector2 position, Color color)
         {
+            Tokens = message.Split(' ');
+            WordNumber = 0;
+
             Message = message;
             DisplayTime = displayTime;
             CurrentIndex = 0;
