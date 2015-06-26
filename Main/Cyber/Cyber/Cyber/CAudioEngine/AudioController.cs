@@ -31,18 +31,19 @@ namespace Cyber.AudioEngine
         public void setAudio()
         {
             audio.CueList.Clear();
-            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic 2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("menuhover"));
-            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));
-            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening"));
-            audio.CueList.Add(audio.SoundBank.GetCue("walking"));
-            audio.CueList.Add(audio.SoundBank.GetCue("clickedPositive"));
-            audio.CueList.Add(audio.SoundBank.GetCue("alertSam"));
-            audio.CueList.Add(audio.SoundBank.GetCue("cinematicFree"));
-            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit"));
-            audio.CueList.Add(audio.SoundBank.GetCue("walkingBetter")); 
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic 2")); //0
+            audio.CueList.Add(audio.SoundBank.GetCue("menuhover")); //1
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2")); //2
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2")); //3
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic")); //4
+            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening")); //5
+            audio.CueList.Add(audio.SoundBank.GetCue("walking")); //6
+            audio.CueList.Add(audio.SoundBank.GetCue("clickedPositive")); //7
+            audio.CueList.Add(audio.SoundBank.GetCue("alertSam")); //8
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicFree")); //9
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit")); //10
+            audio.CueList.Add(audio.SoundBank.GetCue("walkingBetter")); //11
+            audio.CueList.Add(audio.SoundBank.GetCue("alertSystem")); //12
         }
 
         public void runAudio()
@@ -223,6 +224,26 @@ namespace Cyber.AudioEngine
             else if (command == "Pause")
             {
                 audio.CueList[10].Pause();
+            }
+        }
+
+        public void alertSystemController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[12].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[12].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[12].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[12].Pause();
             }
         }
 

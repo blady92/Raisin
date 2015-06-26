@@ -108,6 +108,7 @@ namespace Cyber.CGameStateEngine
         Effect celShader;
         Effect celShaderDynamic;
         Texture2D celMap;
+        Texture2D celMapLight;
         Vector4 lightDirection = new Vector4(-0.3333333f, 0.6666667f, 0.6666667f, 0.0f);
         //shader outline
         Effect outlineShader;
@@ -155,11 +156,13 @@ namespace Cyber.CGameStateEngine
         bool samIsWalking = false;
         bool clickedPositivePlayed = false;
         bool alerted = false;
-
+        bool alertSystemPlayed = false;
+        
         //Radary
         private StaticItem radar;
         private float opacityOfRadar = 0.4f;
         bool systemIsAlerted = false;
+    
 
         #region ShadowMapping
         //ShadowMapping
@@ -225,6 +228,7 @@ namespace Cyber.CGameStateEngine
             m_texture_column = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexWierza");
             m_texture_floor_alert = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexPodloga_Alert");
             celMap = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMap");
+            celMapLight = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMapLight");
             celShader.Parameters["LightDirection"].SetValue(lightDirection);
             celShaderDynamic.Parameters["LightDirection"].SetValue(lightDirection);
             celShader.Parameters["ColorMap"].SetValue(m_texture);
@@ -987,6 +991,8 @@ namespace Cyber.CGameStateEngine
             )
         {
 
+          
+
             //ShadowMap <ODKOMENTOWAC W CELU CIENIOWANIA>
             //lightViewProjection = CreateLightViewProjectionMatrix();
             //device.BlendState = BlendState.Opaque;
@@ -1092,21 +1098,25 @@ namespace Cyber.CGameStateEngine
                     }
                     else if (stageElement.Type == StaticItemType.wall)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_wall);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
                     else if (stageElement.Type == StaticItemType.concave)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_concave);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
                     else if (stageElement.Type == StaticItemType.convex)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_convex);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
                     else if (stageElement.Type == StaticItemType.column)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_column);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
@@ -1116,14 +1126,34 @@ namespace Cyber.CGameStateEngine
                     }
                     else if (stageElement.Type == StaticItemType.floor)
                     {
+                       
+
                         if(systemIsAlerted)
                         {
+                            if (!alertSystemPlayed)
+                            {
+                                audioController.alertSystemController("Play");
+                                //  audioController.alertSystemController("Pause");
+                                alertSystemPlayed = true;
+                            }
+
+                            celShader.Parameters["CelMap"].SetValue(celMapLight);
                             celShader.Parameters["ColorMap"].SetValue(m_texture_floor_alert);
                             stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                            audioController.alertSystemController("Resume");
+
+                            
                         }
                         else
                         {
+                            celShader.Parameters["CelMap"].SetValue(celMap);
                             stageElement.DrawItem(device, stageElementView, view, projection);
+                           
+                            if(alertSystemPlayed)
+                            {
+                                audioController.alertSystemController("Pause");
+                            }
+                           
                         }
                         
                     }
@@ -1572,6 +1602,7 @@ namespace Cyber.CGameStateEngine
             }
             if (plot.SamChecked)
             {
+                audioController.alertSystemController("Stop");
                 lostGame = true;
                 plot.Gate1Opened = false;
             }            
