@@ -1237,17 +1237,17 @@ namespace Cyber.CGameStateEngine
             if (!plot.GeneratorFound)
                 generatorParticles.Update();
 
-            if(!walkingPlayed)
+            if (!walkingPlayed)
             {
                 audio.walkingController("Play");
                 walkingPlayed = true;
-                
+
             }
-            if(!samIsWalking)
+            if (!samIsWalking)
             {
                 audio.walkingController("Pause");
             }
-            else if(samIsWalking)
+            else if (samIsWalking)
             {
                 audio.walkingController("Resume");
             }

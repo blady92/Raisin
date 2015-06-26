@@ -41,7 +41,8 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("clickedPositive"));
             audio.CueList.Add(audio.SoundBank.GetCue("alertSam"));
             audio.CueList.Add(audio.SoundBank.GetCue("cinematicFree"));
-            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit")); 
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit"));
+            audio.CueList.Add(audio.SoundBank.GetCue("walkingBetter")); 
         }
 
         public void runAudio()
@@ -130,19 +131,19 @@ namespace Cyber.AudioEngine
         {
             if (command == "Play")
             {
-                audio.CueList[6].Play();
+                audio.CueList[11].Play();
             }
             else if (command == "Stop")
             {
-                audio.CueList[6].Stop(AudioStopOptions.Immediate);
+                audio.CueList[11].Stop(AudioStopOptions.Immediate);
             }
             else if (command == "Resume")
             {
-                audio.CueList[6].Resume();
+                audio.CueList[11].Resume();
             }
             else if (command == "Pause")
             {
-                audio.CueList[6].Pause();
+                audio.CueList[11].Pause();
             }
         }
 
