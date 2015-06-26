@@ -46,29 +46,6 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("alertSystem")); //12
         }
 
-        public void runAudio()
-        {
-            //newState = Keyboard.GetState();
-            //if (newState.IsKeyDown(Keys.NumPad1) && oldState.IsKeyUp(Keys.NumPad1))
-            //{
-            //    audio.CueList[0].Play();
-            //}
-            //if (newState.IsKeyDown(Keys.NumPad2) && oldState.IsKeyUp(Keys.NumPad2))
-            //{
-            //    audio.SoundBank.GetCue("menuhover").Play();
-            //}
-            //if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
-            //{
-            //    audio.CueList[2].Play();
-            //}
-            //if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
-            //{
-            //    resetAudio();
-            //}
-
-            //oldState = newState;
-        }
-
         public void BGMusicController(string command)
         {
             if(command == "Play")

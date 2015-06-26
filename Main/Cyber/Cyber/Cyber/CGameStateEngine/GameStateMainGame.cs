@@ -66,6 +66,7 @@ namespace Cyber.CGameStateEngine
         public List<StaticItem> stageElements;
         // TODO: Refactor na private
         public List<StaticItem> npcList;
+        public List<StaticItem> npcBillboardsList;
         public List<GateHolder> gateList; 
         private StageParser stageParser;
         private Stage stage;
@@ -118,6 +119,7 @@ namespace Cyber.CGameStateEngine
         float outlineThreshold = 0.47f;
         RenderTarget2D celTarget;
         StaticItem TerminalBillboardHelper;
+        StaticItem gateBillboardHelper;
 
         //Terminal Animation
         AnimationPlayer terminalPlayer;
@@ -319,6 +321,8 @@ namespace Cyber.CGameStateEngine
             ConnectedColliders = new List<StaticItem>();
             npcList = new List<StaticItem>();
             npcList.Clear();
+            npcBillboardsList = new List<StaticItem>();
+            npcBillboardsList.Clear();
             stageElements.Clear();
             ConnectedColliders.Clear();
             stageParser = new StageParser();
@@ -623,6 +627,8 @@ namespace Cyber.CGameStateEngine
                     theContentManager.Load<Texture2D>("Assets/2D/warning"), new Vector2(80), 
                     move + new Vector3(0, 0, 100));
                 npcList[j].BilboardHeight = new Vector3(0, 0, 100);
+
+                npcBillboardsList.Add(npcList[j]);
             }
             #endregion
             #region WallsUp
@@ -1058,7 +1064,7 @@ namespace Cyber.CGameStateEngine
             //    }
             //}
            
-            escapeCollider.DrawOnlyBilboard(device, view, projection, cameraRotation);
+            
 
             foreach (StaticItem stageElement in stageElements)
             {
@@ -1089,12 +1095,9 @@ namespace Cyber.CGameStateEngine
                     {
                         stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -322.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
                         gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
-                                               
-                        if(!plot.Gate1Opened)
-                        {
-                            stageElement.DrawItem(device, stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -30.0f)), view, projection, cameraRotation);      
-                        }
 
+                        gateBillboardHelper = stageElement;
+                                               
                     }
                     else if (stageElement.Type == StaticItemType.wall)
                     {
@@ -1215,17 +1218,29 @@ namespace Cyber.CGameStateEngine
                     item.particles.Draw(device, view, projection, cameraRotation, item.Position);
                 }
                 item.DrawItem(device, stageElementView, view, projection, cameraRotation);
+
+             
             }
             #endregion
 
-            //Matrix gateModel = Matrix.CreateTranslation(gate.Position);
 
             device.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, outlineShader);
             spriteBatch.Draw(celTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
+            //Drawing billboards
             TerminalBillboardHelper.DrawOnlyTab(device, view, projection, cameraRotation);
+            escapeCollider.DrawOnlyEscapeBilboard(device, view, projection, cameraRotation);
+            if (!plot.Gate1Opened && level == Level.level2)
+            {
+                gateBillboardHelper.DrawOnlyBillboardGate(device, view, projection, cameraRotation);
+            }
+            foreach (StaticItem item in npcBillboardsList)
+            {
+                item.DrawOnlyBillboardGate(device, view, projection, cameraRotation);
+            }
+          
 
             console.Draw(spriteBatch);
             #region Draw Colliders for static Items
