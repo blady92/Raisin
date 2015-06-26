@@ -112,6 +112,8 @@
     <Compile Include="CGameStateEngine\GameStateWinGame.cs" />
     <Compile Include="CItems\3DObjects.cs" />
     <Compile Include="CItems\CDynamicItem\DynamicItemType.cs" />
+    <Compile Include="CItems\Notes\Command.cs" />
+    <Compile Include="CItems\Notes\CommandNotes.cs" />
     <Compile Include="CItems\CommandType.cs" />
     <Compile Include="CItems\ConsoleSprites.cs" />
     <Compile Include="CItems\CDynamicItem\Enemies.cs" />

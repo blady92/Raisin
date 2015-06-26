@@ -36,6 +36,7 @@ namespace Cyber
         private bool setToClick;
 
         //Status oznaczający, że ładowanie zakończono
+        public bool Loaded { get; set; }
 
         public Texture2D[] TextureList { get; set; }
         public Texture2D[] ClickTextureList { get; set; }
@@ -238,6 +239,20 @@ namespace Cyber
             clickCurrentFrame = 0;
         }
 
+        public void AnimationThereAndBackAgain()
+        {
+            if (!Loaded)
+            {
+                UpdateClickFrame();
+                if (clickCurrentFrame == clickTotalFrames)
+                    Loaded = !Loaded;
+            }
+            else{
+                UpdateClickReverse();
+                if (clickCurrentFrame == 0)
+                    Loaded = !Loaded;
+            }
+        }
         //Zwraca pole prostokąta
         public Rectangle GetFrameRectangle()
         {

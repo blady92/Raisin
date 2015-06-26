@@ -383,8 +383,8 @@ namespace Cyber.CItems
                     {
                         #region Define color to command
                         //if (commandKeyValue.Value == CommandType.normal) displayCode.DrawColor = new Color(0, 0, 0);
-                        if (commandKeyValue.Value == CommandType.normal) displayCode.DrawColor = new Color(0, 156, 11);
-                        else if (commandKeyValue.Value == CommandType.defense) displayCode.DrawColor = new Color(21, 95, 107);
+                        if (commandKeyValue.Value == CommandType.normal) displayCode.DrawColor = new Color(24, 212, 216);
+                        else if (commandKeyValue.Value == CommandType.defense) displayCode.DrawColor = new Color(69, 13, 230);
                         else if (commandKeyValue.Value == CommandType.attack) displayCode.DrawColor = new Color(255, 0, 98);
                         #endregion
 
@@ -393,7 +393,6 @@ namespace Cyber.CItems
                         displayCode.DrawnMessage =
                             displayCode.DrawnMessage.Remove(displayCode.DrawnMessage.Length - command.Length);
                         displayCode.DrawnMessage += " " +command;
-                        Debug.WriteLine(displayCode.DrawnMessage);
                     }
                 }
                 if (dm.DrawnMessage[dm.CurrentIndex].ToString() == "\n" )
@@ -434,28 +433,6 @@ namespace Cyber.CItems
             string[] args = new string[paramss.Length - 1];
             Array.Copy(paramss, 1, args, 0, paramss.Length - 1);
             return commands[command].Execute(args);
-        }
-
-        private string ConvertToWhiteSpacesExceptCommand(string command)
-        {
-            string newWord = null;
-            string[] words = PrintedText.Split(' ');
-            foreach (string word in words)
-            {
-                if (word != command)
-                {
-                    foreach (char c in word)
-                    {
-                        newWord += ' '; //Każdy znak na spacje
-                    }
-                    newWord += ' '; //Na końcu wyrazu
-                }
-                else
-                {
-                    newWord += command;
-                }
-            }
-            return newWord;
         }
     }
 }

@@ -19,22 +19,22 @@ namespace Cyber
         //Pole na załadowanie tektury
         private Texture2D sprite;
         //Koorynanty
-        private int x;
-        private int y;
+        private double x;
+        private double y;
 
-        public Sprite(int x, int y)
+        public Sprite(double x, double y)
         {
             this.x = x;
             this.y = y;
         }
 
-        public int X
+        public double X
         {
             get { return x; }
             set { x = value; }
         }
 
-        public int Y
+        public double Y
         {
             get { return y; }
             set { y = value; }
@@ -63,7 +63,7 @@ namespace Cyber
         public void DrawByRectangle(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(sprite, new Rectangle(x + (int)Position.X, y + (int)Position.Y, sprite.Width, sprite.Height), Color.White);
+            spriteBatch.Draw(sprite, new Rectangle((int) (x + (int)Position.X), (int)y + (int)Position.Y, sprite.Width, sprite.Height), Color.White);
             spriteBatch.End();
         }
 
