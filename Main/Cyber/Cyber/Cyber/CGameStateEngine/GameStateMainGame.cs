@@ -254,8 +254,10 @@ namespace Cyber.CGameStateEngine
             console.plotAction = plot;
             console.LoadContent(theContentManager);
 
-            notes = new CommandNotes();
-            notes.InitializeNotes(theContentManager);
+            if (notes == null) { 
+                notes = new CommandNotes();
+                notes.InitializeNotes(theContentManager);
+            }
             #endregion
             #region Samantha's animation 
             samanthaGhostController = new StaticItem("Assets/3D/Characters/Ally_Bunker");

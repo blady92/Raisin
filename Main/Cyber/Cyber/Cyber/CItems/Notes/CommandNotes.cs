@@ -106,8 +106,20 @@ namespace Cyber.CItems
                 normalCommands.Add(command);
                 normalLearndNew = true;
             }
-            if (command.CommandType == CommandType.defense) { defensiveCommands.Add(command); defenseLearnNew = true; }
-            if (command.CommandType == CommandType.attack) { attackCommands.Add(command); attackLearnNew = true; }
+            if (command.CommandType == CommandType.defense)
+            {
+                command.LoadFontTypes(theContentManager);
+                command.CommandDescription = command.ParseText(command.CommandDescription, dashboard.SpriteAccessor.Width - 50);
+                defensiveCommands.Add(command); 
+                defenseLearnNew = true;
+            }
+            if (command.CommandType == CommandType.attack)
+            {
+                command.LoadFontTypes(theContentManager);
+                command.CommandDescription = command.ParseText(command.CommandDescription, dashboard.SpriteAccessor.Width - 50);
+                attackCommands.Add(command); 
+                attackLearnNew = true;
+            }
         }
 
         public void DrawNote(SpriteBatch theSpriteBatch)
