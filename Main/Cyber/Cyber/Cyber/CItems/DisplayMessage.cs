@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cyber.CItems
 {
-    class DisplayMessage
+    public class DisplayMessage
     {
         public string Message;
         public TimeSpan DisplayTime;

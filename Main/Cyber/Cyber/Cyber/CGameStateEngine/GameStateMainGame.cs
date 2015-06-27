@@ -161,6 +161,10 @@ namespace Cyber.CGameStateEngine
         private float opacityOfRadar = 0.4f;
         bool systemIsAlerted = false;
 
+        //Notes
+        private CommandNotes notes;
+        private bool isNoteUsed;
+
         #region ShadowMapping
         //ShadowMapping
         const int shadowMapWidthHeight = 2048;
@@ -243,6 +247,9 @@ namespace Cyber.CGameStateEngine
             console = new ConsoleSprites(this, audio);
             console.plotAction = plot;
             console.LoadContent(theContentManager);
+
+            notes = new CommandNotes();
+            notes.InitializeNotes(theContentManager);
             #endregion
             #region Samantha's animation 
             samanthaGhostController = new StaticItem("Assets/3D/Characters/Ally_Bunker");
@@ -310,6 +317,7 @@ namespace Cyber.CGameStateEngine
             podjazd.FixColliderInternal(new Vector3(2,2,2), new Vector3(50,0,0));
 
             #endregion
+
 
             stageElements = new List<StaticItem>();
             ConnectedColliders = new List<StaticItem>();
@@ -449,6 +457,7 @@ namespace Cyber.CGameStateEngine
             stageElements.Add(escapeCollider);
             ConnectedColliders.Add(escapeCollider);
             #region Setting plot
+            plot.Notes = notes;
             plot.SamChecked = false;
             lostGame = false;
             endGame = false;
@@ -1198,6 +1207,7 @@ namespace Cyber.CGameStateEngine
             TerminalBillboardHelper.DrawOnlyTab(device, view, projection, cameraRotation);
 
             console.Draw(spriteBatch);
+            notes.DrawNote(spriteBatch);
             #region Draw Colliders for static Items
             //foreach (var collider in ConnectedColliders)
             //{
@@ -1225,7 +1235,14 @@ namespace Cyber.CGameStateEngine
             }
 
             escapeemitter.Update();
+
+
+            #region 2D animations
             console.Update();
+            notes.Update(true);
+            #endregion
+
+
             KeyboardState newState = currentKeyboardState;
 
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -1236,8 +1253,8 @@ namespace Cyber.CGameStateEngine
 
             if (!plot.GeneratorFound)
                 generatorParticles.Update();
-
-            if(!walkingPlayed)
+            #region Samantha Audio
+            if (!walkingPlayed)
             {
                 audio.walkingController("Play");
                 walkingPlayed = true;
@@ -1251,10 +1268,12 @@ namespace Cyber.CGameStateEngine
             {
                 audio.walkingController("Resume");
             }
+            #endregion
 
             terminalPlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
 
-            if(plot.Gate1Opened)
+            #region Gate Action
+            if (plot.Gate1Opened)
             {
                 if (!gateOpeningPlayed)
                 {
@@ -1276,7 +1295,7 @@ namespace Cyber.CGameStateEngine
             {
                 gatePlayer.Update(new TimeSpan(0, 0, 0), true, Matrix.Identity);
             }
-
+            #endregion
             #region Animacja Terminala
             KeyboardState NewKeyState = Keyboard.GetState();
 
@@ -1305,6 +1324,8 @@ namespace Cyber.CGameStateEngine
 
             if(console.IsUsed)
             {
+                notes.HideDashboard();
+                notes.call = CommandNotes.TypeCall.none;
                 if (NewKeyState.IsKeyDown(Keys.Enter) && OldKeyState.IsKeyUp(Keys.Enter))
                 {
                     if(!clickedPositivePlayed)
@@ -1312,7 +1333,6 @@ namespace Cyber.CGameStateEngine
                         audioController.clickedPositiveController("Play");
                         clickedPositivePlayed = true;
                     }
-                   
                 }
                 else if (NewKeyState.IsKeyDown(Keys.Enter) && OldKeyState.IsKeyUp(Keys.Tab))
                 {
@@ -1357,6 +1377,7 @@ namespace Cyber.CGameStateEngine
             }
             else if (!console.IsUsed)
             {
+                notes.isNoteUsed = true;
                 if (terminalPlayer.CurrentKeyFrame == 2)
                 {
                     playTerminalAnimation = false;

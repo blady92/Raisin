@@ -239,18 +239,23 @@ namespace Cyber
             clickCurrentFrame = 0;
         }
 
-        public void AnimationThereAndBackAgain()
+        public void AnimationThereAndBackAgain(bool stop)
         {
-            if (!Loaded)
-            {
-                UpdateClickFrame();
-                if (clickCurrentFrame == clickTotalFrames)
-                    Loaded = !Loaded;
-            }
-            else{
-                UpdateClickReverse();
-                if (clickCurrentFrame == 0)
-                    Loaded = !Loaded;
+            if (!stop)
+                if (!Loaded)
+                {
+                    UpdateAnimation();
+                    if (currentFrame == totalFrames - 1)
+                        Loaded = !Loaded;
+                }
+                else
+                {
+                    UpdateReverse();
+                    if (currentFrame == 0)
+                        Loaded = !Loaded;
+                }
+            else { 
+                currentFrame = 0;
             }
         }
         //Zwraca pole prostokąta

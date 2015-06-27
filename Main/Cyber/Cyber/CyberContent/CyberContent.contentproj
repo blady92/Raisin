@@ -568,11 +568,6 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\Fonts\GameFont.spritefont">
-      <Name>GameFont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Music\" />
@@ -1639,6 +1634,343 @@
   <ItemGroup>
     <Compile Include="Assets\3D\Interior\Textures\TexPodloga_Alert.jpg">
       <Name>TexPodloga_Alert</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\2D\Commands\dashboardLight.png">
+      <Name>dashboardLight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Fonts\Headers.spritefont">
+      <Name>Headers</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Fonts\ConsoleDescription.spritefont">
+      <Name>ConsoleDescription</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Fonts\ConsoleCommand.spritefont">
+      <Name>ConsoleCommand</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Fonts\GameFont.spritefont">
+      <Name>GameFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00000.png">
+      <Name>darkAttack_00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00001.png">
+      <Name>darkAttack_00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00002.png">
+      <Name>darkAttack_00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00003.png">
+      <Name>darkAttack_00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00004.png">
+      <Name>darkAttack_00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00005.png">
+      <Name>darkAttack_00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00006.png">
+      <Name>darkAttack_00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00007.png">
+      <Name>darkAttack_00007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00008.png">
+      <Name>darkAttack_00008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkAttack\darkAttack_00009.png">
+      <Name>darkAttack_00009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00000.png">
+      <Name>darkBasic_00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00001.png">
+      <Name>darkBasic_00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00002.png">
+      <Name>darkBasic_00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00003.png">
+      <Name>darkBasic_00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00004.png">
+      <Name>darkBasic_00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00005.png">
+      <Name>darkBasic_00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00006.png">
+      <Name>darkBasic_00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00007.png">
+      <Name>darkBasic_00007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00008.png">
+      <Name>darkBasic_00008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkBasic\darkBasic_00009.png">
+      <Name>darkBasic_00009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00000.png">
+      <Name>darkDefense_00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00001.png">
+      <Name>darkDefense_00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00002.png">
+      <Name>darkDefense_00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00003.png">
+      <Name>darkDefense_00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00004.png">
+      <Name>darkDefense_00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00005.png">
+      <Name>darkDefense_00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00006.png">
+      <Name>darkDefense_00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00007.png">
+      <Name>darkDefense_00007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00008.png">
+      <Name>darkDefense_00008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\darkDefense\darkDefense_00009.png">
+      <Name>darkDefense_00009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00000.png">
+      <Name>lightAttack_00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00001.png">
+      <Name>lightAttack_00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00002.png">
+      <Name>lightAttack_00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00003.png">
+      <Name>lightAttack_00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00004.png">
+      <Name>lightAttack_00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00005.png">
+      <Name>lightAttack_00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00006.png">
+      <Name>lightAttack_00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00007.png">
+      <Name>lightAttack_00007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00008.png">
+      <Name>lightAttack_00008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightAttack\lightAttack_00009.png">
+      <Name>lightAttack_00009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00000.png">
+      <Name>lightBasic_00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00001.png">
+      <Name>lightBasic_00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00002.png">
+      <Name>lightBasic_00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00003.png">
+      <Name>lightBasic_00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00004.png">
+      <Name>lightBasic_00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00005.png">
+      <Name>lightBasic_00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00006.png">
+      <Name>lightBasic_00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00007.png">
+      <Name>lightBasic_00007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00008.png">
+      <Name>lightBasic_00008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightBasic\lightBasic_00009.png">
+      <Name>lightBasic_00009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00000.png">
+      <Name>lightDefense_00000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00001.png">
+      <Name>lightDefense_00001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00002.png">
+      <Name>lightDefense_00002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00003.png">
+      <Name>lightDefense_00003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00004.png">
+      <Name>lightDefense_00004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00005.png">
+      <Name>lightDefense_00005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00006.png">
+      <Name>lightDefense_00006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00007.png">
+      <Name>lightDefense_00007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00008.png">
+      <Name>lightDefense_00008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00009.png">
+      <Name>lightDefense_00009</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

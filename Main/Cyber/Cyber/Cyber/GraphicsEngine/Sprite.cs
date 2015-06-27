@@ -63,7 +63,7 @@ namespace Cyber
         public void DrawByRectangle(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(sprite, new Rectangle((int) (x + (int)Position.X), (int)y + (int)Position.Y, sprite.Width, sprite.Height), Color.White);
+            spriteBatch.Draw(sprite, new Rectangle(((int)x + (int)Position.X), (int)y + (int)Position.Y, sprite.Width, sprite.Height), Color.White);
             spriteBatch.End();
         }
 

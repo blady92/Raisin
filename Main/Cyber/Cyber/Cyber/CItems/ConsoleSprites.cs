@@ -61,6 +61,7 @@ namespace Cyber.CItems
             Console = new SpriteAnimationDynamic("Assets/2D/consoleAnimation", false);
             Console.LoadAnimationHover(theContentManager);
             Console.SpritePosition = new Vector2(0, 768 - Console.TextureList[0].Height);
+
             //font = theContentManager.Load<SpriteFont>("Assets/Fonts/courbd");
             font = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleFont");
 
@@ -70,6 +71,7 @@ namespace Cyber.CItems
             textBox = 400;
             Text = "";
             lenght = Text.Length;
+
             SetupKeys();
             SetupGameConsole();
         }
@@ -104,7 +106,7 @@ namespace Cyber.CItems
 
         public void Draw(SpriteBatch spriteBatch)
         {
-           Console.DrawAnimation(spriteBatch);
+            Console.DrawAnimation(spriteBatch);
             if (Console.LoadingFinished())
             {
                 if (oldText.Length > 130)

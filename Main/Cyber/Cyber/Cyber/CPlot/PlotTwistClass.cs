@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Cyber.CItems;
+using Cyber.CItems.Notes;
 using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework.Input;
 using System.Runtime.Serialization;
@@ -47,6 +49,7 @@ namespace Cyber
         [DataMember]
         private bool possibleEscaping;
 
+        public CommandNotes Notes { get; set; }
         //Czy wykonujemy zadanie, czy opowiadamy fabułę
         [DataMember]
         public bool action { get; set; }
@@ -196,6 +199,10 @@ namespace Cyber
                 BreakPointsText.RemoveAt(0);
                 action = false;
                 getTime = true;
+                Notes.LearnNewCommand(new Command("GetTime", "Doesn't need any ID. Use to know up, when Cyber2O will finish oxygen privatization", CommandType.normal));
+                //Notes.LearnNewCommand(new Command("OpenGate <ID>", "Opens gates with appriopriate ID", CommandType.normal));
+                //Notes.LearnNewCommand(new Command("AccessGenerator", "None of ID is needed. Returns ID to nearest Generator.", CommandType.normal));
+                //Notes.LearnNewCommand(new Command("Free <ID>", "Use to release oxygen by running nearest generator. ID is gotten from AccessGenerator command.", CommandType.normal));
             }
         }
 
@@ -217,6 +224,7 @@ namespace Cyber
                 BreakPointsText.RemoveAt(0);
                 action = false;
                 gate1Opened = true;
+                Notes.LearnNewCommand(new Command("OpenGate <ID>", "Opens gates with appriopriate ID", CommandType.normal));
             }
         }
 
@@ -239,6 +247,7 @@ namespace Cyber
                 BreakPointsText.RemoveAt(0);
                 action = true;
                 allyHacked = true;
+                Notes.LearnNewCommand(new Command("AllySleep <ID>", "ID is enemy identificator. Makes enemies impossibe to move. Radar of this enemy will be turned down. After passing time this enemy will turn on and work in the same way as before.", CommandType.defense));
             }
         }
 
@@ -263,6 +272,7 @@ namespace Cyber
                 action = true;
                 generatorAccess = true;
                 dialogNumber--;
+                Notes.LearnNewCommand(new Command("AccessGenerator", "No ID is needed. Returns ID of nearly Generator.", CommandType.normal));
             }
         }
 
@@ -274,6 +284,7 @@ namespace Cyber
                 BreakPointsText.RemoveAt(0);
                 action = true;
                 generatorOn = true;
+                Notes.LearnNewCommand(new Command("Free <ID>", "Use to release oxygen by running nearly generator. ID is gotten from AccessGenerator command.", CommandType.normal));
             }
         }
         #endregion
