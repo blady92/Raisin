@@ -66,6 +66,7 @@ namespace Cyber.CGameStateEngine
         public List<StaticItem> stageElements;
         // TODO: Refactor na private
         public List<StaticItem> npcList;
+        public List<StaticItem> npcBillboardsList;
         public List<GateHolder> gateList; 
         private StageParser stageParser;
         private Stage stage;
@@ -108,6 +109,7 @@ namespace Cyber.CGameStateEngine
         Effect celShader;
         Effect celShaderDynamic;
         Texture2D celMap;
+        Texture2D celMapLight;
         Vector4 lightDirection = new Vector4(-0.3333333f, 0.6666667f, 0.6666667f, 0.0f);
         //shader outline
         Effect outlineShader;
@@ -117,6 +119,7 @@ namespace Cyber.CGameStateEngine
         float outlineThreshold = 0.47f;
         RenderTarget2D celTarget;
         StaticItem TerminalBillboardHelper;
+        StaticItem gateBillboardHelper;
 
         //Terminal Animation
         AnimationPlayer terminalPlayer;
@@ -155,11 +158,13 @@ namespace Cyber.CGameStateEngine
         bool samIsWalking = false;
         bool clickedPositivePlayed = false;
         bool alerted = false;
-
+        bool alertSystemPlayed = false;
+        
         //Radary
         private StaticItem radar;
         private float opacityOfRadar = 0.4f;
         bool systemIsAlerted = false;
+    
 
         //Notes
         private CommandNotes notes;
@@ -229,6 +234,7 @@ namespace Cyber.CGameStateEngine
             m_texture_column = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexWierza");
             m_texture_floor_alert = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/TexPodloga_Alert");
             celMap = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMap");
+            celMapLight = theContentManager.Load<Texture2D>("Assets/3D/Interior/Textures/celMapLight");
             celShader.Parameters["LightDirection"].SetValue(lightDirection);
             celShaderDynamic.Parameters["LightDirection"].SetValue(lightDirection);
             celShader.Parameters["ColorMap"].SetValue(m_texture);
@@ -323,6 +329,8 @@ namespace Cyber.CGameStateEngine
             ConnectedColliders = new List<StaticItem>();
             npcList = new List<StaticItem>();
             npcList.Clear();
+            npcBillboardsList = new List<StaticItem>();
+            npcBillboardsList.Clear();
             stageElements.Clear();
             ConnectedColliders.Clear();
             stageParser = new StageParser();
@@ -628,6 +636,8 @@ namespace Cyber.CGameStateEngine
                     theContentManager.Load<Texture2D>("Assets/2D/warning"), new Vector2(80), 
                     move + new Vector3(0, 0, 100));
                 npcList[j].BilboardHeight = new Vector3(0, 0, 100);
+
+                npcBillboardsList.Add(npcList[j]);
             }
             #endregion
             #region WallsUp
@@ -996,6 +1006,8 @@ namespace Cyber.CGameStateEngine
             )
         {
 
+          
+
             //ShadowMap <ODKOMENTOWAC W CELU CIENIOWANIA>
             //lightViewProjection = CreateLightViewProjectionMatrix();
             //device.BlendState = BlendState.Opaque;
@@ -1061,7 +1073,7 @@ namespace Cyber.CGameStateEngine
             //    }
             //}
            
-            escapeCollider.DrawOnlyBilboard(device, view, projection, cameraRotation);
+            
 
             foreach (StaticItem stageElement in stageElements)
             {
@@ -1092,30 +1104,31 @@ namespace Cyber.CGameStateEngine
                     {
                         stageElementView = stageElementView * Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.CreateTranslation(new Vector3(541.0f, 762.0f, -322.0f)) *Matrix.CreateScale(0.43f, 0.43f, 0.43f);
                         gateActualModel.DrawItem(gameTime, device, stageElementView, view, projection);
-                                               
-                        if(!plot.Gate1Opened)
-                        {
-                            stageElement.DrawItem(device, stageElementView * Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, -30.0f)), view, projection, cameraRotation);      
-                        }
 
+                        gateBillboardHelper = stageElement;
+                                               
                     }
                     else if (stageElement.Type == StaticItemType.wall)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_wall);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
                     else if (stageElement.Type == StaticItemType.concave)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_concave);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
                     else if (stageElement.Type == StaticItemType.convex)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_convex);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
                     else if (stageElement.Type == StaticItemType.column)
                     {
+                        celShader.Parameters["CelMap"].SetValue(celMap);
                         celShader.Parameters["ColorMap"].SetValue(m_texture_column);
                         stageElement.DrawItem(device, stageElementView, view, projection, celShader);
                     }
@@ -1125,14 +1138,34 @@ namespace Cyber.CGameStateEngine
                     }
                     else if (stageElement.Type == StaticItemType.floor)
                     {
+                       
+
                         if(systemIsAlerted)
                         {
+                            if (!alertSystemPlayed)
+                            {
+                                audioController.alertSystemController("Play");
+                                //  audioController.alertSystemController("Pause");
+                                alertSystemPlayed = true;
+                            }
+
+                            celShader.Parameters["CelMap"].SetValue(celMapLight);
                             celShader.Parameters["ColorMap"].SetValue(m_texture_floor_alert);
                             stageElement.DrawItem(device, stageElementView, view, projection, celShader);
+                            audioController.alertSystemController("Resume");
+
+                            
                         }
                         else
                         {
+                            celShader.Parameters["CelMap"].SetValue(celMap);
                             stageElement.DrawItem(device, stageElementView, view, projection);
+                           
+                            if(alertSystemPlayed)
+                            {
+                                audioController.alertSystemController("Pause");
+                            }
+                           
                         }
                         
                     }
@@ -1194,17 +1227,29 @@ namespace Cyber.CGameStateEngine
                     item.particles.Draw(device, view, projection, cameraRotation, item.Position);
                 }
                 item.DrawItem(device, stageElementView, view, projection, cameraRotation);
+
+             
             }
             #endregion
 
-            //Matrix gateModel = Matrix.CreateTranslation(gate.Position);
 
             device.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, outlineShader);
             spriteBatch.Draw(celTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
+            //Drawing billboards
             TerminalBillboardHelper.DrawOnlyTab(device, view, projection, cameraRotation);
+            escapeCollider.DrawOnlyEscapeBilboard(device, view, projection, cameraRotation);
+            if (!plot.Gate1Opened && level == Level.level2)
+            {
+                gateBillboardHelper.DrawOnlyBillboardGate(device, view, projection, cameraRotation);
+            }
+            foreach (StaticItem item in npcBillboardsList)
+            {
+                item.DrawOnlyBillboardGate(device, view, projection, cameraRotation);
+            }
+          
 
             console.Draw(spriteBatch);
             notes.DrawNote(spriteBatch);
@@ -1258,13 +1303,13 @@ namespace Cyber.CGameStateEngine
             {
                 audio.walkingController("Play");
                 walkingPlayed = true;
-                
+
             }
-            if(!samIsWalking)
+            if (!samIsWalking)
             {
                 audio.walkingController("Pause");
             }
-            else if(samIsWalking)
+            else if (samIsWalking)
             {
                 audio.walkingController("Resume");
             }
@@ -1593,6 +1638,7 @@ namespace Cyber.CGameStateEngine
             }
             if (plot.SamChecked)
             {
+                audioController.alertSystemController("Stop");
                 lostGame = true;
                 plot.Gate1Opened = false;
             }            

@@ -31,40 +31,19 @@ namespace Cyber.AudioEngine
         public void setAudio()
         {
             audio.CueList.Clear();
-            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic 2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("menuhover"));
-            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2"));
-            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic"));
-            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening"));
-            audio.CueList.Add(audio.SoundBank.GetCue("walking"));
-            audio.CueList.Add(audio.SoundBank.GetCue("clickedPositive"));
-            audio.CueList.Add(audio.SoundBank.GetCue("alertSam"));
-            audio.CueList.Add(audio.SoundBank.GetCue("cinematicFree"));
-            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit")); 
-        }
-
-        public void runAudio()
-        {
-            //newState = Keyboard.GetState();
-            //if (newState.IsKeyDown(Keys.NumPad1) && oldState.IsKeyUp(Keys.NumPad1))
-            //{
-            //    audio.CueList[0].Play();
-            //}
-            //if (newState.IsKeyDown(Keys.NumPad2) && oldState.IsKeyUp(Keys.NumPad2))
-            //{
-            //    audio.SoundBank.GetCue("menuhover").Play();
-            //}
-            //if (newState.IsKeyDown(Keys.NumPad3) && oldState.IsKeyUp(Keys.NumPad3))
-            //{
-            //    audio.CueList[2].Play();
-            //}
-            //if (newState.IsKeyDown(Keys.NumPad0) && oldState.IsKeyUp(Keys.NumPad0))
-            //{
-            //    resetAudio();
-            //}
-
-            //oldState = newState;
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic 2")); //0
+            audio.CueList.Add(audio.SoundBank.GetCue("menuhover")); //1
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMove2")); //2
+            audio.CueList.Add(audio.SoundBank.GetCue("terminalMoveDown2")); //3
+            audio.CueList.Add(audio.SoundBank.GetCue("bgmusic_dramatic")); //4
+            audio.CueList.Add(audio.SoundBank.GetCue("gateOpening")); //5
+            audio.CueList.Add(audio.SoundBank.GetCue("walking")); //6
+            audio.CueList.Add(audio.SoundBank.GetCue("clickedPositive")); //7
+            audio.CueList.Add(audio.SoundBank.GetCue("alertSam")); //8
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicFree")); //9
+            audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit")); //10
+            audio.CueList.Add(audio.SoundBank.GetCue("walkingBetter")); //11
+            audio.CueList.Add(audio.SoundBank.GetCue("alertSystem")); //12
         }
 
         public void BGMusicController(string command)
@@ -130,19 +109,19 @@ namespace Cyber.AudioEngine
         {
             if (command == "Play")
             {
-                audio.CueList[6].Play();
+                audio.CueList[11].Play();
             }
             else if (command == "Stop")
             {
-                audio.CueList[6].Stop(AudioStopOptions.Immediate);
+                audio.CueList[11].Stop(AudioStopOptions.Immediate);
             }
             else if (command == "Resume")
             {
-                audio.CueList[6].Resume();
+                audio.CueList[11].Resume();
             }
             else if (command == "Pause")
             {
-                audio.CueList[6].Pause();
+                audio.CueList[11].Pause();
             }
         }
 
@@ -222,6 +201,26 @@ namespace Cyber.AudioEngine
             else if (command == "Pause")
             {
                 audio.CueList[10].Pause();
+            }
+        }
+
+        public void alertSystemController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[12].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[12].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[12].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[12].Pause();
             }
         }
 

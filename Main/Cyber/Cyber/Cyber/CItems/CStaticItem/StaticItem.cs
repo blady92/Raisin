@@ -125,6 +125,22 @@ namespace Cyber.CItems.CStaticItem
 
         public void DrawItem(GraphicsDevice device, Matrix world, Matrix view, Matrix projection, float cameraRotation)
         {
+            //if (OnOffBilboard)
+            //{
+            //    bilboards.positions = position;
+            //    bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 0.5f, 1);
+            //    bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
+            //}
+            //if (DrawID && !OnOffBilboard && ID != null)
+            //{
+            //    MachineID.positions = position;
+            //    MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 1.2f, 0.7f);
+            //    MachineID.generateParticles(new Vector3[] { Position + MachineIDHeight });
+            //}
+            skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
+        }
+        public void DrawOnlyBillboardGate(GraphicsDevice device, Matrix view, Matrix projection, float cameraRotation)
+        {
             if (OnOffBilboard)
             {
                 bilboards.positions = position;
@@ -137,7 +153,7 @@ namespace Cyber.CItems.CStaticItem
                 MachineID.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1.0f, 1.2f, 0.7f);
                 MachineID.generateParticles(new Vector3[] { Position + MachineIDHeight });
             }
-            skinnedModel.DrawStaticModelWithBasicEffect(device, world, view, projection);
+           
         }
 
         public void DrawOnlyBilboard(GraphicsDevice device, Matrix view, Matrix projection, float cameraRotation)
@@ -147,6 +163,15 @@ namespace Cyber.CItems.CStaticItem
                 bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 1, 1.3f, 1);
                 bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
             } 
+        }
+
+        public void DrawOnlyEscapeBilboard(GraphicsDevice device, Matrix view, Matrix projection, float cameraRotation)
+        {
+            if (OnOffBilboard)
+            {
+                bilboards.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0), 0.8f, 1.7f, 0.8f);
+                bilboards.generateParticles(new Vector3[] { Position + BilboardHeight });
+            }
         }
 
 

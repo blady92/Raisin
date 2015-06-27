@@ -1969,8 +1969,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00009.png">
+	<Compile Include="Assets\2D\Commands\lightDefense\lightDefense_00008.png">
       <Name>lightDefense_00009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Assets\3D\Interior\Textures\celMapLight.bmp">
+      <Name>celMapLight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
