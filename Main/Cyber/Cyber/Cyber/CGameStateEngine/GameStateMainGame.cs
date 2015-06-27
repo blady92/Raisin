@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using Cyber.Audio;
 using Cyber.AudioEngine;
@@ -17,10 +16,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Cyber.CLogicEngine;
-using Cyber.CStageParsing;
 using Cyber.CItems.CDynamicItem;
+using Cyber.CLevel;
 using Color = Microsoft.Xna.Framework.Color;
-using Point = Microsoft.Xna.Framework.Point;
 
 namespace Cyber.CGameStateEngine
 {
@@ -32,14 +30,13 @@ namespace Cyber.CGameStateEngine
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        ContentManager theContentManager;
+        public ContentManager theContentManager { get; set; }
 
         public bool endGame { get; set; } 
         public bool lostGame { get; set; }
         public bool firstStart { get; set; }
-    
-        public Level level
-        { get; set; }
+
+        public LevelStage level { get; set; }
 
         private KeyboardState oldState;
         private KeyboardState newState;
@@ -63,16 +60,10 @@ namespace Cyber.CGameStateEngine
         public DynamicItem terminalActualModel { get; set; }
         public DynamicItem gateActualModel { get; set; }
         private ColliderController colliderController;
-        public List<StaticItem> stageElements;
         // TODO: Refactor na private
-        public List<StaticItem> npcList;
-        public List<StaticItem> npcBillboardsList;
-        public List<GateHolder> gateList; 
-        private StageParser stageParser;
-        private Stage stage;
+        public List<StaticItem> npcBillboardsList { get; set; }
 
         private float przesuniecie;
-        StageStructure stageStructure;
         
         //Plot elements
         private IDGenerator generatedID;
@@ -86,18 +77,10 @@ namespace Cyber.CGameStateEngine
         float rotateSam = 0.0f;
         Matrix samPointingAtDirection = Matrix.CreateRotationX(MathHelper.ToRadians(90.0f)) * Matrix.Identity * Matrix.CreateRotationZ(MathHelper.ToRadians(0));
         bool changedDirection = false;
-        
-        //Escape items
-        private ParticleEmitter escapeemitter;
-        private StaticItem escapeCollider;
-        
-        //Generator Particles
-        private ParticleEmitter generatorParticles;
 
         public bool escaped;
-        public StaticItem podjazd;
-        private float podjazdStopPoint;
-        private float podjazdBefore;
+        public float podjazdStopPoint { get; set; }
+        public float podjazdBefore { get; set; }
 
         //Effect shader
         Texture2D m_texture;
@@ -135,12 +118,6 @@ namespace Cyber.CGameStateEngine
         float gateX = 600.0f;
         float gateY = 810.0f;
         float gateZ = -292.0f;
-
-        //Gate
-        private StaticItem gate;
-
-        //New Collider
-        private List<StaticItem> ConnectedColliders;
 
         //Variables for shrinking view position
         //Min and moax describes vertex of 2D box by its diagonal
@@ -198,8 +175,6 @@ namespace Cyber.CGameStateEngine
             
             endGame = false;
             lostGame = false;
-            generatedID = new IDGenerator();
-            generatedID.GenerateID();
 
             audioController = new AudioController(audioModel);
             audioController.setAudio();
@@ -289,154 +264,8 @@ namespace Cyber.CGameStateEngine
 
 
             #endregion
-            #region Scene escaping
 
-            escapeemitter = new ParticleEmitter();
-            escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-5, 270, 60), 1, 1);
-           
-            escapeCollider = new StaticItem("Assets/3D/escapeBoxFBX");
-            escapeCollider.LoadItem(theContentManager);
-            escapeCollider.Position = new Vector3(0, 0, 0);
-            escapeCollider.FixColliderInternal(new Vector3(1, 1, 1), new Vector3(-40, 280, 40));
-            escapeCollider.Type = StaticItemType.teleporter;
-            escapeCollider.bilboards = new BillboardSystem(device, theContentManager,
-                theContentManager.Load<Texture2D>("Assets/2D/Bilboard/TerminalBack"),
-                new Vector2(120), new Vector3(0, 0, 0)
-            );
-
-            escapeCollider.OnOffBilboard = false;
-            escapeCollider.BilboardHeight = new Vector3(-60, 280, 180);
-
-            generatorParticles = new ParticleEmitter();
-            generatorParticles.LoadContent(device, theContentManager, "Assets/2D/yellowGlow", 40, 70, 70, 100, new Vector3(1390, 600, 0), 1, 1);
-
-            podjazd = new StaticItem("Assets/3D/podjazdFBX");
-            podjazd.LoadItem(theContentManager);
-            podjazd.Position = new Vector3(50, 300, 0);
-            podjazd.FixColliderInternal(new Vector3(2,2,2), new Vector3(50,0,0));
-
-            #endregion
-
-            stageElements = new List<StaticItem>();
-            ConnectedColliders = new List<StaticItem>();
-            npcList = new List<StaticItem>();
-            npcList.Clear();
-            npcBillboardsList = new List<StaticItem>();
-            npcBillboardsList.Clear();
-            stageElements.Clear();
-            ConnectedColliders.Clear();
-            stageParser = new StageParser();
-            
-            #region Setting stage to parse
-            if (level == Level.level1)
-            {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage3.bmp");
-            }
-            else if (level == Level.level2)
-            {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage4.bmp");
-            }
-            else
-            {
-                stage = stageParser.ParseBitmap("../../../CStageParsing/stage2.bmp");
-            }
-            #endregion
-            #region Objects
-            stageStructure = new StageStructure(stage, StageStructureGenerationStrategy.GENEROUS);
-
-            foreach (StageObject stageObj in stage.Objects)
-            {
-                StaticItem item = new StaticItem(stageObj.StaticObjectAsset);
-                item.LoadItem(theContentManager);
-                if (stageObj is Terminal)
-                {
-                    item.Type = StaticItemType.terminal;
-                }
-                else if (stageObj is Column)
-                {
-                    item.Type = StaticItemType.column;
-                }
-                else
-                {
-                    item.Type = StaticItemType.decoration;
-                }
-                stageElements.Add(item);
-            }
-
-            #endregion
-            #region Gates
-            if (level == Level.level2)
-            {
-                rotateSam = 90;
-                plot.ThroughGate();
-                gate = new StaticItem("Assets/3D/Interior/Interior_Gate_NoTexture");
-                gate.LoadItem(theContentManager);
-                gate.Type = StaticItemType.gate;
-                gate.Rotation = 0;
-            }
-            //gateList = new List<GateHolder>();
-            //foreach (var stageGate in stage.Gates)
-            //{
-            //    GateHolder gateHolder = new GateHolder(stageGate);
-            //    gateList.Add(gateHolder);
-            //    StaticItem staticItem = new StaticItem(gateHolder.FirstItem.StaticObjectAsset);
-            //    staticItem.LoadItem(theContentManager);
-            //    staticItem.Type = StaticItemType.gate;
-            //    stageElements.Add(staticItem);
-            //    staticItem = new StaticItem(gateHolder.SecondItem.StaticObjectAsset);
-            //    staticItem.LoadItem(theContentManager);
-            //    staticItem.Type = StaticItemType.decoration;
-            //    stageElements.Add(staticItem);
-            //}
-            #endregion
-            #region NPCs
-            foreach (StageNPC stageNPC in stage.NPCs)
-            {
-                NPC npc = new NPC(stageNPC.StaticObjectAsset);
-                npc.LoadItem(theContentManager);
-                if(stageNPC is Tank)
-                    npc.Type = StaticItemType.tank;
-                if(stageNPC is Spy)
-                    npc.Type = StaticItemType.spy;
-                if (stageNPC is Flyer)
-                    npc.Type = StaticItemType.flyer;
-                npc.EnemySawSam = false;
-                npcList.Add(npc);
-                AI.Instance.AddRobot(npc);
-            }
-            #endregion
-            #region Loading walls
-            for (int i = 0; i < stageStructure.Walls.Count; i++)
-            {
-                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Base");
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.wall;
-                stageElements.Add(item);
-            }
-            for (int i = 0; i < stageStructure.ConcaveCorners.Count; i++)
-            {
-                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Concave");
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.concave;
-                stageElements.Add(item);
-            }
-            for (int i = 0; i < stageStructure.ConvexCorners.Count; i++)
-            {
-                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Wall_Convex");
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.convex;
-                stageElements.Add(item);
-            }
-            #endregion
-            #region Loading floor tiles
-            foreach (Pair<int, int> point in stageStructure.Floor.Floors)
-            {
-                StaticItem item = new StaticItem("Assets/3D/Interior/Interior_Floor");
-                item.LoadItem(theContentManager);
-                item.Type = StaticItemType.floor; // TODO: dodać typ floor Dobrotek: Dodane
-                stageElements.Add(item);
-            }
-            #endregion
+            level.LoadContent(device);
         }
 
         public void LookAtSam(ref Vector3 cameraTarget)
@@ -454,27 +283,10 @@ namespace Cyber.CGameStateEngine
         {
             escaped = false;
             
-            stageElements.Add(escapeCollider);
-            ConnectedColliders.Add(escapeCollider);
             #region Setting plot
             plot.SamChecked = false;
             lostGame = false;
             endGame = false;
-            #endregion
-            #region Setting gate
-            if (level == Level.level2) {
-                Vector3 moveGate = new Vector3(400, 150, 0);
-                gate.Position = moveGate;
-                gate.FixColliderInternal(new Vector3(1, 1, 1), new Vector3(0, 0, 0));
-                gate.ID = generatedID.IDs[0];
-                gate.DrawID = false;
-                gate.OnOffBilboard = false;
-                gate.MachineIDHeight = new Vector3(0, 90, 170);
-                generatedID.IDs.RemoveAt(0);
-                gate.ApplyIDBilboard(device, theContentManager, moveGate);
-                ConnectedColliders.Add(gate);
-                stageElements.Add(gate);
-            }
             #endregion
             #region setups data initials
             int i = 0;
@@ -485,493 +297,29 @@ namespace Cyber.CGameStateEngine
             float wallOffset = 9.75f;
             float cornerOffset = 5.5f;
             #endregion
-            #region Samantha
-            samanthaGhostController.Position = new Vector3(stage.PlayerPosition.X * mnoznikPrzesunieciaOther, 
-                                            stage.PlayerPosition.Y * mnoznikPrzesunieciaOther,
-                                            0.0f);
-            samanthaGhostController.FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-            samanthaGhostController.FixColliderExternal(new Vector3(1.25f, 1.25f, 1.25f), new Vector3(-25f, -25f, 20f));
-            
-            radar = new StaticItem("Assets/3D/radar");
-            radar.LoadItem(theContentManager);
-            //samanthaGhostController.Radar = radar;
-            radar.Position = samanthaGhostController.ColliderInternal.Position + new Vector3(-25f, -25f, 10);
-            radar.FixColliderInternal(new Vector3(3, 3, 3), new Vector3(0, 0, 0));
-            samanthaGhostController.Radar = radar;
 
-            #endregion
-            #region Objects
-            for (int j = 0; j < stage.Objects.Count; i++, j++)
-            {
-                float z;
-                Vector3 move = new Vector3();
-                #region Terminals
-                if (stage.Objects[j] is Terminal)
-                {
-                    z = terminalZ;
-                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
-                                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                                        z);
-                    stageElements[i].Position = move;
-                    stageElements[i].FixColliderExternal(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(15f, 20f, 20f));
-                    stageElements[i].FixColliderInternal(new Vector3(0.5f, 0.5f, 0.5f), new Vector3(8, 8, 0));
-                    stageElements[i].bilboards = new BillboardSystem(device, theContentManager,
-                        theContentManager.Load<Texture2D>("Assets/2D/buttonTab"),
-                        new Vector2(60),
-                        move + new Vector3(0, 0, 20)
-                        );
-                    stageElements[i].BilboardHeight = new Vector3(0, 0, 20);
-                }
-                #endregion
-                #region Columns
-                else if (stage.Objects[j] is Column)
-                {
-                    z = terminalZ;
-                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
-                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                        0);
-                    stageElements[j].Position = move;
-                    stageElements[j].FixColliderInternal(new Vector3(0.2f, 0.2f, 1f), new Vector3(-8,-8, -50));
-                }
-                #endregion
-                #region Generator
-                else if (stage.Objects[j] is OxygenGenerator)
-                {
-                    z = terminalZ;
-                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
-                        stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                        -50);
-                    Debug.WriteLine("Generator position " + move);
-                    stageElements[j].Type = StaticItemType.oxygenGenerator;
-                    stageElements[j].Position = move;
-                    stageElements[j].Rotation = 270;
-                    stageElements[j].FixColliderInternal(new Vector3(0.52f, 0.2f, 0.5f), new Vector3(-42, 6, 60));
-                    stageElements[j].ID = generatedID.IDs[0];
-                    stageElements[j].DrawID = false;
-                    stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
-                    generatedID.IDs.RemoveAt(0);
-                    stageElements[j].ApplyIDBilboard(device, theContentManager, move);
-                }
-                #endregion
-                #region Rest Things
-                else
-                {
-                    z = objectZ;
-                    move = new Vector3(stage.Objects[j].GetBlock().X * mnoznikPrzesunieciaOther,
-                                            stage.Objects[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                                            z);
-                    stageElements[i].Position = move;
-                    stageElements[i].Rotation = stage.Objects[j].Rotation;
-                }
-                #endregion
-                ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region Gates
-            //for (int j = 0; j < gateList.Count; j++)
-            //{
-            //    Vector3 move;
-            //    move = new Vector3(gateList[j].FirstItem.GetBlock().X * mnoznikPrzesunieciaOther,
-            //                                gateList[j].FirstItem.GetBlock().Y * mnoznikPrzesunieciaOther,
-            //                                objectZ);
-            //    stageElements[i].Position = move;
-            //    stageElements[i].Rotation = stage.Gates[j].Rotation;
-            //    stageElements[i].FixColliderInternal(new Vector3(0.5f, 0.5f, 0.5f), new Vector3(0, 0, 0));
-            //    i++;
-            //    //move = new Vector3(gateList[j].SecondItem.GetBlock().X * mnoznikPrzesunieciaOther,
-            //    //                            gateList[j].SecondItem.GetBlock().Y * mnoznikPrzesunieciaOther,
-            //    //                            objectZ);
-            //    //stageElements[i].Position = move;
-            //    //stageElements[i].Rotation = stage.Gates[j].Rotation;
-            //    //i++;
-            //}
-            //foreach (var gateHolder in gateList)
-            //{
-            //    gateHolder.SetUpCollider(samanthaGhostController);
-            //    gateHolder.ID = generatedID.IDs[0];
-            //    generatedID.IDs.RemoveAt(0);
-
-            //}
-            #endregion
-            #region NPCs
-            for (int j = 0; j < stage.NPCs.Count; j++)
-            {
-                
-                Vector3 move = new Vector3(stage.NPCs[j].GetBlock().X * mnoznikPrzesunieciaOther,
-                                        stage.NPCs[j].GetBlock().Y * mnoznikPrzesunieciaOther,
-                                        0.0f);
-                npcList[j].Position = move;
-                npcList[j].Rotation = stage.NPCs[j].Rotation;
-                if (npcList[j].Type == StaticItemType.tank) { 
-                    npcList[j].FixColliderInternal(new Vector3(0.75f, 0.75f, 1f), new Vector3(-15f, -15f, 10f));
-                    npcList[j].FixColliderExternal(new Vector3(2,2,2), new Vector3(-15f, -15f, 10f));
-                }
-                else if (npcList[j].Type == StaticItemType.spy)
-                {
-                    npcList[j].FixColliderInternal(new Vector3(0.4f, 0.4f, 1f), new Vector3(-25f, -5f, 10f));
-                    npcList[j].FixColliderExternal(new Vector3(1, 1, 1), new Vector3(-25f, -5f, 10f));
-                }
-                else if (npcList[j].Type == StaticItemType.flyer)
-                {
-                    Debug.WriteLine("Ustawiam Flyera");
-                    npcList[j].FixColliderInternal(new Vector3(0.5f, 0.5f, 1f), new Vector3(-10f, -10f, 10f));
-                    npcList[j].FixColliderExternal(new Vector3(1, 1, 1), new Vector3(-5f, -30f, 10f));
-                }
-                npcList[j].Radar = radar;
-                npcList[j].ID = generatedID.IDs[0];
-                npcList[j].DrawID = false;
-                npcList[j].MachineIDHeight = new Vector3(0, 0, 60);
-                generatedID.IDs.RemoveAt(0);
-                npcList[j].ApplyIDBilboard(device, theContentManager, move);
-                npcList[j].bilboards = new BillboardSystem(device, theContentManager, 
-                    theContentManager.Load<Texture2D>("Assets/2D/warning"), new Vector2(80), 
-                    move + new Vector3(0, 0, 100));
-                npcList[j].BilboardHeight = new Vector3(0, 0, 100);
-
-                npcBillboardsList.Add(npcList[j]);
-            }
-            #endregion
-            #region WallsUp
-            List<StaticItem> colliderConnectedAlllWallsUp = new List<StaticItem>();
-            //Zapisane współrzędne, by się nie powielały
-            List<float> coordY = new List<float>();
-            //Tymczasowa ścianka
-            StaticItem wall = null;
-
-            float positionY = 0;
-
-            for (int j = 0; j < stageStructure.Walls.WallsUp.Count; i++, j++)
-            {
-                stageElements[i].Rotation = -90;
-                Vector3 move = new Vector3(stageStructure.Walls.WallsUp[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.Walls.WallsUp[j].Y * mnoznikPrzesuniecaSciany - wallOffset,
-                                            0.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
-
-                if (coordY.Contains(move.Y))
-                {
-                    //Wyciągnij ten element, co ma te współrzędne
-                    for (int w = 0; w < colliderConnectedAlllWallsUp.Count; w++)
-                    {
-                        if (colliderConnectedAlllWallsUp[w].Position.Y == move.Y)
-                            wall = colliderConnectedAlllWallsUp[w];
-                    }
-                    if (positionY == move.Y && (move.X - stageElements[i - 1].Position.X) < 30)
-                    {
-                        wall.ColliderInternal.AABB = JoinToFirstCollider(wall.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
-                    }
-                    else
-                    {
-                        positionY = move.Y;
-                        wall = new StaticItem(stageElements[i].PathToModel);
-                        wall.Position = stageElements[i].Position;
-                        wall.ColliderInternal = stageElements[i].ColliderInternal;
-                        colliderConnectedAlllWallsUp.Add(wall);
-                    }
-                }
-                else
-                {
-                    coordY.Add(move.Y);
-                    positionY = move.Y;
-                    wall = new StaticItem(stageElements[i].PathToModel);
-                    wall.Position = stageElements[i].Position;
-                    wall.ColliderInternal = stageElements[i].ColliderInternal;
-                    colliderConnectedAlllWallsUp.Add(wall);
-                }
-            }
-
-            foreach (StaticItem connectedWalls in colliderConnectedAlllWallsUp)
-            {
-                ConnectedColliders.Add(connectedWalls);
-            }
-
-            #endregion
-            #region WallsDown
-            //Odpowiednie elementy do łączenia
-            List<StaticItem> colliderConnectedAlllWallDown = new List<StaticItem>();
-            //Zapisane współrzędne, by się nie powielały
-            coordY.Clear();
-            //Tymczasowa ścianka
-            wall = null;
-
-            for (int j = 0; j < stageStructure.Walls.WallsDown.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 90;
-                Vector3 move = new Vector3(stageStructure.Walls.WallsDown[j].X * mnoznikPrzesuniecaSciany,
-                                            stageStructure.Walls.WallsDown[j].Y * mnoznikPrzesuniecaSciany + wallOffset, 
-                                            0.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5f, 15f));
-                if (coordY.Contains(move.Y))
-                {
-                    //Wyciągnij ten element, co ma te współrzędne
-                    for (int w = 0; w < colliderConnectedAlllWallDown.Count; w++)
-                    {
-                        if (colliderConnectedAlllWallDown[w].Position.Y == move.Y)
-                            wall = colliderConnectedAlllWallDown[w];
-                    }
-                    if (positionY == move.Y && (move.X - stageElements[i - 1].Position.X) < 30)
-                    {
-                        wall.ColliderInternal.AABB = JoinToFirstCollider(wall.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
-                    }
-                    else
-                    {
-                        positionY = move.Y;
-                        wall = new StaticItem(stageElements[i].PathToModel);
-                        wall.Position = stageElements[i].Position;
-                        wall.ColliderInternal = stageElements[i].ColliderInternal;
-                        colliderConnectedAlllWallDown.Add(wall);
-                    }
-                }
-                else
-                {
-                    coordY.Add(move.Y);
-                    positionY = move.Y;
-                    wall = new StaticItem(stageElements[i].PathToModel);
-                    wall.Position = stageElements[i].Position;
-                    wall.ColliderInternal = stageElements[i].ColliderInternal;
-                    colliderConnectedAlllWallDown.Add(wall);
-                }
-            }
-
-            foreach (StaticItem connectedWalls in colliderConnectedAlllWallDown)
-            {
-                ConnectedColliders.Add(connectedWalls);
-            }
-            #endregion
-            #region WallsLeft
-            List<StaticItem> colliderConnectedAlllWallLeft = new List<StaticItem>();
-            //Zapisane współrzędne, by się nie powielały
-            List<float> coordX = new List<float>();
-            //Tymczasowa ścianka
-            wall = null;
-            float positionX = 0;
-
-            stageStructure.Walls.WallsLeft = stageStructure.Walls.WallsLeft.OrderBy(p => p.X).ToList();
-
-            for (int j = 0; j < stageStructure.Walls.WallsLeft.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 180;
-                Vector3 move = new Vector3(stageStructure.Walls.WallsLeft[j].X * mnoznikPrzesuniecaSciany - wallOffset,
-                                            stageStructure.Walls.WallsLeft[j].Y * mnoznikPrzesuniecaSciany, 
-                                            0.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-5f, -7f, 15f));
-
-                if (coordX.Contains(move.X))
-                {
-                    //Wyciągnij ten element, co ma te współrzędne
-                    for (int w = 0; w < colliderConnectedAlllWallLeft.Count; w++)
-                    {
-                        if (colliderConnectedAlllWallLeft[w].Position.X == move.X)
-                            wall = colliderConnectedAlllWallLeft[w];
-                    }
-                    if (positionX == move.X && (move.Y - stageElements[i - 1].Position.Y) < 30)
-                    {
-                        wall.ColliderInternal.AABB = JoinToFirstCollider(wall.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
-                    }
-                    else
-                    {
-                        positionX = move.X;
-                        wall = new StaticItem(stageElements[i].PathToModel);
-                        wall.Position = stageElements[i].Position;
-                        wall.ColliderInternal = stageElements[i].ColliderInternal;
-                        colliderConnectedAlllWallLeft.Add(wall);
-                    }
-                }
-                else
-                {
-                    coordX.Add(move.X);
-                    positionX = move.X;
-                    wall = new StaticItem(stageElements[i].PathToModel);
-                    wall.Position = stageElements[i].Position;
-                    wall.ColliderInternal = stageElements[i].ColliderInternal;
-                    colliderConnectedAlllWallLeft.Add(wall);
-                }
-            }
-            foreach (StaticItem connectedWalls in colliderConnectedAlllWallLeft)
-            {
-                ConnectedColliders.Add(connectedWalls);
-            }
-
-            #endregion
-            #region WallsRight
-
-            //Odpowiednie elementy do łączenia
-            List<StaticItem> colliderConnectedAlllWallRight = new List<StaticItem>();
-            //Zapisane współrzędne, by się nie powielały
-            coordX.Clear();
-            //Tymczasowa ścianka
-            wall = null;
-
-            stageStructure.Walls.WallsRight = stageStructure.Walls.WallsRight.OrderBy(p => p.X).ToList();
-            for (int j = 0; j < stageStructure.Walls.WallsRight.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 0;
-                Vector3 move = new Vector3(stageStructure.Walls.WallsRight[j].X * mnoznikPrzesuniecaSciany + wallOffset,
-                                            stageStructure.Walls.WallsRight[j].Y * mnoznikPrzesuniecaSciany,
-                                            2.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.1f, 0.2f, 1.4f), new Vector3(-7f, -5f, 15f));
-                if (coordX.Contains(move.X))
-                {
-                    for (int w = 0; w < colliderConnectedAlllWallRight.Count; w++)
-                    {
-                        if (colliderConnectedAlllWallRight[w].Position.X == move.X)
-                            wall = colliderConnectedAlllWallRight[w];
-                    }
-                    if (positionX == move.X && (move.Y - stageElements[i - 1].Position.Y) < 30)
-                    {
-                        wall.ColliderInternal.AABB = JoinToFirstCollider(wall.ColliderInternal.AABB, stageElements[i].ColliderInternal.AABB);
-                    }
-                    else
-                    {
-                        positionX = move.X;
-                        wall = new StaticItem(stageElements[i].PathToModel);
-                        wall.Position = stageElements[i].Position;
-                        wall.ColliderInternal = stageElements[i].ColliderInternal;
-                        colliderConnectedAlllWallRight.Add(wall);
-                    }
-                }
-                else
-                {
-                    coordX.Add(move.X);
-                    positionX = move.X;
-                    wall = new StaticItem(stageElements[i].PathToModel);
-                    wall.Position = stageElements[i].Position;
-                    wall.ColliderInternal = stageElements[i].ColliderInternal;
-                    colliderConnectedAlllWallRight.Add(wall);
-                }
-            }
-            foreach (StaticItem connectedWalls in colliderConnectedAlllWallRight)
-            {
-                ConnectedColliders.Add(connectedWalls);
-            }
-            #endregion
-            #region ConcaveCornersLowerLeft
-            for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerLeft.Count; i++, j++ )
-            {
-                stageElements[i].Rotation = 180;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            stageStructure.ConcaveCorners.ConcaveCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConcaveCornersLowerRight
-            for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersLowerRight.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 90;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            stageStructure.ConcaveCorners.ConcaveCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConcaveCornersUpperLeft
-            for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperLeft.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 270;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            stageStructure.ConcaveCorners.ConcaveCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConcaveCornersUpperRight
-            for (int j = 0; j < stageStructure.ConcaveCorners.ConcaveCornersUpperRight.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 0;
-                Vector3 move = new Vector3(stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            stageStructure.ConcaveCorners.ConcaveCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConvexCornersLowerLeft
-            for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerLeft.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 180;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            stageStructure.ConvexCorners.ConvexCornersLowerLeft[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-25f, 5f, 15f));
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConvexCornersLowerRight
-            for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersLowerRight.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 90;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersLowerRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            stageStructure.ConvexCorners.ConvexCornersLowerRight[j].Y * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(0f, 5, 15f));
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConvexCornersUpperLeft
-            for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperLeft.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 270;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].X * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            stageStructure.ConvexCorners.ConvexCornersUpperLeft[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(-25f, -25f, 15f));
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region ConvexCornersUpperRight
-            for (int j = 0; j < stageStructure.ConvexCorners.ConvexCornersUpperRight.Count; i++, j++)
-            {
-                stageElements[i].Rotation = 0;
-                Vector3 move = new Vector3(stageStructure.ConvexCorners.ConvexCornersUpperRight[j].X * mnoznikPrzesuniecaSciany + cornerOffset,
-                                            stageStructure.ConvexCorners.ConvexCornersUpperRight[j].Y * mnoznikPrzesuniecaSciany - cornerOffset,
-                                            2.0f);
-                stageElements[i].Position = move;
-                stageElements[i].FixColliderInternal(new Vector3(0.2f, 0.2f, 1.4f), new Vector3(0f, -25, 15f));
-                //ConnectedColliders.Add(stageElements[i]);
-            }
-            #endregion
-            #region Floor setups
-            float mnoznikPrzesunieciaPodlogi = mnoznikPrzesuniecaSciany;
-            for (int j = 0; j < stageStructure.Floor.Count; i++, j++)
-            {
-                Vector3 move = new Vector3(stageStructure.Floor.Floors[j].X * mnoznikPrzesunieciaPodlogi,
-                                            stageStructure.Floor.Floors[j].Y * mnoznikPrzesunieciaPodlogi,
-                                            -4.8f);
-                stageElements[i].Position = move;
-                //    stageSurroundingsList[i].FixColliderInternal(new Vector3(0.2f, 0.1f, 1.4f), new Vector3(-7, -5, 15f));
-            }
-            #endregion
+            npcBillboardsList = new List<StaticItem>();
+            level.SetUpScene(device);
 
             #region Setting 'em all to colliders
             colliderController = new ColliderController(console);
             colliderController.samantha = samanthaGhostController;
             //colliderController.staticItemList = stageElements;
-            colliderController.staticItemList = ConnectedColliders;
-            colliderController.npcItem = npcList;
+            colliderController.staticItemList = level.ConnectedColliders;
+            colliderController.npcItem = level.npcList;
             colliderController.plot = plot;
-            colliderController.exit = escapeCollider;
+            colliderController.exit = level.escapeCollider;
             #endregion
             #region Setting scene splitter points
             sceneSplitter = new SceneSplitter(samanthaGhostController, new PointF(550.0f, 600.0f));
             #endregion
             #region Sort elements by position
-            stageElements = new List<StaticItem>(stageElements.OrderBy(p => p.Position.X).ThenBy(q => q.Position.Y));
+            level.StageElements = new List<StaticItem>(level.StageElements.OrderBy(p => p.Position.X).ThenBy(q => q.Position.Y));
             #endregion
             #region Initialize AI
             AI ai = AI.Instance;
             ai.ColliderController = colliderController;
-            ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(stage.Rooms);
+            ai.FreeSpaceMap = StageUtils.RoomListToFreeSpaceMap(level.Stage.Rooms);
             #endregion
         }
 
@@ -1040,8 +388,8 @@ namespace Cyber.CGameStateEngine
             //samanthaGhostController.ColliderInternal.DrawBouding(device, samanthaColliderView, view, projection);
             //samanthaGhostController.ColliderExternal.DrawBouding(device, samanthaColliderView, view, projection);
             //samanthaGhostController.DrawRadar(samanthaGhostController.Position, samanthaGhostController.moveColliderExternal, 2f, 1f, device, view, projection);
-            Matrix podjazdModel = Matrix.CreateTranslation(podjazd.Position);
-            podjazd.DrawItem(device, podjazdModel, view, projection);
+            Matrix podjazdModel = Matrix.CreateTranslation(level.podjazd.Position);
+            level.podjazd.DrawItem(device, podjazdModel, view, projection);
 
             //samanthaGhostController.DrawItem(device, samanthaGhostView, view, projection);
             //Matrix samanthaColliderView = Matrix.CreateTranslation(samanthaGhostController.ColliderInternal.Position);
@@ -1066,7 +414,7 @@ namespace Cyber.CGameStateEngine
            
             
 
-            foreach (StaticItem stageElement in stageElements)
+            foreach (StaticItem stageElement in level.StageElements)
             {
                 if(sceneSplitter.IsItemWithin(stageElement)){
                     Matrix stageElementView = Matrix.Identity *
@@ -1181,13 +529,13 @@ namespace Cyber.CGameStateEngine
                 }
             }
             
-            escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+            level.escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
             if(!plot.GeneratorFound)
-                generatorParticles.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+                level.generatorParticles.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
 
             #endregion
             #region Rysowanie NPCów
-            foreach (StaticItem item in npcList)
+            foreach (StaticItem item in level.npcList)
             {
                 Matrix stageElementView = Matrix.Identity *
                                           Matrix.CreateRotationZ(MathHelper.ToRadians(item.Rotation)) *
@@ -1231,8 +579,8 @@ namespace Cyber.CGameStateEngine
 
             //Drawing billboards
             TerminalBillboardHelper.DrawOnlyTab(device, view, projection, cameraRotation);
-            escapeCollider.DrawOnlyEscapeBilboard(device, view, projection, cameraRotation);
-            if (!plot.Gate1Opened && level == Level.level2)
+            level.escapeCollider.DrawOnlyEscapeBilboard(device, view, projection, cameraRotation);
+            if (!plot.Gate1Opened && level.level == Level.level2)
             {
                 gateBillboardHelper.DrawOnlyBillboardGate(device, view, projection, cameraRotation);
             }
@@ -1259,7 +607,7 @@ namespace Cyber.CGameStateEngine
             outlineShader.Parameters["Thickness"].SetValue(outlineThickness);
             outlineShader.Parameters["Threshold"].SetValue(outlineThreshold);
 
-            if (samanthaGhostController.ColliderExternal.AABB.Intersects(escapeCollider.ColliderInternal.AABB))
+            if (level.SamanthaGhostController.ColliderExternal.AABB.Intersects(level.escapeCollider.ColliderInternal.AABB))
             {
                 if (plot.PossibleEscape)
                 {
@@ -1269,7 +617,7 @@ namespace Cyber.CGameStateEngine
                 }
             }
 
-            escapeemitter.Update();
+            level.escapeemitter.Update();
             console.Update();
             KeyboardState newState = currentKeyboardState;
 
@@ -1280,7 +628,7 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
 
             if (!plot.GeneratorFound)
-                generatorParticles.Update();
+                level.generatorParticles.Update();
 
             if (!walkingPlayed)
             {
@@ -1623,7 +971,7 @@ namespace Cyber.CGameStateEngine
             }            
             #endregion
             #region Teleporting Sam near to generator
-            if (first.IsKeyDown(Keys.F1) && second.IsKeyUp(Keys.F1) && level == Level.level2)
+            if (first.IsKeyDown(Keys.F1) && second.IsKeyUp(Keys.F1) && level.level == Level.level2)
             {
                 Vector3 replace = new Vector3(1501.5f, 702.0f, 0);
                 samanthaActualPlayer.Position = replace;
@@ -1642,7 +990,7 @@ namespace Cyber.CGameStateEngine
         #region Wejście i zejście (poprawione, kurde bele)
         public void podjazdCollision()
         {
-            if (podjazd.ColliderInternal.AABB.Intersects(samanthaGhostController.ColliderInternal.AABB))
+            if (level.podjazd.ColliderInternal.AABB.Intersects(samanthaGhostController.ColliderInternal.AABB))
             {
                 if (podjazdBefore < podjazdStopPoint - samanthaGhostController.Position.X)
                 {

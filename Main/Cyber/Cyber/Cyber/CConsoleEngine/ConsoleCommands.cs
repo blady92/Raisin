@@ -1,13 +1,10 @@
 ﻿using Cyber.AudioEngine;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Cyber.CGameStateEngine;
 using Cyber.CItems.CStaticItem;
 using Cyber.CLogicEngine;
-using Cyber.CStageParsing;
 using XNAGameConsole;
 
 namespace Cyber.CConsoleEngine
@@ -143,7 +140,7 @@ Operation not permitted!";
                 return "Command open takes only 1 argument";
             }
 
-            foreach (var gate in gameStateMainGame.stageElements.Where(x => arguments[0].Equals(x.ID)))
+            foreach (var gate in gameStateMainGame.level.StageElements.Where(x => arguments[0].Equals(x.ID)))
             {
                 gate.ColliderInternal = null;
                 gameStateMainGame.plot.OpenGate1();
@@ -246,7 +243,7 @@ Operation not permitted!";
             {
                 return "Command takes no arguments";
             }
-            foreach (var oxygenGenerator in gameStateMainGame.stageElements.Where(x => x.Type == StaticItemType.oxygenGenerator))
+            foreach (var oxygenGenerator in gameStateMainGame.level.StageElements.Where(x => x.Type == StaticItemType.oxygenGenerator))
             {
                 if (gameStateMainGame.plot.GeneratorFound) { 
                     gameStateMainGame.plot.AccessGenerator();
@@ -283,7 +280,7 @@ Operation not permitted!";
             }
             foreach (
                 var oxygenGenerator in
-                    gameStateMainGame.stageElements.Where(
+                    gameStateMainGame.level.StageElements.Where(
                     x => 
                         x.Type == StaticItemType.oxygenGenerator &&
                         arguments[0].Equals(x.ID)

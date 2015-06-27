@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Cyber.CAdditionalLibs
 {
-    class IDGenerator
+    public class IDGenerator
     {
-        private Random random = new Random();
-        private Random characterOrNumber = new Random();
         public List<string> IDs { get; set; }
         
         public void GenerateID()
@@ -31,10 +25,9 @@ namespace Cyber.CAdditionalLibs
         {
             List<string> randomList = new List<string>();
             Random r = new Random();
-            int randomIndex = 0;
             while (inputList.Count > 0)
             {
-                randomIndex = r.Next(0, inputList.Count); 
+                var randomIndex = r.Next(0, inputList.Count); 
                 randomList.Add(inputList[randomIndex]);
                 inputList.RemoveAt(randomIndex);
             }

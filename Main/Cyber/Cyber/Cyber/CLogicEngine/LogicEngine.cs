@@ -14,6 +14,7 @@ using Cyber.CLogicEngine;
 using Microsoft.Xna.Framework.Graphics;
 using Cyber.Audio;
 using Cyber.AudioEngine;
+using Cyber.CLevel;
 
 namespace Cyber.CGameStateEngine
 {
@@ -50,8 +51,8 @@ namespace Cyber.CGameStateEngine
         }
         public Level level
         {
-            get { return gameStateMainGame.level; }
-            set { GameState.State = GameState.States.loadingGame; gameStateMainGame.level = value; }
+            get { return gameStateMainGame.level.level; }
+            set { GameState.State = GameState.States.loadingGame; gameStateMainGame.level.level = value; }
         }
 
         public LogicEngine(List<GameState> menus, ContentManager theContentManager, GraphicsDevice device, Game1 game)
@@ -100,7 +101,7 @@ namespace Cyber.CGameStateEngine
                             {
                                 case 0:
                                     gameStateMainGame.firstStart = true;
-                                    gameStateMainGame.level = Level.level1;
+                                    gameStateMainGame.level = new Level1(gameStateMainGame);
                                     gameStateMainGame.LoadContent(theContentManager, device);
                                     gameStateMainGame.SetUpClock();
                                     gameStateMainGame.SetUpScene(device);
@@ -236,14 +237,14 @@ namespace Cyber.CGameStateEngine
 
             if (gameStateMainGame.escaped)
             {
-                if (gameStateMainGame.level == Level.level1)
+                if (gameStateMainGame.level.level == Level.level1)
                 {
-                    gameStateMainGame.level = Level.level2;
+                    gameStateMainGame.level = new Level2(gameStateMainGame);
                     GameState.State = GameState.States.loadingGame;
                 }
                 else
                 {
-                    gameStateMainGame.level = Level.level1;
+                    gameStateMainGame.level = new Level1(gameStateMainGame);
                     GameState.State = GameState.States.loadingGame;
                 }
             }

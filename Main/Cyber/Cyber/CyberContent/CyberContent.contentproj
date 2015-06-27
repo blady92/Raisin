@@ -503,11 +503,6 @@
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Assets\3D\Characters\dude.fbx">
-      <Name>dude</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
     <Compile Include="Assets\3D\Characters\samantha.FBX">
       <Name>samantha</Name>
       <Importer>FbxImporter</Importer>

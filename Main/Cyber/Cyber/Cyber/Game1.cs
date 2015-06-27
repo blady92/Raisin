@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using XNAGameConsole;
 using Cyber.CConsoleEngine;
 using System.Diagnostics;
+using Cyber.CLevel;
 using Microsoft.Xna.Framework.Media;
 
 namespace Cyber
@@ -101,7 +102,7 @@ namespace Cyber
             mainMenu = new GameStateMainMenu();
             pauseMenu = new GameStatePauseMenu();
             mainGame  = new GameStateMainGame();
-            mainGame.level = Level.level1;
+            mainGame.level = new Level1(mainGame);
             loadMenu = new GameStateLoadMenu();
             loadingGame = new GameStateLoadingGame();
             endGame = new GameStateEndGame();
