@@ -43,7 +43,6 @@ namespace Cyber.Audio
                 audioEngine = new Microsoft.Xna.Framework.Audio.AudioEngine(@path + setName + ".xgs");  //Path to .xgs
                 waveBank = new WaveBank(audioEngine, @path + setName + ".xwb");   //Path to .xwb
                 soundBank = new SoundBank(audioEngine, @path + setName + ".xsb");  //Path to .xsb
-
             }
         }
 

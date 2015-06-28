@@ -213,7 +213,9 @@ Operation not permitted!";
             NPC robot = AI.Robots.Find(x => x.ID == robotId);
             if (robot != null)
             {
+                gameStateMainGame.hackedID.Add(robotId);
                 AI.Robots.Remove(robot);
+
                 gameStateMainGame.plot.HackAlly();
                 return "Robot " + robotId + " screwed";
             }

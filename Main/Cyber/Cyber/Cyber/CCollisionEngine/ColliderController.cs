@@ -32,6 +32,7 @@ namespace Cyber.CollisionEngine
         public List<StaticItem> staticItemList { get; set; }
         public List<StaticItem> npcItem { get; set; }
         public StaticItem samantha { get; set; }
+        public List<string> hackedID { get; set; }
         public StaticItem exit { get; set; }
 
         private Action playAudio;
@@ -141,7 +142,8 @@ namespace Cyber.CollisionEngine
             {
                 if (npc != item && npc.ColliderInternal.AABB.Intersects(samantha.ColliderInternal.AABB))
                 {
-                    plot.SamChecked = true;
+                    if(hackedID != null && !hackedID.Contains(npc.ID))
+                        plot.SamChecked = true;
                     return npc.Type;
                 }
                 npc.DrawID = samantha.ColliderExternal.AABB.Intersects(npc.ColliderInternal.AABB);

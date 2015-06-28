@@ -67,7 +67,10 @@ namespace Cyber.CGameStateEngine
         // TODO: Refactor na private
         public List<StaticItem> npcList;
         public List<StaticItem> npcBillboardsList;
-        public List<GateHolder> gateList; 
+        public List<GateHolder> gateList;
+        private List<ParticleEmitter> particles;
+
+
         private StageParser stageParser;
         private Stage stage;
 
@@ -170,6 +173,8 @@ namespace Cyber.CGameStateEngine
         private CommandNotes notes;
         private bool isNoteUsed;
 
+        //Hacked IDs
+        public List<String> hackedID = new List<string>();
         #region ShadowMapping
         //ShadowMapping
         const int shadowMapWidthHeight = 2048;
@@ -300,9 +305,10 @@ namespace Cyber.CGameStateEngine
             #endregion
             #region Scene escaping
 
+            particles = new List<ParticleEmitter>();
             escapeemitter = new ParticleEmitter();
             escapeemitter.LoadContent(device, theContentManager, "Assets/2D/blueGlow", 40, 70, 70, 100, new Vector3(-5, 270, 60), 1, 1);
-           
+            
             escapeCollider = new StaticItem("Assets/3D/escapeBoxFBX");
             escapeCollider.LoadItem(theContentManager);
             escapeCollider.Position = new Vector3(0, 0, 0);
@@ -315,9 +321,6 @@ namespace Cyber.CGameStateEngine
 
             escapeCollider.OnOffBilboard = false;
             escapeCollider.BilboardHeight = new Vector3(-60, 280, 180);
-
-            generatorParticles = new ParticleEmitter();
-            generatorParticles.LoadContent(device, theContentManager, "Assets/2D/yellowGlow", 40, 70, 70, 100, new Vector3(1390, 600, 0), 1, 1);
 
             podjazd = new StaticItem("Assets/3D/podjazdFBX");
             podjazd.LoadItem(theContentManager);
@@ -562,6 +565,10 @@ namespace Cyber.CGameStateEngine
                     stageElements[j].MachineIDHeight = new Vector3(-30, 0, 150);
                     generatedID.IDs.RemoveAt(0);
                     stageElements[j].ApplyIDBilboard(device, theContentManager, move);
+                    generatorParticles = new ParticleEmitter();
+                    generatorParticles.LoadContent(device, theContentManager, "Assets/2D/yellowGlow", 40, 70, 70, 100, move+new Vector3(-70, -20, 40), 1, 1);
+
+                    particles.Add(generatorParticles);
                 }
                 #endregion
                 #region Rest Things
@@ -972,6 +979,7 @@ namespace Cyber.CGameStateEngine
             colliderController.npcItem = npcList;
             colliderController.plot = plot;
             colliderController.exit = escapeCollider;
+            colliderController.hackedID = hackedID;
             #endregion
             #region Setting scene splitter points
             sceneSplitter = new SceneSplitter(samanthaGhostController, new PointF(550.0f, 600.0f));
@@ -1194,7 +1202,8 @@ namespace Cyber.CGameStateEngine
             
             escapeemitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
             if(!plot.GeneratorFound)
-                generatorParticles.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
+                foreach (ParticleEmitter emitter in particles)
+                    emitter.Draw(device, view, projection, cameraRotation, new Vector3(0, 0, 0));
 
             #endregion
             #region Rysowanie NPCów

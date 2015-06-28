@@ -141,10 +141,6 @@
     <Compile Include="CLogicEngine\Position.cs" />
     <Compile Include="CLogicEngine\StageUtils.cs" />
     <Compile Include="CLogicEngine\Pathfinding\StraightWayAlgorithm.cs" />
-    <Compile Include="CSkillTree\SkillDefensive.cs" />
-    <Compile Include="CSkillTree\SkillOffensive.cs" />
-    <Compile Include="CSkillTree\SkillRest.cs" />
-    <Compile Include="CSkillTree\Tree.cs" />
     <Compile Include="CStageParsing\Gate.cs" />
     <Compile Include="CStageParsing\GateHolder.cs" />
     <Compile Include="CStageParsing\Generables.cs" />
