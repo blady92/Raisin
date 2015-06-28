@@ -16,8 +16,8 @@ Global Settings
     Header File = CyberBank.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1684417349;
-    Last Modified High = 30454073;
+    Last Modified Low = 1644214565;
+    Last Modified High = 30454178;
 
     Category
     {
@@ -227,10 +227,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1684577349;
-    PC Bank Last Modified High = 30454073;
-    Bank Last Revised Low = 1684487378;
-    Bank Last Revised High = 30454073;
+    PC Bank Last Modified Low = 1644734610;
+    PC Bank Last Modified High = 30454178;
+    Bank Last Revised Low = 1644714592;
+    Bank Last Revised High = 30454178;
 
     Wave
     {
@@ -620,6 +620,75 @@ Wave Bank
             File Type = 1;
             Last Modified Low = 771059090;
             Last Modified High = 30454073;
+        }
+    }
+
+    Wave
+    {
+        Name = basicScript;
+        File = Cyber Music\basicScript.wav;
+        Build Settings Last Modified Low = 1217636605;
+        Build Settings Last Modified High = 30454178;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 317444;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 3377141035;
+            Last Modified High = 30454172;
+        }
+    }
+
+    Wave
+    {
+        Name = defenceSharp;
+        File = Cyber Music\defenceSharp.wav;
+        Build Settings Last Modified Low = 1276935657;
+        Build Settings Last Modified High = 30454178;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 240960;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 1919439589;
+            Last Modified High = 30454176;
+        }
+    }
+
+    Wave
+    {
+        Name = attackPlusPlus;
+        File = Cyber Music\attackPlusPlus.wav;
+        Build Settings Last Modified Low = 1310063302;
+        Build Settings Last Modified High = 30454178;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 450640;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 1862919719;
+            Last Modified High = 30454177;
         }
     }
 }
@@ -1440,6 +1509,147 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = basicScript;
+        Volume = -400;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = CyberWaveBank;
+                    Bank Index = 0;
+                    Entry Name = basicScript;
+                    Entry Index = 17;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = defenceSharp;
+        Volume = -200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = CyberWaveBank;
+                    Bank Index = 0;
+                    Entry Name = defenceSharp;
+                    Entry Index = 18;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = attackPlusPlus;
+        Volume = -200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = CyberWaveBank;
+                    Bank Index = 0;
+                    Entry Name = attackPlusPlus;
+                    Entry Index = 19;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = bgmusic 2;
@@ -1775,6 +1985,66 @@ Sound Bank
         {
             Name = textWriting;
             Index = 16;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = basicScript;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = basicScript;
+            Index = 17;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = defenceSharp;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = defenceSharp;
+            Index = 18;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = attackPlusPlus;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = attackPlusPlus;
+            Index = 19;
             Weight Min = 0;
             Weight Max = 255;
         }

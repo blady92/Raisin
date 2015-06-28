@@ -199,6 +199,7 @@ namespace Cyber.CItems
                 }
                 if (newKeyState.IsKeyDown(Keys.D1) && oldKeyState.IsKeyUp(Keys.D1))
                 {
+                    
                     if (call == TypeCall.normal)
                     {
                         dashboardReload = false;
@@ -206,6 +207,7 @@ namespace Cyber.CItems
                     }
                     else
                     {
+                        audioController.languageController("PlayBS");
                         dashboardReload = true;
                         call = TypeCall.normal;
                     }
@@ -216,6 +218,7 @@ namespace Cyber.CItems
 
                 if (newKeyState.IsKeyDown(Keys.D2) && oldKeyState.IsKeyUp(Keys.D2))
                 {
+                    
                     if (call == TypeCall.defense)
                     {
                         dashboardReload = false;
@@ -223,6 +226,7 @@ namespace Cyber.CItems
                     }
                     else
                     {
+                        audioController.languageController("PlayD#");
                         dashboardReload = true;
                         call = TypeCall.defense;
                     }
@@ -233,6 +237,7 @@ namespace Cyber.CItems
 
                 if (newKeyState.IsKeyDown(Keys.D3) && oldKeyState.IsKeyUp(Keys.D3))
                 {
+                    
                     if (call == TypeCall.attack)
                     {
                         dashboardReload = false;
@@ -241,6 +246,7 @@ namespace Cyber.CItems
                     }
                     else
                     {
+                        audioController.languageController("PlayA++");
                         dashboardReload = true;
                         call = TypeCall.attack;                      
                     }

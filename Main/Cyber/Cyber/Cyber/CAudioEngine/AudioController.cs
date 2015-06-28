@@ -49,6 +49,9 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("newSkill")); //15
             audio.CueList.Add(audio.SoundBank.GetCue("textWriting")); //16
             audio.CueList.Add(audio.SoundBank.GetCue("textWriting")); //17
+            audio.CueList.Add(audio.SoundBank.GetCue("basicScript")); //18
+            audio.CueList.Add(audio.SoundBank.GetCue("defenceSharp")); //19
+            audio.CueList.Add(audio.SoundBank.GetCue("attackPlusPlus")); //20
         }
 
         public void BGMusicController(string command)
@@ -239,6 +242,22 @@ namespace Cyber.AudioEngine
             else
             {
                 audio.SoundBank.GetCue("menuhover").Stop(AudioStopOptions.Immediate);
+            }
+        }
+
+        public void languageController(string command)
+        {
+            if (command == "PlayBS")
+            {
+                audio.SoundBank.GetCue("basicScript").Play();
+            }
+            else if (command == "PlayD#")
+            {
+                audio.SoundBank.GetCue("defenceSharp").Play();
+            }
+            else if(command == "PlayA++")
+            {
+                audio.SoundBank.GetCue("attackPlusPlus").Play();
             }
         }
 
