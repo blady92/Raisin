@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Cyber.Audio;
+using Cyber.AudioEngine;
 
 namespace Cyber.CItems
 {
@@ -42,6 +44,11 @@ namespace Cyber.CItems
         private SpriteFont header;
         private int moveX;
         public bool isNoteUsed { get; set; }
+
+        private AudioModel audioModel = new AudioModel("CyberBank");
+        private AudioController audioController;
+        private bool soundOpenPlayed = false;
+        private bool soundClosePlayed = false;
 
         public enum TypeCall
         {
@@ -95,10 +102,15 @@ namespace Cyber.CItems
             dashboardHidden = true;
             dashboardReload = false;
             moveX = 10;
+
+            audioController = new AudioController(audioModel);
+            audioController.setAudio();
         }
 
         public void LearnNewCommand(Command command)
         {
+            audioController.newCommandController("Play");
+         
             if (command.CommandType == CommandType.normal)
             {
                 command.LoadFontTypes(theContentManager);
@@ -225,11 +237,12 @@ namespace Cyber.CItems
                     {
                         dashboardReload = false;
                         call = TypeCall.none;
+                       
                     }
                     else
                     {
                         dashboardReload = true;
-                        call = TypeCall.attack;
+                        call = TypeCall.attack;                      
                     }
                     commandIconAttack.AnimationThereAndBackAgain(true);
                     attackLearnNew = false;
@@ -268,11 +281,17 @@ namespace Cyber.CItems
                 MoveIcon(commandIconAttack, move);
                 MoveIcon(commandIconDefense, move);
                 MoveIcon(commandIconNormal, move);
+                if (!soundOpenPlayed)
+                {
+                    audioController.notepadSoundEffect("Play");
+                    soundOpenPlayed = true;
+                }
             }
             else
             {
                 dashboardShown = true;
                 isNoteUsed = true;
+                soundOpenPlayed = false;
             }
         }
 
@@ -285,11 +304,18 @@ namespace Cyber.CItems
                 MoveIcon(commandIconAttack, move);
                 MoveIcon(commandIconDefense, move);
                 MoveIcon(commandIconNormal, move);
+                if(!soundClosePlayed)
+                {
+                    audioController.notepadSoundEffect("PlayInvert");
+                    soundClosePlayed = true;
+                }
+               
             }
             else
             {
                 dashboardShown = false;
                 isNoteUsed = false;
+                soundClosePlayed = false;
             }
         }
         #endregion

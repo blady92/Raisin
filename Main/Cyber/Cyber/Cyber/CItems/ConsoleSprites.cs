@@ -44,7 +44,7 @@ namespace Cyber.CItems
         private GameStateMainGame game;
         private AudioController audioController;
         private AudioModel audioModel = new AudioModel("CyberBank");
-        bool textPlayed = false;
+        private bool textWritingPlayed = false;
         private Dictionary<string, CommandType> possibleCommands;
 
         //Kwestie fabularne
@@ -366,6 +366,15 @@ namespace Cyber.CItems
         {
             if (messages.Count > 0 && messages[0].DrawnMessage.Length < PrintedText.Length)
             {
+                //if (!textWritingPlayed)
+                //{
+                //    audioController.textWritingController("Play");
+                //    textWritingPlayed = true;
+                //}
+                //else
+                //{
+                //    //audioController.textWritingController("Resume");
+                //}
                 //if(!textPlayed)
                 //{
                 //    audioController.menuHoverController("Play");
@@ -415,6 +424,7 @@ namespace Cyber.CItems
             }
             else
             {
+                //audioController.textWritingController("Pause");
                 spriteBatch.DrawString(font, messages[0].DrawnMessage, messages[0].Position, messages[0].DrawColor);
                 spriteBatch.DrawString(font, messages[1].DrawnMessage, messages[1].Position, messages[1].DrawColor);
             }

@@ -44,6 +44,11 @@ namespace Cyber.AudioEngine
             audio.CueList.Add(audio.SoundBank.GetCue("cinematicExit")); //10
             audio.CueList.Add(audio.SoundBank.GetCue("walkingBetter")); //11
             audio.CueList.Add(audio.SoundBank.GetCue("alertSystem")); //12
+            audio.CueList.Add(audio.SoundBank.GetCue("notepadOpen")); //13
+            audio.CueList.Add(audio.SoundBank.GetCue("notepadClose")); //14
+            audio.CueList.Add(audio.SoundBank.GetCue("newSkill")); //15
+            audio.CueList.Add(audio.SoundBank.GetCue("textWriting")); //16
+            audio.CueList.Add(audio.SoundBank.GetCue("textWriting")); //17
         }
 
         public void BGMusicController(string command)
@@ -248,7 +253,78 @@ namespace Cyber.AudioEngine
                 audio.SoundBank.GetCue("terminalMoveDown2").Play();
             }
         }
-       
+
+        public void notepadSoundEffect(string command)
+        {
+            if (command == "Play")
+            {
+                audio.SoundBank.GetCue("notepadOpen").Play();
+            }
+            else if (command == "PlayInvert")
+            {
+                audio.SoundBank.GetCue("notepadClose").Play();
+            }
+        }
+
+        public void newCommandController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.SoundBank.GetCue("newSkill").Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[12].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[12].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[12].Pause();
+            }
+        }
+
+        public void textWritingController(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[16].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[16].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[16].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[16].Pause();
+            }
+        }
+
+        public void textWritingControllerForNotepad(string command)
+        {
+            if (command == "Play")
+            {
+                audio.CueList[17].Play();
+            }
+            else if (command == "Stop")
+            {
+                audio.CueList[17].Stop(AudioStopOptions.Immediate);
+            }
+            else if (command == "Resume")
+            {
+                audio.CueList[17].Resume();
+            }
+            else if (command == "Pause")
+            {
+                audio.CueList[17].Pause();
+            }
+        }
 
         public void playAudio(int i)
         {

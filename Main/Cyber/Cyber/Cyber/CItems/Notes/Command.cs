@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Cyber.Audio;
+using Cyber.AudioEngine;
 
 namespace Cyber.CItems.Notes
 {
@@ -38,6 +40,10 @@ namespace Cyber.CItems.Notes
         private SpriteFont commandSpriteFont;
         private SpriteFont commandDescriptionSpriteFont;
 
+        private AudioModel audioModel = new AudioModel("CyberBank");
+        private AudioController audioController;
+        private bool textWritingPlayed = false;
+
         public List<DisplayMessage> messages = new List<DisplayMessage>();  
 
         public Command(string command, string commandDescription, CommandType commandType)
@@ -51,6 +57,9 @@ namespace Cyber.CItems.Notes
         {
             commandSpriteFont = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleCommand");
             commandDescriptionSpriteFont = theContentManager.Load<SpriteFont>("Assets/Fonts/ConsoleDescription");
+
+            audioController = new AudioController(audioModel);
+            audioController.setAudio();
         }
 
         public void Draw(SpriteBatch spriteBatch, int dashboardWidth, int enters, int commands)
@@ -71,6 +80,16 @@ namespace Cyber.CItems.Notes
         {
             if (messages.Count > 0 && messages[0].DrawnMessage.Length < command.Length)
             {
+                if(!textWritingPlayed)
+                {
+                    audioController.textWritingControllerForNotepad("Play");
+                    textWritingPlayed = true;
+                }
+                else
+                {
+                    audioController.textWritingControllerForNotepad("Resume");
+                }
+             
                 DisplayMessage dm = messages[0];
                 spriteBatch.DrawString(commandSpriteFont, dm.DrawnMessage, dm.Position, dm.DrawColor);
                 dm.DrawnMessage += dm.Message[dm.CurrentIndex].ToString();
@@ -78,6 +97,7 @@ namespace Cyber.CItems.Notes
             }
             else
             {
+               
                 spriteBatch.DrawString(commandDescriptionSpriteFont, messages[0].DrawnMessage, messages[0].Position, messages[0].DrawColor);
                 spriteBatch.DrawString(commandDescriptionSpriteFont, messages[1].DrawnMessage, messages[1].Position, messages[1].DrawColor);
             }
@@ -90,6 +110,7 @@ namespace Cyber.CItems.Notes
             }
             else
             {
+                audioController.textWritingControllerForNotepad("Pause");
                 spriteBatch.DrawString(commandDescriptionSpriteFont, messages[0].DrawnMessage, messages[0].Position, messages[0].DrawColor);
                 spriteBatch.DrawString(commandDescriptionSpriteFont, messages[1].DrawnMessage, messages[1].Position, messages[1].DrawColor);
             }
