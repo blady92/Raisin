@@ -82,12 +82,12 @@ namespace Cyber.CItems.Notes
             {
                 if(!textWritingPlayed)
                 {
-                    audioController.textWritingControllerForNotepad("Play");
+                    //audioController.textWritingControllerForNotepad("Play");
                     textWritingPlayed = true;
                 }
                 else
                 {
-                    audioController.textWritingControllerForNotepad("Resume");
+                    //audioController.textWritingControllerForNotepad("Resume");
                 }
              
                 DisplayMessage dm = messages[0];
