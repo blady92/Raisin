@@ -327,22 +327,6 @@ namespace Cyber.AudioEngine
             }
         }
 
-        public void languageController(string command)
-        {
-            if(command == "PlayBS")
-            {
-                audio.SoundBank.GetCue("basicScript").Play();
-            }
-            else if (command == "PlayD#")
-            {
-                audio.SoundBank.GetCue("defenceSharp").Play();
-            }
-            else if (command == "PlayA++")
-            {
-                audio.SoundBank.GetCue("attackPlusPlus").Play();
-            }
-        }
-
         public void playAudio(int i)
         {
             if (audio.CueList[i].IsPlaying || audio.CueList[i].IsStopped || audio.CueList[i].IsPaused)
