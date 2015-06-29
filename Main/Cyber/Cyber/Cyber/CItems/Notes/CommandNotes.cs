@@ -207,7 +207,6 @@ namespace Cyber.CItems
                     }
                     else
                     {
-                        audioController.languageController("PlayBS");
                         dashboardReload = true;
                         call = TypeCall.normal;
                     }
@@ -226,7 +225,6 @@ namespace Cyber.CItems
                     }
                     else
                     {
-                        audioController.languageController("PlayD#");
                         dashboardReload = true;
                         call = TypeCall.defense;
                     }
@@ -246,7 +244,6 @@ namespace Cyber.CItems
                     }
                     else
                     {
-                        audioController.languageController("PlayA++");
                         dashboardReload = true;
                         call = TypeCall.attack;                      
                     }
