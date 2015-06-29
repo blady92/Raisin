@@ -38,8 +38,8 @@ namespace Cyber
         private bool allyChecked;
         [DataMember]
         private bool allyHacked;
-        [DataMember] 
-        private bool enemyDestroyed;
+        //[DataMember] 
+        //private bool enemyDestroyed;
         [DataMember]
         private bool levelCleared;
         [DataMember]
@@ -109,12 +109,12 @@ namespace Cyber
             set { allyHacked = value; }
         }
 
-        [DataMember]
-        public bool EnemyDestroyed
-        {
-            get { return enemyDestroyed; }
-            set { enemyDestroyed = value; }
-        }
+        //[DataMember]
+        //public bool EnemyDestroyed
+        //{
+        //    get { return enemyDestroyed; }
+        //    set { enemyDestroyed = value; }
+        //}
         [DataMember]
         public bool SamChecked { get; set; }
         [DataMember]
@@ -172,7 +172,7 @@ namespace Cyber
             BreakPoints.Add(22);
             BreakPoints.Add(23);
             BreakPoints.Add(24);
-            BreakPoints.Add(25);
+            //BreakPoints.Add(25);
 
             BreakPointsText = new List<string>();
             //Dla linijki 7
@@ -189,7 +189,7 @@ namespace Cyber
             //Dla linijki 22
             BreakPointsText.Add("Theo: Use AllySleep <ID> to screw the corpo-robot up. ID is his unique identifier.");
             //Dla linijki 23
-            BreakPointsText.Add("Theo: Try destroy one of enemies using DestroyEnemy <ID>");
+            //BreakPointsText.Add("Theo: Try destroy one of enemies using DestroyEnemy <ID>");
             //Dla linijki 24
             BreakPointsText.Add("Theo: Find the generator here.");
             //Dla linijki 25
@@ -262,19 +262,19 @@ namespace Cyber
             }
         }
 
-        public void DestroyEnemy()
-        {
-            //wykonanie poprzedniego punktu
-            if (allyHacked)
-            {
-                dialogNumber--;
-                BreakPoints.RemoveAt(0);
-                BreakPointsText.RemoveAt(0);
-                action = true;
-                allyHacked = true;
-                Notes.LearnNewCommand(new Command("DestroyEnemy <ID>", "ID is an enemy identificator. Removes pointed enemy from stage. Totally.", CommandType.attack));
-            }
-        }
+        //public void DestroyEnemy()
+        //{
+        //    //wykonanie poprzedniego punktu
+        //    if (allyHacked)
+        //    {
+        //        dialogNumber--;
+        //        BreakPoints.RemoveAt(0);
+        //        BreakPointsText.RemoveAt(0);
+        //        action = true;
+        //        allyHacked = true;
+        //        Notes.LearnNewCommand(new Command("DestroyEnemy <ID>", "ID is an enemy identificator. Removes pointed enemy from stage. Totally.", CommandType.attack));
+        //    }
+        //}
         public void FoundGenerator()
         {
             if (!generatorFound && AllyHacked)
