@@ -132,6 +132,8 @@ namespace Cyber.CItems
                 attackCommands.Add(command); 
                 attackLearnNew = true;
             }
+
+            audioController.newCommandController("Pause");
         }
 
         public void DrawNote(SpriteBatch theSpriteBatch)

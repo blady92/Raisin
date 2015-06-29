@@ -173,7 +173,7 @@ namespace Cyber
             BreakPoints.Add(22);
             BreakPoints.Add(23);
             BreakPoints.Add(24);
-            //BreakPoints.Add(25);
+            BreakPoints.Add(25);
 
             BreakPointsText = new List<string>();
             //Dla linijki 7
@@ -190,7 +190,7 @@ namespace Cyber
             //Dla linijki 22
             BreakPointsText.Add("Theo: Use AllySleep <ID> to screw the corpo-robot up. ID is his unique identifier.");
             //Dla linijki 23
-            //BreakPointsText.Add("Theo: Try destroy one of enemies using DestroyEnemy <ID>");
+            BreakPointsText.Add("Theo: Try destroy one of enemies using DestroyEnemy <ID>");
             //Dla linijki 24
             BreakPointsText.Add("Theo: Find the generator here.");
             //Dla linijki 25
@@ -323,6 +323,7 @@ namespace Cyber
                     !gate1Opened        ||
                     !allyChecked        ||
                     !allyHacked         ||
+                    !enemyDestroyed     ||
                     !GeneratorFound     ||
                     !generatorFound     ||
                     !generatorAccess    ||
