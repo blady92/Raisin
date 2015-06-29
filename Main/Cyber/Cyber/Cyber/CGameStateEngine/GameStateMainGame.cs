@@ -982,7 +982,7 @@ namespace Cyber.CGameStateEngine
             colliderController.hackedID = hackedID;
             #endregion
             #region Setting scene splitter points
-            sceneSplitter = new SceneSplitter(samanthaGhostController, new PointF(550.0f, 600.0f));
+            sceneSplitter = new SceneSplitter(samanthaGhostController, new PointF(650.0f, 700.0f));
             #endregion
             #region Sort elements by position
             stageElements = new List<StaticItem>(stageElements.OrderBy(p => p.Position.X).ThenBy(q => q.Position.Y));

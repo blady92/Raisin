@@ -10,7 +10,7 @@ namespace Cyber.CGameStateEngine
     internal class GameStateWinGame : GameState
     {
         private Sprite background;
-        private Sprite winText;
+        //private Sprite winText;
 
 
 
@@ -18,15 +18,15 @@ namespace Cyber.CGameStateEngine
         {
             string path = "Assets/2D/";
             background = new Sprite(0, 0);
-            winText = new Sprite(450, 350);
-            background.LoadContent(theContentManager, path + "menuBackground");
-            winText.LoadContent(theContentManager, path + "endGameText");
+            //winText = new Sprite(450, 350);
+            background.LoadContent(theContentManager, path + "credits");
+            //winText.LoadContent(theContentManager, path + "endGameText");
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             background.DrawByRectangle(spriteBatch);
-            winText.DrawByRectangle(spriteBatch);
+            //winText.DrawByRectangle(spriteBatch);
         }
     }
 }
