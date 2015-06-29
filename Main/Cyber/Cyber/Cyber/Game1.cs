@@ -204,7 +204,7 @@ namespace Cyber
             }
             else if (LogicEngine.GetState() == GameState.States.winGame)
             {
-                audioController.BGMusicDramaticController("Stop");
+                audioController.BGMusicDramaticController("Pause");
                 if (!exitPlayed)
                 {
                     audioController.cinematicExitController("Play");

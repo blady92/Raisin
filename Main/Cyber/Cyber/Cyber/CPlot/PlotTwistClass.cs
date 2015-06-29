@@ -268,9 +268,9 @@ namespace Cyber
             //wykonanie poprzedniego punktu
             if (!EnemyDestroyed)
             {
-                dialogNumber--;
-                BreakPoints.RemoveAt(0);
-                BreakPointsText.RemoveAt(0);
+                //dialogNumber--;
+                //BreakPoints.RemoveAt(0);
+                //BreakPointsText.RemoveAt(0);
                 action = true;
                 enemyDestroyed = true;
                 Notes.LearnNewCommand(new Command("DestroyEnemy <ID>", "ID is an enemy identificator. Removes pointed enemy from stage. Totally.", CommandType.attack));
