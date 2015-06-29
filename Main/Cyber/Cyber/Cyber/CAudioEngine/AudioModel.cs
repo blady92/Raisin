@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Audio;
@@ -41,10 +40,9 @@ namespace Cyber.Audio
                 cueList = new List<Cue>();
                 setName = value;
                 string path = "../../../../CyberContent/Assets/Music/Win/";
-                    audioEngine = new Microsoft.Xna.Framework.Audio.AudioEngine(@path + setName + ".xgs");
-                        //Path to .xgs
-                    waveBank = new WaveBank(audioEngine, @path + setName + ".xwb"); //Path to .xwb
-                    soundBank = new SoundBank(audioEngine, @path + setName + ".xsb"); //Path to .xsb
+                audioEngine = new Microsoft.Xna.Framework.Audio.AudioEngine(@path + setName + ".xgs");  //Path to .xgs
+                waveBank = new WaveBank(audioEngine, @path + "CyberBank.xwb");   //Path to .xwb
+                soundBank = new SoundBank(audioEngine, @path + setName + ".xsb");  //Path to .xsb
             }
         }
 
