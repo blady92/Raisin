@@ -233,6 +233,45 @@ Operation not permitted!";
         }
     }
 
+    public class DestroyEnemyCommand : IConsoleCommand
+    {
+        private GameStateMainGame gameStateMainGame;
+
+        public DestroyEnemyCommand(GameStateMainGame gameStateMainGame)
+        {
+            this.gameStateMainGame = gameStateMainGame;
+        }
+
+        public string Execute(string[] arguments)
+        {
+            if (arguments == null || arguments.Length != 1)
+            {
+                return "Command takes only 1 argument";
+            }
+            string robotId = arguments[0];
+            NPC robot = AI.Robots.Find(x => x.ID == robotId);
+            if (robot != null)
+            {
+                gameStateMainGame.hackedID.Add(robotId);
+                AI.Robots.Remove(robot);
+                gameStateMainGame.npcList.Remove(robot);
+                gameStateMainGame.plot.DestroyEnemy();
+                return "Robot " + robotId + " disappeared, erm... I mean destroyed.";
+            }
+            return "Robot " + robotId + " not found.";
+        }
+
+        public string Name
+        {
+            get { return "DestroyEnemy"; }
+        }
+
+        public string Description
+        {
+            get { return "Remove given robot from stage."; }
+        }
+    }
+
     public class AccessGeneratorCommand : IConsoleCommand
     {
         private GameStateMainGame gameStateMainGame;

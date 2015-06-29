@@ -11,7 +11,7 @@ Theo: Don't worry. Based on my computing results it's not that quick process...
 Samantha: But it's still not optimistic. Can't you do it yourself?
 Theo: Programmers laid restrictions on me, but they didn't tell me I'm not able to collaborate with others :) Now, quickly leave this place. Go through the teleporter behind you.
 Samantha: I see. So, let's go!
-Theo: Let's start by the youngest bit portions. Go to the gate and read its ID.
+Theo: Let's start by the youngest bit portions. Go to the gate and read its <ID>.
 Theo: I hope you remember it. And now - use next command - OpenGate <ID> As you've seen - parameter is necessary. In this case - the gate ID.
 Theo: Okay, passing through the gate was a piece of cake. 10/10, grand jury is impressed.
 Samantha: Okay, okay, don't make me blush. I hope we'll manage to the end of the mission.
@@ -19,8 +19,9 @@ Theo: I appreciate your enthusiasm, but now... The more deeper you go, the bette
 Samantha: Protected?
 Theo: Literally. Now you should avoid a contact with robots which patrols the laboratory. Look at him. Maybe he is not the strongest one, but don't underestimate him! His radars are really vigilant.
 Samantha: He must have got some weakness... I'm gonna check him out.
-Theo: You did it! Awesome! Now Sam, when I know about him more... Screw him up by using AllySleep ID command. Zero-one dreams, Ally. 
+Theo: You did it! Awesome! Now Sam, when I know about him more... Screw him up by using AllySleep <ID> command. Zero-one dreams, Ally. 
+Theo: Next command is more agressive. It removes your enemy. To do it, just use DestroyEnemy <ID>
 Theo: Sam I'd help you more, but I can't now, I've a... technical problems, try avoid others and look for a generator. it might be somewhere near.
 Theo: We need to free up gathered by Cyber2O oxygen in one of the many generators. To get access to oxygen generator just use AccessGenerator
-Theo: Okay, now use Free ID setting as parameter machine ID.
+Theo: Okay, now use Free <ID> setting as parameter machine <ID>.
   

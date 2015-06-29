@@ -38,6 +38,8 @@ namespace Cyber
         private bool allyChecked;
         [DataMember]
         private bool allyHacked;
+        [DataMember] 
+        private bool enemyDestroyed;
         [DataMember]
         private bool levelCleared;
         [DataMember]
@@ -108,6 +110,12 @@ namespace Cyber
         }
 
         [DataMember]
+        public bool EnemyDestroyed
+        {
+            get { return enemyDestroyed; }
+            set { enemyDestroyed = value; }
+        }
+        [DataMember]
         public bool SamChecked { get; set; }
         [DataMember]
         public bool GeneratorFound
@@ -164,6 +172,7 @@ namespace Cyber
             BreakPoints.Add(22);
             BreakPoints.Add(23);
             BreakPoints.Add(24);
+            BreakPoints.Add(25);
 
             BreakPointsText = new List<string>();
             //Dla linijki 7
@@ -173,18 +182,20 @@ namespace Cyber
 
             //Druga plansza
             //Dla linijki 15
-            BreakPointsText.Add("Theo: Use 'OpenGate ID' where ID is id of gate to open them.");
+            BreakPointsText.Add("Theo: Use OpenGate <ID> where ID is id of gate to open them.");
 
             //Dla linijki 21
             BreakPointsText.Add("Samantha: I should do something quickly. Let's see those robots.");
             //Dla linijki 22
-            BreakPointsText.Add("Theo: Use 'AllySleep ID' to screw the corpo-robot up. ID is his unique identifier.");
+            BreakPointsText.Add("Theo: Use AllySleep <ID> to screw the corpo-robot up. ID is his unique identifier.");
             //Dla linijki 23
-            BreakPointsText.Add("Theo: Find the generator here.");
+            BreakPointsText.Add("Theo: Try destroy one of enemies using DestroyEnemy <ID>");
             //Dla linijki 24
-            BreakPointsText.Add("Theo: Use 'AccessGenerator' to get the generator ID.");
+            BreakPointsText.Add("Theo: Find the generator here.");
             //Dla linijki 25
-            BreakPointsText.Add("Theo: Use 'Free ID to release oxygen.");
+            BreakPointsText.Add("Theo: Use AccessGenerator to get the generator ID.");
+            //Dla linijki 26
+            BreakPointsText.Add("Theo: Use Free <ID> to release oxygen.");
 
 
             file.Close();
@@ -247,10 +258,23 @@ namespace Cyber
                 BreakPointsText.RemoveAt(0);
                 action = true;
                 allyHacked = true;
-                Notes.LearnNewCommand(new Command("AllySleep <ID>", "ID is enemy identificator. Makes enemies impossibe to move. Radar of this enemy will be turned down. After passing time this enemy will turn on and work in the same way as before.", CommandType.defense));
+                Notes.LearnNewCommand(new Command("AllySleep <ID>", "ID is an enemy identificator. Makes enemies impossibe to move. Radar of this enemy will be turned down. After passing time this enemy will turn on and work in the same way as before.", CommandType.defense));
             }
         }
 
+        public void DestroyEnemy()
+        {
+            //wykonanie poprzedniego punktu
+            if (allyHacked)
+            {
+                dialogNumber--;
+                BreakPoints.RemoveAt(0);
+                BreakPointsText.RemoveAt(0);
+                action = true;
+                allyHacked = true;
+                Notes.LearnNewCommand(new Command("DestroyEnemy <ID>", "ID is an enemy identificator. Removes pointed enemy from stage. Totally.", CommandType.attack));
+            }
+        }
         public void FoundGenerator()
         {
             if (!generatorFound && AllyHacked)

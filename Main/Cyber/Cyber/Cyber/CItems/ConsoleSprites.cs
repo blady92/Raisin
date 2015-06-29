@@ -94,7 +94,7 @@ namespace Cyber.CItems
             possibleCommands.Add("Free", CommandType.normal);
             PutCommand(new GameConsoleCommand(new GetTimeCommand(game)));
             possibleCommands.Add("GetTime", CommandType.normal);
-            //PutCommand(new GameConsoleCommand(new DestroyEnemy(game)));
+            PutCommand(new GameConsoleCommand(new DestroyEnemyCommand(game)));
             possibleCommands.Add("DestroyEnemy", CommandType.attack);
             //PutCommand(new GameConsoleCommand(new ScanEnemies(game)));
             possibleCommands.Add("ScanEnemies", CommandType.defense);

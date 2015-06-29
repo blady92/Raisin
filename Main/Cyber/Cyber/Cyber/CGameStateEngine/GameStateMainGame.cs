@@ -1308,7 +1308,8 @@ namespace Cyber.CGameStateEngine
             samanthaActualPlayer.SkinnedModel.UpdatePlayer(gameTime);
 
             if (!plot.GeneratorFound)
-                generatorParticles.Update();
+                foreach (ParticleEmitter particle in particles)
+                    particle.Update();   
             #region Samantha Audio
             if (!walkingPlayed)
             {
