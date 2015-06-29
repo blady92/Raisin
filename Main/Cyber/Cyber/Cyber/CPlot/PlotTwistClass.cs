@@ -266,7 +266,7 @@ namespace Cyber
         public void DestroyEnemy()
         {
             //wykonanie poprzedniego punktu
-            if (!EnemyDestroyed)
+            if (!EnemyDestroyed && allyHacked)
             {
                 dialogNumber--;
                 BreakPoints.RemoveAt(0);
@@ -278,7 +278,7 @@ namespace Cyber
         }
         public void FoundGenerator()
         {
-            if (!generatorFound && AllyHacked)
+            if (!generatorFound && EnemyDestroyed)
             {
                 BreakPoints.RemoveAt(0);
                 BreakPointsText.RemoveAt(0);
@@ -291,12 +291,13 @@ namespace Cyber
 
         public void AccessGenerator()
         {
-            if (!generatorAccess && generatorFound) {
+            if (!generatorAccess && generatorFound)
+            {
+                dialogNumber--;
                 BreakPoints.RemoveAt(0);
                 BreakPointsText.RemoveAt(0);
-                action = true;
+                action = false;
                 generatorAccess = true;
-                dialogNumber--;
                 Notes.LearnNewCommand(new Command("AccessGenerator", "No ID is needed. Returns ID of nearly Generator.", CommandType.normal));
             }
         }
@@ -305,11 +306,11 @@ namespace Cyber
         {
             if (generatorAccess && generatorFound)
             {
-                BreakPoints.RemoveAt(0);
-                BreakPointsText.RemoveAt(0);
-                action = true;
-                generatorOn = true;
-                Notes.LearnNewCommand(new Command("Free <ID>", "Use to release oxygen by running nearly generator. ID is gotten from AccessGenerator command.", CommandType.normal));
+            //    BreakPoints.RemoveAt(0);
+            //    BreakPointsText.RemoveAt(0);
+            //    action = true;
+            generatorOn = true;
+            //    Notes.LearnNewCommand(new Command("Free <ID>", "Use to release oxygen by running nearly generator. ID is gotten from AccessGenerator command.", CommandType.normal));
             }
         }
         #endregion
@@ -324,7 +325,6 @@ namespace Cyber
                     !allyChecked        ||
                     !allyHacked         ||
                     !enemyDestroyed     ||
-                    !GeneratorFound     ||
                     !generatorFound     ||
                     !generatorAccess    ||
                     !generatorOn        
